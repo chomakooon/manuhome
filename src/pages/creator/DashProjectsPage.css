@@ -1,0 +1,145 @@
+/* ========================================
+   Dashboard Projects Page
+   ======================================== */
+
+.dashp-controls {
+    margin-bottom: var(--space-xl);
+}
+
+.dashp-search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    position: relative;
+}
+
+.dashp-search svg {
+    position: absolute;
+    left: 14px;
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+.dashp-search .form-input {
+    padding-left: 40px;
+}
+
+.dashp-filters {
+    display: flex;
+    gap: var(--space-sm);
+    overflow-x: auto;
+    padding-bottom: var(--space-xs);
+}
+
+.dashp-filter-btn {
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-elevated);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.dashp-filter-btn:hover {
+    border-color: var(--color-border-hover);
+    color: var(--color-text-primary);
+}
+
+.dashp-filter-btn--active {
+    background: var(--color-text-primary);
+    color: white;
+    border-color: var(--color-text-primary);
+}
+
+/* Table */
+.dashp-table-wrap {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.dashp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.dashp-table thead {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.dashp-table th {
+    text-align: left;
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.dashp-table td {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.dashp-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dashp-table tr:hover td {
+    background: var(--color-bg-card-hover);
+}
+
+.dashp-table__link {
+    font-weight: 500;
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+}
+
+.dashp-table__link:hover {
+    color: var(--color-accent);
+}
+
+.dashp-table__client {
+    display: block;
+    font-weight: 500;
+}
+
+.dashp-table__company {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.dashp-table__amount {
+    font-family: var(--font-serif);
+    font-weight: 600;
+}
+
+.dashp-table__date {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
+
+.dashp-empty {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+
+    .dashp-table th:nth-child(4),
+    .dashp-table td:nth-child(4),
+    .dashp-table th:nth-child(5),
+    .dashp-table td:nth-child(5) {
+        display: none;
+    }
+}

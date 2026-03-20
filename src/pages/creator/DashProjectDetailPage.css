@@ -1,0 +1,165 @@
+/* ========================================
+   Dashboard Project Detail Page
+   ======================================== */
+
+.dashpd__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xl);
+}
+
+.dashpd__back:hover {
+    color: var(--color-accent);
+}
+
+.dashpd__header {
+    margin-bottom: var(--space-2xl);
+}
+
+.dashpd__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-top: var(--space-sm);
+}
+
+.dashpd__amount {
+    font-family: var(--font-serif);
+    font-weight: 600;
+}
+
+/* Sections */
+.dashpd__section {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-lg);
+}
+
+.dashpd__section-title {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+}
+
+.dashpd__section-subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+}
+
+/* Status controls */
+.dashpd__status-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+}
+
+.dashpd__status-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    background: var(--color-bg-elevated);
+    transition: all var(--transition-fast);
+}
+
+.dashpd__status-btn:hover:not(:disabled) {
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+}
+
+.dashpd__status-btn--active {
+    background: var(--color-text-primary);
+    color: white;
+    border-color: var(--color-text-primary);
+}
+
+.dashpd__status-btn:disabled {
+    cursor: default;
+}
+
+/* Grid */
+.dashpd__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+}
+
+/* File list */
+.dashpd__file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dashpd__file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--color-bg-input);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+}
+
+.dashpd__file-date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.dashpd__empty {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    padding: var(--space-md);
+    text-align: center;
+}
+
+/* Buttons */
+.dashpd__upload-btn {
+    margin-top: var(--space-md);
+    width: 100%;
+}
+
+.dashpd__save-btn {
+    margin-top: var(--space-sm);
+    padding: 8px 20px;
+    font-size: var(--font-size-sm);
+}
+
+/* Info grid */
+.dashpd__info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.dashpd__info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--font-size-sm);
+}
+
+.dashpd__info-item:last-child {
+    border-bottom: none;
+}
+
+.dashpd__info-label {
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 768px) {
+    .dashpd__grid {
+        grid-template-columns: 1fr;
+    }
+}

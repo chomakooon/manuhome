@@ -1,0 +1,408 @@
+{
+    "id": "pet-illustration-service",
+    "name": "ペットイラスト制作",
+    "description": "大切なペットをイラストにします",
+    "version": "1.0.0",
+    "tiers": [
+        {
+            "id": "PLAN_LIGHT",
+            "name": "ライトプラン",
+            "description": "ペット1匹、バストアップ、シンプル背景。納期7日。",
+            "price": 4980,
+            "features": [
+                "1 pet",
+                "bust illustration",
+                "simple background",
+                "delivery: PNG",
+                "delivery size: long edge 3000px",
+                "delivery time: 7 days",
+                "revisions: 1"
+            ]
+        },
+        {
+            "id": "PLAN_STANDARD",
+            "name": "スタンダードプラン",
+            "description": "ペット1匹、全身またはバストアップ、シンプル背景装飾。納期7日。",
+            "price": 7980,
+            "features": [
+                "1 pet",
+                "full body or bust",
+                "simple background element",
+                "delivery: PNG + JPG",
+                "delivery time: 7 days",
+                "revisions: 1"
+            ]
+        },
+        {
+            "id": "PLAN_PREMIUM",
+            "name": "プレミアムプラン",
+            "description": "ペット1〜2匹、全身、描き込み背景。納期10日。",
+            "price": 12800,
+            "features": [
+                "1-2 pets",
+                "full body",
+                "illustrated background",
+                "delivery: PNG + JPG",
+                "delivery time: 10 days",
+                "revisions: 1"
+            ]
+        }
+    ],
+    "options": [
+        {
+            "id": "EXTRA_PET",
+            "name": "ペット追加",
+            "price": 3000,
+            "description": "1匹追加ごとに+3000円"
+        },
+        {
+            "id": "BACKGROUND_CUSTOM",
+            "name": "背景指定",
+            "price": 1500,
+            "description": "お好きな背景を指定"
+        },
+        {
+            "id": "ACCESSORY",
+            "name": "小物追加",
+            "price": 1000,
+            "description": "リボンや首輪などの特別な装飾"
+        },
+        {
+            "id": "TEXT_LABEL",
+            "name": "文字入れ",
+            "price": 500,
+            "description": "お名前や日付などをデザインに含める"
+        },
+        {
+            "id": "PSD_SOURCE",
+            "name": "PSDデータ納品",
+            "price": 3000,
+            "description": "編集可能なPSDデータもお渡し"
+        },
+        {
+            "id": "COMMERCIAL_USE",
+            "name": "商用利用",
+            "price": 5000,
+            "description": "グッズ製作や広告に利用可能"
+        },
+        {
+            "id": "EXPRESS_DELIVERY",
+            "name": "お急ぎ納品",
+            "price": 4000,
+            "description": "優先して制作し、納期を約半分に短縮（※対応可能な場合のみ）",
+            "toggleableByCreator": true
+        }
+    ],
+    "formSteps": [
+        {
+            "step": 1,
+            "id": "step_product",
+            "name": "プラン選択",
+            "type": "product_selection",
+            "requires": [
+                "tier"
+            ]
+        },
+        {
+            "step": 2,
+            "id": "step_pet_info",
+            "name": "ペット情報",
+            "type": "custom_fields",
+            "fields": [
+                {
+                    "id": "pet_type",
+                    "label": "ペットの種類",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "犬",
+                            "value": "dog",
+                            "icon": "Dog"
+                        },
+                        {
+                            "label": "猫",
+                            "value": "cat",
+                            "icon": "Cat"
+                        },
+                        {
+                            "label": "その他",
+                            "value": "other",
+                            "icon": "Rabbit"
+                        }
+                    ],
+                    "required": true
+                },
+                {
+                    "id": "pet_name",
+                    "label": "ペットのお名前",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "id": "size",
+                    "label": "サイズ感",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "小さい",
+                            "value": "small",
+                            "icon": "Minimize2"
+                        },
+                        {
+                            "label": "中くらい",
+                            "value": "medium",
+                            "icon": "Square"
+                        },
+                        {
+                            "label": "大きい",
+                            "value": "large",
+                            "icon": "Maximize2"
+                        }
+                    ],
+                    "required": true
+                },
+                {
+                    "id": "fur_color",
+                    "label": "毛色・特徴",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "id": "expression",
+                    "label": "希望の表情",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "笑顔",
+                            "value": "smile",
+                            "icon": "Smile"
+                        },
+                        {
+                            "label": "真面目",
+                            "value": "serious",
+                            "icon": "Meh"
+                        },
+                        {
+                            "label": "眠そう",
+                            "value": "sleepy",
+                            "icon": "Moon"
+                        },
+                        {
+                            "label": "おまかせ",
+                            "value": "auto",
+                            "icon": "Sparkles"
+                        }
+                    ],
+                    "required": true
+                },
+                {
+                    "id": "pose",
+                    "label": "希望のポーズ",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "おすわり",
+                            "value": "sit",
+                            "icon": "ArrowDownToLine"
+                        },
+                        {
+                            "label": "立つ",
+                            "value": "stand",
+                            "icon": "ArrowUpFromLine"
+                        },
+                        {
+                            "label": "寝転ぶ",
+                            "value": "lie",
+                            "icon": "ArrowDown"
+                        },
+                        {
+                            "label": "おまかせ",
+                            "value": "auto",
+                            "icon": "Sparkles"
+                        }
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        {
+            "step": 3,
+            "id": "step_style",
+            "name": "イラストのスタイル",
+            "type": "custom_fields",
+            "fields": [
+                {
+                    "id": "style_type",
+                    "label": "絵柄",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "リアル",
+                            "value": "realistic"
+                        },
+                        {
+                            "label": "キュート",
+                            "value": "cute"
+                        },
+                        {
+                            "label": "線画",
+                            "value": "lineart"
+                        }
+                    ],
+                    "required": true
+                },
+                {
+                    "id": "color_mode",
+                    "label": "カラー",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "フルカラー",
+                            "value": "color",
+                            "icon": "Palette"
+                        },
+                        {
+                            "label": "モノクロ",
+                            "value": "monochrome",
+                            "icon": "CircleDashed"
+                        }
+                    ],
+                    "required": true
+                },
+                {
+                    "id": "line_weight",
+                    "label": "主線の太さ",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "標準",
+                            "value": "standard"
+                        },
+                        {
+                            "label": "太め",
+                            "value": "bold"
+                        },
+                        {
+                            "label": "細め",
+                            "value": "thin"
+                        }
+                    ],
+                    "required": true
+                }
+            ]
+        },
+        {
+            "step": 4,
+            "id": "step_assets",
+            "name": "写真アップロード",
+            "type": "asset_upload",
+            "minFiles": 2,
+            "maxFiles": 8,
+            "validationRules": [
+                "Photos must show pet clearly",
+                "Avoid too dark, blurry, backlit, or excessively cropped photos"
+            ],
+            "consentRequired": [
+                "制作に必要な場合、追加の写真をお願いすることがあります"
+            ]
+        },
+        {
+            "step": 5,
+            "id": "step_usage",
+            "name": "ご利用用途・規約",
+            "type": "agreements",
+            "fields": [
+                {
+                    "id": "usage_type",
+                    "label": "利用用途",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "個人利用",
+                            "value": "personal",
+                            "icon": "User"
+                        },
+                        {
+                            "label": "商用利用",
+                            "value": "commercial",
+                            "icon": "Briefcase"
+                        }
+                    ],
+                    "triggersOption": {
+                        "commercial": "COMMERCIAL_USE"
+                    },
+                    "required": true
+                }
+            ],
+            "consentRequired": [
+                "無料修正は1回までとなります",
+                "大幅な構図変更や書き直しは追加料金が発生します",
+                "デジタル商品の性質上、制作開始後のキャンセル・返金はできません",
+                "連絡やファイルのやり取りは専用のプロジェクトルームで行います"
+            ]
+        },
+        {
+            "step": 6,
+            "id": "step_customer",
+            "name": "お客様情報",
+            "type": "customer_info",
+            "fields": [
+                {
+                    "id": "name",
+                    "label": "お名前",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "id": "email",
+                    "label": "メールアドレス",
+                    "type": "email",
+                    "required": true
+                },
+                {
+                    "id": "contact_preference",
+                    "label": "希望の連絡手段（緊急時）",
+                    "type": "text",
+                    "required": false
+                },
+                {
+                    "id": "delivery_date",
+                    "label": "納品希望日（任意）",
+                    "type": "date",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "step": 7,
+            "id": "step_confirm",
+            "name": "注文確認",
+            "type": "confirmation"
+        }
+    ],
+    "workflow": {
+        "onPaymentSuccess": [
+            "CREATE_PROJECT_RECORD",
+            "GENERATE_CLIENT_PORTAL",
+            "SEND_CUSTOMER_CONFIRMATION_EMAIL",
+            "NOTIFY_CREATOR_NEW_ORDER"
+        ],
+        "onDelivery": [
+            "TAG_MAILING_LIST"
+        ]
+    },
+    "projectStatuses": [
+        "NEW",
+        "WAITING_ASSETS",
+        "IN_PRODUCTION",
+        "REVIEW",
+        "DELIVERED",
+        "CLOSED"
+    ],
+    "mailingListTagsTemplate": [
+        "pet_illustration",
+        "{{tier.id}}",
+        "{{pet_type}}",
+        "{{commercial_use}}"
+    ]
+}

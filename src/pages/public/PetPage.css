@@ -1,0 +1,101 @@
+.pet-hero {
+    padding-top: var(--space-3xl);
+}
+
+.pet-hero__badge {
+    display: inline-block;
+    padding: 4px 16px;
+    border: 1px solid var(--color-pet);
+    color: var(--color-pet);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    margin-bottom: var(--space-xl);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.pet-hero__title {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: var(--space-lg);
+}
+
+.text-gradient-warm {
+    color: var(--color-pet);
+    font-style: italic;
+}
+
+/* Emotional */
+.pet-emotion__card {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3xl);
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.pet-emotion__icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-lg);
+}
+
+.pet-emotion__card h2 {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+}
+
+.pet-emotion__card p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 2.2;
+}
+
+/* Examples */
+.pet-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+}
+
+/* Pet Order CTA */
+.pet-cta__card {
+    text-align: center;
+    padding: var(--space-3xl) var(--space-2xl);
+    background: var(--color-bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.pet-cta__title {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+}
+
+.pet-cta__desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .pet-hero__title {
+        font-size: var(--font-size-3xl);
+    }
+
+    .pet-emotion__card {
+        padding: var(--space-xl);
+    }
+
+    .pet-examples__grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,363 @@
+.order-page {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background-color: #fff;
+    padding-top: 60px; /* Offset for header */
+}
+
+.order-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* HERO SECTION */
+.order-hero {
+    background-color: #00CFFF;
+    color: #fff;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.order-hero-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+}
+
+.order-hero-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* SECTIONS */
+.order-section {
+    padding: 80px 0;
+}
+
+.bg-light {
+    background-color: #F8F9FA;
+}
+
+.order-section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.order-section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #00CFFF;
+    margin: 15px auto 0;
+}
+
+.order-section-desc {
+    text-align: center;
+    color: #666;
+    margin-bottom: 40px;
+    font-size: 1.05rem;
+}
+
+/* 1. PRICING */
+.order-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.pricing-card {
+    background: #fff;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: #00CFFF;
+}
+
+.pricing-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.pricing-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.pricing-price {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #00CFFF;
+    margin-bottom: 15px;
+}
+
+.pricing-price span {
+    font-size: 1rem;
+    color: #666;
+}
+
+.pricing-detail {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* 3. WORKFLOW */
+.order-workflow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 50px;
+}
+
+.workflow-step {
+    flex: 1;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.workflow-number {
+    width: 50px;
+    height: 50px;
+    background-color: #00CFFF;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px;
+}
+
+.workflow-step h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.workflow-step p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.workflow-arrow {
+    color: #CCC;
+    font-size: 1.5rem;
+    padding-top: 15px;
+}
+
+/* 4. DELIVERY TIME */
+.delivery-card-wrapper {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.delivery-card {
+    background: #fff;
+    border-left: 6px solid #00CFFF;
+    padding: 25px;
+    flex: 1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: 0 8px 8px 0;
+}
+
+.delivery-card h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #111;
+}
+
+.delivery-card p {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* 2. ORDER FORM */
+.order-form {
+    background: #F8F9FA;
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+}
+
+.order-page .form-group {
+    margin-bottom: 25px;
+}
+
+.order-page .form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.order-page .required {
+    background-color: #FF0055;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.order-page .form-group input[type="text"],
+.order-page .form-group input[type="email"],
+.order-page .form-group input[type="date"],
+.order-page .form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.order-page .form-group input:focus,
+.order-page .form-group textarea:focus {
+    outline: none;
+    border-color: #00CFFF;
+    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.1);
+}
+
+.order-page .form-help {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.order-page .form-submit {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.submit-btn {
+    background-color: #00CFFF;
+    color: #fff;
+    border: none;
+    padding: 18px 60px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 207, 255, 0.3);
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background-color: #00B5E6;
+}
+
+.submit-btn:disabled {
+    background-color: #CCC;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Alert Messages */
+.form-alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.form-alert.success {
+    background-color: #E8F5E9;
+    border: 1px solid #C8E6C9;
+    color: #2E7D32;
+}
+
+.form-alert.error {
+    background-color: #FFEBEE;
+    border: 1px solid #FFCDD2;
+    color: #C62828;
+}
+
+/* Select wrapper styling */
+.select-wrapper {
+    position: relative;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    appearance: none;
+    background-color: #fff;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #00CFFF;
+    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.1);
+}
+
+.select-wrapper::after {
+    content: '▼';
+    font-size: 0.8rem;
+    color: #666;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .order-hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .order-workflow {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .workflow-arrow {
+        transform: rotate(90deg);
+        padding: 15px 0;
+    }
+    
+    .workflow-step {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 10px;
+    }
+
+    .delivery-card-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .order-form {
+        padding: 20px;
+    }
+}

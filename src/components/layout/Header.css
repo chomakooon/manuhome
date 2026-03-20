@@ -1,0 +1,200 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    z-index: 1000;
+    background: rgba(250, 250, 248, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid transparent;
+    transition: all var(--transition-base);
+}
+
+.header--scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom-color: var(--color-border);
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--space-lg);
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+}
+
+.header__logo-icon {
+    color: var(--color-accent);
+    font-size: var(--font-size-lg);
+}
+
+.header__nav {
+    display: flex;
+    align-items: center;
+}
+
+.header__menu {
+    display: flex;
+    gap: 0;
+}
+
+.header__link {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.header__link:hover {
+    color: var(--color-text-primary);
+}
+
+.header__link--active {
+    color: var(--color-text-primary);
+    position: relative;
+}
+
+.header__link--active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: var(--space-md);
+    right: var(--space-md);
+    height: 1px;
+    background: var(--color-text-primary);
+}
+
+.header__cta {
+    font-size: var(--font-size-xs);
+    padding: 10px 24px;
+    text-decoration: none;
+    flex-shrink: 0;
+    letter-spacing: 0.08em;
+}
+
+.header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.header__auth-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.header__auth-btn:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.header__burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 24px;
+    height: 24px;
+    z-index: 1001;
+}
+
+.header__burger span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--color-text-primary);
+    transition: all var(--transition-base);
+}
+
+.header__burger--open span:nth-child(1) {
+    transform: rotate(45deg) translate(4px, 4px);
+}
+
+.header__burger--open span:nth-child(2) {
+    opacity: 0;
+}
+
+.header__burger--open span:nth-child(3) {
+    transform: rotate(-45deg) translate(4px, -4px);
+}
+
+.header__overlay {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .header__nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--color-bg-elevated);
+        flex-direction: column;
+        justify-content: center;
+        padding: var(--space-2xl);
+        transition: right var(--transition-slow);
+        z-index: 1000;
+        border-left: 1px solid var(--color-border);
+    }
+
+    .header__nav--open {
+        right: 0;
+    }
+
+    .header__menu {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .header__link {
+        font-size: var(--font-size-base);
+        padding: var(--space-md) var(--space-lg);
+        text-transform: none;
+        letter-spacing: 0.02em;
+    }
+
+    .header__cta {
+        display: none;
+    }
+
+    .header__burger {
+        display: flex;
+    }
+
+    .header__overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 999;
+    }
+}
