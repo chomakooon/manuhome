@@ -1,0 +1,179 @@
+{
+    "id": "business-manga",
+    "name": "ビジネス4コマ制作",
+    "description": "サービスや商品の魅力を、わかりやすい4コマ漫画で表現します",
+    "version": "1.0.0",
+    "tiers": [
+        {
+            "id": "PLAN_1STRIP",
+            "name": "1本プラン",
+            "description": "4コマ漫画1本。納期10日。",
+            "price": 15000,
+            "features": ["4-panel manga x1", "delivery: PNG + JPG", "revisions: 1"]
+        },
+        {
+            "id": "PLAN_3STRIP",
+            "name": "3本セットプラン",
+            "description": "4コマ漫画3本セット。納期14日。",
+            "price": 40000,
+            "features": ["4-panel manga x3", "delivery: PNG + JPG", "revisions: 1 per strip"]
+        },
+        {
+            "id": "PLAN_5STRIP",
+            "name": "5本セットプラン",
+            "description": "4コマ漫画5本セット。納期21日。",
+            "price": 60000,
+            "features": ["4-panel manga x5", "delivery: PNG + JPG + PSD", "revisions: 2 per strip"]
+        }
+    ],
+    "options": [
+        {
+            "id": "CUSTOM_CHARACTER",
+            "name": "オリジナルキャラクター制作",
+            "price": 5000,
+            "description": "御社専用のオリジナルキャラクターをデザイン"
+        },
+        {
+            "id": "COLOR_FULL",
+            "name": "フルカラー仕上げ",
+            "price": 3000,
+            "description": "モノクロではなくフルカラーで仕上げ（1本あたり）"
+        },
+        {
+            "id": "COMMERCIAL_USE",
+            "name": "商用利用",
+            "price": 5000,
+            "description": "広告・販促物への利用が可能"
+        },
+        {
+            "id": "EXPRESS_DELIVERY",
+            "name": "お急ぎ納品",
+            "price": 5000,
+            "description": "納期を約半分に短縮"
+        }
+    ],
+    "formSteps": [
+        {
+            "step": 1,
+            "id": "step_product",
+            "name": "プラン選択",
+            "type": "product_selection",
+            "requires": ["tier"]
+        },
+        {
+            "step": 2,
+            "id": "step_hearing",
+            "name": "ヒアリング",
+            "type": "custom_fields",
+            "fields": [
+                {
+                    "id": "product_service",
+                    "label": "紹介したい商品・サービス",
+                    "type": "text",
+                    "required": true,
+                    "hint": "例：「クラウド会計ソフト freee」「オーガニックドッグフード WanWan」など、正式名称を入れると伝わりやすいです"
+                },
+                {
+                    "id": "target_audience",
+                    "label": "ターゲット層",
+                    "type": "text",
+                    "required": true,
+                    "hint": "例：「30代の個人事業主」「子育て中のママ」「IT企業の新入社員」など、具体的に書くほど的確な漫画になります"
+                },
+                {
+                    "id": "message",
+                    "label": "伝えたいメッセージ・ストーリー",
+                    "type": "text",
+                    "required": true,
+                    "hint": "例：「面倒な経理作業がワンクリックで完了する便利さ」「使い始めたら手放せなくなった体験談」など"
+                },
+                {
+                    "id": "character_pref",
+                    "label": "キャラクターの希望",
+                    "type": "select",
+                    "options": [
+                        { "label": "おまかせ", "value": "auto", "icon": "Sparkles" },
+                        { "label": "人物キャラ", "value": "human", "icon": "User" },
+                        { "label": "動物キャラ", "value": "animal", "icon": "Dog" },
+                        { "label": "オリジナル指定", "value": "custom", "icon": "Puzzle" }
+                    ],
+                    "required": true,
+                    "hint": "迷ったら「おまかせ」がおすすめ。ターゲット層に合わせて最適なキャラクターをご提案します"
+                },
+                {
+                    "id": "tone",
+                    "label": "漫画のトーン",
+                    "type": "select",
+                    "options": [
+                        { "label": "コミカル", "value": "comic", "icon": "Smile" },
+                        { "label": "真面目", "value": "serious", "icon": "BookOpen" },
+                        { "label": "感動系", "value": "emotional", "icon": "Handshake" }
+                    ],
+                    "required": true,
+                    "hint": "SNS向けなら「コミカル」、BtoB・採用向けなら「真面目」、ブランドストーリーには「感動系」がおすすめです"
+                }
+            ]
+        },
+        {
+            "step": 3,
+            "id": "step_assets",
+            "name": "参考資料",
+            "type": "asset_upload",
+            "minFiles": 0,
+            "maxFiles": 10,
+            "validationRules": [
+                "サービス資料、ロゴ、イメージに近い漫画など参考になるものをアップロードしてください",
+                "必須ではありません"
+            ]
+        },
+        {
+            "step": 4,
+            "id": "step_ai_preview",
+            "name": "イメージ確認",
+            "type": "ai_image_select",
+            "patternCount": 4,
+            "prompt_hint": "ビジネス4コマ漫画のラフイメージ"
+        },
+        {
+            "step": 5,
+            "id": "step_customer",
+            "name": "お客様情報",
+            "type": "customer_info",
+            "fields": [
+                { "id": "name", "label": "お名前（会社名）", "type": "text", "required": true },
+                { "id": "email", "label": "メールアドレス", "type": "email", "required": true },
+                { "id": "delivery_date", "label": "納品希望日（任意）", "type": "date", "required": false }
+            ]
+        },
+        {
+            "step": 6,
+            "id": "step_usage",
+            "name": "利用規約",
+            "type": "agreements",
+            "fields": [
+                {
+                    "id": "usage_type",
+                    "label": "利用用途",
+                    "type": "select",
+                    "options": [
+                        { "label": "個人利用", "value": "personal", "icon": "User" },
+                        { "label": "商用利用", "value": "commercial", "icon": "Briefcase" }
+                    ],
+                    "triggersOption": { "commercial": "COMMERCIAL_USE" },
+                    "required": true
+                }
+            ],
+            "consentRequired": [
+                "無料修正は1回までとなります（1本あたり）",
+                "大幅なストーリー変更は追加料金が発生します",
+                "デジタル商品の性質上、制作開始後のキャンセル・返金はできません"
+            ]
+        },
+        {
+            "step": 7,
+            "id": "step_confirm",
+            "name": "注文確認",
+            "type": "confirmation"
+        }
+    ]
+}

@@ -1,7 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Mic } from 'lucide-react';
 import { submitOrder } from '../../lib/orderService';
 import Icon from '../../components/common/Icon';
+import { useVoiceInput } from '../../hooks/useVoiceInput';
 import './OrderPage.css';
+
+function VoiceMicButton({ fieldId }) {
+    const { isListening, isSupported, toggle } = useVoiceInput({
+        onResult: (text) => {
+            const el = document.getElementById(fieldId);
+            if (!el) return;
+            const nativeSetter = Object.getOwnPropertyDescriptor(
+                el.tagName === 'TEXTAREA' ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype,
+                'value'
+            ).set;
+            nativeSetter.call(el, el.value ? `${el.value} ${text}` : text);
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+        },
+    });
+    if (!isSupported) return null;
+    return (
+        <button
+            type="button"
+            className={`voice-mic-btn ${isListening ? 'voice-mic-btn--active' : ''}`}
+            onClick={toggle}
+            title={isListening ? '音声入力を停止' : '音声で入力'}
+        >
+            <Mic size={16} />
+        </button>
+    );
+}
 
 export default function OrderPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,11 +46,11 @@ export default function OrderPage() {
         setIsSubmitting(true);
         setSubmitStatus(null);
         setErrorMessage('');
-        
+
         try {
             const form = e.target;
             const formData = new FormData(form);
-            
+
             // Collect fields into an object
             const data = Object.fromEntries(formData.entries());
 
@@ -42,7 +71,7 @@ export default function OrderPage() {
             if (!response.success) {
                 throw new Error(response.error || '予期せぬエラーが発生しました。');
             }
-            
+
             setSubmitStatus('success');
             form.reset();
 
@@ -70,40 +99,48 @@ export default function OrderPage() {
                 <div className="order-container">
                     <h2 className="order-section-title">料金プラン</h2>
                     <p className="order-section-desc">ご依頼内容に合わせた基準価格です。詳細はお見積り時に決定いたします。</p>
-                    
+
                     <div className="order-pricing-grid">
-                        <div className="pricing-card">
+                        <Link to="/order/flow/sns-icon" className="pricing-card pricing-card--link">
                             <div className="pricing-icon">
                                 <Icon name="User" color="var(--color-accent)" size={40} />
                             </div>
                             <h3 className="pricing-name">SNSアイコン</h3>
                             <p className="pricing-price">¥5,000<span>〜</span></p>
                             <p className="pricing-detail">X(Twitter)やInstagramなどで使える、親しみやすいアイコン制作。</p>
-                        </div>
-                        <div className="pricing-card">
+                        </Link>
+                        <Link to="/order/flow/business-manga" className="pricing-card pricing-card--link">
                             <div className="pricing-icon">
                                 <Icon name="MessageSquare" color="var(--color-accent)" size={40} />
                             </div>
                             <h3 className="pricing-name">ビジネス4コマ</h3>
                             <p className="pricing-price">¥15,000<span>〜</span></p>
                             <p className="pricing-detail">サービス内容や商品紹介を、わかりやすい4コマ漫画で表現。</p>
-                        </div>
-                        <div className="pricing-card">
+                        </Link>
+                        <Link to="/order/flow/portrait" className="pricing-card pricing-card--link">
                             <div className="pricing-icon">
                                 <Icon name="Palette" color="var(--color-accent)" size={40} />
                             </div>
                             <h3 className="pricing-name">似顔絵</h3>
                             <p className="pricing-price">¥8,000<span>〜</span></p>
                             <p className="pricing-detail">名刺やプロフィールに使える、特徴を捉えた温かみのある似顔絵。</p>
-                        </div>
-                        <div className="pricing-card">
+                        </Link>
+                        <Link to="/order/flow/diagram" className="pricing-card pricing-card--link">
                             <div className="pricing-icon">
                                 <Icon name="BarChart" color="var(--color-accent)" size={40} />
                             </div>
-                            <h3 className="pricing-name">図解</h3>
+                            <h3 className="pricing-name">図解イラスト</h3>
                             <p className="pricing-price">¥10,000<span>〜</span></p>
                             <p className="pricing-detail">複雑なビジネスモデルや手順を、直感的に伝わる図解ビジュアルに。</p>
-                        </div>
+                        </Link>
+                        <Link to="/order/flow/pet-illustration-service" className="pricing-card pricing-card--link">
+                            <div className="pricing-icon">
+                                <Icon name="Dog" color="var(--color-accent)" size={40} />
+                            </div>
+                            <h3 className="pricing-name">ペットイラスト・グッズ</h3>
+                            <p className="pricing-price">¥5,000<span>〜</span></p>
+                            <p className="pricing-detail">大切なペットをイラストに。アクリルスタンドやステッカーなどグッズ制作も対応。</p>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -147,11 +184,11 @@ export default function OrderPage() {
                     <div className="delivery-card-wrapper">
                         <div className="delivery-card">
                             <h4>通常納期</h4>
-                            <p>ヒアリング完了後、<strong>約1〜2週間</strong>でのご納品となります。<br/>※ご依頼のボリュームによって変動します。</p>
+                            <p>ヒアリング完了後、<strong>約1〜2週間</strong>でのご納品となります。<br />※ご依頼のボリュームによって変動します。</p>
                         </div>
                         <div className="delivery-card">
                             <h4>特急対応</h4>
-                            <p>お急ぎの場合は、<strong>最短3日〜</strong>での対応もご相談可能です。<br/>※特急料金（合計金額の30%〜）が別途発生する場合がございます。</p>
+                            <p>お急ぎの場合は、<strong>最短3日〜</strong>での対応もご相談可能です。<br />※特急料金（合計金額の30%〜）が別途発生する場合がございます。</p>
                         </div>
                     </div>
                 </div>
@@ -161,25 +198,28 @@ export default function OrderPage() {
             <section className="order-section" id="order-form-section">
                 <div className="order-container">
                     <h2 className="order-section-title">注文フォーム</h2>
-                    <p className="order-section-desc">以下のフォームに必要事項をご記入の上、送信してください。</p>
+                    <p className="order-section-desc">上記以外のデザインに関してもお気軽に下記フォームよりご相談ください！</p>
 
                     <form className="order-form" onSubmit={handleSubmit}>
                         {submitStatus === 'success' && (
                             <div className="form-alert success">
-                                <strong>送信完了</strong><br/>
+                                <strong>送信完了</strong><br />
                                 ご注文ありがとうございます。内容を確認次第、折り返しご連絡いたします。
                             </div>
                         )}
                         {submitStatus === 'error' && (
                             <div className="form-alert error">
-                                <strong>送信エラー</strong><br/>
+                                <strong>送信エラー</strong><br />
                                 {errorMessage}
                             </div>
                         )}
 
                         <div className="form-group">
                             <label htmlFor="name">お名前 <span className="required">必須</span></label>
-                            <input type="text" id="name" name="name" placeholder="山田 太郎" required disabled={isSubmitting} />
+                            <div className="form-input-wrap">
+                                <input type="text" id="name" name="name" placeholder="山田 太郎" required disabled={isSubmitting} />
+                                <VoiceMicButton fieldId="name" />
+                            </div>
                         </div>
 
                         <div className="form-group">
@@ -189,7 +229,10 @@ export default function OrderPage() {
 
                         <div className="form-group">
                             <label htmlFor="sns">SNSリンク / アカウントID</label>
-                            <input type="text" id="sns" name="sns" placeholder="https://x.com/username または @username" disabled={isSubmitting} />
+                            <div className="form-input-wrap">
+                                <input type="text" id="sns" name="sns" placeholder="https://x.com/username または @username" disabled={isSubmitting} />
+                                <VoiceMicButton fieldId="sns" />
+                            </div>
                         </div>
 
                         <div className="form-group">
@@ -208,12 +251,18 @@ export default function OrderPage() {
 
                         <div className="form-group">
                             <label htmlFor="usage">用途</label>
-                            <input type="text" id="usage" name="usage" placeholder="例：コーポレートサイト、SNS運用、印刷物など" disabled={isSubmitting} />
+                            <div className="form-input-wrap">
+                                <input type="text" id="usage" name="usage" placeholder="例：コーポレートサイト、SNS運用、印刷物など" disabled={isSubmitting} />
+                                <VoiceMicButton fieldId="usage" />
+                            </div>
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="details">依頼内容 <span className="required">必須</span></label>
-                            <textarea id="details" name="details" rows="5" placeholder="例：自社サービスの解説用ビジネス4コマを1本依頼したいです。ターゲットは〇〇で..." required disabled={isSubmitting}></textarea>
+                            <div className="form-input-wrap">
+                                <textarea id="details" name="details" rows="5" placeholder="例：自社サービスの解説用ビジネス4コマを1本依頼したいです。ターゲットは〇〇で..." required disabled={isSubmitting}></textarea>
+                                <VoiceMicButton fieldId="details" />
+                            </div>
                         </div>
 
                         <div className="form-group">

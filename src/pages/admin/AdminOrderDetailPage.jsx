@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
-import { ArrowLeft, Save, User, FileText, Tag, MessageSquare, Edit3 } from 'lucide-react';
+import { ArrowLeft, Save, User, Tag, Edit3, Settings } from 'lucide-react';
 import './AdminOrderDetailPage.css';
 
 export default function AdminOrderDetailPage() {

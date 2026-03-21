@@ -1,0 +1,166 @@
+{
+    "id": "portrait",
+    "name": "似顔絵制作",
+    "description": "名刺やプロフィールに使える、特徴を捉えた温かみのある似顔絵を制作します",
+    "version": "1.0.0",
+    "tiers": [
+        {
+            "id": "PLAN_SIMPLE",
+            "name": "シンプルプラン",
+            "description": "1名、バストアップ、シンプル背景。納期7日。",
+            "price": 8000,
+            "features": ["1 person", "bust illustration", "simple background", "delivery: PNG", "revisions: 1"]
+        },
+        {
+            "id": "PLAN_STANDARD",
+            "name": "スタンダードプラン",
+            "description": "1名、半身、装飾背景。納期7日。",
+            "price": 12000,
+            "features": ["1 person", "half body", "decorated background", "delivery: PNG + JPG", "revisions: 1"]
+        },
+        {
+            "id": "PLAN_PREMIUM",
+            "name": "プレミアムプラン",
+            "description": "1〜2名、全身、描き込み背景。納期10日。",
+            "price": 18000,
+            "features": ["1-2 persons", "full body", "illustrated background", "delivery: PNG + JPG + PSD", "revisions: 2"]
+        }
+    ],
+    "options": [
+        {
+            "id": "EXTRA_PERSON",
+            "name": "人物追加",
+            "price": 5000,
+            "description": "1名追加ごと"
+        },
+        {
+            "id": "NAME_CARD_FORMAT",
+            "name": "名刺サイズ調整",
+            "price": 1500,
+            "description": "名刺用に最適なサイズ・レイアウトに調整"
+        },
+        {
+            "id": "PSD_SOURCE",
+            "name": "PSDデータ納品",
+            "price": 3000,
+            "description": "編集可能なPSDデータもお渡し"
+        },
+        {
+            "id": "EXPRESS_DELIVERY",
+            "name": "お急ぎ納品",
+            "price": 4000,
+            "description": "納期を約半分に短縮"
+        }
+    ],
+    "formSteps": [
+        {
+            "step": 1,
+            "id": "step_product",
+            "name": "プラン選択",
+            "type": "product_selection",
+            "requires": ["tier"]
+        },
+        {
+            "step": 2,
+            "id": "step_hearing",
+            "name": "ヒアリング",
+            "type": "custom_fields",
+            "fields": [
+                {
+                    "id": "usage",
+                    "label": "用途",
+                    "type": "select",
+                    "options": [
+                        { "label": "名刺", "value": "namecard", "icon": "UserCheck" },
+                        { "label": "プロフィール", "value": "profile", "icon": "User" },
+                        { "label": "SNSアイコン", "value": "sns", "icon": "Share2" },
+                        { "label": "その他", "value": "other", "icon": "HelpCircle" }
+                    ],
+                    "required": true,
+                    "hint": "用途によって最適なサイズ・構図が変わります。メインの使い道をお選びください"
+                },
+                {
+                    "id": "touch",
+                    "label": "タッチ（画風）",
+                    "type": "select",
+                    "options": [
+                        { "label": "リアル寄り", "value": "realistic", "icon": "Palette" },
+                        { "label": "デフォルメ", "value": "deformed", "icon": "Smile" },
+                        { "label": "おまかせ", "value": "auto", "icon": "Sparkles" }
+                    ],
+                    "required": true,
+                    "hint": "名刺やプロフィール写真の代わりなら「リアル寄り」、親しみやすさ重視なら「デフォルメ」がおすすめ"
+                },
+                {
+                    "id": "composition",
+                    "label": "構図の希望",
+                    "type": "text",
+                    "required": false,
+                    "hint": "例：「正面向き」「少し斜めから」「腕組みポーズ」「本を持っている」など"
+                },
+                {
+                    "id": "background_pref",
+                    "label": "背景の希望",
+                    "type": "text",
+                    "required": false,
+                    "hint": "例：「白背景」「オフィスの雰囲気」「桜の花びらが舞う感じ」「コーポレートカラーの青系」など"
+                }
+            ]
+        },
+        {
+            "step": 3,
+            "id": "step_assets",
+            "name": "写真アップロード",
+            "type": "asset_upload",
+            "minFiles": 1,
+            "maxFiles": 8,
+            "validationRules": [
+                "顔がはっきり写っている写真をアップロードしてください",
+                "複数角度の写真があるとより正確に描けます"
+            ],
+            "consentRequired": [
+                "アップロードした写真は制作目的のみに使用されます"
+            ]
+        },
+        {
+            "step": 4,
+            "id": "step_customer",
+            "name": "お客様情報",
+            "type": "customer_info",
+            "fields": [
+                { "id": "name", "label": "お名前", "type": "text", "required": true },
+                { "id": "email", "label": "メールアドレス", "type": "email", "required": true },
+                { "id": "delivery_date", "label": "納品希望日（任意）", "type": "date", "required": false }
+            ]
+        },
+        {
+            "step": 5,
+            "id": "step_usage",
+            "name": "利用規約",
+            "type": "agreements",
+            "fields": [
+                {
+                    "id": "usage_type",
+                    "label": "利用用途",
+                    "type": "select",
+                    "options": [
+                        { "label": "個人利用", "value": "personal", "icon": "User" },
+                        { "label": "商用利用", "value": "commercial", "icon": "Briefcase" }
+                    ],
+                    "required": true
+                }
+            ],
+            "consentRequired": [
+                "無料修正は1回までとなります",
+                "大幅な構図変更や書き直しは追加料金が発生します",
+                "デジタル商品の性質上、制作開始後のキャンセル・返金はできません"
+            ]
+        },
+        {
+            "step": 6,
+            "id": "step_confirm",
+            "name": "注文確認",
+            "type": "confirmation"
+        }
+    ]
+}

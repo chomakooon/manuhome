@@ -1,5 +1,5 @@
 import React from 'react';
-import * as LucideIcons from 'lucide-react';
+import { getIconByName } from '../../lib/iconRegistry';
 
 /**
  * A flexible, unified Icon component for the Katachi-bin project.
@@ -11,7 +11,7 @@ import * as LucideIcons from 'lucide-react';
  * @param {string} className - Additional CSS classes.
  */
 const Icon = ({ name, color, size = 24, className = '', ...props }) => {
-  const LucideIcon = LucideIcons[name];
+  const LucideIcon = getIconByName(name);
 
   if (!LucideIcon) {
     console.warn(`Icon "${name}" not found in lucide-react.`);
