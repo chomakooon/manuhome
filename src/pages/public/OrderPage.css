@@ -10,7 +10,7 @@
 }
 
 .order-container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-xl);
 }
@@ -74,7 +74,7 @@
 /* PRICING */
 .order-pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
 }
 
@@ -85,6 +85,13 @@
     padding: 30px 20px;
     text-align: center;
     transition: all var(--transition-base);
+}
+
+.pricing-card--link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    display: block;
 }
 
 .pricing-card:hover {
@@ -254,6 +261,52 @@
     box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
+.order-page .form-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+}
+
+.order-page .form-input-wrap input,
+.order-page .form-input-wrap textarea {
+    flex: 1;
+    padding-right: 44px;
+}
+
+.order-page .voice-mic-btn {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.order-page .voice-mic-btn:hover {
+    border-color: #aaa;
+    color: #333;
+}
+
+.order-page .voice-mic-btn--active {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: white;
+    animation: pulse-mic 1s ease-in-out infinite;
+}
+
+@keyframes pulse-mic {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
 .order-page .form-help {
     display: block;
     margin-top: 5px;
@@ -367,6 +420,10 @@
         width: 100%;
         max-width: 300px;
         margin-bottom: 10px;
+    }
+
+    .order-pricing-grid {
+        grid-template-columns: 1fr;
     }
 
     .delivery-card-wrapper {

@@ -1,0 +1,165 @@
+{
+    "id": "diagram",
+    "name": "図解制作",
+    "description": "複雑なビジネスモデルや手順を、直感的に伝わる図解ビジュアルにします",
+    "version": "1.0.0",
+    "tiers": [
+        {
+            "id": "PLAN_SIMPLE",
+            "name": "シンプルプラン",
+            "description": "図解1枚、シンプルなレイアウト。納期5日。",
+            "price": 10000,
+            "features": ["1 diagram", "simple layout", "delivery: PNG + JPG", "revisions: 1"]
+        },
+        {
+            "id": "PLAN_STANDARD",
+            "name": "スタンダードプラン",
+            "description": "図解1〜2枚、装飾ありのレイアウト。納期7日。",
+            "price": 18000,
+            "features": ["1-2 diagrams", "decorated layout", "delivery: PNG + JPG", "revisions: 1"]
+        },
+        {
+            "id": "PLAN_PREMIUM",
+            "name": "プレミアムプラン",
+            "description": "図解3枚セット、統一デザイン。納期14日。",
+            "price": 30000,
+            "features": ["3 diagrams", "unified design", "delivery: PNG + JPG + AI/PSD", "revisions: 2"]
+        }
+    ],
+    "options": [
+        {
+            "id": "EXTRA_DIAGRAM",
+            "name": "図解追加",
+            "price": 8000,
+            "description": "1枚追加ごと"
+        },
+        {
+            "id": "ICON_SET",
+            "name": "オリジナルアイコンセット",
+            "price": 5000,
+            "description": "図解に合わせたオリジナルアイコンを制作"
+        },
+        {
+            "id": "COMMERCIAL_USE",
+            "name": "商用利用",
+            "price": 5000,
+            "description": "広告・販促物への利用が可能"
+        },
+        {
+            "id": "EXPRESS_DELIVERY",
+            "name": "お急ぎ納品",
+            "price": 5000,
+            "description": "納期を約半分に短縮"
+        }
+    ],
+    "formSteps": [
+        {
+            "step": 1,
+            "id": "step_product",
+            "name": "プラン選択",
+            "type": "product_selection",
+            "requires": ["tier"]
+        },
+        {
+            "step": 2,
+            "id": "step_hearing",
+            "name": "ヒアリング",
+            "type": "custom_fields",
+            "fields": [
+                {
+                    "id": "subject",
+                    "label": "図解の対象（何を図解にしたいか）",
+                    "type": "text",
+                    "required": true,
+                    "hint": "例：「自社サービスの利用フロー」「ビジネスモデルの全体像」「採用プロセスの6ステップ」など"
+                },
+                {
+                    "id": "text_draft",
+                    "label": "テキスト原稿・構成メモ",
+                    "type": "text",
+                    "required": true,
+                    "hint": "箇条書きでOK。例：「①会員登録 → ②プラン選択 → ③決済 → ④利用開始」のように流れを書いてください"
+                },
+                {
+                    "id": "design_taste",
+                    "label": "デザインテイスト",
+                    "type": "select",
+                    "options": [
+                        { "label": "シンプル・ミニマル", "value": "minimal", "icon": "CircleDashed" },
+                        { "label": "ポップ・カラフル", "value": "pop", "icon": "Palette" },
+                        { "label": "ビジネス・フォーマル", "value": "formal", "icon": "Briefcase" },
+                        { "label": "おまかせ", "value": "auto", "icon": "Sparkles" }
+                    ],
+                    "required": true,
+                    "hint": "資料や提案書なら「ビジネス・フォーマル」、SNS投稿用なら「ポップ・カラフル」がおすすめ"
+                },
+                {
+                    "id": "media",
+                    "label": "使用媒体",
+                    "type": "select",
+                    "options": [
+                        { "label": "Web・SNS", "value": "web", "icon": "Share2" },
+                        { "label": "プレゼン資料", "value": "presentation", "icon": "BarChart" },
+                        { "label": "印刷物", "value": "print", "icon": "NotebookPen" },
+                        { "label": "その他", "value": "other", "icon": "HelpCircle" }
+                    ],
+                    "required": true,
+                    "hint": "媒体に合わせて解像度・縦横比を最適化します。印刷物の場合は仕上がりサイズも教えてください"
+                }
+            ]
+        },
+        {
+            "step": 3,
+            "id": "step_assets",
+            "name": "参考資料",
+            "type": "asset_upload",
+            "minFiles": 0,
+            "maxFiles": 10,
+            "validationRules": [
+                "参考にしたいデザインや既存の資料をアップロードしてください",
+                "必須ではありません"
+            ]
+        },
+        {
+            "step": 4,
+            "id": "step_customer",
+            "name": "お客様情報",
+            "type": "customer_info",
+            "fields": [
+                { "id": "name", "label": "お名前（会社名）", "type": "text", "required": true },
+                { "id": "email", "label": "メールアドレス", "type": "email", "required": true },
+                { "id": "delivery_date", "label": "納品希望日（任意）", "type": "date", "required": false }
+            ]
+        },
+        {
+            "step": 5,
+            "id": "step_usage",
+            "name": "利用規約",
+            "type": "agreements",
+            "fields": [
+                {
+                    "id": "usage_type",
+                    "label": "利用用途",
+                    "type": "select",
+                    "options": [
+                        { "label": "個人利用", "value": "personal", "icon": "User" },
+                        { "label": "商用利用", "value": "commercial", "icon": "Briefcase" }
+                    ],
+                    "triggersOption": { "commercial": "COMMERCIAL_USE" },
+                    "required": true
+                }
+            ],
+            "consentRequired": [
+                "無料修正は1回までとなります",
+                "大幅な構成変更は追加料金が発生します",
+                "デジタル商品の性質上、制作開始後のキャンセル・返金はできません"
+            ]
+        },
+        {
+            "step": 6,
+            "id": "step_confirm",
+            "name": "注文確認",
+            "type": "confirmation"
+        }
+    ]
+}

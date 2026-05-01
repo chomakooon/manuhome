@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import { User, LayoutDashboard } from 'lucide-react';
 import Icon from '../common/Icon';
 import './Header.css';
 
@@ -10,8 +8,6 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const menuRef = useRef(null);
-  const { user, isCreator } = useAuth();
-
   useEffect(() => {
     setMenuOpen(false);
   }, [location]);
@@ -74,24 +70,6 @@ export default function Header() {
         </nav>
 
         <div className="header__actions">
-          {user ? (
-            <>
-              {isCreator ? (
-                <Link to="/dashboard" className="header__auth-btn" title="ダッシュボード">
-                  <LayoutDashboard size={18} strokeWidth={1.5} />
-                </Link>
-              ) : (
-                <Link to="/projects" className="header__auth-btn" title="マイページ">
-                  <User size={18} strokeWidth={1.5} />
-                </Link>
-              )}
-            </>
-          ) : (
-            <Link to="/login" className="header__auth-btn" title="ログイン">
-              <User size={18} strokeWidth={1.5} />
-            </Link>
-          )}
-
           <Link to="/intake" className="header__cta btn btn-primary">
             制作相談
           </Link>

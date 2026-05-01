@@ -1,0 +1,158 @@
+{
+    "id": "sns-icon",
+    "name": "SNSアイコン制作",
+    "description": "X(Twitter)やInstagramなどで使える、親しみやすいアイコンを制作します",
+    "version": "1.0.0",
+    "tiers": [
+        {
+            "id": "PLAN_SIMPLE",
+            "name": "シンプルプラン",
+            "description": "バストアップ、シンプル背景。納期5日。",
+            "price": 5000,
+            "features": ["bust illustration", "simple background", "delivery: PNG", "revisions: 1"]
+        },
+        {
+            "id": "PLAN_STANDARD",
+            "name": "スタンダードプラン",
+            "description": "バストアップ、装飾背景、表情差分1枚付き。納期7日。",
+            "price": 8000,
+            "features": ["bust illustration", "decorated background", "1 expression variant", "delivery: PNG", "revisions: 1"]
+        },
+        {
+            "id": "PLAN_PREMIUM",
+            "name": "プレミアムプラン",
+            "description": "半身、描き込み背景、表情差分3枚付き。納期10日。",
+            "price": 12000,
+            "features": ["half body", "illustrated background", "3 expression variants", "delivery: PNG + PSD", "revisions: 2"]
+        }
+    ],
+    "options": [
+        {
+            "id": "EXTRA_EXPRESSION",
+            "name": "表情差分追加",
+            "price": 1500,
+            "description": "表情パターンを1枚追加"
+        },
+        {
+            "id": "HEADER_IMAGE",
+            "name": "ヘッダー画像セット",
+            "price": 3000,
+            "description": "アイコンと統一感のあるヘッダー画像も制作"
+        },
+        {
+            "id": "EXPRESS_DELIVERY",
+            "name": "お急ぎ納品",
+            "price": 3000,
+            "description": "納期を約半分に短縮"
+        }
+    ],
+    "formSteps": [
+        {
+            "step": 1,
+            "id": "step_product",
+            "name": "プラン選択",
+            "type": "product_selection",
+            "requires": ["tier"]
+        },
+        {
+            "step": 2,
+            "id": "step_hearing",
+            "name": "ヒアリング",
+            "type": "custom_fields",
+            "fields": [
+                {
+                    "id": "target_sns",
+                    "label": "使用するSNS",
+                    "type": "select",
+                    "options": [
+                        { "label": "X (Twitter)", "value": "twitter", "icon": "Twitter" },
+                        { "label": "Instagram", "value": "instagram", "icon": "Instagram" },
+                        { "label": "LINE", "value": "line", "icon": "MessageCircle" },
+                        { "label": "その他", "value": "other", "icon": "Share2" }
+                    ],
+                    "required": true,
+                    "hint": "SNSによってアイコンの表示サイズが異なります。メインで使うSNSを選んでください"
+                },
+                {
+                    "id": "mood",
+                    "label": "アイコンの雰囲気",
+                    "type": "select",
+                    "options": [
+                        { "label": "かわいい", "value": "cute", "icon": "Smile" },
+                        { "label": "クール", "value": "cool", "icon": "Zap" },
+                        { "label": "ビジネス", "value": "business", "icon": "Briefcase" },
+                        { "label": "おまかせ", "value": "auto", "icon": "Sparkles" }
+                    ],
+                    "required": true,
+                    "hint": "個人アカウントなら「かわいい」や「クール」、仕事用なら「ビジネス」がおすすめです"
+                },
+                {
+                    "id": "expression",
+                    "label": "表情・ポーズの希望",
+                    "type": "text",
+                    "required": false,
+                    "hint": "例：「笑顔でピースサイン」「頬杖ついた考え中のポーズ」「猫耳つけてウインク」など"
+                },
+                {
+                    "id": "favorite_color",
+                    "label": "好きな色・使いたい色",
+                    "type": "text",
+                    "required": false,
+                    "hint": "例：「パステルピンク」「青と白のさわやかな感じ」「ブランドカラーの#FF6B00」など"
+                }
+            ]
+        },
+        {
+            "step": 3,
+            "id": "step_assets",
+            "name": "参考画像",
+            "type": "asset_upload",
+            "minFiles": 0,
+            "maxFiles": 5,
+            "validationRules": [
+                "イメージに近い参考画像があればアップロードしてください",
+                "必須ではありません"
+            ]
+        },
+        {
+            "step": 4,
+            "id": "step_customer",
+            "name": "お客様情報",
+            "type": "customer_info",
+            "fields": [
+                { "id": "name", "label": "お名前", "type": "text", "required": true },
+                { "id": "email", "label": "メールアドレス", "type": "email", "required": true },
+                { "id": "delivery_date", "label": "納品希望日（任意）", "type": "date", "required": false }
+            ]
+        },
+        {
+            "step": 5,
+            "id": "step_usage",
+            "name": "利用規約",
+            "type": "agreements",
+            "fields": [
+                {
+                    "id": "usage_type",
+                    "label": "利用用途",
+                    "type": "select",
+                    "options": [
+                        { "label": "個人利用", "value": "personal", "icon": "User" },
+                        { "label": "商用利用", "value": "commercial", "icon": "Briefcase" }
+                    ],
+                    "required": true
+                }
+            ],
+            "consentRequired": [
+                "無料修正は1回までとなります",
+                "大幅な構図変更や書き直しは追加料金が発生します",
+                "デジタル商品の性質上、制作開始後のキャンセル・返金はできません"
+            ]
+        },
+        {
+            "step": 6,
+            "id": "step_confirm",
+            "name": "注文確認",
+            "type": "confirmation"
+        }
+    ]
+}
