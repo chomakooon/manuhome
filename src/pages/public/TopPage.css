@@ -1,41 +1,43 @@
-/* Font imports are centralized in index.css */
+/* ========================================
+   TopPage — Newspaper Front Page
+   ======================================== */
 
 .katachi-ben-page {
-    background-color: var(--color-background);
+    background-color: var(--color-bg);
     min-height: 100vh;
     overflow-x: hidden;
     font-family: var(--font-sans);
 }
 
-/* --- MAG-STYLE HERO WRAPPER --- */
+/* --- NEWSPAPER HERO --- */
 .manga-magazine-wrapper {
-    background-color: #FFFFFF; /* White background for the mag section */
+    background-color: var(--color-bg-elevated);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0 60px;
-    border-bottom: 1px solid #E0E0E0;
+    padding: 0;
+    border-bottom: 3px solid var(--color-black);
 }
 
 .manga-magazine-cover {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1060px;
     position: relative;
-    padding: 0 20px;
+    padding: 0 var(--space-xl);
     font-family: var(--font-accent);
-    min-height: 700px;
 }
 
 /* --- HEADER TITLE --- */
 .mag-header {
     position: relative;
     text-align: center;
-    margin-bottom: 40px; 
-    z-index: 50; 
+    margin-bottom: 0;
+    z-index: 50;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 40px;
+    padding: 40px 0 24px;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .mag-title-group {
@@ -45,196 +47,249 @@
 }
 
 .mag-title-sub {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    color: #111;
-    margin-bottom: -15px;
-    z-index: 2;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+    letter-spacing: 0.3em;
+    font-weight: 500;
 }
 
 .mag-title-main {
     font-family: var(--font-display);
-    font-size: 8rem;
-    color: #FFC107; /* Slightly softer yellow */
+    font-size: 4.5rem;
+    color: var(--color-accent);
     margin: 0;
     line-height: 1;
-    -webkit-text-stroke: 3px #111;
-    text-shadow: 4px 4px 0 #111; /* Weakened shadow */
-    letter-spacing: -0.02em;
-    z-index: 1;
+    letter-spacing: 0.02em;
+    -webkit-text-stroke: 0;
+    text-shadow: 0 2px 20px rgba(0, 207, 255, 0.15);
+}
+
+.mag-title-catch {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    margin-top: 12px;
+    letter-spacing: 0.2em;
+    font-weight: 500;
 }
 
 .mag-brand {
     position: absolute;
     top: 20px;
-    left: 20px;
-    background: #fff;
-    color: #111;
-    font-weight: 900;
-    padding: 8px 20px;
-    font-size: 1.2rem;
-    transform: rotate(-6deg);
-    border: 4px solid #111;
-    box-shadow: 4px 4px 0 #111;
-    letter-spacing: 0.1em;
+    left: var(--space-xl);
+    background: var(--color-black);
+    color: var(--color-white);
+    font-weight: 800;
+    padding: 4px 14px;
+    font-size: 0.85rem;
+    transform: none;
+    border: none;
+    box-shadow: none;
+    letter-spacing: 0.08em;
+    font-family: var(--font-accent);
 }
 
 .mag-issue-info {
     position: absolute;
-    top: 40px;
-    right: 20px;
-    background: #fff;
-    color: #111;
-    font-weight: 900;
-    padding: 5px 15px;
-    font-size: 1.2rem;
-    border: 4px solid #111;
-    transform: rotate(4deg);
-    box-shadow: 4px 4px 0 #111;
+    top: 24px;
+    right: var(--space-xl);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    padding: 0;
+    font-size: 0.8rem;
+    border: none;
+    transform: none;
+    box-shadow: none;
+    letter-spacing: 0.06em;
+    font-family: var(--font-sans);
 }
 
 /* --- CENTER VISUAL --- */
 .mag-center-visual {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 10;
-    width: 100%;
+    padding: var(--space-2xl) 0;
+    position: relative;
 }
 
 .mag-dove-img {
-    width: 300px;
-    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
+    width: 200px;
+    filter: drop-shadow(2px 2px 0px rgba(0, 207, 255, 0.2));
+    transition: transform var(--transition-base);
+    animation: doveFloat 3s ease-in-out infinite;
+}
+
+@keyframes doveFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.mag-dove-img:hover {
+    transform: scale(1.03);
+    animation-play-state: paused;
+}
+
+.mag-center-desc {
+    margin-top: var(--space-md);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    letter-spacing: 0.15em;
+    font-weight: 600;
 }
 
 /* --- HEADLINES / NAV CARDS --- */
 .mag-headlines {
-    position: absolute;
-    top: 0;
-    left: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    padding: 0 0 var(--space-xl);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-xl);
+    position: static;
     width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 30;
+    height: auto;
+    pointer-events: auto;
+    z-index: auto;
 }
 
 .mag-link-card {
-    position: absolute;
+    position: static;
     pointer-events: auto;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background: #fff; 
-    border: 4px solid #111; /* Thinner border for cleaner look */
-    box-shadow: 4px 4px 0 #111; /* Lighter shadow */
-    padding: 12px 20px;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
-    border-radius: 4px; /* Slight rounding for modern feel */
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    box-shadow: none;
+    padding: var(--space-lg) var(--space-xl);
+    transition: all var(--transition-base);
+    border-radius: var(--radius-sm);
+    transform: none !important;
 }
 
 .mag-link-card:hover {
-    transform: translateY(-4px) !important;
-    box-shadow: 6px 6px 0 #00CFFF; /* Cyan shadow on hover */
-    z-index: 40;
-    border-color: #00CFFF;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(0, 207, 255, 0.12);
+    border-color: var(--color-accent);
 }
 
 .mag-badge {
     display: inline-block;
-    color: #fff;
-    background: #111;
+    color: var(--color-white);
+    background: var(--color-black);
     font-weight: 700;
-    font-size: 1rem;
-    padding: 4px 12px;
+    font-size: 0.75rem;
+    padding: 3px 10px;
     margin-bottom: 8px;
     line-height: 1;
-    border-radius: 20px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    font-family: var(--font-sans);
 }
 
 .mag-hl-title {
-    font-family: var(--font-accent);
-    font-weight: 900;
-    font-size: 1.8rem;
-    color: #111;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--color-text-primary);
+    margin: 0 0 6px;
+    line-height: 1.3;
+}
+
+.mag-hl-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
     margin: 0;
-    line-height: 1.2;
 }
 
-/* Placements & Rotations (No overlapping, cleaner grid-like spread) */
-.mag-hl-1 {
-    top: 250px;
-    left: 40px;
-    transform: rotate(-2deg);
-}
-
-.mag-hl-2 {
-    top: 280px;
-    right: 40px;
-    transform: rotate(2deg);
-}
-
-.mag-hl-3 {
-    bottom: 200px;
-    left: 60px;
-    transform: rotate(1deg);
-}
-
-.mag-hl-4 {
-    bottom: 180px;
-    right: 60px;
-    transform: rotate(-1deg);
+/* Remove absolute positioning classes */
+.mag-hl-1, .mag-hl-2, .mag-hl-3, .mag-hl-4 {
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
 }
 
 /* Contact CTA Container */
 .mag-contact-wrapper {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-lg) 0 var(--space-2xl);
     pointer-events: auto;
-    z-index: 50; /* Highest priority */
+    transform: none;
 }
 
 .mag-contact-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    background: #FF0055; /* Pink/Red */
-    color: #fff;
-    font-family: var(--font-display);
-    font-size: 2.2rem;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+    color: var(--color-white);
+    font-family: var(--font-accent);
+    font-size: 1.2rem;
+    font-weight: 800;
     text-decoration: none;
-    padding: 18px 50px;
-    border: 6px solid #111;
-    border-radius: 100px; /* Capsule shape */
-    box-shadow: 8px 8px 0 #111;
-    transition: transform 0.2s, background 0.2s;
+    padding: 16px 48px;
+    border: none;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 15px rgba(0, 207, 255, 0.2);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.mag-btn-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: btnGlow 3s infinite;
+}
+
+@keyframes btnGlow {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
 }
 
 .mag-contact-btn:hover {
-    transform: scale(1.05);
-    background: #FF3377;
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, var(--color-accent-hover), var(--color-accent));
+    color: var(--color-white);
+    box-shadow: 0 8px 25px rgba(0, 207, 255, 0.35);
 }
 
-/* --- BUSINESS CORPORATE SECTIONS --- */
+.mag-arrow {
+    font-size: 0.9em;
+}
+
+/* --- BUSINESS SECTIONS --- */
 .business-section {
-    padding: 80px 20px;
-    max-width: 1000px;
+    padding: 80px var(--space-xl);
+    max-width: 1060px;
     margin: 0 auto;
 }
 
 .bs-light {
-    background: #FAFAFA;
+    background: var(--color-bg);
 }
 
 .bs-white {
-    background: #FFFFFF;
+    background: var(--color-bg-elevated);
 }
 
 .bs-header {
@@ -243,51 +298,73 @@
 }
 
 .bs-title {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     font-size: var(--font-size-3xl);
-    font-weight: 800;
+    font-weight: 700;
     color: var(--color-text-primary);
     margin-bottom: var(--space-md);
+    letter-spacing: 0.02em;
 }
 
 .bs-subtitle {
     font-family: var(--font-sans);
     font-size: var(--font-size-lg);
     color: var(--color-text-secondary);
-    line-height: 1.8;
+    line-height: 2;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .bs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    gap: 24px;
 }
 
 .bs-card {
-    background: #fff;
-    border: 1px solid #E0E0E0;
-    border-radius: 8px;
-    padding: 30px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 32px 24px;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.bs-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--color-accent);
+    opacity: 0;
+    transition: opacity var(--transition-base);
 }
 
 .bs-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    border-color: #00CFFF;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-accent);
+}
+
+.bs-card:hover::before {
+    opacity: 1;
 }
 
 .bs-icon {
     font-size: 2.5rem;
     margin-bottom: 20px;
+    color: var(--color-accent);
 }
 
 .bs-card h3 {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     font-size: var(--font-size-xl);
     font-weight: 700;
     margin-bottom: var(--space-sm);
+    color: var(--color-text-primary);
 }
 
 .bs-card p {
@@ -304,12 +381,11 @@
     font-weight: 700;
     font-size: var(--font-size-sm);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color var(--transition-fast);
 }
 
 .bs-card-link:hover {
     color: var(--color-accent-hover);
-    text-decoration: underline;
 }
 
 /* --- PROBLEM SECTION --- */
@@ -319,34 +395,35 @@
 }
 
 .bs-problem-item {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    background: var(--color-bg-elevated);
+    padding: 24px 20px;
+    border-radius: var(--radius-md);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    border: 1px solid #eee;
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition-base);
 }
 
-.problem-icon {
-    font-size: 2rem;
-    margin-bottom: 10px;
+.bs-problem-item:hover {
+    border-color: var(--color-accent);
 }
 
 .bs-problem-item p {
     font-size: var(--font-size-sm);
     font-weight: 500;
-    line-height: 1.5;
+    line-height: 1.6;
     color: var(--color-text-secondary);
 }
 
 /* --- STRENGTH SECTION --- */
 .bs-subtitle-strong {
+    font-family: var(--font-accent);
     font-size: var(--font-size-xl);
     font-weight: 800;
     color: var(--color-accent);
-    margin-top: -10px;
+    margin-top: -8px;
 }
 
 .bs-content-wide {
@@ -366,33 +443,44 @@
 }
 
 .flow-step {
-    background: #fff;
-    padding: 30px 20px;
-    border-radius: 8px;
+    background: var(--color-bg-elevated);
+    padding: 32px 20px;
+    border-radius: var(--radius-md);
     text-align: center;
     position: relative;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+}
+
+.flow-step:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
 }
 
 .step-num {
     display: block;
-    font-size: 1.5rem;
-    font-weight: 950;
-    color: rgba(0, 207, 255, 0.2);
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--color-accent);
+    opacity: 0.25;
     position: absolute;
-    top: 10px;
+    top: 12px;
     left: 20px;
+    line-height: 1;
 }
 
 .flow-step h4 {
     margin: 10px 0;
-    font-weight: 800;
+    font-family: var(--font-serif);
+    font-weight: 700;
     color: var(--color-text-primary);
 }
 
 .flow-step p {
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 /* --- FAQ SECTION --- */
@@ -401,97 +489,120 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
 .faq-item {
-    background: #F8F9FA;
+    background: var(--color-bg);
     padding: 24px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     text-align: left;
+    border-left: 3px solid var(--color-accent);
 }
 
 .faq-item h4 {
-    font-weight: 800;
+    font-family: var(--font-serif);
+    font-weight: 700;
     margin-bottom: 8px;
     color: var(--color-text-primary);
+    font-size: var(--font-size-base);
 }
 
 .faq-item p {
     color: var(--color-text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
+    font-size: var(--font-size-base);
 }
 
-.bs-portfolio-card {
-    background: #f0f0f0;
-    aspect-ratio: 4/3;
-    border-radius: 8px;
+/* --- PROBLEM CARD H3 --- */
+.bs-problem-item h3 {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+}
+
+/* --- LINK CARD ACCENT --- */
+.mag-link-card {
+    border-left: 3px solid var(--color-accent);
+}
+
+/* --- MANGA FLOW SECTION --- */
+.bs-manga-flow-wrapper {
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: #111;
-    font-weight: bold;
-    font-size: 1.2rem;
+    margin-bottom: var(--space-2xl);
 }
 
+.bs-manga-img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+}
+
+/* --- CTA FINAL --- */
+.bs-cta-final {
+    background: linear-gradient(180deg, var(--color-bg) 0%, rgba(0, 207, 255, 0.03) 100%);
+}
 
 /* --- RESPONSIVE DESIGN --- */
-
 @media (max-width: 900px) {
     .manga-magazine-cover {
-        padding: 0;
-        min-height: auto;
+        padding: 0 var(--space-lg);
     }
-    
-    .mag-title-main { font-size: 4rem; -webkit-text-stroke: 1.5px #111; }
-    .mag-title-sub { font-size: 1.5rem; }
-    .mag-brand { font-size: 0.9rem; top: 10px; left: 10px; padding: 4px 10px;}
-    .mag-issue-info { font-size: 0.8rem; top: 10px; right: 10px; padding: 2px 10px; }
 
-    .mag-center-visual {
-        position: static;
-        transform: none;
-        height: 250px;
-        margin-top: 20px;
+    .mag-title-main {
+        font-size: 3rem;
     }
-    .mag-dove-img { width: 150px; }
 
-    /* Document Flow for Mobile */
+    .mag-title-sub {
+        font-size: 0.85rem;
+    }
+
+    .mag-title-catch {
+        font-size: 0.95rem;
+    }
+
+    .mag-brand {
+        font-size: 0.75rem;
+        top: 12px;
+        left: var(--space-lg);
+        padding: 3px 10px;
+    }
+
+    .mag-issue-info {
+        font-size: 0.7rem;
+        top: 14px;
+        right: var(--space-lg);
+    }
+
+    .mag-dove-img {
+        width: 150px;
+    }
+
     .mag-headlines {
-        position: static;
-        display: grid;
         grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 20px;
-        pointer-events: auto;
-    }
-    
-    .mag-link-card {
-        position: static;
-        width: 100%;
-        transform: rotate(0deg) !important;
-        box-sizing: border-box;
+        gap: var(--space-sm);
     }
 
     .mag-hl-title {
-        font-size: 1.6rem;
+        font-size: 1.1rem;
     }
-    
-    .mag-contact-wrapper {
-        position: static;
-        margin-top: 30px;
-        transform: none;
-        display: flex;
-        justify-content: center;
-        padding-bottom: 40px;
-    }
+
     .mag-contact-btn {
         width: 100%;
-        font-size: 1.5rem;
-        padding: 15px;
+        font-size: 1.1rem;
+        padding: 14px 24px;
     }
 
     .business-section {
-        padding: 60px 20px;
+        padding: 60px var(--space-lg);
+    }
+
+    .bs-manga-img {
+        max-width: 100%;
     }
 }

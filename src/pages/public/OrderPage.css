@@ -1,34 +1,40 @@
+/* ========================================
+   OrderPage — Newspaper Style
+   ======================================== */
+
 .order-page {
-    font-family: 'Inter', sans-serif;
-    color: #333;
-    background-color: #fff;
-    padding-top: 60px; /* Offset for header */
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+    padding-top: 60px;
 }
 
 .order-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--space-xl);
 }
 
 /* HERO SECTION */
 .order-hero {
-    background-color: #00CFFF;
-    color: #fff;
+    background-color: var(--color-bg-elevated);
+    color: var(--color-text-primary);
     padding: 80px 0;
     text-align: center;
+    border-bottom: 3px solid var(--color-black);
 }
 
 .order-hero-title {
+    font-family: var(--font-serif);
     font-size: 2.8rem;
-    font-weight: 800;
+    font-weight: 700;
     margin-bottom: 10px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
 }
 
 .order-hero-subtitle {
-    font-size: 1.1rem;
-    opacity: 0.9;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
 }
 
 /* SECTIONS */
@@ -37,34 +43,35 @@
 }
 
 .bg-light {
-    background-color: #F8F9FA;
+    background-color: var(--color-bg);
 }
 
 .order-section-title {
-    font-size: 2rem;
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
     font-weight: 700;
     text-align: center;
     margin-bottom: 15px;
-    color: #111;
+    color: var(--color-text-primary);
 }
 
 .order-section-title::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 4px;
-    background-color: #00CFFF;
+    width: 50px;
+    height: 2px;
+    background-color: var(--color-accent);
     margin: 15px auto 0;
 }
 
 .order-section-desc {
     text-align: center;
-    color: #666;
+    color: var(--color-text-secondary);
     margin-bottom: 40px;
-    font-size: 1.05rem;
+    font-size: var(--font-size-lg);
 }
 
-/* 1. PRICING */
+/* PRICING */
 .order-pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -72,18 +79,18 @@
 }
 
 .pricing-card {
-    background: #fff;
-    border: 1px solid #E0E0E0;
-    border-radius: 8px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     padding: 30px 20px;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all var(--transition-base);
 }
 
 .pricing-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    border-color: #00CFFF;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-accent);
 }
 
 .pricing-icon {
@@ -92,30 +99,32 @@
 }
 
 .pricing-name {
+    font-family: var(--font-serif);
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 10px;
 }
 
 .pricing-price {
+    font-family: var(--font-serif);
     font-size: 1.6rem;
-    font-weight: 800;
-    color: #00CFFF;
+    font-weight: 900;
+    color: var(--color-accent);
     margin-bottom: 15px;
 }
 
 .pricing-price span {
     font-size: 1rem;
-    color: #666;
+    color: var(--color-text-secondary);
 }
 
 .pricing-detail {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.5;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
 }
 
-/* 3. WORKFLOW */
+/* WORKFLOW */
 .order-workflow {
     display: flex;
     justify-content: space-between;
@@ -130,13 +139,14 @@
 }
 
 .workflow-number {
-    width: 50px;
-    height: 50px;
-    background-color: #00CFFF;
-    color: #fff;
-    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
     font-weight: 700;
-    border-radius: 50%;
+    border-radius: var(--radius-sm);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -144,57 +154,60 @@
 }
 
 .workflow-step h4 {
-    font-size: 1.2rem;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 10px;
 }
 
 .workflow-step p {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.5;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
 }
 
 .workflow-arrow {
-    color: #CCC;
+    color: var(--color-border);
     font-size: 1.5rem;
     padding-top: 15px;
 }
 
-/* 4. DELIVERY TIME */
+/* DELIVERY TIME */
 .delivery-card-wrapper {
     display: flex;
-    gap: 30px;
+    gap: 24px;
     justify-content: center;
 }
 
 .delivery-card {
-    background: #fff;
-    border-left: 6px solid #00CFFF;
+    background: var(--color-bg-elevated);
+    border-left: 3px solid var(--color-accent);
     padding: 25px;
     flex: 1;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-radius: 0 8px 8px 0;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-sm);
 }
 
 .delivery-card h4 {
-    font-size: 1.2rem;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 10px;
-    color: #111;
+    color: var(--color-text-primary);
 }
 
 .delivery-card p {
-    color: #555;
-    line-height: 1.6;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
 }
 
-/* 2. ORDER FORM */
+/* ORDER FORM */
 .order-form {
-    background: #F8F9FA;
+    background: var(--color-bg);
     padding: 40px;
-    border-radius: 8px;
-    border: 1px solid #E0E0E0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
 }
 
 .order-page .form-group {
@@ -205,17 +218,19 @@
     display: block;
     font-weight: 600;
     margin-bottom: 8px;
-    color: #333;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
 }
 
 .order-page .required {
-    background-color: #FF0055;
-    color: #fff;
-    font-size: 0.75rem;
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    font-size: 0.7rem;
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     margin-left: 8px;
     vertical-align: middle;
+    font-weight: 700;
 }
 
 .order-page .form-group input[type="text"],
@@ -224,25 +239,26 @@
 .order-page .form-group textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #CCC;
-    border-radius: 4px;
-    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
     font-family: inherit;
-    transition: border-color 0.2s;
+    transition: all var(--transition-fast);
+    background: var(--color-bg-elevated);
 }
 
 .order-page .form-group input:focus,
 .order-page .form-group textarea:focus {
     outline: none;
-    border-color: #00CFFF;
-    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
 .order-page .form-help {
     display: block;
     margin-top: 5px;
-    color: #666;
-    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
 }
 
 .order-page .form-submit {
@@ -251,25 +267,26 @@
 }
 
 .submit-btn {
-    background-color: #00CFFF;
-    color: #fff;
+    background-color: var(--color-accent);
+    color: var(--color-white);
     border: none;
-    padding: 18px 60px;
-    font-size: 1.1rem;
+    padding: 16px 60px;
+    font-size: var(--font-size-lg);
     font-weight: 700;
-    border-radius: 50px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s, opacity 0.2s;
-    box-shadow: 0 4px 10px rgba(0, 207, 255, 0.3);
+    transition: all var(--transition-base);
+    font-family: var(--font-accent);
 }
 
 .submit-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    background-color: #00B5E6;
+    background-color: var(--color-accent-hover);
+    box-shadow: 0 4px 12px rgba(0, 207, 255, 0.25);
 }
 
 .submit-btn:disabled {
-    background-color: #CCC;
+    background-color: var(--color-border);
     box-shadow: none;
     cursor: not-allowed;
     opacity: 0.7;
@@ -278,9 +295,9 @@
 /* Alert Messages */
 .form-alert {
     padding: 15px 20px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     margin-bottom: 25px;
-    font-size: 0.95rem;
+    font-size: var(--font-size-base);
     line-height: 1.5;
 }
 
@@ -296,7 +313,7 @@
     color: #C62828;
 }
 
-/* Select wrapper styling */
+/* Select styling */
 .select-wrapper {
     position: relative;
 }
@@ -304,25 +321,25 @@
 .form-group select {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #CCC;
-    border-radius: 4px;
-    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
     font-family: inherit;
-    transition: border-color 0.2s;
+    transition: all var(--transition-fast);
     appearance: none;
-    background-color: #fff;
+    background-color: var(--color-bg-elevated);
 }
 
 .form-group select:focus {
     outline: none;
-    border-color: #00CFFF;
-    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
 .select-wrapper::after {
     content: '▼';
     font-size: 0.8rem;
-    color: #666;
+    color: var(--color-text-muted);
     position: absolute;
     right: 15px;
     top: 50%;
@@ -333,9 +350,9 @@
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .order-hero-title {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
-    
+
     .order-workflow {
         flex-direction: column;
         align-items: center;
@@ -345,7 +362,7 @@
         transform: rotate(90deg);
         padding: 15px 0;
     }
-    
+
     .workflow-step {
         width: 100%;
         max-width: 300px;
@@ -354,7 +371,7 @@
 
     .delivery-card-wrapper {
         flex-direction: column;
-        gap: 20px;
+        gap: 16px;
     }
 
     .order-form {

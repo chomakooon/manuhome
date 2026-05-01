@@ -33,6 +33,20 @@
     background-clip: text;
 }
 
+/* Hero Manga */
+.order-hero__manga {
+    margin-top: var(--space-xl);
+    text-align: center;
+}
+
+.order-hero__manga img {
+    max-width: 480px;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
 /* Step Indicator Bar */
 .order-steps-bar {
     padding: var(--space-lg) 0;

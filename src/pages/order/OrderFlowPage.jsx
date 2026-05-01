@@ -7,6 +7,7 @@ import { supabase } from '../../lib/supabase';
 import { createCheckoutSession } from '../../lib/stripe';
 import { formatPrice } from '../../lib/constants';
 import template from '../../lib/templates/pet-illustration.json';
+import orderFlowManga from '../../assets/order_flow_manga.png';
 import './OrderFlowPage.css';
 
 const ICON_MAP = {
@@ -230,11 +231,14 @@ export default function OrderFlowPage() {
             {/* Header */}
             <section className="order-hero section">
                 <div className="container">
-                    <p className="order-hero__badge">Order</p>
+                    <p className="order-hero__badge">ペットイラスト注文</p>
                     <h1 className="order-hero__title">
-                        {template.name}<span className="text-gradient-warm">ご注文</span>
+                        ペットイラスト　<span className="text-gradient-warm">ご注文</span>
                     </h1>
                     <p className="section-subtitle">{template.description}</p>
+                    <div className="order-hero__manga">
+                        <img src={orderFlowManga} alt="注文フロー：悩み相談→依頼→デザイン制作→完成納品" />
+                    </div>
                 </div>
             </section>
 
@@ -407,7 +411,7 @@ export default function OrderFlowPage() {
                                     </div>
 
                                     <div className="order-payment-note">
-                                        <p>お支払い完了後、自動的にプロジェクトが作成されます。</p>
+                                        <p>お支払い完了後、自動的にプロジェクトが作成されます。制作開始のご連絡はメールにてお届けします。</p>
                                     </div>
                                     <button
                                         className="btn btn-primary btn-lg order-pay-btn"

@@ -1,3 +1,4 @@
+/* Header — Newspaper Inspired */
 .header {
     position: fixed;
     top: 0;
@@ -5,7 +6,7 @@
     right: 0;
     height: var(--header-height);
     z-index: 1000;
-    background: rgba(250, 250, 248, 0.85);
+    background: rgba(250, 250, 248, 0.92);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid transparent;
@@ -13,8 +14,8 @@
 }
 
 .header--scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom-color: var(--color-border);
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 2px solid var(--color-black);
 }
 
 .header__inner {
@@ -29,13 +30,17 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    font-family: var(--font-sans);
-    font-weight: 700;
+    font-family: var(--font-accent);
+    font-weight: 800;
     font-size: var(--font-size-xl);
     color: var(--color-text-primary);
     text-decoration: none;
     flex-shrink: 0;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
+}
+
+.header__logo:hover {
+    color: var(--color-accent);
 }
 
 .header__logo-icon {
@@ -58,20 +63,19 @@
     padding: var(--space-sm) var(--space-md);
     color: var(--color-text-secondary);
     font-size: var(--font-size-xs);
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.06em;
     transition: all var(--transition-fast);
     text-decoration: none;
+    position: relative;
 }
 
 .header__link:hover {
-    color: var(--color-text-primary);
+    color: var(--color-accent);
 }
 
 .header__link--active {
     color: var(--color-text-primary);
-    position: relative;
 }
 
 .header__link--active::after {
@@ -80,8 +84,8 @@
     bottom: 4px;
     left: var(--space-md);
     right: var(--space-md);
-    height: 1px;
-    background: var(--color-text-primary);
+    height: 2px;
+    background: var(--color-accent);
 }
 
 .header__cta {
@@ -89,7 +93,7 @@
     padding: 10px 24px;
     text-decoration: none;
     flex-shrink: 0;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
 }
 
 .header__actions {
@@ -129,7 +133,7 @@
 .header__burger span {
     display: block;
     width: 100%;
-    height: 1px;
+    height: 1.5px;
     background: var(--color-text-primary);
     transition: all var(--transition-base);
 }
@@ -163,7 +167,7 @@
         padding: var(--space-2xl);
         transition: right var(--transition-slow);
         z-index: 1000;
-        border-left: 1px solid var(--color-border);
+        border-left: 2px solid var(--color-black);
     }
 
     .header__nav--open {
@@ -178,7 +182,6 @@
     .header__link {
         font-size: var(--font-size-base);
         padding: var(--space-md) var(--space-lg);
-        text-transform: none;
         letter-spacing: 0.02em;
     }
 

@@ -116,8 +116,8 @@ export default function DiagnosticPage() {
         <div className="container">
           <span className="diagnostic-hero__tag">無料ビジュアル診断</span>
           <h1 className="diagnostic-hero__title">
-            あなたのビジネス、<br />
-            <span className="text-highlight">図解</span> にするとどうなる？
+            <span className="text-highlight">図解</span>に変えるべき<br />
+            ポイントチェック
           </h1>
           <p className="diagnostic-hero__desc">
             たった3問の質問に答えるだけで、あなたの課題を解決する「最適なビジュアル表現」をご提案します。

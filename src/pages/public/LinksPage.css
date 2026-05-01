@@ -1,29 +1,35 @@
+/* ========================================
+   LinksPage — Newspaper Style
+   ======================================== */
+
 .links-page {
     font-family: var(--font-sans);
 }
 
 .links-hero {
     padding-top: var(--space-3xl);
+    border-bottom: 2px solid var(--color-black);
+    padding-bottom: var(--space-xl);
+    margin-bottom: var(--space-xl);
 }
 
 .links-hero__badge {
     display: inline-block;
-    padding: 4px 16px;
-    border: 1px solid var(--color-sns);
-    color: var(--color-sns);
+    padding: 4px 14px;
+    background: var(--color-black);
+    color: var(--color-white);
     font-family: var(--font-sans);
     font-size: var(--font-size-xs);
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: var(--space-xl);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border-radius: var(--radius-full);
+    letter-spacing: 0.08em;
+    border-radius: var(--radius-sm);
 }
 
 .links-hero__title {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     font-size: var(--font-size-4xl);
-    font-weight: 800;
+    font-weight: 700;
     margin-bottom: var(--space-lg);
     color: var(--color-text-primary);
 }

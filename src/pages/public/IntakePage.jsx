@@ -77,7 +77,7 @@ export default function IntakePage() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Build structured data for backend
@@ -129,7 +129,19 @@ export default function IntakePage() {
             submittedAt: new Date().toISOString(),
         };
 
-        console.log('📋 Form Submission Data:', submissionData);
+        // Send to CROWN Hub webhook (fire-and-forget — UX不変)
+        const HUB_WEBHOOK = import.meta.env.VITE_CROWN_HUB_URL
+            ? `${import.meta.env.VITE_CROWN_HUB_URL}/api/webhooks/portfolio`
+            : null;
+
+        if (HUB_WEBHOOK) {
+            fetch(HUB_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(submissionData),
+            }).catch((err) => console.warn('Hub webhook failed (non-blocking):', err));
+        }
+
         navigate('/thanks');
     };
 

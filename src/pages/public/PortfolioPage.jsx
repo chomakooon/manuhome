@@ -89,8 +89,8 @@ export default function PortfolioPage() {
             {/* Header Section */}
             <header className="page-header">
                 <div className="container">
-                    <h1 className="page-title">Portfolio</h1>
-                    <p className="page-subtitle">過去の制作実績をご紹介します</p>
+                    <h1 className="page-title">制作事例・ポートフォリオ</h1>
+                    <p className="page-subtitle">イラスト・漫画・図解・ブランディングの制作実績をカテゴリー別にご紹介。<br/>あなたの理想のテイストやスタイルが見つかります。</p>
                 </div>
             </header>
 
@@ -142,7 +142,7 @@ export default function PortfolioPage() {
             {/* Portfolio Detailed List (Bottom) */}
             <section className="portfolio-detailed-list section bg-surface">
                 <div className="container">
-                    <h2 className="section-title text-center" style={{ marginBottom: '3rem' }}>Selected Works</h2>
+                    <h2 className="section-title text-center" style={{ marginBottom: '3rem' }}>カテゴリー別 制作実績</h2>
                     <div className="portfolio-list">
                         {filteredItems.map((item, index) => (
                             <PortfolioDetailItem
@@ -158,11 +158,12 @@ export default function PortfolioPage() {
                     {/* CTA Section */}
                     <div className="portfolio-cta">
                         <p className="portfolio-cta__text">
-                            ここに掲載している以外にも多数の実績がございます。<br />
-                            詳細なポートフォリオや特定のテイストをご覧になりたい方は、お気軽にお問い合わせください。
+                            ここに掲載している以外にも多数の制作実績がございます。<br />
+                            「このテイストで制作してほしい」「参考にしたいイメージがある」など、<br />
+                            お気軽にご相談ください。初回ヒアリングは無料です。
                         </p>
                         <a href="/intake" className="btn btn-primary">
-                            無料で相談してみる
+                            無料で視覚化診断を受ける
                         </a>
                     </div>
                 </div>
