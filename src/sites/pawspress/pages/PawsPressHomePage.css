@@ -1,0 +1,431 @@
+/* ================================================================
+   PAWS PRESS Home LP
+   - body.theme-pawspress 配下で使用される前提
+   - --brand-* 変数経由で色・フォントを取得
+   - セクション間 6rem（PCのみ。モバイルは 4rem）
+   ================================================================ */
+
+.paws-home {
+    width: 100%;
+}
+
+/* ── 共通ボタン ─────────────────────────────────── */
+.paws-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-family: var(--brand-font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: transform 150ms ease, box-shadow 150ms ease,
+        background-color 150ms ease, color 150ms ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.paws-btn--primary {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-btn--primary:hover {
+    background-color: var(--brand-primary-dark);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 207, 255, 0.25);
+}
+
+.paws-btn--outline {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    background-color: transparent;
+}
+
+.paws-btn--outline:hover {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-btn--white {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+}
+
+.paws-btn--white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.paws-btn--lg {
+    padding: 18px 40px;
+    font-size: 1.05rem;
+}
+
+/* ── 共通セクション見出し ───────────────────────── */
+.paws-section-title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 3rem 0;
+    color: var(--brand-text);
+}
+
+@media (max-width: 768px) {
+    .paws-section-title {
+        font-size: 1.55rem;
+        margin-bottom: 2rem;
+    }
+}
+
+/* ── 1. ヒーロー ────────────────────────────────── */
+.paws-hero {
+    background: linear-gradient(180deg, #FFF8F5 0%, #FFE8EE 100%);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 4rem 2rem;
+}
+
+.paws-hero__inner {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.paws-hero__title {
+    font-family: var(--brand-font-display);
+    font-size: 2.6rem;
+    line-height: 1.4;
+    margin: 0 0 1.5rem 0;
+    color: var(--brand-text);
+}
+
+.paws-hero__subtitle {
+    font-size: 1rem;
+    line-height: 1.9;
+    margin: 0 0 2rem 0;
+    color: var(--brand-text);
+    opacity: 0.85;
+}
+
+.paws-hero__note {
+    margin: 1rem 0 0 0;
+    font-size: 0.875rem;
+    color: var(--brand-text);
+    opacity: 0.7;
+}
+
+.paws-hero__visual {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.paws-hero__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .paws-hero {
+        min-height: auto;
+        padding: 3rem 1.5rem;
+    }
+
+    .paws-hero__inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .paws-hero__title {
+        font-size: 1.85rem;
+    }
+}
+
+/* ── 2. プラン ──────────────────────────────────── */
+.paws-plans {
+    padding: 6rem 2rem;
+    background-color: #FFFFFF;
+}
+
+.paws-plans__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-plans__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.paws-plan-card {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.paws-plan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.paws-plan-card--popular {
+    border-color: var(--brand-accent);
+    border-width: 2px;
+    box-shadow: 0 4px 16px rgba(255, 182, 193, 0.25);
+}
+
+.paws-plan-card__badge {
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    background-color: var(--brand-accent);
+    color: #2D2520;
+    font-family: var(--brand-font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+}
+
+.paws-plan-card__name {
+    font-family: var(--brand-font-display);
+    font-size: 1.4rem;
+    margin: 0 0 0.4rem 0;
+    color: var(--brand-text);
+}
+
+.paws-plan-card__tagline {
+    font-size: 0.875rem;
+    opacity: 0.7;
+    margin: 0 0 1.5rem 0;
+}
+
+.paws-plan-card__price {
+    font-family: var(--brand-font-display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--brand-primary);
+    margin: 0 0 1.5rem 0;
+}
+
+.paws-plan-card__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1;
+}
+
+.paws-plan-card__features li {
+    position: relative;
+    padding: 0.5rem 0 0.5rem 1.4rem;
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: var(--brand-text);
+}
+
+.paws-plan-card__features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    color: var(--brand-primary);
+    font-weight: 800;
+}
+
+.paws-plan-card__delivery {
+    font-size: 0.825rem;
+    opacity: 0.7;
+    margin: 0 0 1.25rem 0;
+}
+
+@media (max-width: 768px) {
+    .paws-plans {
+        padding: 4rem 1.5rem;
+    }
+
+    .paws-plans__grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* ── 3. ビフォーアフター（フロー） ─────────────── */
+.paws-flow {
+    padding: 6rem 2rem;
+    background-color: var(--brand-bg);
+}
+
+.paws-flow__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-flow__steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.paws-flow__step {
+    text-align: center;
+}
+
+.paws-flow__num {
+    display: inline-block;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.825rem;
+    color: var(--brand-primary);
+    letter-spacing: 0.18em;
+    margin-bottom: 0.5rem;
+}
+
+.paws-flow__img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.paws-flow__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.paws-flow__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.15rem;
+    margin: 0;
+    color: var(--brand-text);
+}
+
+@media (max-width: 768px) {
+    .paws-flow {
+        padding: 4rem 1.5rem;
+    }
+
+    .paws-flow__steps {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* ── 4. ギャラリー ─────────────────────────────── */
+.paws-gallery {
+    padding: 6rem 2rem;
+    background-color: #FFFFFF;
+}
+
+.paws-gallery__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.paws-gallery__item {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.paws-gallery__item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.paws-gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.paws-gallery__more {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .paws-gallery {
+        padding: 4rem 1.5rem;
+    }
+
+    .paws-gallery__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── 5. 大型 CTA ────────────────────────────────── */
+.paws-bigcta {
+    padding: 6rem 2rem;
+    background-color: var(--brand-accent);
+    text-align: center;
+}
+
+.paws-bigcta__inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.paws-bigcta__title {
+    font-family: var(--brand-font-display);
+    font-size: 2.2rem;
+    margin: 0 0 0.5rem 0;
+    color: #2D2520;
+}
+
+.paws-bigcta__sub {
+    font-size: 1rem;
+    margin: 0 0 2rem 0;
+    color: #2D2520;
+    opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+    .paws-bigcta {
+        padding: 4rem 1.5rem;
+    }
+
+    .paws-bigcta__title {
+        font-size: 1.6rem;
+    }
+}

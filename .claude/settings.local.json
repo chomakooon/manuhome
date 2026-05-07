@@ -9,7 +9,16 @@
       "Bash(git branch:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(gh repo create:*)"
+      "Bash(gh repo create:*)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome diff --stat)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome status --short)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome stash --keep-index)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome show HEAD:src/pages/public/PortfolioPage.jsx)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome stash list)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome stash pop)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome diff .claude/settings.local.json)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome stash show -p stash@{0} -- .claude/settings.local.json)",
+      "Bash(git -C /Users/okazakimana/Documents/manuhome stash show -p stash@{0})"
     ]
   }
 }

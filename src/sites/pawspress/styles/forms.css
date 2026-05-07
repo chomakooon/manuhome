@@ -1,0 +1,224 @@
+/* ================================================================
+   PAWS PRESS — Shared Form Utilities (Step 2-C)
+   - PawsPressOrderPage / PawsPressContactPage の双方が import する
+   - --brand-* 変数経由で配色・タイポを取得
+   - ボタン仕様: プライマリ = 桃色背景・白文字 / セカンダリ = 白背景・ボーダー
+   ================================================================ */
+
+/* ── セクションコンテナ ─────────────────────────── */
+.paws-form-section {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 2.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.paws-form-section + .paws-form-section {
+    margin-top: 1.5rem;
+}
+
+.paws-form-section__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: var(--brand-text);
+}
+
+.paws-form-section__sub {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+/* ── フィールド ─────────────────────────────────── */
+.paws-form-field {
+    margin-bottom: 1.25rem;
+}
+
+.paws-form-field:last-child {
+    margin-bottom: 0;
+}
+
+.paws-form-label {
+    display: block;
+    font-size: 0.925rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--brand-text);
+}
+
+.paws-form-label__req {
+    color: var(--brand-accent);
+    margin-left: 0.25rem;
+    font-weight: 700;
+}
+
+.paws-form-label__opt {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--brand-text);
+    opacity: 0.55;
+}
+
+.paws-form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--brand-accent);
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    color: var(--brand-text);
+    font-family: var(--brand-font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.paws-form-input:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.12);
+}
+
+.paws-form-input--textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: var(--brand-font-body);
+}
+
+.paws-form-input--short {
+    max-width: 240px;
+}
+
+.paws-form-help {
+    font-size: 0.875rem;
+    line-height: 1.8;
+    margin: 0 0 1rem 0;
+    color: var(--brand-text);
+    opacity: 0.75;
+}
+
+.paws-form-help--note {
+    font-size: 0.8rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+    opacity: 0.6;
+}
+
+.paws-form-error {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.85rem;
+    color: #C04040;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.paws-form-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+@media (max-width: 480px) {
+    .paws-form-pair {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── ボタン ─────────────────────────────────────── */
+.paws-form-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-family: var(--brand-font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 150ms ease, box-shadow 150ms ease,
+        background-color 150ms ease, color 150ms ease;
+    white-space: nowrap;
+}
+
+.paws-form-btn--primary {
+    background-color: var(--brand-accent);
+    color: #FFFFFF;
+}
+
+.paws-form-btn--primary:hover {
+    background-color: #FFA0AE;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
+}
+
+.paws-form-btn--secondary {
+    background-color: #FFFFFF;
+    color: var(--brand-text);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.paws-form-btn--secondary:hover {
+    border-color: var(--brand-text);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* ── 完了画面（共通） ─────────────────────────── */
+.paws-completed {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+}
+
+.paws-completed__inner {
+    max-width: 560px;
+    text-align: center;
+}
+
+.paws-completed__mark {
+    font-size: 3.5rem;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+}
+
+.paws-completed__title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    line-height: 1.5;
+    color: var(--brand-text);
+    margin: 0 0 1.5rem 0;
+}
+
+.paws-completed__text {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--brand-text);
+    opacity: 0.85;
+    margin: 0 0 2.5rem 0;
+}
+
+.paws-completed__nav {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .paws-form-section {
+        padding: 1.5rem;
+    }
+
+    .paws-completed__title {
+        font-size: 1.6rem;
+    }
+}

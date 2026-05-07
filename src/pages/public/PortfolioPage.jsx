@@ -2,6 +2,10 @@ import { useState } from 'react';
 import './PortfolioPage.css';
 import { portfolioItems, categories } from '../../data/portfolioData';
 
+const handleImageError = (id) => (e) => {
+    console.warn(`[portfolio] image failed to load (id=${id}): ${e.currentTarget.src}`);
+};
+
 const PortfolioDetailItem = ({ baseItem, index, allItems, categories, onSeeMore }) => {
     const [activeItem, setActiveItem] = useState(baseItem);
 
@@ -14,7 +18,7 @@ const PortfolioDetailItem = ({ baseItem, index, allItems, categories, onSeeMore 
             className={`portfolio-list-item fade-in ${index % 2 !== 0 ? 'reverse' : ''}`}
         >
             <div className="portfolio-item__image">
-                <img src={activeItem.image} alt={activeItem.title} loading="lazy" />
+                <img src={activeItem.image} alt={activeItem.title} loading="lazy" onError={handleImageError(activeItem.id)} />
                 <span className="portfolio-item__badge">
                     {categories.find(c => c.id === activeItem.category)?.name}
                 </span>
@@ -40,7 +44,7 @@ const PortfolioDetailItem = ({ baseItem, index, allItems, categories, onSeeMore 
                                 style={{ opacity: activeItem.id === item.id ? 0.6 : 1 }}
                             >
                                 <div className="related-card__image">
-                                    <img src={item.image} alt={item.title} loading="lazy" />
+                                    <img src={item.image} alt={item.title} loading="lazy" onError={handleImageError(item.id)} />
                                 </div>
                                 <span className="related-card__title">{item.title}</span>
                             </div>
@@ -122,7 +126,7 @@ export default function PortfolioPage() {
                                 onClick={() => scrollToItem(item.id)}
                             >
                                 <div className="portfolio-card__image">
-                                    <img src={item.image} alt={item.title} loading="lazy" />
+                                    <img src={item.image} alt={item.title} loading="lazy" onError={handleImageError(item.id)} />
                                     <div className="portfolio-card__overlay">
                                         <span className="portfolio-card__overlay-text">詳細を見る</span>
                                     </div>

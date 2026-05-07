@@ -1,0 +1,72 @@
+/* ================================================================
+   PAWS PRESS — Contact Page (Step 2-C)
+   - body.theme-pawspress 配下で使用
+   - フォーム共通スタイルは ../styles/forms.css
+   ================================================================ */
+
+.paws-contact {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+}
+
+.paws-contact__hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.paws-contact__title {
+    font-family: var(--brand-font-display);
+    font-size: 2.2rem;
+    margin: 0 0 0.75rem 0;
+    color: var(--brand-text);
+}
+
+.paws-contact__subtitle {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--brand-text);
+    opacity: 0.85;
+    margin: 0;
+}
+
+.paws-contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.paws-contact__notice {
+    background-color: rgba(255, 182, 193, 0.18);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    color: var(--brand-text);
+}
+
+.paws-contact__notice p {
+    margin: 0;
+    line-height: 1.8;
+    font-size: 0.925rem;
+}
+
+.paws-contact__notice-sub {
+    margin-top: 0.4rem !important;
+    font-size: 0.825rem !important;
+    opacity: 0.75;
+}
+
+.paws-contact__nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .paws-contact {
+        padding: 2.5rem 1rem 4rem;
+    }
+    .paws-contact__title {
+        font-size: 1.7rem;
+    }
+}

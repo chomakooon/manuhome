@@ -44,7 +44,12 @@ export default function PortfolioSubCategoryPage() {
                         {galleryItems.map((item, index) => (
                             <div key={`sub-${item.id}-${index}`} className="subcategory-card fade-in">
                                 <div className="subcategory-card__image">
-                                    <img src={item.image} alt={item.title} loading="lazy" />
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        loading="lazy"
+                                        onError={(e) => console.warn(`[portfolio] image failed to load (id=${item.id}): ${e.currentTarget.src}`)}
+                                    />
                                 </div>
                                 <div className="subcategory-card__content">
                                     <h3 className="subcategory-card__title">{item.title}</h3>

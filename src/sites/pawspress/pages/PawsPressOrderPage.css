@@ -1,0 +1,493 @@
+/* ================================================================
+   PAWS PRESS — Order Page (Step 2-C)
+   - body.theme-pawspress 配下で使用
+   - フォーム共通スタイルは ../styles/forms.css
+   ================================================================ */
+
+.paws-order {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+}
+
+.paws-order__hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.paws-order__title {
+    font-family: var(--brand-font-display);
+    font-size: 2.2rem;
+    margin: 0 0 0.75rem 0;
+    color: var(--brand-text);
+}
+
+.paws-order__subtitle {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--brand-text);
+    opacity: 0.85;
+    margin: 0 0 2.5rem 0;
+}
+
+.paws-order__body {
+    margin-bottom: 2rem;
+}
+
+.paws-order__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.paws-order__nav > :first-child {
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .paws-order {
+        padding: 2.5rem 1rem 4rem;
+    }
+    .paws-order__title {
+        font-size: 1.7rem;
+    }
+}
+
+/* ── Step Indicator ─────────────────────────────── */
+.paws-step-indicator {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    counter-reset: step;
+    position: relative;
+}
+
+.paws-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.paws-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: calc(50% + 22px);
+    right: calc(-50% + 22px);
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.08);
+    z-index: -1;
+}
+
+.paws-step--done:not(:last-child)::after {
+    background-color: var(--brand-primary);
+}
+
+.paws-step__circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    background-color: #FFFFFF;
+    border: 2px solid rgba(0, 0, 0, 0.12);
+    color: var(--brand-text);
+    transition: all 200ms ease;
+}
+
+.paws-step--active .paws-step__circle {
+    background-color: var(--brand-accent);
+    border-color: var(--brand-accent);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
+}
+
+.paws-step--done .paws-step__circle {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-step__label {
+    font-size: 0.825rem;
+    color: var(--brand-text);
+    opacity: 0.7;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.paws-step--active .paws-step__label,
+.paws-step--done .paws-step__label {
+    opacity: 1;
+    font-weight: 600;
+}
+
+@media (max-width: 480px) {
+    .paws-step__label {
+        font-size: 0.7rem;
+    }
+    .paws-step__circle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+    }
+    .paws-step:not(:last-child)::after {
+        top: 15px;
+        left: calc(50% + 18px);
+        right: calc(-50% + 18px);
+    }
+}
+
+/* ── Plan Radio ─────────────────────────────────── */
+.paws-plan-radio-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.paws-plan-radio {
+    position: relative;
+    cursor: pointer;
+    display: block;
+}
+
+.paws-plan-radio__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.paws-plan-radio__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.25rem;
+    background-color: #FFFFFF;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+    height: 100%;
+}
+
+.paws-plan-radio:hover .paws-plan-radio__body {
+    border-color: var(--brand-accent);
+    transform: translateY(-2px);
+}
+
+.paws-plan-radio--checked .paws-plan-radio__body {
+    border-color: var(--brand-accent);
+    box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.25);
+}
+
+.paws-plan-radio__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.paws-plan-radio__name {
+    font-family: var(--brand-font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-plan-radio__badge {
+    background-color: var(--brand-accent);
+    color: #2D2520;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.paws-plan-radio__tagline {
+    font-size: 0.825rem;
+    opacity: 0.7;
+    color: var(--brand-text);
+}
+
+.paws-plan-radio__price {
+    font-family: var(--brand-font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--brand-primary);
+    margin-top: 0.25rem;
+}
+
+.paws-plan-radio__features {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--brand-text);
+    opacity: 0.85;
+}
+
+.paws-plan-radio__features li {
+    position: relative;
+    padding-left: 1.2rem;
+}
+
+.paws-plan-radio__features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--brand-primary);
+    font-weight: 700;
+}
+
+.paws-plan-radio__delivery {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.65;
+}
+
+@media (max-width: 768px) {
+    .paws-plan-radio-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Dropzone ───────────────────────────────────── */
+.paws-dropzone {
+    border: 2px dashed var(--brand-accent);
+    border-radius: 16px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    background-color: #FFFEFD;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+    outline: none;
+}
+
+.paws-dropzone:hover,
+.paws-dropzone:focus-visible {
+    background-color: #FFF5F7;
+    border-color: var(--brand-primary);
+}
+
+.paws-dropzone--dragging {
+    background-color: #FFE8EE;
+    border-color: var(--brand-primary);
+}
+
+.paws-dropzone--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: #F5F5F3;
+}
+
+.paws-dropzone__icon {
+    font-size: 2.4rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1;
+}
+
+.paws-dropzone__text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--brand-text);
+    margin: 0 0 0.25rem 0;
+}
+
+.paws-dropzone__sub {
+    font-size: 0.825rem;
+    color: var(--brand-text);
+    opacity: 0.6;
+    margin: 0;
+}
+
+/* ── Photo List ────────────────────────────────── */
+.paws-photo-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.paws-photo-item {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.paws-photo-item__img,
+.paws-photo-item__heic {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: var(--brand-bg);
+}
+
+.paws-photo-item__heic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FFE8EE, #FFF8F5);
+}
+
+.paws-photo-item__heic-tag {
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--brand-primary);
+}
+
+.paws-photo-item__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+.paws-photo-item__name {
+    font-weight: 600;
+    color: var(--brand-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.paws-photo-item__size {
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+.paws-photo-item__remove {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 150ms ease;
+}
+
+.paws-photo-item__remove:hover {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+@media (max-width: 480px) {
+    .paws-photo-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ── Review ─────────────────────────────────────── */
+.paws-review {
+    display: flex;
+    flex-direction: column;
+}
+
+.paws-review__row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    align-items: start;
+}
+
+.paws-review__row:last-child {
+    border-bottom: none;
+}
+
+.paws-review__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--brand-text);
+    opacity: 0.75;
+}
+
+.paws-review__value {
+    font-size: 1rem;
+    color: var(--brand-text);
+    line-height: 1.7;
+}
+
+.paws-review__sub {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.paws-review__photos {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.paws-review__photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: var(--brand-bg);
+}
+
+.paws-review__photo--heic {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    color: var(--brand-primary);
+    background: linear-gradient(135deg, #FFE8EE, #FFF8F5);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    padding: 0.25rem;
+}
+
+.paws-review__photo-name {
+    margin-top: 0.25rem;
+    font-size: 0.55rem;
+    color: var(--brand-text);
+    font-weight: 400;
+    word-break: break-all;
+}
+
+@media (max-width: 768px) {
+    .paws-review__row {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+    .paws-review__label {
+        font-size: 0.8rem;
+    }
+}

@@ -107,6 +107,43 @@
   --sticky-cta-height: 64px;
 }
 
+/* ================================================================
+   Brand Theme Tokens (Step 2-A)
+   ----------------------------------------------------------------
+   src/sites/<brand>/theme/tokens.js と対応する CSS 変数を、
+   既存変数を壊さない `--brand-*` 名前空間で追加する。
+   - :root と body.theme-kataribin は同値（デフォルト = かたち便）
+   - body.theme-pawspress は /pet 配下で適用される（useBrandTheme フック）
+   - --brand-primary は両ブランド共通（ブランドファミリー感）
+   - 既存ページが /pet 配下でも pawspress を反映するよう、
+     pawspress ブロックで legacy 変数（--color-bg 等）も上書きする。
+   ================================================================ */
+:root,
+body.theme-kataribin {
+  --brand-primary: #00CFFF;
+  --brand-primary-dark: #00B1D9;
+  --brand-accent: #5CE1FF;
+  --brand-text: #1A1A1A;
+  --brand-bg: #FAFAF8;
+  --brand-font-display: 'Noto Serif JP', Georgia, serif;
+  --brand-font-body: 'Noto Sans JP', 'Inter', -apple-system, sans-serif;
+}
+
+body.theme-pawspress {
+  /* New brand tokens (PAWS PRESS) */
+  --brand-accent: #FFB6C1;
+  --brand-text: #2D2520;
+  --brand-bg: #FFF8F5;
+  --brand-font-display: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
+  /* --brand-primary stays #00CFFF (ブランドファミリー感) */
+
+  /* Legacy variable overrides — 既存ページが /pet 配下でも pawspress テーマを継承する */
+  --color-bg: #FFF8F5;
+  --color-text-primary: #2D2520;
+  --font-display: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
+  /* --color-accent (#00CFFF) は維持: brand cyan は両ブランド共通 */
+}
+
 /* --- Reset & Base --- */
 *,
 *::before,

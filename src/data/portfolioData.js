@@ -1,50 +1,175 @@
+/**
+ * @file src/data/portfolioData.js
+ *
+ * テナント "manuhome" の作品 / 商品データ。
+ * - 共通スキーマは src/config/_schema.js (WorksItem) を参照
+ * - カテゴリ定義は src/config/works/categories.js を単一ソースとして利用
+ * - 旧30件は src/data/_archived/portfolioData.archived.js に退避済み
+ *
+ * 編集ルール:
+ *   - 1作品 = rawItems の1要素。tenantId は portfolioItems エクスポート時に自動付与
+ *   - 画像パスは originalImageFilename から item ヘルパーが自動派生する
+ *     （`image` を明示指定すればそれを優先。placeholder へ戻したい場合に利用）
+ *   - product 系（itemType='product'）は externalUrl / externalLabel を後追いで埋める
+ *   - 各 subCategory に isMain: true を 1 件だけ設ける（サブカテゴリの代表作）
+ */
+
+import { worksCategories } from '../config/works/categories';
+
+const TENANT_ID = 'manuhome';
+const PLACEHOLDER_IMAGE = '/works/placeholder.svg';
+
+/**
+ * 既存ページ（PortfolioPage / PortfolioSubCategoryPage）が import している
+ * shape `{ id, name }` を維持するための後方互換ビュー。
+ * 本来は worksCategories を直接参照するのが望ましい（WorksPage 実装時に切替予定）。
+ */
 export const categories = [
     { id: 'all', name: 'すべて' },
-    { id: 'illustration', name: 'イラスト' },
-    { id: 'design', name: 'デザイン' },
-    { id: 'manga', name: '漫画' },
+    ...[...worksCategories]
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+        .map((c) => ({ id: c.id, name: c.label })),
 ];
 
-export const portfolioItems = [
-    // 1. Icon
-    { id: 1, isMain: true, title: 'SNS用アイコン', category: 'illustration', subCategory: 'icon', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773168252110.jpg', description: 'SNSやブログで活用できる親しみやすいオリジナルアイコンを制作し、第一印象を和らげ認知度を向上させます。' },
-    { id: '1-a', isMain: false, title: 'SNS用アイコン', category: 'illustration', subCategory: 'icon', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773168252130.jpg', description: '' },
-    { id: '1-b', isMain: false, title: 'SNS用アイコン', category: 'illustration', subCategory: 'icon', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773168252143.jpg', description: '' },
-    { id: '1-c', isMain: false, title: 'SNS用アイコン', category: 'illustration', subCategory: 'icon', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773168252160.png', description: '' },
-    { id: '1-d', isMain: false, title: 'SNS用アイコン', category: 'illustration', subCategory: 'icon', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773168252336.jpg', description: '' },
+/**
+ * WorksItem 既定値を埋めるヘルパー（共通ロジック）。
+ * image は originalImageFilename から `/works/${filename}` に自動派生する。
+ * 明示的に image を渡せば（placeholder 等への退避用途で）そちらを優先する。
+ */
+const item = (overrides) => {
+    const merged = {
+        isMain: false,
+        description: '',
+        itemType: 'portfolio',
+        externalUrl: null,
+        externalLabel: null,
+        reactionCount: null,
+        clientName: null,
+        ...overrides,
+    };
+    if (!merged.image) {
+        merged.image = merged.originalImageFilename
+            ? `/works/${merged.originalImageFilename}`
+            : PLACEHOLDER_IMAGE;
+    }
+    return merged;
+};
 
-    // 2. 4Koma Manga
-    { id: 2, isMain: true, title: 'ビジネス紹介４コマ', category: 'manga', subCategory: 'manga_4koma', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169597220.jpg', description: '複雑なビジネスモデルや無形商材のサービス内容などを、親しみやすい４コマ漫画でわかりやすく伝えます。' },
-    { id: '2-a', isMain: false, title: '４コマ漫画', category: 'manga', subCategory: 'manga_4koma', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169597235.png', description: '' },
-    { id: '2-b', isMain: false, title: '４コマ漫画', category: 'manga', subCategory: 'manga_4koma', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169597248.jpg', description: '' },
-    { id: '2-c', isMain: false, title: '４コマ漫画', category: 'manga', subCategory: 'manga_4koma', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169597453.png', description: '' },
-    { id: '2-d', isMain: false, title: '４コマ漫画', category: 'manga', subCategory: 'manga_4koma', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169597470.jpg', description: '' },
+/** テナント固有データ。tenantId は export 時に注入する */
+const rawItems = [
+    // ── pet / pet_photo (工程1: 元写真) ─────────────
+    item({
+        id: 'pet-photo-01', category: 'pet', subCategory: 'pet_photo', isMain: true,
+        originalImageFilename: 'pet-photo-1.jpg',
+        title: 'ペット元写真サンプル',
+        description: 'イラスト化前のペット写真のサンプル。ご提供いただく写真の参考としてご活用ください。',
+    }),
+    item({ id: 'pet-photo-02', category: 'pet', subCategory: 'pet_photo', originalImageFilename: 'pet-photo-2.jpg', title: 'ペット元写真サンプル' }),
+    item({ id: 'pet-photo-03', category: 'pet', subCategory: 'pet_photo', originalImageFilename: 'pet-photo-3.jpg', title: 'ペット元写真サンプル' }),
 
-    // 3. Portrait
-    { id: 3, isMain: true, title: '似顔絵イラスト', category: 'illustration', subCategory: 'portrait', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169852517.jpg', description: '名刺やプロフィール画像に最適な似顔絵イラスト。温かみのあるタッチで、あなたの人柄や魅力を最大限に引き出します。' },
-    { id: '3-a', isMain: false, title: '似顔絵イラスト', category: 'illustration', subCategory: 'portrait', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169903838.jpg', description: '' },
-    { id: '3-b', isMain: false, title: '似顔絵イラスト', category: 'illustration', subCategory: 'portrait', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169903848.jpg', description: '' },
-    { id: '3-c', isMain: false, title: '似顔絵イラスト', category: 'illustration', subCategory: 'portrait', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169903958.png', description: '' },
-    { id: '3-d', isMain: false, title: '似顔絵イラスト', category: 'illustration', subCategory: 'portrait', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169904209.png', description: '' },
+    // ── pet / pet_illust (工程2: イラスト) ──────────
+    item({
+        id: 'pet-illust-01', category: 'pet', subCategory: 'pet_illust', isMain: true,
+        originalImageFilename: 'pet-illust-1.jpg',
+        title: 'ペットイラスト制作',
+        description: 'お預かりしたお写真をもとに、温かみのあるオリジナルイラストを描き起こします。',
+    }),
+    item({ id: 'pet-illust-02', category: 'pet', subCategory: 'pet_illust', originalImageFilename: 'pet-illust-2.jpg', title: 'ペットイラスト制作' }),
+    item({ id: 'pet-illust-03', category: 'pet', subCategory: 'pet_illust', originalImageFilename: 'pet-illust-3.jpg', title: 'ペットイラスト制作' }),
+    item({ id: 'pet-illust-04', category: 'pet', subCategory: 'pet_illust', originalImageFilename: 'pet-illust-4.jpg', title: 'ペットイラスト制作' }),
+    item({ id: 'pet-illust-05', category: 'pet', subCategory: 'pet_illust', originalImageFilename: 'pet-illust-5.jpg', title: 'ペットイラスト制作' }),
 
-    // 4. Pet Goods
-    { id: 4, isMain: true, title: 'うちの子グッズ', category: 'illustration', subCategory: 'pet', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773170248540.jpg', description: '大切なペットの写真から温かみのあるオリジナルイラストを作成し、マグカップやトートバッグなどの専用グッズに展開します。' },
-    { id: '4-a', isMain: false, title: 'うちの子グッズ', category: 'illustration', subCategory: 'pet', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773170248705.jpg', description: '' },
-    { id: '4-b', isMain: false, title: 'うちの子グッズ', category: 'illustration', subCategory: 'pet', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773170248722.jpg', description: '' },
-    { id: '4-c', isMain: false, title: 'うちの子グッズ', category: 'illustration', subCategory: 'pet', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773170248730.jpg', description: '' },
-    { id: '4-d', isMain: false, title: 'うちの子グッズ', category: 'illustration', subCategory: 'pet', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773170249001.jpg', description: '' },
+    // ── pet / pet_goods (工程3: グッズ写真) ─────────
+    item({
+        id: 'pet-goods-01', category: 'pet', subCategory: 'pet_goods', isMain: true,
+        originalImageFilename: 'pet-goods-1.jpg',
+        title: 'うちの子グッズ',
+        description: '完成したイラストはマグカップやトートバッグなどのオリジナルグッズに展開できます。',
+    }),
+    item({ id: 'pet-goods-02', category: 'pet', subCategory: 'pet_goods', originalImageFilename: 'pet-goods-2.jpg', title: 'うちの子グッズ' }),
+    item({ id: 'pet-goods-03', category: 'pet', subCategory: 'pet_goods', originalImageFilename: 'pet-goods-3.jpg', title: 'うちの子グッズ' }),
 
-    // 5. Logo
-    { id: 5, isMain: true, title: 'ロゴ制作', category: 'design', subCategory: 'logo', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169368461.jpg', description: '企業の想いやサービスのコンセプトを視覚化します。シンプルで記憶に残りやすい、洗練されたロゴデザインを提供します。' },
-    { id: '5-a', isMain: false, title: 'ロゴ制作', category: 'design', subCategory: 'logo', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169368478.png', description: '' },
-    { id: '5-b', isMain: false, title: 'ロゴ制作', category: 'design', subCategory: 'logo', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169368482.jpg', description: '' },
-    { id: '5-c', isMain: false, title: 'ロゴ制作', category: 'design', subCategory: 'logo', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169368509.png', description: '' },
-    { id: '5-d', isMain: false, title: 'ロゴ制作', category: 'design', subCategory: 'logo', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169368548.png', description: '' },
+    // ── manga / manga_4koma ─────────────────────────
+    item({
+        id: 'manga-4koma-01', category: 'manga', subCategory: 'manga_4koma', isMain: true,
+        originalImageFilename: 'manga-4koma-1.jpg',
+        title: 'B2B向けPR4コマ漫画',
+        description: '複雑なサービスや商材の魅力を、4コマ漫画で親しみやすく伝えます。',
+    }),
+    item({ id: 'manga-4koma-02', category: 'manga', subCategory: 'manga_4koma', originalImageFilename: 'manga-4koma-2.jpg', title: 'B2B向けPR4コマ漫画' }),
+    item({ id: 'manga-4koma-03', category: 'manga', subCategory: 'manga_4koma', originalImageFilename: 'manga-4koma-3.jpg', title: 'B2B向けPR4コマ漫画' }),
 
-    // 6. Character
-    { id: 6, isMain: true, title: 'キャラクター制作', category: 'illustration', subCategory: 'character', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169041629.png', description: '企業の公式マスコットやYouTubeチャンネル用のオリジナルキャラクターデザイン。親しみやすさとブランド力を両立します。' },
-    { id: '6-a', isMain: false, title: 'キャラクター', category: 'illustration', subCategory: 'character', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169041719.jpg', description: '' },
-    { id: '6-b', isMain: false, title: 'キャラクター', category: 'illustration', subCategory: 'character', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169041821.jpg', description: '' },
-    { id: '6-c', isMain: false, title: 'キャラクター', category: 'illustration', subCategory: 'character', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169041871.jpg', description: '' },
-    { id: '6-d', isMain: false, title: 'キャラクター', category: 'illustration', subCategory: 'character', image: '/@fs/Users/sitter/.gemini/antigravity/brain/1b9c131e-b260-4e1b-924d-60e540061b5e/media__1773169041891.png', description: '' }
+    // ── manga / manga_1page ─────────────────────────
+    item({
+        id: 'manga-1page-01', category: 'manga', subCategory: 'manga_1page', isMain: true,
+        originalImageFilename: 'manga-1page-1.jpg',
+        title: '1ページ漫画',
+        description: '企業ストーリーや採用広報を1ページの漫画で伝えるフォーマット。',
+    }),
+
+    // ── businesscard ────────────────────────────────
+    item({
+        id: 'card-01', category: 'businesscard', subCategory: 'businesscard', isMain: true,
+        originalImageFilename: 'card-1.jpg',
+        title: '似顔絵入り名刺',
+        description: '名刺に似顔絵イラストを差し込み、第一印象に温かみを加えます。',
+    }),
+    item({ id: 'card-02', category: 'businesscard', subCategory: 'businesscard', originalImageFilename: 'card-2.jpg', title: '似顔絵入り名刺' }),
+
+    // ── illustration / portrait ─────────────────────
+    item({
+        id: 'portrait-01', category: 'illustration', subCategory: 'portrait', isMain: true,
+        originalImageFilename: 'portrait-1.jpg',
+        title: '似顔絵イラスト',
+        description: 'プロフィール写真や記念用に、温かみのある似顔絵を制作します。',
+    }),
+    item({ id: 'portrait-02', category: 'illustration', subCategory: 'portrait', originalImageFilename: 'portrait-2.jpg', title: '似顔絵イラスト' }),
+
+    // ── illustration / icon ─────────────────────────
+    item({
+        id: 'icon-01', category: 'illustration', subCategory: 'icon', isMain: true,
+        originalImageFilename: 'icon-1.jpg',
+        title: 'SNS用アイコン',
+        description: 'SNSやブログで使えるオリジナルアイコン。第一印象を和らげます。',
+    }),
+
+    // ── illustration / logo ─────────────────────────
+    item({
+        id: 'logo-01', category: 'illustration', subCategory: 'logo', isMain: true,
+        originalImageFilename: 'logo-1.jpg',
+        title: 'ロゴ制作',
+        description: '企業の想いやサービスのコンセプトを視覚化したロゴデザイン。',
+    }),
+
+    // ── illustration / character ────────────────────
+    item({
+        id: 'character-01', category: 'illustration', subCategory: 'character', isMain: true,
+        originalImageFilename: 'character-1.jpg',
+        title: 'キャラクター制作',
+        description: '公式マスコットやチャンネル用キャラクターのデザイン。',
+    }),
+
+    // ── shop / line_stamp (自社販売商品) ────────────
+    item({
+        id: 'stamp-01', category: 'shop', subCategory: 'line_stamp', isMain: true,
+        itemType: 'product',
+        originalImageFilename: 'stamp-1.jpg',
+        title: 'オリジナルLINEスタンプ',
+        description: 'クリエイター本人が制作・販売しているLINEスタンプ。',
+    }),
+    item({ id: 'stamp-02', category: 'shop', subCategory: 'line_stamp', itemType: 'product', originalImageFilename: 'stamp-2.jpg', title: 'オリジナルLINEスタンプ' }),
+    item({ id: 'stamp-03', category: 'shop', subCategory: 'line_stamp', itemType: 'product', originalImageFilename: 'stamp-3.jpg', title: 'オリジナルLINEスタンプ' }),
+
+    // ── shop / sd_banner (自社販売商品) ─────────────
+    item({
+        id: 'banner-01', category: 'shop', subCategory: 'sd_banner', isMain: true,
+        itemType: 'product',
+        originalImageFilename: 'banner-1.jpg',
+        title: 'SD/漫画バナー販売',
+        description: 'SNS運用や広告バナー向けに、SDキャラ・漫画スタイルのバナー素材を販売中。',
+    }),
+    item({ id: 'banner-02', category: 'shop', subCategory: 'sd_banner', itemType: 'product', originalImageFilename: 'banner-2.jpg', title: 'SD/漫画バナー販売' }),
 ];
+
+/** @type {import('../config/_schema.js').WorksItem[]} */
+export const portfolioItems = rawItems.map((it) => ({ ...it, tenantId: TENANT_ID }));

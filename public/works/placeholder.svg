@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" width="1200" height="1200" role="img" aria-label="Image Coming Soon">
+  <rect width="1200" height="1200" fill="#E5E5E2"/>
+  <rect x="40" y="40" width="1120" height="1120" fill="none" stroke="#BFBFBA" stroke-width="2" stroke-dasharray="12 10"/>
+  <g fill="#8E8E8E" font-family="'Noto Sans JP', 'Inter', system-ui, sans-serif" text-anchor="middle">
+    <text x="600" y="585" font-size="72" font-weight="600" letter-spacing="2">Image Coming Soon</text>
+    <text x="600" y="660" font-size="32" font-weight="400" fill="#A8A8A4">placeholder · 1200 × 1200</text>
+  </g>
+</svg>

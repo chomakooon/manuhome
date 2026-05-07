@@ -50,7 +50,11 @@ export default function PortfolioModal({ item, isOpen, onClose, onNext, onPrev, 
                 </button>
 
                 <div className="portfolio-modal-image-container">
-                    <img src={item.image} alt={item.title} />
+                    <img
+                        src={item.image}
+                        alt={item.title}
+                        onError={(e) => console.warn(`[portfolio] image failed to load (id=${item.id}): ${e.currentTarget.src}`)}
+                    />
 
                     {hasPrev && (
                         <button
