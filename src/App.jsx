@@ -47,14 +47,14 @@ function AppRoutes() {
       <Routes>
         {/* ── Public Pages (kataribin) ── */}
         <Route path="/" element={<KataribinLayout><KataribinHomePage /></KataribinLayout>} />
-        <Route path="/services" element={<Layout><ServicesPage /></Layout>} />
+        <Route path="/services" element={<KataribinLayout><ServicesPage /></KataribinLayout>} />
         <Route path="/networking" element={<Layout><NetworkingPage /></Layout>} />
-        <Route path="/about" element={<Layout><AboutPage /></Layout>} />
-        <Route path="/portfolio" element={<Layout><PortfolioPage /></Layout>} />
-        <Route path="/portfolio/:subCategory" element={<Layout><PortfolioSubCategoryPage /></Layout>} />
-        <Route path="/links" element={<Layout><LinksPage /></Layout>} />
-        <Route path="/diagnostic" element={<Layout><DiagnosticPage /></Layout>} />
-        <Route path="/intake" element={<Layout hideStickyCTA><IntakePage /></Layout>} />
+        <Route path="/about" element={<KataribinLayout><AboutPage /></KataribinLayout>} />
+        <Route path="/portfolio" element={<KataribinLayout><PortfolioPage /></KataribinLayout>} />
+        <Route path="/portfolio/:subCategory" element={<KataribinLayout><PortfolioSubCategoryPage /></KataribinLayout>} />
+        <Route path="/links" element={<KataribinLayout><LinksPage /></KataribinLayout>} />
+        <Route path="/diagnostic" element={<KataribinLayout><DiagnosticPage /></KataribinLayout>} />
+        <Route path="/intake" element={<KataribinLayout><IntakePage /></KataribinLayout>} />
         <Route path="/thanks" element={<Layout hideStickyCTA><ThanksPage /></Layout>} />
 
         {/* ── Order Flow ── */}
