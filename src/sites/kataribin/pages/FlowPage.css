@@ -1,0 +1,162 @@
+/* ================================================================
+   Kataribin — FlowPage (Phase 3)
+   - 共通スタイルは ../styles/page-shared.css
+   ================================================================ */
+
+/* ── Step List ───────────────────────────────── */
+.kt-step-list {
+    list-style: none;
+    padding: 0;
+    margin: 3rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.kt-step-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.kt-step-card:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+}
+
+.kt-step-card--alt {
+    background-color: var(--brand-bg-subtle);
+    border-color: transparent;
+}
+
+.kt-step-card__head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.kt-step-card__num {
+    display: inline-block;
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 0.825rem;
+    color: var(--brand-primary);
+    letter-spacing: 0.18em;
+}
+
+.kt-step-card__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--brand-text);
+}
+
+.kt-step-card__desc {
+    font-size: 0.95rem;
+    line-height: 1.95;
+    color: var(--brand-text);
+    margin: 0 0 1.5rem 0;
+}
+
+.kt-step-card__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.7fr;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--brand-border);
+}
+
+.kt-step-card__col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kt-step-card__col-label {
+    font-family: var(--brand-font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    letter-spacing: 0.1em;
+}
+
+.kt-step-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.kt-step-card__list li {
+    position: relative;
+    padding: 0.25rem 0 0.25rem 1.2rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--brand-text);
+}
+
+.kt-step-card__list li::before {
+    content: '・';
+    position: absolute;
+    left: 0;
+    color: var(--brand-primary);
+    font-weight: 700;
+}
+
+.kt-step-card__duration {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--brand-text);
+    margin: 0;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .kt-step-card {
+        padding: 1.5rem;
+    }
+    .kt-step-card__cols {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* ── Delivery Formats ────────────────────────── */
+.kt-formats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.kt-format-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+}
+
+.kt-format-card__label {
+    display: block;
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--brand-primary);
+    margin-bottom: 0.4rem;
+}
+
+.kt-format-card__desc {
+    font-size: 0.875rem;
+    line-height: 1.8;
+    color: var(--brand-text-subtle);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .kt-formats {
+        grid-template-columns: 1fr;
+    }
+}

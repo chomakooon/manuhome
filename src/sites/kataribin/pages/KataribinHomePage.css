@@ -129,6 +129,10 @@
     display: block;
     width: 100%;
     height: auto;
+    /* /hero/kataribin-hero.jpg のアスペクト比に合わせる
+       実画像: 1942 × 809（≈ 12:5、約 2.4:1）
+       CLS 対策として表示領域を事前に予約する。画像差し替え時は要更新。 */
+    aspect-ratio: 1942 / 809;
     object-fit: contain;
     border-radius: 16px;
     background-color: var(--brand-bg);
@@ -179,7 +183,7 @@
 .kt-portfolio-card__img {
     width: 100%;
     aspect-ratio: 4 / 3;
-    background-color: var(--brand-bg);
+    background-color: var(--brand-bg-subtle);
     overflow: hidden;
 }
 
@@ -187,6 +191,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
 }
 

@@ -1,0 +1,250 @@
+/* ================================================================
+   Kataribin — Page Shared Utilities (Phase 3)
+   - body.theme-kataribin 配下で使用
+   - PricingPage / FlowPage / ContactPage 共通
+   - HomePage は独自の HomePage.css に同等定義を持つ（重複は無害）
+   ================================================================ */
+
+.kt-page {
+    width: 100%;
+}
+
+/* ── Page Hero (各サブページの控えめヒーロー) ─── */
+.kt-page-hero {
+    background-color: var(--brand-bg-subtle);
+    padding: 4rem 1.5rem 3rem;
+    text-align: center;
+    border-bottom: 1px solid var(--brand-border);
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kt-page-hero__inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.kt-page-hero__title {
+    font-family: var(--brand-font-display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0 0 0.75rem 0;
+    color: var(--brand-text);
+    letter-spacing: 0.02em;
+}
+
+.kt-page-hero__lead {
+    font-size: 1rem;
+    line-height: 1.95;
+    color: var(--brand-text-subtle);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .kt-page-hero {
+        padding: 3rem 1rem 2.25rem;
+        min-height: 20vh;
+    }
+    .kt-page-hero__title {
+        font-size: 1.6rem;
+    }
+}
+
+/* ── Buttons ─────────────────────────────────── */
+.kt-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-family: var(--brand-font-body);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: transform 150ms ease, box-shadow 150ms ease,
+        background-color 150ms ease, color 150ms ease,
+        border-color 150ms ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.kt-btn--primary {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+.kt-btn--primary:hover {
+    background-color: var(--brand-primary-dark);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 207, 255, 0.25);
+}
+
+.kt-btn--outline {
+    background-color: transparent;
+    color: var(--brand-text);
+    border-color: var(--brand-border);
+}
+.kt-btn--outline:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    transform: translateY(-1px);
+}
+
+.kt-btn--white {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+}
+.kt-btn--white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.kt-btn--lg {
+    padding: 1.05rem 2.4rem;
+    font-size: 1.05rem;
+}
+
+/* ── Section utilities ────────────────────────── */
+.kt-section {
+    padding: 6rem 1.5rem;
+    background-color: #FFFFFF;
+}
+
+.kt-section--alt {
+    background-color: var(--brand-bg-subtle);
+}
+
+.kt-section__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.kt-section__inner--narrow {
+    max-width: 720px;
+}
+
+.kt-section__title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    color: var(--brand-text);
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.kt-section__lead {
+    font-size: 1rem;
+    line-height: 1.95;
+    color: var(--brand-text-subtle);
+    margin: 0 auto 2.5rem;
+    text-align: center;
+    max-width: 640px;
+}
+
+.kt-section__cta {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .kt-section {
+        padding: 4rem 1rem;
+    }
+    .kt-section__title {
+        font-size: 1.55rem;
+    }
+}
+
+/* ── Big CTA ──────────────────────────────────── */
+.kt-bigcta {
+    background-color: var(--brand-primary);
+    padding: 5rem 1.5rem;
+    text-align: center;
+}
+
+.kt-bigcta__inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.kt-bigcta__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0 0 2rem 0;
+    color: #FFFFFF;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+    .kt-bigcta {
+        padding: 3.5rem 1rem;
+    }
+    .kt-bigcta__title {
+        font-size: 1.35rem;
+    }
+}
+
+/* ── FAQ (PricingPage / ContactPage で利用) ─── */
+.kt-faq {
+    margin: 0;
+}
+
+.kt-faq__item {
+    border-bottom: 1px solid var(--brand-border);
+    padding: 1.5rem 0;
+}
+
+.kt-faq__item:first-child {
+    border-top: 1px solid var(--brand-border);
+}
+
+.kt-faq__q {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--brand-text);
+    margin: 0 0 0.5rem 0;
+}
+
+.kt-faq__a {
+    font-size: 0.925rem;
+    line-height: 1.95;
+    color: var(--brand-text-subtle);
+    margin: 0;
+}
+
+/* ── Notes / lists ────────────────────────────── */
+.kt-notes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.kt-notes li {
+    position: relative;
+    padding: 0.625rem 0 0.625rem 1.5rem;
+    font-size: 0.925rem;
+    line-height: 1.85;
+    color: var(--brand-text);
+    border-bottom: 1px dashed var(--brand-border);
+}
+
+.kt-notes li:last-child {
+    border-bottom: none;
+}
+
+.kt-notes li::before {
+    content: '※';
+    position: absolute;
+    left: 0;
+    top: 0.625rem;
+    color: var(--brand-primary);
+    font-weight: 700;
+}

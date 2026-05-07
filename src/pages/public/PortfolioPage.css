@@ -88,7 +88,8 @@
 
 .portfolio-card__image {
     position: relative;
-    aspect-ratio: 1/1;
+    aspect-ratio: 4 / 3;
+    background-color: var(--brand-bg-subtle);
     overflow: hidden;
 }
 
@@ -96,6 +97,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     transition: transform 0.5s ease;
 }
 
@@ -206,6 +208,7 @@
 .portfolio-item__image {
     position: relative;
     border-radius: var(--radius-md);
+    background-color: var(--brand-bg-subtle);
     overflow: hidden;
     flex: 1;
 }
@@ -214,7 +217,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    aspect-ratio: 4/3;
+    object-position: center;
+    aspect-ratio: 4 / 3;
     display: block;
     transition: transform 0.5s ease;
 }
@@ -298,7 +302,8 @@
 
 .related-card__image {
     width: 100%;
-    aspect-ratio: 4/3;
+    aspect-ratio: 4 / 3;
+    background-color: var(--brand-bg-subtle);
     border-radius: var(--radius-sm);
     overflow: hidden;
     margin-bottom: var(--space-xs);
@@ -309,6 +314,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
     transition: transform var(--transition-base);
 }

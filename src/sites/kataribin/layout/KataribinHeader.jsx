@@ -15,12 +15,12 @@ import './KataribinHeader.css';
 
 const NAV_ITEMS = [
     { path: '/', label: 'ホーム', exact: true },
-    { path: '/#pricing', label: 'プラン', hash: true },
+    { path: '/pricing', label: 'プラン' },
     { path: '/portfolio', label: '制作事例' },
-    { path: '/#flow', label: '制作の流れ', hash: true },
+    { path: '/flow', label: '制作の流れ' },
     { path: '/diagnostic', label: 'ビジュアル診断' },
     { path: '/links', label: 'SNS・リンク' },
-    { path: '/intake', label: 'お問い合わせ' },
+    { path: '/contact', label: 'お問い合わせ' },
 ];
 
 export default function KataribinHeader() {

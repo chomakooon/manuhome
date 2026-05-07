@@ -46,7 +46,7 @@ function HeroSection() {
                 onError={onImgError('hero')}
             />
             <div className="kt-hero__cta">
-                <Link to="/intake" className="kt-btn kt-btn--primary kt-btn--lg">
+                <Link to="/contact" className="kt-btn kt-btn--primary kt-btn--lg">
                     相談する →
                 </Link>
             </div>
@@ -98,7 +98,7 @@ function PlansTeaserSection() {
                     詳細な料金表とよくあるご質問はこちらから。
                 </p>
                 <div className="kt-section__cta">
-                    <Link to="/#pricing" className="kt-btn kt-btn--primary">
+                    <Link to="/pricing" className="kt-btn kt-btn--primary">
                         料金プラン詳細 →
                     </Link>
                 </div>
@@ -122,7 +122,7 @@ function FlowTeaserSection() {
                     ))}
                 </ol>
                 <div className="kt-section__cta">
-                    <Link to="/#flow" className="kt-btn kt-btn--outline">
+                    <Link to="/flow" className="kt-btn kt-btn--outline">
                         詳しい制作の流れ →
                     </Link>
                 </div>
@@ -161,7 +161,7 @@ function BigCtaSection() {
                 <h2 className="kt-bigcta__title">
                     あなたの「伝えたい」を、<br />形にしませんか？
                 </h2>
-                <Link to="/intake" className="kt-btn kt-btn--white kt-btn--lg">
+                <Link to="/contact" className="kt-btn kt-btn--white kt-btn--lg">
                     相談する →
                 </Link>
             </div>

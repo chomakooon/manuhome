@@ -28,9 +28,12 @@ const PawsPressHomePage = lazy(() => import('./sites/pawspress/pages/PawsPressHo
 const PawsPressOrderPage = lazy(() => import('./sites/pawspress/pages/PawsPressOrderPage'));
 const PawsPressContactPage = lazy(() => import('./sites/pawspress/pages/PawsPressContactPage'));
 
-// ── Kataribin (Step 2-D) ──
+// ── Kataribin (Step 2-D / Phase 3) ──
 const KataribinLayout = lazy(() => import('./sites/kataribin/layout/KataribinLayout'));
 const KataribinHomePage = lazy(() => import('./sites/kataribin/pages/KataribinHomePage'));
+const PricingPage = lazy(() => import('./sites/kataribin/pages/PricingPage'));
+const FlowPage = lazy(() => import('./sites/kataribin/pages/FlowPage'));
+const ContactPage = lazy(() => import('./sites/kataribin/pages/ContactPage'));
 
 function RouteFallback() {
   return (
@@ -55,6 +58,9 @@ function AppRoutes() {
         <Route path="/links" element={<KataribinLayout><LinksPage /></KataribinLayout>} />
         <Route path="/diagnostic" element={<KataribinLayout><DiagnosticPage /></KataribinLayout>} />
         <Route path="/intake" element={<KataribinLayout><IntakePage /></KataribinLayout>} />
+        <Route path="/pricing" element={<KataribinLayout><PricingPage /></KataribinLayout>} />
+        <Route path="/flow" element={<KataribinLayout><FlowPage /></KataribinLayout>} />
+        <Route path="/contact" element={<KataribinLayout><ContactPage /></KataribinLayout>} />
         <Route path="/thanks" element={<Layout hideStickyCTA><ThanksPage /></Layout>} />
 
         {/* ── Order Flow ── */}

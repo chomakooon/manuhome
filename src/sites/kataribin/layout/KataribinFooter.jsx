@@ -10,12 +10,12 @@ import './KataribinFooter.css';
 
 const FOOTER_LINKS = [
     { to: '/', label: 'ホーム' },
-    { to: '/#pricing', label: 'プラン' },
+    { to: '/pricing', label: 'プラン' },
     { to: '/portfolio', label: '制作事例' },
-    { to: '/#flow', label: '制作の流れ' },
+    { to: '/flow', label: '制作の流れ' },
     { to: '/diagnostic', label: 'ビジュアル診断' },
     { to: '/links', label: 'SNS・リンク' },
-    { to: '/intake', label: 'お問い合わせ' },
+    { to: '/contact', label: 'お問い合わせ' },
 ];
 
 export default function KataribinFooter() {
