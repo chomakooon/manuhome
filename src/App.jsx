@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import { useBrandTheme } from './sites/useBrandTheme';
 
-const TopPage = lazy(() => import('./pages/public/TopPage'));
+// NOTE: TopPage は src/pages/public/TopPage.jsx に温存。/ は KataribinLayout + KataribinHomePage に置換済み（Step 2-D）
 const ServicesPage = lazy(() => import('./pages/public/ServicesPage'));
 // NOTE: PetPage は src/pages/public/PetPage.jsx に温存。/pet は PAWS PRESS LP に置き換え済み
 const NetworkingPage = lazy(() => import('./pages/public/NetworkingPage'));
@@ -28,6 +28,10 @@ const PawsPressHomePage = lazy(() => import('./sites/pawspress/pages/PawsPressHo
 const PawsPressOrderPage = lazy(() => import('./sites/pawspress/pages/PawsPressOrderPage'));
 const PawsPressContactPage = lazy(() => import('./sites/pawspress/pages/PawsPressContactPage'));
 
+// ── Kataribin (Step 2-D) ──
+const KataribinLayout = lazy(() => import('./sites/kataribin/layout/KataribinLayout'));
+const KataribinHomePage = lazy(() => import('./sites/kataribin/pages/KataribinHomePage'));
+
 function RouteFallback() {
   return (
     <div style={{ padding: '48px 20px', textAlign: 'center' }}>
@@ -42,7 +46,7 @@ function AppRoutes() {
     <Suspense fallback={<RouteFallback />}>
       <Routes>
         {/* ── Public Pages (kataribin) ── */}
-        <Route path="/" element={<Layout><TopPage /></Layout>} />
+        <Route path="/" element={<KataribinLayout><KataribinHomePage /></KataribinLayout>} />
         <Route path="/services" element={<Layout><ServicesPage /></Layout>} />
         <Route path="/networking" element={<Layout><NetworkingPage /></Layout>} />
         <Route path="/about" element={<Layout><AboutPage /></Layout>} />

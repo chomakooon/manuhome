@@ -1,0 +1,16 @@
+/* ================================================================
+   Kataribin Layout shell (Step 2-D)
+   ================================================================ */
+
+.kt-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--brand-bg);
+    color: var(--brand-text);
+    font-family: var(--brand-font-body);
+}
+
+.kt-main {
+    flex: 1;
+}

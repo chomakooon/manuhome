@@ -1,0 +1,109 @@
+/* ================================================================
+   Kataribin Footer (Step 2-D)
+   ================================================================ */
+
+.kt-footer {
+    background-color: var(--brand-bg-subtle);
+    border-top: 1px solid var(--brand-border);
+    padding: 4rem 1.5rem 2.5rem;
+}
+
+.kt-footer__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.kt-footer__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--brand-text);
+}
+
+.kt-footer__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--brand-border);
+    background-color: var(--brand-bg);
+    display: block;
+}
+
+.kt-footer__brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.kt-footer__name {
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.kt-footer__sub {
+    font-size: 0.7rem;
+    color: var(--brand-text-subtle);
+    margin-top: 0.15rem;
+}
+
+.kt-footer__nav {
+    display: flex;
+    gap: 1.5rem 1.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.kt-footer__link {
+    color: var(--brand-text-subtle);
+    text-decoration: none;
+    font-size: 0.825rem;
+    transition: color 150ms ease;
+}
+
+.kt-footer__link:hover {
+    color: var(--brand-primary);
+}
+
+.kt-footer__pp {
+    display: inline-flex;
+    align-items: center;
+    color: var(--brand-text);
+    background-color: var(--brand-bg);
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--brand-border);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.kt-footer__pp:hover {
+    border-color: #FFB6C1;
+    background-color: #FFF5F2;
+    color: var(--brand-text);
+}
+
+.kt-footer__copy {
+    color: var(--brand-text-subtle);
+    font-size: 0.75rem;
+    margin: 0.5rem 0 0 0;
+}
+
+@media (max-width: 480px) {
+    .kt-footer {
+        padding: 3rem 1rem 2rem;
+    }
+    .kt-footer__nav {
+        gap: 0.75rem 1.25rem;
+    }
+}

@@ -123,9 +123,13 @@ body.theme-kataribin {
   --brand-primary: #00CFFF;
   --brand-primary-dark: #00B1D9;
   --brand-accent: #5CE1FF;
+  --brand-accent-soft: #FFF5F2;
   --brand-text: #1A1A1A;
+  --brand-text-subtle: #5A5A5A;
   --brand-bg: #FAFAF8;
-  --brand-font-display: 'Noto Serif JP', Georgia, serif;
+  --brand-bg-subtle: #F5F5F2;
+  --brand-border: #E8E8E5;
+  --brand-font-display: 'Noto Sans JP', 'Inter', -apple-system, sans-serif;
   --brand-font-body: 'Noto Sans JP', 'Inter', -apple-system, sans-serif;
 }
 

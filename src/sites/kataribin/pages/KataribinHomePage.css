@@ -1,0 +1,465 @@
+/* ================================================================
+   Kataribin HomePage (Step 2-D)
+   - body.theme-kataribin 配下で使用
+   - セクション間の余白: 6rem (mobile 4rem)
+   ================================================================ */
+
+.kt-home {
+    width: 100%;
+}
+
+/* ── Buttons (kataribin local) ────────────────── */
+.kt-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-family: var(--brand-font-body);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: transform 150ms ease, box-shadow 150ms ease,
+        background-color 150ms ease, color 150ms ease,
+        border-color 150ms ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.kt-btn--primary {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+.kt-btn--primary:hover {
+    background-color: var(--brand-primary-dark);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 207, 255, 0.25);
+}
+
+.kt-btn--outline {
+    background-color: transparent;
+    color: var(--brand-text);
+    border-color: var(--brand-border);
+}
+.kt-btn--outline:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    transform: translateY(-1px);
+}
+
+.kt-btn--white {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+}
+.kt-btn--white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.kt-btn--lg {
+    padding: 1.05rem 2.4rem;
+    font-size: 1.05rem;
+}
+
+/* ── Section utilities ────────────────────────── */
+.kt-section {
+    padding: 6rem 1.5rem;
+    background-color: #FFFFFF;
+}
+
+.kt-section--alt {
+    background-color: var(--brand-bg-subtle);
+}
+
+.kt-section__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.kt-section__inner--narrow {
+    max-width: 720px;
+    text-align: center;
+}
+
+.kt-section__title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    color: var(--brand-text);
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.kt-section__lead {
+    font-size: 1rem;
+    line-height: 1.95;
+    color: var(--brand-text-subtle);
+    margin: 0 auto 2.5rem;
+    text-align: center;
+    max-width: 640px;
+}
+
+.kt-section__cta {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .kt-section {
+        padding: 4rem 1rem;
+    }
+    .kt-section__title {
+        font-size: 1.55rem;
+    }
+}
+
+/* ── 1. Hero ──────────────────────────────────── */
+.kt-hero {
+    background: linear-gradient(180deg, #FFFFFF 0%, var(--brand-accent-soft) 100%);
+    padding: 5rem 1.5rem;
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+}
+
+.kt-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.kt-hero__eyebrow {
+    display: inline-block;
+    color: var(--brand-primary);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.kt-hero__title {
+    font-family: var(--brand-font-display);
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.4;
+    margin: 0 0 1.25rem 0;
+    color: var(--brand-text);
+    letter-spacing: 0.01em;
+}
+
+.kt-hero__subtitle {
+    font-size: 1.1rem;
+    line-height: 1.95;
+    color: var(--brand-text-subtle);
+    margin: 0 0 2rem 0;
+}
+
+.kt-hero__chips {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+}
+
+.kt-hero__chips li {
+    background-color: rgba(0, 207, 255, 0.08);
+    color: var(--brand-text);
+    font-size: 0.825rem;
+    font-weight: 500;
+    padding: 0.4rem 0.875rem;
+    border-radius: 999px;
+}
+
+.kt-hero__visual {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.kt-hero__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .kt-hero {
+        padding: 3rem 1rem;
+        min-height: auto;
+    }
+    .kt-hero__inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .kt-hero__title {
+        font-size: 2rem;
+        line-height: 1.45;
+    }
+    .kt-hero__subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* ── 2. Strengths ──────────────────────────────── */
+.kt-strengths {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.kt-strength-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: transform 200ms ease, box-shadow 200ms ease,
+        border-color 200ms ease;
+}
+
+.kt-strength-card:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+.kt-strength-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background-color: rgba(0, 207, 255, 0.1);
+    color: var(--brand-primary);
+    border-radius: 14px;
+    margin-bottom: 1rem;
+}
+
+.kt-strength-card__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    color: var(--brand-text);
+}
+
+.kt-strength-card__desc {
+    font-size: 0.925rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .kt-strengths {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .kt-strength-card {
+        padding: 1.5rem;
+    }
+}
+
+/* ── 3. Portfolio teaser ──────────────────────── */
+.kt-portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 3rem;
+}
+
+.kt-portfolio-card {
+    text-decoration: none;
+    color: var(--brand-text);
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--brand-border);
+    transition: transform 200ms ease, box-shadow 200ms ease,
+        border-color 200ms ease;
+}
+
+.kt-portfolio-card:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.kt-portfolio-card__img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: var(--brand-bg);
+    overflow: hidden;
+}
+
+.kt-portfolio-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.kt-portfolio-card__caption {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.925rem;
+    font-weight: 600;
+    color: var(--brand-text);
+}
+
+@media (max-width: 768px) {
+    .kt-portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.875rem;
+    }
+    .kt-portfolio-card__caption {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.825rem;
+    }
+}
+
+/* ── 5. Flow ──────────────────────────────────── */
+.kt-flow {
+    list-style: none;
+    padding: 0;
+    margin: 3rem 0 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.kt-flow__step {
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.kt-flow__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+    border-radius: 50%;
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+}
+
+.kt-flow__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--brand-text);
+}
+
+.kt-flow__desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .kt-flow {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.875rem;
+    }
+}
+
+/* ── 6. PAWS PRESS cross-promo ────────────────── */
+.kt-pp-cross {
+    background-color: var(--brand-accent-soft);
+    padding: 5rem 1.5rem;
+}
+
+.kt-pp-cross__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.kt-pp-cross__logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+}
+
+.kt-pp-cross__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    color: var(--brand-text);
+}
+
+.kt-pp-cross__desc {
+    font-size: 1rem;
+    line-height: 1.95;
+    color: var(--brand-text-subtle);
+    margin: 0 0 2rem 0;
+}
+
+@media (max-width: 768px) {
+    .kt-pp-cross {
+        padding: 3.5rem 1rem;
+    }
+    .kt-pp-cross__title {
+        font-size: 1.4rem;
+    }
+}
+
+/* ── 7. Big CTA ───────────────────────────────── */
+.kt-bigcta {
+    background-color: var(--brand-primary);
+    padding: 5rem 1.5rem;
+    text-align: center;
+}
+
+.kt-bigcta__inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.kt-bigcta__title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 2rem 0;
+    color: #FFFFFF;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+    .kt-bigcta {
+        padding: 3.5rem 1rem;
+    }
+    .kt-bigcta__title {
+        font-size: 1.5rem;
+    }
+}
