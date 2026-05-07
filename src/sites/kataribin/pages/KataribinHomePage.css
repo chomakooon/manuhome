@@ -1,7 +1,8 @@
 /* ================================================================
-   Kataribin HomePage (Step 2-D)
+   Kataribin HomePage (Step 2-D / Phase B)
    - body.theme-kataribin 配下で使用
    - セクション間の余白: 6rem (mobile 4rem)
+   - Phase B: ヒーローを画像フルワイド化、強み3カラム削除
    ================================================================ */
 
 .kt-home {
@@ -117,164 +118,40 @@
     }
 }
 
-/* ── 1. Hero ──────────────────────────────────── */
+/* ── 1. Hero (Phase B: 画像フルワイド) ────────── */
 .kt-hero {
-    background: linear-gradient(180deg, #FFFFFF 0%, var(--brand-accent-soft) 100%);
-    padding: 5rem 1.5rem;
-    min-height: 78vh;
-    display: flex;
-    align-items: center;
-}
-
-.kt-hero__inner {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: 4rem;
-    align-items: center;
+    padding: 2rem 0;
 }
 
-.kt-hero__eyebrow {
-    display: inline-block;
-    color: var(--brand-primary);
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-}
-
-.kt-hero__title {
-    font-family: var(--brand-font-display);
-    font-size: 3rem;
-    font-weight: 800;
-    line-height: 1.4;
-    margin: 0 0 1.25rem 0;
-    color: var(--brand-text);
-    letter-spacing: 0.01em;
-}
-
-.kt-hero__subtitle {
-    font-size: 1.1rem;
-    line-height: 1.95;
-    color: var(--brand-text-subtle);
-    margin: 0 0 2rem 0;
-}
-
-.kt-hero__chips {
-    list-style: none;
-    padding: 0;
-    margin: 2rem 0 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.625rem;
-}
-
-.kt-hero__chips li {
-    background-color: rgba(0, 207, 255, 0.08);
-    color: var(--brand-text);
-    font-size: 0.825rem;
-    font-weight: 500;
-    padding: 0.4rem 0.875rem;
-    border-radius: 999px;
-}
-
-.kt-hero__visual {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 24px;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-}
-
-.kt-hero__visual img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.kt-hero__media {
     display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 16px;
+    background-color: var(--brand-bg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.kt-hero__cta {
+    margin-top: 2rem;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
     .kt-hero {
-        padding: 3rem 1rem;
-        min-height: auto;
+        padding: 1rem 0;
     }
-    .kt-hero__inner {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-    }
-    .kt-hero__title {
-        font-size: 2rem;
-        line-height: 1.45;
-    }
-    .kt-hero__subtitle {
-        font-size: 1rem;
+    .kt-hero__cta {
+        margin-top: 1.25rem;
     }
 }
 
-/* ── 2. Strengths ──────────────────────────────── */
-.kt-strengths {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 3rem;
-}
+/* (Strengths セクションは Phase B で削除済み — 関連 CSS も全削除) */
 
-.kt-strength-card {
-    background-color: #FFFFFF;
-    border: 1px solid var(--brand-border);
-    border-radius: 16px;
-    padding: 2rem;
-    transition: transform 200ms ease, box-shadow 200ms ease,
-        border-color 200ms ease;
-}
-
-.kt-strength-card:hover {
-    border-color: var(--brand-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-}
-
-.kt-strength-card__icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    background-color: rgba(0, 207, 255, 0.1);
-    color: var(--brand-primary);
-    border-radius: 14px;
-    margin-bottom: 1rem;
-}
-
-.kt-strength-card__title {
-    font-family: var(--brand-font-display);
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin: 0 0 0.75rem 0;
-    color: var(--brand-text);
-}
-
-.kt-strength-card__desc {
-    font-size: 0.925rem;
-    line-height: 1.85;
-    color: var(--brand-text-subtle);
-    margin: 0;
-}
-
-@media (max-width: 768px) {
-    .kt-strengths {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    .kt-strength-card {
-        padding: 1.5rem;
-    }
-}
-
-/* ── 3. Portfolio teaser ──────────────────────── */
+/* ── Portfolio teaser ─────────────────────────── */
 .kt-portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -331,7 +208,7 @@
     }
 }
 
-/* ── 5. Flow ──────────────────────────────────── */
+/* ── Flow ─────────────────────────────────────── */
 .kt-flow {
     list-style: none;
     padding: 0;
@@ -386,7 +263,7 @@
     }
 }
 
-/* ── 6. PAWS PRESS cross-promo ────────────────── */
+/* ── PAWS PRESS cross-promo ───────────────────── */
 .kt-pp-cross {
     background-color: var(--brand-accent-soft);
     padding: 5rem 1.5rem;
@@ -433,7 +310,7 @@
     }
 }
 
-/* ── 7. Big CTA ───────────────────────────────── */
+/* ── Big CTA ──────────────────────────────────── */
 .kt-bigcta {
     background-color: var(--brand-primary);
     padding: 5rem 1.5rem;

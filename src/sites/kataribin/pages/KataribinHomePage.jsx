@@ -1,43 +1,26 @@
 /**
  * @file src/sites/kataribin/pages/KataribinHomePage.jsx
  *
- * カタチ便（メイン HP）の新ホームページ。Step 2-D 全面再構成。
+ * カタチ便（メイン HP）のホームページ。
+ * Phase B: ヒーロー画像フルワイド対応 + 強み3カラム削除
+ *   （画像内に「漫画・キャラ・リアル」紹介および主要メッセージが既に含まれているため重複を排除）。
+ *
  * セクション構成:
- *   1. Hero
- *   2. 強み紹介 (3 カラム)
- *   3. 制作事例ティザー (代表6件)
- *   4. プラン紹介ティザー  (id="pricing")
- *   5. 制作の流れティザー  (id="flow")
- *   6. PAWS PRESS への誘導
- *   7. 大型 CTA
+ *   1. Hero (画像フルワイド + CTA のみ)
+ *   2. 制作事例ティザー (代表6件)
+ *   3. プラン紹介ティザー  (id="pricing")
+ *   4. 制作の流れティザー  (id="flow")
+ *   5. PAWS PRESS への誘導
+ *   6. 大型 CTA
  */
 
 import { useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, PenTool, Camera } from 'lucide-react';
 import { portfolioItems } from '../../../data/portfolioData';
 import './KataribinHomePage.css';
 
 const HERO_IMAGE = '/hero/kataribin-hero.jpg';
 const PAWSPRESS_LOGO = '/hero/pawspress-logo.jpg';
-
-const STRENGTHS = [
-    {
-        icon: BookOpen,
-        title: '漫画制作',
-        desc: '4コマ漫画から1ページ漫画、LP漫画まで。企業の伝えたいを物語のかたちに。',
-    },
-    {
-        icon: PenTool,
-        title: 'キャラクターデザイン',
-        desc: '公式マスコットやチャンネル用キャラクターを、親しみやすさとブランド力で。',
-    },
-    {
-        icon: Camera,
-        title: 'リアル・ペットイラスト',
-        desc: '写真の温かみを残した似顔絵から、企業ポートレートまで幅広く対応します。',
-    },
-];
 
 const FLOW_STEPS = [
     { num: 1, title: 'お問い合わせ', desc: 'ご相談・ヒアリング' },
@@ -55,56 +38,17 @@ const onImgError = (label) => (e) => {
 function HeroSection() {
     return (
         <section className="kt-hero">
-            <div className="kt-hero__inner">
-                <div className="kt-hero__text">
-                    <span className="kt-hero__eyebrow">Illustration for your story</span>
-                    <h1 className="kt-hero__title">
-                        伝えたいを、<br />イラストで一瞬に。
-                    </h1>
-                    <p className="kt-hero__subtitle">
-                        漫画・キャラ・リアルまで「伝わるビジュアル」を設計します。
-                    </p>
-                    <Link to="/intake" className="kt-btn kt-btn--primary kt-btn--lg">
-                        相談する →
-                    </Link>
-                    <ul className="kt-hero__chips">
-                        <li>✓ マンガ・アニメタッチ対応</li>
-                        <li>✓ 寄せ・テイスト調整 OK</li>
-                        <li>✓ 平日対応（急ぎは土日可）</li>
-                    </ul>
-                </div>
-                <div className="kt-hero__visual">
-                    <img
-                        src={HERO_IMAGE}
-                        alt="カタチ便ヒーロービジュアル"
-                        loading="eager"
-                        onError={onImgError('hero')}
-                    />
-                </div>
-            </div>
-        </section>
-    );
-}
-
-function StrengthsSection() {
-    return (
-        <section className="kt-section">
-            <div className="kt-section__inner">
-                <h2 className="kt-section__title">カタチ便ができること</h2>
-                <div className="kt-strengths">
-                    {STRENGTHS.map((s) => {
-                        const Icon = s.icon;
-                        return (
-                            <article key={s.title} className="kt-strength-card">
-                                <div className="kt-strength-card__icon" aria-hidden="true">
-                                    <Icon size={28} strokeWidth={1.5} />
-                                </div>
-                                <h3 className="kt-strength-card__title">{s.title}</h3>
-                                <p className="kt-strength-card__desc">{s.desc}</p>
-                            </article>
-                        );
-                    })}
-                </div>
+            <img
+                src={HERO_IMAGE}
+                alt="カタチ便 — Illustration for your story / 岡崎真奈 / 漫画・キャラ・リアル幅広く制作いたします"
+                className="kt-hero__media"
+                loading="eager"
+                onError={onImgError('hero')}
+            />
+            <div className="kt-hero__cta">
+                <Link to="/intake" className="kt-btn kt-btn--primary kt-btn--lg">
+                    相談する →
+                </Link>
             </div>
         </section>
     );
@@ -252,7 +196,6 @@ export default function KataribinHomePage() {
     return (
         <div className="kt-home">
             <HeroSection />
-            <StrengthsSection />
             <PortfolioTeaserSection items={teaserItems} />
             <PlansTeaserSection />
             <FlowTeaserSection />
