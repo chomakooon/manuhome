@@ -5,11 +5,18 @@
  * 気軽な相談窓口（シンプルな1画面フォーム + 任意の参考画像アップロード）。
  * 正式な多段階注文フォームは /intake に温存（誘導リンクあり）。
  *
+ * Phase 7:
+ *   - SNS URL を src/config/social.config.js に外出し
+ *   - フォーム送信ボタン直下に /intake 誘導リンクを追加（既存 SNS 下も維持）
+ *   - /contact?plan=<id> でプラン情報をテキストエリアに自動転記
+ *
  * 送信は console.log のモック。Cloudflare Worker 連携は次フェーズ。
  */
 
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { pricingPlans } from '../../../config/pricing.config';
+import { SNS_LINKS } from '../../../config/social.config';
 import '../styles/page-shared.css';
 import './ContactPage.css';
 
@@ -28,11 +35,27 @@ const SHORT_FAQ = [
     },
 ];
 
-const SNS_LINKS = [
-    { label: 'X (Twitter)', url: 'https://twitter.com/' },
-    { label: 'Instagram', url: 'https://instagram.com/' },
-    { label: 'Threads', url: 'https://threads.net/' },
+/** SNS の表示順とラベル（URL は SNS_LINKS から引く） */
+const SNS_DISPLAY = [
+    { key: 'x', label: 'X (Twitter)' },
+    { key: 'instagram', label: 'Instagram' },
+    { key: 'threads', label: 'Threads' },
 ];
+
+/** プラン情報からフォーム本文のプリセット文字列を組み立てる */
+const buildPrefilledMessage = (plan) => {
+    const priceText =
+        plan.priceLabel + (plan.priceUnit ? ` ／${plan.priceUnit}` : '');
+    return [
+        '以下のプランについて相談させてください。',
+        `プラン: ${plan.name}`,
+        `価格: ${priceText}`,
+        '',
+        '【ご質問・ご要望】',
+        '',
+        '',
+    ].join('\n');
+};
 
 const ALLOWED_MIMES = new Set([
     'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/heic', 'image/heif',
@@ -134,11 +157,19 @@ export default function ContactPage() {
     const [searchParams] = useSearchParams();
     const planId = searchParams.get('plan');
 
+    // 不正な plan id は null に解決される（警告は出さず単に空欄で開始）
+    const prefilledPlan = useMemo(
+        () => (planId ? pricingPlans.find((p) => p.id === planId) ?? null : null),
+        [planId]
+    );
+
     const [submitted, setSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
-    const [data, setData] = useState({
-        name: '', email: '', message: '',
-    });
+    const [data, setData] = useState(() => ({
+        name: '',
+        email: '',
+        message: prefilledPlan ? buildPrefilledMessage(prefilledPlan) : '',
+    }));
     const [photos, setPhotos] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
     const inputRef = useRef(null);
@@ -236,9 +267,11 @@ export default function ContactPage() {
             <section className="kt-section kt-section--alt">
                 <div className="kt-section__inner kt-section__inner--narrow">
                     <h2 className="kt-section__title">ご相談フォーム</h2>
-                    {planId && (
+                    {prefilledPlan && (
                         <p className="kt-contact-plan-hint">
-                            選択中のプラン: <code>{planId}</code>
+                            選択中のプラン:{' '}
+                            <strong>{prefilledPlan.name}</strong>
+                            （{prefilledPlan.priceLabel}{prefilledPlan.priceUnit ? ` ／${prefilledPlan.priceUnit}` : ''}）
                         </p>
                     )}
                     <form className="kt-contact-form" onSubmit={handleSubmit} noValidate>
@@ -263,9 +296,14 @@ export default function ContactPage() {
                         </Field>
 
                         <Field label="ご相談内容" required error={errors.message}>
+                            {prefilledPlan && (
+                                <p className="kt-contact-prefill-note">
+                                    ※ 内容を編集してから送信してください
+                                </p>
+                            )}
                             <textarea
                                 className="kt-form-input kt-form-input--textarea"
-                                rows={6}
+                                rows={prefilledPlan ? 9 : 6}
                                 value={data.message}
                                 onChange={update('message')}
                                 placeholder="制作のご要望・参考イメージ・予算感などお聞かせください"
@@ -351,6 +389,10 @@ export default function ContactPage() {
                                 送信する →
                             </button>
                         </div>
+                        <p className="kt-contact-form__intake-hint">
+                            より詳細な内容で正式注文される方は
+                            <Link to="/intake">こちら →</Link>
+                        </p>
                     </form>
                 </div>
             </section>
@@ -359,18 +401,22 @@ export default function ContactPage() {
                 <div className="kt-section__inner kt-section__inner--narrow">
                     <h2 className="kt-section__title">SNS でも受け付けています</h2>
                     <ul className="kt-sns-list">
-                        {SNS_LINKS.map((s) => (
-                            <li key={s.label}>
-                                <a
-                                    href={s.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="kt-sns-list__link"
-                                >
-                                    {s.label} ↗
-                                </a>
-                            </li>
-                        ))}
+                        {SNS_DISPLAY.map((s) => {
+                            const url = SNS_LINKS[s.key];
+                            if (!url) return null;
+                            return (
+                                <li key={s.key}>
+                                    <a
+                                        href={url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="kt-sns-list__link"
+                                    >
+                                        {s.label} ↗
+                                    </a>
+                                </li>
+                            );
+                        })}
                     </ul>
                     <div className="kt-contact-intake">
                         <p className="kt-contact-intake__lead">

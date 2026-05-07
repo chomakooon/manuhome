@@ -2,21 +2,22 @@
  * @file src/sites/kataribin/pages/KataribinHomePage.jsx
  *
  * カタチ便（メイン HP）のホームページ。
- * Phase B: ヒーロー画像フルワイド対応 + 強み3カラム削除
- *   （画像内に「漫画・キャラ・リアル」紹介および主要メッセージが既に含まれているため重複を排除）。
+ * Phase 6: アンカー id（#pricing / #flow）を除去。/pricing / /flow 独立ページが
+ *          一次的な遷移先となったため、ホーム内アンカー誘導は廃止。
  *
  * セクション構成:
  *   1. Hero (画像フルワイド + CTA のみ)
  *   2. 制作事例ティザー (代表6件)
- *   3. プラン紹介ティザー  (id="pricing")
- *   4. 制作の流れティザー  (id="flow")
+ *   3. プラン紹介ティザー  → /pricing 直行
+ *   4. 制作の流れティザー  → /flow 直行
  *   5. PAWS PRESS への誘導
  *   6. 大型 CTA
  */
 
-import { useEffect, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { portfolioItems } from '../../../data/portfolioData';
+import '../styles/page-shared.css';
 import './KataribinHomePage.css';
 
 const HERO_IMAGE = '/hero/kataribin-hero.jpg';
@@ -90,7 +91,7 @@ function PortfolioTeaserSection({ items }) {
 
 function PlansTeaserSection() {
     return (
-        <section className="kt-section" id="pricing">
+        <section className="kt-section">
             <div className="kt-section__inner kt-section__inner--narrow">
                 <h2 className="kt-section__title">ご相談ベースで柔軟に対応</h2>
                 <p className="kt-section__lead">
@@ -109,7 +110,7 @@ function PlansTeaserSection() {
 
 function FlowTeaserSection() {
     return (
-        <section className="kt-section kt-section--alt" id="flow">
+        <section className="kt-section kt-section--alt">
             <div className="kt-section__inner">
                 <h2 className="kt-section__title">ご相談から納品まで</h2>
                 <ol className="kt-flow">
@@ -172,26 +173,11 @@ function BigCtaSection() {
 // ── Main ──────────────────────────────────────
 
 export default function KataribinHomePage() {
-    const location = useLocation();
-
     // 代表作6件: isMain かつ shop（商品）以外
     const teaserItems = useMemo(
         () => portfolioItems.filter((i) => i.isMain && i.category !== 'shop').slice(0, 6),
         []
     );
-
-    useEffect(() => {
-        if (!location.hash) return;
-        const id = location.hash.slice(1);
-        const el = document.getElementById(id);
-        if (el) {
-            const t = setTimeout(
-                () => el.scrollIntoView({ behavior: 'smooth', block: 'start' }),
-                80
-            );
-            return () => clearTimeout(t);
-        }
-    }, [location.hash, location.key]);
 
     return (
         <div className="kt-home">

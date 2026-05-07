@@ -96,6 +96,37 @@
     text-align: center;
 }
 
+/* Phase 7: フォーム送信ボタン直下の正式注文 fallback リンク */
+.kt-contact-form__intake-hint {
+    margin: 0.75rem 0 0 0;
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle);
+}
+
+.kt-contact-form__intake-hint a {
+    color: var(--brand-primary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 0.15rem;
+}
+
+.kt-contact-form__intake-hint a:hover {
+    text-decoration: underline;
+}
+
+/* Phase 7: プラン情報がプリセットされた際の編集促し注記 */
+.kt-contact-prefill-note {
+    margin: 0 0 0.5rem 0;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    background-color: var(--brand-accent-soft);
+    color: var(--brand-text);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
 @media (max-width: 768px) {
     .kt-contact-form {
         padding: 1.5rem;

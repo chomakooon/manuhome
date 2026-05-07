@@ -1,8 +1,9 @@
 /* ================================================================
-   Kataribin — Page Shared Utilities (Phase 3)
+   Kataribin — Page Shared Utilities (Phase 3 / Phase 6 で重複解消)
    - body.theme-kataribin 配下で使用
-   - PricingPage / FlowPage / ContactPage 共通
-   - HomePage は独自の HomePage.css に同等定義を持つ（重複は無害）
+   - HomePage / PricingPage / FlowPage / ContactPage 共通
+   - HomePage 固有の override は KataribinHomePage.css に残置
+     （例: .kt-bigcta__title の大きめサイズ）
    ================================================================ */
 
 .kt-page {

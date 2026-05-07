@@ -1,7 +1,9 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/layout/Layout';
 import { useBrandTheme } from './sites/useBrandTheme';
+// NOTE: 旧 Layout / Header / Footer / StickyCTA は src/components/layout/ に温存。
+// Phase 5 ですべてのルートが KataribinLayout / PawsPressLayout / AdminLayout に移行済み。
+// 万が一の参照用に物理ファイルは残置（次フェーズで削除可能）。
 
 // NOTE: TopPage は src/pages/public/TopPage.jsx に温存。/ は KataribinLayout + KataribinHomePage に置換済み（Step 2-D）
 const ServicesPage = lazy(() => import('./pages/public/ServicesPage'));
@@ -51,7 +53,7 @@ function AppRoutes() {
         {/* ── Public Pages (kataribin) ── */}
         <Route path="/" element={<KataribinLayout><KataribinHomePage /></KataribinLayout>} />
         <Route path="/services" element={<KataribinLayout><ServicesPage /></KataribinLayout>} />
-        <Route path="/networking" element={<Layout><NetworkingPage /></Layout>} />
+        <Route path="/networking" element={<KataribinLayout><NetworkingPage /></KataribinLayout>} />
         <Route path="/about" element={<KataribinLayout><AboutPage /></KataribinLayout>} />
         <Route path="/portfolio" element={<KataribinLayout><PortfolioPage /></KataribinLayout>} />
         <Route path="/portfolio/:subCategory" element={<KataribinLayout><PortfolioSubCategoryPage /></KataribinLayout>} />
@@ -61,12 +63,12 @@ function AppRoutes() {
         <Route path="/pricing" element={<KataribinLayout><PricingPage /></KataribinLayout>} />
         <Route path="/flow" element={<KataribinLayout><FlowPage /></KataribinLayout>} />
         <Route path="/contact" element={<KataribinLayout><ContactPage /></KataribinLayout>} />
-        <Route path="/thanks" element={<Layout hideStickyCTA><ThanksPage /></Layout>} />
+        <Route path="/thanks" element={<KataribinLayout><ThanksPage /></KataribinLayout>} />
 
         {/* ── Order Flow ── */}
-        <Route path="/order" element={<Layout hideStickyCTA><OrderPage /></Layout>} />
-        <Route path="/order/flow/:templateId" element={<Layout hideStickyCTA><OrderFlowPage /></Layout>} />
-        <Route path="/order/success" element={<Layout hideStickyCTA><OrderSuccessPage /></Layout>} />
+        <Route path="/order" element={<KataribinLayout><OrderPage /></KataribinLayout>} />
+        <Route path="/order/flow/:templateId" element={<KataribinLayout><OrderFlowPage /></KataribinLayout>} />
+        <Route path="/order/success" element={<KataribinLayout><OrderSuccessPage /></KataribinLayout>} />
 
         {/* ── PAWS PRESS (Step 2-B / 2-C) ── */}
         <Route path="/pet" element={<PawsPressLayout><PawsPressHomePage /></PawsPressLayout>} />
