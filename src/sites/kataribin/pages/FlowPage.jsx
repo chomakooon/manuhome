@@ -5,8 +5,14 @@
  */
 
 import { Link } from 'react-router-dom';
+import Breadcrumb from '../components/Breadcrumb';
 import '../styles/page-shared.css';
 import './FlowPage.css';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: '制作の流れ', to: null },
+];
 
 const STEPS = [
     {
@@ -193,6 +199,7 @@ function BigCtaSection() {
 export default function FlowPage() {
     return (
         <div className="kt-page">
+            <Breadcrumb items={BREADCRUMB} />
             <PageHero />
             <StepsSection />
             <RevisionSection />

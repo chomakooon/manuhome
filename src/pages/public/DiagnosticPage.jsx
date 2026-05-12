@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, RefreshCw, BarChart, Users, BookOpen, Send, CheckCircle } from 'lucide-react';
 import Icon from '../../components/common/Icon';
+import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
 import './DiagnosticPage.css';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: 'ビジュアル診断', to: null },
+];
 
 const QUIZ_STEPS = [
   {
@@ -111,6 +117,7 @@ export default function DiagnosticPage() {
 
   return (
     <div className="diagnostic-page">
+      <Breadcrumb items={BREADCRUMB} />
       {/* Hero Section */}
       <section className="diagnostic-hero">
         <div className="container">

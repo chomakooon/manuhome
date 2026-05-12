@@ -1,6 +1,12 @@
 import Card from '../../components/ui/Card';
 import { Instagram, Twitter, NotebookText, MessageCircle, Mail } from 'lucide-react';
+import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
 import './LinksPage.css';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: 'SNS・リンク', to: null },
+];
 
 export default function LinksPage() {
     const links = [
@@ -13,6 +19,7 @@ export default function LinksPage() {
 
     return (
         <div className="links-page">
+            <Breadcrumb items={BREADCRUMB} />
             <section className="links-hero section">
                 <div className="container">
                     <p className="links-hero__badge">Links</p>

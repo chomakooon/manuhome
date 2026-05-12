@@ -1,0 +1,292 @@
+/* ================================================================
+   KataribinAboutPage (Phase 12 / Credibility)
+   - 共通スタイルは ../styles/page-shared.css
+   ================================================================ */
+
+.kt-about {
+    width: 100%;
+}
+
+/* ── Hero (2 カラム: 写真 + テキスト) ──────────── */
+.kt-about-hero {
+    background-color: var(--brand-bg-subtle);
+    padding: 4rem 1.5rem;
+}
+
+.kt-about-hero__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(240px, 400px) 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.kt-about-hero__photo {
+    display: flex;
+    justify-content: center;
+}
+
+.kt-about-hero__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kt-about-hero__eyebrow {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--brand-primary);
+    text-transform: uppercase;
+}
+
+.kt-about-hero__tagline {
+    font-family: var(--brand-font-display);
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.4;
+    color: var(--brand-text);
+    margin: 0 0 1rem 0;
+    letter-spacing: 0.02em;
+}
+
+.kt-about-hero__name {
+    margin: 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.kt-about-hero__name-en {
+    margin-left: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--brand-text-subtle);
+    letter-spacing: 0.05em;
+}
+
+.kt-about-hero__title {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--brand-text);
+}
+
+.kt-about-hero__career {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--brand-text-subtle);
+}
+
+@media (max-width: 768px) {
+    .kt-about-hero {
+        padding: 2.5rem 1rem;
+    }
+    .kt-about-hero__inner {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+        text-align: center;
+    }
+    .kt-about-hero__body {
+        align-items: center;
+    }
+    .kt-about-hero__tagline {
+        font-size: 1.75rem;
+    }
+}
+
+/* ── Section base ──────────────────────────────── */
+.kt-about-section {
+    padding: 4.5rem 1.5rem;
+    background-color: #FFFFFF;
+}
+
+.kt-about-section--alt {
+    background-color: var(--brand-bg-subtle);
+}
+
+.kt-about-section__inner {
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.kt-about-section__inner--narrow {
+    max-width: 640px;
+}
+
+.kt-about-section__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--brand-text);
+    margin: 0 0 2rem 0;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.kt-about-section__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.kt-about-paragraph {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 2;
+    color: var(--brand-text);
+}
+
+.kt-about-paragraph--story {
+    border-left: 3px solid var(--brand-primary);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+    .kt-about-section {
+        padding: 3rem 1rem;
+    }
+    .kt-about-section__title {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+    }
+    .kt-about-paragraph {
+        font-size: 0.95rem;
+        line-height: 1.95;
+    }
+}
+
+/* ── Values (3 つのこだわり) ──────────────────── */
+.kt-about-values {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.kt-about-value-card {
+    background-color: var(--brand-bg-subtle);
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.kt-about-value-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--brand-accent-soft);
+    color: var(--brand-primary);
+    margin-bottom: 1rem;
+}
+
+.kt-about-value-card__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--brand-text);
+    margin: 0 0 0.5rem 0;
+}
+
+.kt-about-value-card__desc {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle);
+}
+
+@media (max-width: 768px) {
+    .kt-about-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Style block (制作スタイル) ────────────────── */
+.kt-about-style-block + .kt-about-style-block {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--brand-border);
+}
+
+.kt-about-style-block__heading {
+    font-family: var(--brand-font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--brand-primary);
+    text-transform: uppercase;
+    margin: 0 0 0.75rem 0;
+}
+
+.kt-about-tools {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.kt-about-tool {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.95rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--brand-text);
+}
+
+.kt-about-schedule {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kt-about-schedule__item {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid var(--brand-border);
+    align-items: baseline;
+}
+
+.kt-about-schedule__time {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    color: var(--brand-primary);
+    font-size: 0.9rem;
+}
+
+.kt-about-schedule__task {
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: var(--brand-text);
+}
+
+@media (max-width: 540px) {
+    .kt-about-schedule__item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+}

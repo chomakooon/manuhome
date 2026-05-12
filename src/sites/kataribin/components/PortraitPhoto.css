@@ -1,0 +1,66 @@
+/* ================================================================
+   PortraitPhoto (Phase 12 / Credibility)
+   - 円形 / 角丸 + イニシャルフォールバック
+   ================================================================ */
+
+.kt-portrait {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--brand-accent-soft);
+    color: var(--brand-primary);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+}
+
+.kt-portrait--circle {
+    border-radius: 50%;
+}
+
+.kt-portrait--rounded {
+    border-radius: 24px;
+}
+
+.kt-portrait--sm {
+    width: 96px;
+}
+
+.kt-portrait--md {
+    width: 200px;
+}
+
+.kt-portrait--lg {
+    width: 100%;
+    max-width: 400px;
+}
+
+.kt-portrait__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.kt-portrait__initials {
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    color: var(--brand-primary);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    user-select: none;
+}
+
+.kt-portrait--sm .kt-portrait__initials {
+    font-size: 2rem;
+}
+
+.kt-portrait--md .kt-portrait__initials {
+    font-size: 3.5rem;
+}
+
+.kt-portrait--lg .kt-portrait__initials {
+    font-size: 6rem;
+}

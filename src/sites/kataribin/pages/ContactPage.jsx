@@ -17,8 +17,14 @@ import { useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { pricingPlans } from '../../../config/pricing.config';
 import { SNS_LINKS } from '../../../config/social.config';
+import Breadcrumb from '../components/Breadcrumb';
 import '../styles/page-shared.css';
 import './ContactPage.css';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: 'お問い合わせ', to: null },
+];
 
 const SHORT_FAQ = [
     {
@@ -261,6 +267,7 @@ export default function ContactPage() {
 
     return (
         <div className="kt-page">
+            <Breadcrumb items={BREADCRUMB} />
             <PageHero />
             <ShortFaqSection />
 

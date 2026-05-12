@@ -8,11 +8,14 @@ import { Link } from 'react-router-dom';
 import doveLogo from '../../../assets/pixel_art_dove.png';
 import './KataribinFooter.css';
 
+// Phase 12.5: フッターは情報過多 OK の方針で 8 項目化。
+// 「カタチ便について」を追加し、補助機能の「ビジュアル診断」も併記する。
 const FOOTER_LINKS = [
     { to: '/', label: 'ホーム' },
     { to: '/pricing', label: 'プラン' },
     { to: '/portfolio', label: '制作事例' },
     { to: '/flow', label: '制作の流れ' },
+    { to: '/about', label: 'カタチ便について' },
     { to: '/diagnostic', label: 'ビジュアル診断' },
     { to: '/links', label: 'SNS・リンク' },
     { to: '/contact', label: 'お問い合わせ' },

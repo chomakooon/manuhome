@@ -1,11 +1,18 @@
 import React from 'react';
 import { Target, Users, Zap, MessageCircle, Palette, Layout, BarChart3, Smartphone, ArrowRight, Briefcase, Calendar } from 'lucide-react';
+import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
 import './AboutPage.css';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: 'カタチ便について', to: null },
+];
 
 export default function AboutPage() {
     return (
         <div className="about-page-wrapper">
-            
+            <Breadcrumb items={BREADCRUMB} />
+
             {/* --- HERO: Creator Introduction --- */}
             <section className="creator-info-section" aria-label="クリエイター紹介">
                 <div className="creator-info-container">

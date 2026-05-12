@@ -103,12 +103,36 @@
     display: none;
 }
 
-/* ── Actions (PAWS PRESS link) ──────────────── */
+/* ── Actions (search + PAWS PRESS link) ──────── */
 .kt-header__actions {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     margin-left: 1rem;
     flex-shrink: 0;
+}
+
+/* Phase 11: Findability — header search icon */
+.kt-header__search {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background-color: var(--brand-bg-subtle);
+    color: var(--brand-text);
+    border: 1px solid var(--brand-border);
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease,
+        border-color 150ms ease, transform 150ms ease;
+}
+
+.kt-header__search:hover {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    transform: translateY(-1px);
 }
 
 .kt-pawspress-link {
@@ -167,7 +191,13 @@
 
 /* ── Mobile breakpoint (<= 1024px) ───────────── */
 @media (max-width: 1024px) {
+    /* Phase 11: 検索ボタンはモバイルでも残し、PAWS PRESS リンクのみ隠す
+       （PAWS PRESS はハンバーガーメニュー内に重複表示があるため） */
     .kt-header__actions {
+        margin-left: auto;
+        gap: 0.4rem;
+    }
+    .kt-header__actions .kt-pawspress-link {
         display: none;
     }
 

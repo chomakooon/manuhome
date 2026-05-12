@@ -5,10 +5,17 @@ import studioGreetingImg from '../../assets/studio_greeting.png';
 import orderFlowManga from '../../assets/order_flow_manga.png';
 import pixelDove from '../../assets/pixel_art_dove.png';
 import Icon from '../../components/common/Icon';
+import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: 'サービス案内', to: null },
+];
 
 export default function ServicesPage() {
     return (
         <div className="kb-newspaper-page">
+            <Breadcrumb items={BREADCRUMB} />
             {/* --- Top Utility Bar --- */}
             <div className="kb-news-top-bar">
                 <span className="kb-news-vol">第000027号</span>

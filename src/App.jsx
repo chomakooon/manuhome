@@ -9,7 +9,9 @@ import { useBrandTheme } from './sites/useBrandTheme';
 const ServicesPage = lazy(() => import('./pages/public/ServicesPage'));
 // NOTE: PetPage は src/pages/public/PetPage.jsx に温存。/pet は PAWS PRESS LP に置き換え済み
 const NetworkingPage = lazy(() => import('./pages/public/NetworkingPage'));
-const AboutPage = lazy(() => import('./pages/public/AboutPage'));
+// NOTE: 旧 AboutPage（新聞風） は src/pages/public/AboutPage.jsx に温存。
+// Phase 12 でプロフィール強化版 KataribinAboutPage に差し替え済み。
+// 物理ファイルを残しているのは、必要時に App.jsx のルートを差し戻すだけで復元できるようにするため。
 const LinksPage = lazy(() => import('./pages/public/LinksPage'));
 const IntakePage = lazy(() => import('./pages/public/IntakePage'));
 const DiagnosticPage = lazy(() => import('./pages/public/DiagnosticPage'));
@@ -30,9 +32,10 @@ const PawsPressHomePage = lazy(() => import('./sites/pawspress/pages/PawsPressHo
 const PawsPressOrderPage = lazy(() => import('./sites/pawspress/pages/PawsPressOrderPage'));
 const PawsPressContactPage = lazy(() => import('./sites/pawspress/pages/PawsPressContactPage'));
 
-// ── Kataribin (Step 2-D / Phase 3) ──
+// ── Kataribin (Step 2-D / Phase 3 / Phase 12) ──
 const KataribinLayout = lazy(() => import('./sites/kataribin/layout/KataribinLayout'));
 const KataribinHomePage = lazy(() => import('./sites/kataribin/pages/KataribinHomePage'));
+const KataribinAboutPage = lazy(() => import('./sites/kataribin/pages/KataribinAboutPage'));
 const PricingPage = lazy(() => import('./sites/kataribin/pages/PricingPage'));
 const FlowPage = lazy(() => import('./sites/kataribin/pages/FlowPage'));
 const ContactPage = lazy(() => import('./sites/kataribin/pages/ContactPage'));
@@ -54,7 +57,7 @@ function AppRoutes() {
         <Route path="/" element={<KataribinLayout><KataribinHomePage /></KataribinLayout>} />
         <Route path="/services" element={<KataribinLayout><ServicesPage /></KataribinLayout>} />
         <Route path="/networking" element={<KataribinLayout><NetworkingPage /></KataribinLayout>} />
-        <Route path="/about" element={<KataribinLayout><AboutPage /></KataribinLayout>} />
+        <Route path="/about" element={<KataribinLayout><KataribinAboutPage /></KataribinLayout>} />
         <Route path="/portfolio" element={<KataribinLayout><PortfolioPage /></KataribinLayout>} />
         <Route path="/portfolio/:subCategory" element={<KataribinLayout><PortfolioSubCategoryPage /></KataribinLayout>} />
         <Route path="/links" element={<KataribinLayout><LinksPage /></KataribinLayout>} />

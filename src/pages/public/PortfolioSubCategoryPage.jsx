@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { portfolioItems, categories } from '../../data/portfolioData';
+import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
 import './PortfolioSubCategoryPage.css';
 
 export default function PortfolioSubCategoryPage() {
@@ -27,8 +28,15 @@ export default function PortfolioSubCategoryPage() {
         );
     }
 
+    const breadcrumbItems = [
+        { label: 'ホーム', to: '/' },
+        { label: '制作事例', to: '/portfolio' },
+        { label: pageTitle, to: null },
+    ];
+
     return (
         <div className="portfolio-subcategory-page">
+            <Breadcrumb items={breadcrumbItems} />
             {/* Header Section */}
             <header className="page-header">
                 <div className="container">

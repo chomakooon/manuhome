@@ -12,8 +12,14 @@ import {
     pricingNotes,
     pricingFaq,
 } from '../../../config/pricing.config';
+import Breadcrumb from '../components/Breadcrumb';
 import '../styles/page-shared.css';
 import './PricingPage.css';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: '料金プラン', to: null },
+];
 
 function PageHero() {
     return (
@@ -128,6 +134,7 @@ export default function PricingPage() {
 
     return (
         <div className="kt-page">
+            <Breadcrumb items={BREADCRUMB} />
             <PageHero />
             {sortedCategories.map((cat, idx) => {
                 const plans = pricingPlans.filter((p) => p.category === cat.id);

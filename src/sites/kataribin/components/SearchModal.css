@@ -1,0 +1,176 @@
+/* ================================================================
+   SearchModal (Phase 11 / Findability - ナビ的検索 実装案A)
+   ================================================================ */
+
+.kt-search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4rem 1rem 2rem;
+    overflow-y: auto;
+}
+
+.kt-search-modal__backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(20, 22, 28, 0.55);
+    backdrop-filter: blur(2px);
+    border: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 0;
+}
+
+.kt-search-modal__panel {
+    position: relative;
+    z-index: 1;
+    width: min(640px, 100%);
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    padding: 1.5rem;
+    animation: kt-search-pop 200ms ease-out;
+}
+
+@keyframes kt-search-pop {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.kt-search-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--brand-border);
+    margin-bottom: 1rem;
+}
+
+.kt-search-modal__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+.kt-search-modal__title svg {
+    color: var(--brand-primary);
+}
+
+.kt-search-modal__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--brand-border);
+    background-color: #FFFFFF;
+    color: var(--brand-text);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.kt-search-modal__close:hover {
+    background-color: var(--brand-bg-subtle);
+    color: var(--brand-primary);
+}
+
+.kt-search-modal__hint {
+    margin: 0 0 1.25rem 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle);
+}
+
+.kt-search-modal__section + .kt-search-modal__section {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--brand-border);
+}
+
+.kt-search-modal__heading {
+    margin: 0 0 0.75rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--brand-primary);
+    text-transform: uppercase;
+}
+
+.kt-search-modal__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.kt-search-modal__link {
+    display: block;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--brand-border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--brand-text);
+    font-size: 0.925rem;
+    font-weight: 600;
+    transition: border-color 150ms ease, color 150ms ease,
+        background-color 150ms ease;
+}
+
+.kt-search-modal__link:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    background-color: var(--brand-bg-subtle);
+}
+
+.kt-search-modal__categories {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.kt-search-modal__category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--brand-border);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--brand-text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color 150ms ease, color 150ms ease,
+        border-color 150ms ease;
+}
+
+.kt-search-modal__category:hover {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+    border-color: var(--brand-primary);
+}
+
+@media (max-width: 640px) {
+    .kt-search-modal {
+        padding-top: 2rem;
+    }
+    .kt-search-modal__panel {
+        padding: 1.25rem;
+    }
+    .kt-search-modal__links {
+        grid-template-columns: 1fr;
+    }
+}

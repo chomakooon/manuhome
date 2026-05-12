@@ -10,15 +10,19 @@
 
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import doveLogo from '../../../assets/pixel_art_dove.png';
+import SearchModal from '../components/SearchModal';
 import './KataribinHeader.css';
 
+// Phase 12.5: ナビは 7 項目を維持しつつ「ビジュアル診断」を「カタチ便について」に置換。
+// /diagnostic は補助機能としてフッター・ホーム CTA 等から到達可能（ルート自体は存続）。
 const NAV_ITEMS = [
     { path: '/', label: 'ホーム', exact: true },
     { path: '/pricing', label: 'プラン' },
     { path: '/portfolio', label: '制作事例' },
     { path: '/flow', label: '制作の流れ' },
-    { path: '/diagnostic', label: 'ビジュアル診断' },
+    { path: '/about', label: 'カタチ便について' },
     { path: '/links', label: 'SNS・リンク' },
     { path: '/contact', label: 'お問い合わせ' },
 ];
@@ -29,6 +33,8 @@ export default function KataribinHeader() {
     // 次のナビゲーション時に自動で閉じる（setState in effect を避けるため）。
     const [openOnKey, setOpenOnKey] = useState(null);
     const menuOpen = openOnKey === location.key;
+    const [searchOpenOnKey, setSearchOpenOnKey] = useState(null);
+    const searchOpen = searchOpenOnKey === location.key;
 
     useEffect(() => {
         if (!menuOpen) return;
@@ -83,6 +89,14 @@ export default function KataribinHeader() {
                 </nav>
 
                 <div className="kt-header__actions">
+                    <button
+                        type="button"
+                        className="kt-header__search"
+                        onClick={() => setSearchOpenOnKey(location.key)}
+                        aria-label="サイト内を探す"
+                    >
+                        <Search size={18} strokeWidth={2} aria-hidden="true" />
+                    </button>
                     <Link to="/pet" className="kt-pawspress-link">
                         ペットグッズ専門 PAWS PRESS →
                     </Link>
@@ -106,6 +120,11 @@ export default function KataribinHeader() {
                     aria-hidden="true"
                 />
             )}
+
+            <SearchModal
+                open={searchOpen}
+                onClose={() => setSearchOpenOnKey(null)}
+            />
         </header>
     );
 }

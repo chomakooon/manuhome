@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './PortfolioPage.css';
 import { portfolioItems, categories } from '../../data/portfolioData';
+import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
+
+const BREADCRUMB = [
+    { label: 'ホーム', to: '/' },
+    { label: '制作事例', to: null },
+];
 
 const handleImageError = (id) => (e) => {
     console.warn(`[portfolio] image failed to load (id=${id}): ${e.currentTarget.src}`);
 };
 
-const PortfolioDetailItem = ({ baseItem, index, allItems, categories, onSeeMore }) => {
+const PortfolioDetailItem = ({ baseItem, index, allItems, categories }) => {
     const [activeItem, setActiveItem] = useState(baseItem);
 
     // Get all gallery items for this subcategory
@@ -64,12 +71,30 @@ const PortfolioDetailItem = ({ baseItem, index, allItems, categories, onSeeMore 
 };
 
 export default function PortfolioPage() {
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [searchParams] = useSearchParams();
+    // SearchModal などからの `?category=<id>` を初期選択として尊重する
+    const initialCategory = (() => {
+        const param = searchParams.get('category');
+        if (!param) return 'all';
+        return categories.some((c) => c.id === param) ? param : 'all';
+    })();
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
     const filteredItems = (selectedCategory === 'all'
         ? portfolioItems
         : portfolioItems.filter(item => item.category === selectedCategory))
         .filter(item => item.isMain);
+
+    // 各カテゴリの表示件数（isMain ベース）— 「ペット (8)」のような表示用
+    const categoryCounts = useMemo(() => {
+        const mainItems = portfolioItems.filter(item => item.isMain);
+        const counts = { all: mainItems.length };
+        for (const cat of categories) {
+            if (cat.id === 'all') continue;
+            counts[cat.id] = mainItems.filter(i => i.category === cat.id).length;
+        }
+        return counts;
+    }, []);
 
     // Function to handle smooth scrolling to an item
     const scrollToItem = (id) => {
@@ -90,6 +115,7 @@ export default function PortfolioPage() {
 
     return (
         <div className="portfolio-page">
+            <Breadcrumb items={BREADCRUMB} />
             {/* Header Section */}
             <header className="page-header">
                 <div className="container">
@@ -98,19 +124,26 @@ export default function PortfolioPage() {
                 </div>
             </header>
 
-            {/* Filter Categories */}
-            <section className="portfolio-filter section">
+            {/* Filter Categories — Phase 11: chip-style with counts, horizontally scrollable on mobile */}
+            <section className="portfolio-filter section" aria-label="カテゴリ絞り込み">
                 <div className="container">
-                    <div className="filter-buttons">
-                        {categories.map(cat => (
-                            <button
-                                key={cat.id}
-                                className={`filter-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-                                onClick={() => setSelectedCategory(cat.id)}
-                            >
-                                {cat.name}
-                            </button>
-                        ))}
+                    <div className="filter-chips" role="group" aria-label="カテゴリ">
+                        {categories.map(cat => {
+                            const count = categoryCounts[cat.id] ?? 0;
+                            const active = selectedCategory === cat.id;
+                            return (
+                                <button
+                                    key={cat.id}
+                                    type="button"
+                                    className={`filter-chip${active ? ' filter-chip--active' : ''}`}
+                                    onClick={() => setSelectedCategory(cat.id)}
+                                    aria-pressed={active}
+                                >
+                                    <span className="filter-chip__label">{cat.name}</span>
+                                    <span className="filter-chip__count">{count}</span>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
