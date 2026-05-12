@@ -13,6 +13,8 @@ import {
     pricingFaq,
 } from '../../../config/pricing.config';
 import Breadcrumb from '../components/Breadcrumb';
+import PageSeo from '../../../components/PageSeo';
+import { SEO_DEFAULTS } from '../../../config/seo.config';
 import '../styles/page-shared.css';
 import './PricingPage.css';
 
@@ -20,6 +22,27 @@ const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
     { label: '料金プラン', to: null },
 ];
+
+const buildPricingJsonLd = () => ({
+    '@context': 'https://schema.org',
+    '@type': 'OfferCatalog',
+    name: `${SEO_DEFAULTS.siteName} 料金プラン`,
+    url: `${SEO_DEFAULTS.siteUrl}/pricing`,
+    provider: {
+        '@type': 'Organization',
+        name: SEO_DEFAULTS.siteName,
+        url: SEO_DEFAULTS.siteUrl,
+    },
+    itemListElement: pricingPlans.map((p, idx) => ({
+        '@type': 'Offer',
+        position: idx + 1,
+        name: p.name,
+        priceCurrency: 'JPY',
+        price: typeof p.price === 'number' ? p.price : undefined,
+        description: p.description || undefined,
+        category: p.category,
+    })),
+});
 
 function PageHero() {
     return (
@@ -134,6 +157,7 @@ export default function PricingPage() {
 
     return (
         <div className="kt-page">
+            <PageSeo pageKey="pricing" extraJsonLd={[buildPricingJsonLd()]} />
             <Breadcrumb items={BREADCRUMB} />
             <PageHero />
             {sortedCategories.map((cat, idx) => {

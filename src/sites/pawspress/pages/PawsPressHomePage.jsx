@@ -14,6 +14,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { portfolioItems } from '../../../data/portfolioData';
 import { pawspressPlans } from '../data/plans';
 import PortfolioModal from '../../../components/ui/PortfolioModal';
+import PageSeo from '../../../components/PageSeo';
 import './PawsPressHomePage.css';
 
 const SUB_CATEGORY_LABEL = {
@@ -210,6 +211,7 @@ export default function PawsPressHomePage() {
 
     return (
         <div className="paws-home">
+            <PageSeo pageKey="pet" />
             <HeroSection heroImage={illustItem?.image ?? '/works/pet-illust-1.jpg'} />
             <PlansSection />
             <FlowSection

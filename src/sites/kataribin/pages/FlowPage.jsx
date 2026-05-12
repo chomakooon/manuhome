@@ -6,6 +6,7 @@
 
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
+import PageSeo from '../../../components/PageSeo';
 import '../styles/page-shared.css';
 import './FlowPage.css';
 
@@ -199,6 +200,7 @@ function BigCtaSection() {
 export default function FlowPage() {
     return (
         <div className="kt-page">
+            <PageSeo pageKey="flow" />
             <Breadcrumb items={BREADCRUMB} />
             <PageHero />
             <StepsSection />

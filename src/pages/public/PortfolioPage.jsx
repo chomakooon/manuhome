@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import './PortfolioPage.css';
 import { portfolioItems, categories } from '../../data/portfolioData';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
+import PageSeo from '../../components/PageSeo';
 
 const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
@@ -115,6 +116,7 @@ export default function PortfolioPage() {
 
     return (
         <div className="portfolio-page">
+            <PageSeo pageKey="portfolio" />
             <Breadcrumb items={BREADCRUMB} />
             {/* Header Section */}
             <header className="page-header">

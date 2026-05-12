@@ -1,6 +1,7 @@
 import Card from '../../components/ui/Card';
 import { Instagram, Twitter, NotebookText, MessageCircle, Mail } from 'lucide-react';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
+import PageSeo from '../../components/PageSeo';
 import './LinksPage.css';
 
 const BREADCRUMB = [
@@ -19,6 +20,7 @@ export default function LinksPage() {
 
     return (
         <div className="links-page">
+            <PageSeo pageKey="links" />
             <Breadcrumb items={BREADCRUMB} />
             <section className="links-hero section">
                 <div className="container">

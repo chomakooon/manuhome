@@ -11,7 +11,7 @@
  *   - 「岡崎真奈のHPへ」は内部 Link で SPA 遷移（テーマ切替も滑らか）
  */
 
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import './PawsPressLayout.css';
 
 const LOGO_PATH = '/hero/pawspress-logo.jpg';
@@ -77,10 +77,18 @@ function PawsPressFooter() {
 }
 
 export default function PawsPressLayout({ children }) {
+    const { pathname } = useLocation();
     return (
         <div className="paws-layout">
+            <a href="#main-content" className="skip-link">
+                メインコンテンツへスキップ
+            </a>
             <PawsPressHeader />
-            <main className="paws-layout__main">{children}</main>
+            <main id="main-content" className="paws-layout__main" tabIndex={-1}>
+                <div key={pathname} className="kt-page-fade">
+                    {children}
+                </div>
+            </main>
             <PawsPressFooter />
         </div>
     );

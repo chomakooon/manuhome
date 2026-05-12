@@ -19,8 +19,10 @@
 import { Link } from 'react-router-dom';
 import { MessageCircle, Palette, Clock } from 'lucide-react';
 import { PROFILE, PROFILE_INITIALS } from '../../../config/profile.config';
+import { SEO_DEFAULTS } from '../../../config/seo.config';
 import PortraitPhoto from '../components/PortraitPhoto';
 import Breadcrumb from '../components/Breadcrumb';
+import PageSeo from '../../../components/PageSeo';
 import '../styles/page-shared.css';
 import './KataribinAboutPage.css';
 
@@ -30,6 +32,22 @@ const BREADCRUMB = [
 ];
 
 const VALUE_ICONS = { MessageCircle, Palette, Clock };
+
+const PERSON_JSON_LD = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: PROFILE.name,
+    alternateName: PROFILE.nameEn,
+    jobTitle: PROFILE.title,
+    description: PROFILE.intro[0],
+    image: `${SEO_DEFAULTS.siteUrl}${PROFILE.photo}`,
+    worksFor: {
+        '@type': 'Organization',
+        name: SEO_DEFAULTS.siteName,
+        url: SEO_DEFAULTS.siteUrl,
+    },
+    url: `${SEO_DEFAULTS.siteUrl}/about`,
+};
 
 function HeroSection() {
     return (
@@ -45,11 +63,11 @@ function HeroSection() {
                     />
                 </div>
                 <div className="kt-about-hero__body">
-                    <p className="kt-about-hero__eyebrow">About</p>
+                    <p className="kt-about-hero__eyebrow" lang="en">About</p>
                     <h1 className="kt-about-hero__tagline">{PROFILE.tagline}</h1>
                     <p className="kt-about-hero__name">
                         {PROFILE.name}
-                        <span className="kt-about-hero__name-en">
+                        <span className="kt-about-hero__name-en" lang="en">
                             / {PROFILE.nameEn}
                         </span>
                     </p>
@@ -197,6 +215,7 @@ function CtaSection() {
 export default function KataribinAboutPage() {
     return (
         <div className="kt-page kt-about">
+            <PageSeo pageKey="about" extraJsonLd={[PERSON_JSON_LD]} />
             <Breadcrumb items={BREADCRUMB} />
             <HeroSection />
             <IntroSection />

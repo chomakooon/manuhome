@@ -6,6 +6,7 @@ import orderFlowManga from '../../assets/order_flow_manga.png';
 import pixelDove from '../../assets/pixel_art_dove.png';
 import Icon from '../../components/common/Icon';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
+import PageSeo from '../../components/PageSeo';
 
 const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
@@ -15,6 +16,7 @@ const BREADCRUMB = [
 export default function ServicesPage() {
     return (
         <div className="kb-newspaper-page">
+            <PageSeo pageKey="services" />
             <Breadcrumb items={BREADCRUMB} />
             {/* --- Top Utility Bar --- */}
             <div className="kb-news-top-bar">

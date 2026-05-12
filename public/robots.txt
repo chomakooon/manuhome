@@ -1,0 +1,12 @@
+# robots.txt for カタチ便 (manuhome)
+# Phase 15: SEO 整備
+
+User-agent: *
+Allow: /
+
+# Admin / 注文中の動的画面はクロール対象外
+Disallow: /admin
+Disallow: /order/flow/
+Disallow: /order/success
+
+Sitemap: https://manuhome.vercel.app/sitemap.xml

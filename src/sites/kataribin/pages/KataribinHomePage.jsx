@@ -30,6 +30,9 @@ import { TESTIMONIALS } from '../../../config/testimonials.config';
 import { PERSONAS } from '../../../config/personas.config';
 import { PROFILE, PROFILE_INITIALS } from '../../../config/profile.config';
 import PortraitPhoto from '../components/PortraitPhoto';
+import PageSeo from '../../../components/PageSeo';
+import useScrollReveal from '../hooks/useScrollReveal';
+import useCountUp from '../hooks/useCountUp';
 import '../styles/page-shared.css';
 import './KataribinHomePage.css';
 
@@ -74,10 +77,11 @@ function HeroSection() {
         <section className="kt-hero">
             <img
                 src={HERO_IMAGE}
-                alt="カタチ便 — Illustration for your story / 岡崎真奈 / 漫画・キャラ・リアル幅広く制作いたします"
+                alt="カタチ便のメインビジュアル：漫画・キャラクター・ペットイラストなど、岡崎真奈による多彩な作品群"
                 className="kt-hero__media"
                 loading="eager"
                 onError={onImgError('hero')}
+                onLoad={(e) => e.currentTarget.classList.add('loaded')}
             />
             <div className="kt-hero__cta">
                 <Link to="/contact" className="kt-btn kt-btn--primary kt-btn--xl">
@@ -90,8 +94,9 @@ function HeroSection() {
 }
 
 function PersonasSection() {
+    const revealRef = useScrollReveal();
     return (
-        <section className="kt-personas-section">
+        <section ref={revealRef} className="kt-personas-section reveal">
             <div className="kt-personas-section__inner">
                 <h2 className="kt-section__title">こんな方におすすめです</h2>
                 <p className="kt-section__lead">
@@ -131,8 +136,9 @@ function PersonasSection() {
 }
 
 function TrustSection() {
+    const revealRef = useScrollReveal();
     return (
-        <section className="kt-trust-section">
+        <section ref={revealRef} className="kt-trust-section reveal">
             <span className="kt-trust-section__eyebrow">初めての方へ</span>
             <div className="kt-trust-grid">
                 {TRUST_CARDS.map((c) => {
@@ -153,8 +159,9 @@ function TrustSection() {
 }
 
 function PortfolioTeaserSection({ items }) {
+    const revealRef = useScrollReveal();
     return (
-        <section className="kt-section kt-section--alt">
+        <section ref={revealRef} className="kt-section kt-section--alt reveal">
             <div className="kt-section__inner">
                 <h2 className="kt-section__title">制作事例</h2>
                 <div className="kt-portfolio-grid">
@@ -186,16 +193,22 @@ function PortfolioTeaserSection({ items }) {
     );
 }
 
+function StatNumber({ value }) {
+    const { ref, display } = useCountUp(value);
+    return <span ref={ref}>{display}</span>;
+}
+
 function StatsSection() {
+    const revealRef = useScrollReveal();
     return (
-        <section className="kt-stats-section">
+        <section ref={revealRef} className="kt-stats-section reveal">
             <div className="kt-stats-section__inner">
                 <span className="kt-stats-section__eyebrow">数字で見るカタチ便</span>
                 <ul className="kt-stats-grid">
                     {SITE_STATS.map((s) => (
                         <li key={s.id} className="kt-stat-card">
                             <span className="kt-stat-card__value">
-                                {s.value}
+                                <StatNumber value={s.value} />
                                 <span className="kt-stat-card__unit">{s.unit}</span>
                             </span>
                             <span className="kt-stat-card__label">{s.label}</span>
@@ -211,8 +224,9 @@ function StatsSection() {
 }
 
 function TestimonialsSection() {
+    const revealRef = useScrollReveal();
     return (
-        <section className="kt-section">
+        <section ref={revealRef} className="kt-section reveal">
             <div className="kt-section__inner">
                 <h2 className="kt-section__title">お客様の声</h2>
                 <p className="kt-section__lead">
@@ -241,8 +255,9 @@ function TestimonialsSection() {
 }
 
 function CreatorTeaserSection() {
+    const revealRef = useScrollReveal();
     return (
-        <section className="kt-section">
+        <section ref={revealRef} className="kt-section reveal">
             <div className="kt-section__inner kt-creator-teaser">
                 <div className="kt-creator-teaser__photo">
                     <PortraitPhoto
@@ -257,7 +272,7 @@ function CreatorTeaserSection() {
                     <p className="kt-creator-teaser__eyebrow">運営者紹介</p>
                     <h2 className="kt-creator-teaser__name">
                         {PROFILE.name}
-                        <span className="kt-creator-teaser__name-en">
+                        <span className="kt-creator-teaser__name-en" lang="en">
                             / {PROFILE.nameEn}
                         </span>
                     </h2>
@@ -318,8 +333,9 @@ function FlowTeaserSection() {
 }
 
 function PawsPressTeaserSection() {
+    const revealRef = useScrollReveal();
     return (
-        <section className="kt-pp-cross">
+        <section ref={revealRef} className="kt-pp-cross reveal">
             <div className="kt-pp-cross__inner">
                 <img
                     src={PAWSPRESS_LOGO}
@@ -367,6 +383,7 @@ export default function KataribinHomePage() {
 
     return (
         <div className="kt-home">
+            <PageSeo pageKey="home" />
             <HeroSection />
             <PersonasSection />
             <TrustSection />

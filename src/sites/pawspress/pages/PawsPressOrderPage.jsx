@@ -15,6 +15,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { pawspressPlans } from '../data/plans';
+import PageSeo from '../../../components/PageSeo';
 import '../styles/forms.css';
 import './PawsPressOrderPage.css';
 
@@ -617,6 +618,7 @@ export default function PawsPressOrderPage() {
 
     return (
         <div className="paws-order">
+            <PageSeo pageKey="petOrder" />
             <header className="paws-order__hero">
                 <h1 className="paws-order__title">ご注文・ご相談</h1>
                 <p className="paws-order__subtitle">

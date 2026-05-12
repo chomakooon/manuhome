@@ -75,13 +75,15 @@
     border: 1px solid var(--brand-border);
     border-radius: 16px;
     padding: 2rem;
-    transition: transform 300ms ease, box-shadow 300ms ease,
-        border-color 300ms ease;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth),
+        border-color var(--transition-base) var(--easing-smooth);
 }
 
 .kt-persona-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
     border-color: var(--brand-primary);
 }
 
@@ -164,7 +166,7 @@
 .kt-trust-section__eyebrow {
     display: block;
     text-align: center;
-    color: var(--brand-primary);
+    color: var(--brand-primary-text);
     font-family: var(--brand-font-display);
     font-size: 0.85rem;
     font-weight: 700;
@@ -183,12 +185,14 @@
     border-radius: 16px;
     padding: 2rem 1.5rem;
     text-align: center;
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth);
 }
 
 .kt-trust-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
 }
 
 .kt-trust-card__icon {
@@ -245,7 +249,7 @@
 .kt-stats-section__eyebrow {
     display: block;
     text-align: center;
-    color: var(--brand-primary);
+    color: var(--brand-primary-text);
     font-family: var(--brand-font-display);
     font-size: 0.85rem;
     font-weight: 700;
@@ -272,6 +276,14 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth);
+}
+
+.kt-stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover-soft);
 }
 
 .kt-stat-card__value {
@@ -343,6 +355,14 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth);
+}
+
+.kt-testimonial-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover-soft);
 }
 
 .kt-testimonial-card__icon {
@@ -413,7 +433,7 @@
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.18em;
-    color: var(--brand-primary);
+    color: var(--brand-primary-text);
     text-transform: uppercase;
 }
 
@@ -476,14 +496,16 @@
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid var(--brand-border);
-    transition: transform 200ms ease, box-shadow 200ms ease,
-        border-color 200ms ease;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth),
+        border-color var(--transition-base) var(--easing-smooth);
 }
 
 .kt-portfolio-card:hover {
     border-color: var(--brand-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
 }
 
 .kt-portfolio-card__img {

@@ -74,17 +74,20 @@ export default function KataribinHeader() {
                     <img src={doveLogo} alt="" className="kt-brand__logo" />
                     <span className="kt-brand__text">
                         <span className="kt-brand__name">カタチ便</span>
-                        <span className="kt-brand__sub">岡崎真奈 / Okazaki Mana</span>
+                        <span className="kt-brand__sub">
+                            岡崎真奈 / <span lang="en">Okazaki Mana</span>
+                        </span>
                     </span>
                 </Link>
 
                 <nav
+                    id="kt-primary-nav"
                     className={`kt-nav${menuOpen ? ' kt-nav--open' : ''}`}
-                    aria-label="サイトナビゲーション"
+                    aria-label="メインナビゲーション"
                 >
                     {NAV_ITEMS.map(renderNavLink)}
                     <Link to="/pet" className="kt-nav__pp-mobile">
-                        ペットグッズ専門 PAWS PRESS →
+                        ペットグッズ専門 <span lang="en">PAWS PRESS</span> →
                     </Link>
                 </nav>
 
@@ -93,12 +96,13 @@ export default function KataribinHeader() {
                         type="button"
                         className="kt-header__search"
                         onClick={() => setSearchOpenOnKey(location.key)}
-                        aria-label="サイト内を探す"
+                        aria-label="サイト内検索を開く"
+                        aria-haspopup="dialog"
                     >
                         <Search size={18} strokeWidth={2} aria-hidden="true" />
                     </button>
                     <Link to="/pet" className="kt-pawspress-link">
-                        ペットグッズ専門 PAWS PRESS →
+                        ペットグッズ専門 <span lang="en">PAWS PRESS</span> →
                     </Link>
                 </div>
 
@@ -106,8 +110,9 @@ export default function KataribinHeader() {
                     type="button"
                     className={`kt-burger${menuOpen ? ' kt-burger--open' : ''}`}
                     onClick={toggleMenu}
-                    aria-label="メニュー"
+                    aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
                     aria-expanded={menuOpen}
+                    aria-controls="kt-primary-nav"
                 >
                     <span /><span /><span />
                 </button>

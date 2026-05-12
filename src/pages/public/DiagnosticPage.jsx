@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, RefreshCw, BarChart, Users, BookOpen, Send, CheckCircle } from 'lucide-react';
 import Icon from '../../components/common/Icon';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
+import PageSeo from '../../components/PageSeo';
 import './DiagnosticPage.css';
 
 const BREADCRUMB = [
@@ -117,6 +118,7 @@ export default function DiagnosticPage() {
 
   return (
     <div className="diagnostic-page">
+      <PageSeo pageKey="diagnostic" />
       <Breadcrumb items={BREADCRUMB} />
       {/* Hero Section */}
       <section className="diagnostic-hero">

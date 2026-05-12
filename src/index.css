@@ -122,6 +122,11 @@
 body.theme-kataribin {
   --brand-primary: #00CFFF;
   --brand-primary-dark: #00B1D9;
+  /* Phase 13: 白背景上で WCAG AA を満たす濃い変種（本文中のリンク・eyebrow 用）。
+     #00CFFF は白背景でコントラスト比 1.86:1 で AA を満たさないため、
+     文字色として用いる場合は --brand-primary-text を使用する。
+     #006A8C は白に対して約 5.4:1（normal text AA / large text AAA 達成）。 */
+  --brand-primary-text: #006A8C;
   --brand-accent: #5CE1FF;
   --brand-accent-soft: #FFF5F2;
   --brand-text: #1A1A1A;
@@ -155,6 +160,78 @@ body.theme-pawspress {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* ── A11y utilities (Phase 13 / WCAG 2.1 AA) ───────────────────── */
+
+/* スクリーンリーダー専用テキスト（視覚的に隠す）。
+   一般的な「sr-only」「visually-hidden」と同等。 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* スキップリンク: 通常は非表示、キーボードでフォーカスされたときに左上に出現。
+   各 Layout の最上部に配置し、href="#main-content" でメインへジャンプする。 */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--brand-primary, #00CFFF);
+  color: #FFFFFF;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+  transform: translateY(-110%);
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid #FFFFFF;
+  outline-offset: -2px;
+}
+
+/* グローバル focus-visible: キーボード操作時のみ表示される明確なリング。
+   マウスクリック時には出ないので装飾を損なわない。 */
+*:focus-visible {
+  outline: 2px solid var(--brand-primary, #00CFFF);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* インタラクティブ要素にはより目立つリングを */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--brand-primary, #00CFFF);
+  outline-offset: 2px;
+}
+
+/* prefers-reduced-motion: 動き低減ユーザーの設定を尊重 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 html {

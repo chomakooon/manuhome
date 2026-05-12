@@ -29,7 +29,9 @@ export default function KataribinFooter() {
                     <img src={doveLogo} alt="" className="kt-footer__logo" />
                     <span className="kt-footer__brand-text">
                         <span className="kt-footer__name">カタチ便</span>
-                        <span className="kt-footer__sub">岡崎真奈 / Okazaki Mana</span>
+                        <span className="kt-footer__sub">
+                            岡崎真奈 / <span lang="en">Okazaki Mana</span>
+                        </span>
                     </span>
                 </Link>
 
@@ -42,7 +44,7 @@ export default function KataribinFooter() {
                 </nav>
 
                 <Link to="/pet" className="kt-footer__pp">
-                    ペットグッズ専門 PAWS PRESS →
+                    ペットグッズ専門 <span lang="en">PAWS PRESS</span> →
                 </Link>
 
                 <p className="kt-footer__copy">© 2026 カタチ便 / 岡崎真奈</p>

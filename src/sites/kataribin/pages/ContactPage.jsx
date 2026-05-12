@@ -18,6 +18,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { pricingPlans } from '../../../config/pricing.config';
 import { SNS_LINKS } from '../../../config/social.config';
 import Breadcrumb from '../components/Breadcrumb';
+import PageSeo from '../../../components/PageSeo';
 import '../styles/page-shared.css';
 import './ContactPage.css';
 
@@ -123,7 +124,11 @@ function ShortFaqSection() {
 
 function CompletedScreen() {
     return (
-        <div className="kt-contact-completed">
+        <div
+            className="kt-contact-completed"
+            role="status"
+            aria-live="polite"
+        >
             <div className="kt-contact-completed__inner">
                 <div className="kt-contact-completed__mark" aria-hidden="true">✉️</div>
                 <h1 className="kt-contact-completed__title">
@@ -143,16 +148,27 @@ function CompletedScreen() {
     );
 }
 
-function Field({ label, required, optional, error, children }) {
+function Field({ label, htmlFor, required, optional, error, children, errorId }) {
     return (
         <div className="kt-form-field">
-            <label className="kt-form-label">
+            <label htmlFor={htmlFor} className="kt-form-label">
                 {label}
-                {required && <span className="kt-form-label__req">*</span>}
+                {required && (
+                    <span className="kt-form-label__req" aria-hidden="true">*</span>
+                )}
+                {required && <span className="sr-only">必須項目</span>}
                 {optional && <span className="kt-form-label__opt">（任意）</span>}
             </label>
             {children}
-            {error && <p className="kt-form-error">{error}</p>}
+            {error && (
+                <p
+                    id={errorId}
+                    className="kt-form-error"
+                    role="alert"
+                >
+                    {error}
+                </p>
+            )}
         </div>
     );
 }
@@ -267,6 +283,7 @@ export default function ContactPage() {
 
     return (
         <div className="kt-page">
+            <PageSeo pageKey="contact" />
             <Breadcrumb items={BREADCRUMB} />
             <PageHero />
             <ShortFaqSection />
@@ -282,38 +299,73 @@ export default function ContactPage() {
                         </p>
                     )}
                     <form className="kt-contact-form" onSubmit={handleSubmit} noValidate>
-                        <Field label="お名前" required error={errors.name}>
+                        <Field
+                            label="お名前"
+                            htmlFor="contact-name"
+                            required
+                            error={errors.name}
+                            errorId="contact-name-error"
+                        >
                             <input
+                                id="contact-name"
                                 type="text"
                                 className="kt-form-input"
                                 value={data.name}
                                 onChange={update('name')}
                                 placeholder="山田 太郎"
+                                autoComplete="name"
+                                required
+                                aria-required="true"
+                                aria-invalid={Boolean(errors.name)}
+                                aria-describedby={errors.name ? 'contact-name-error' : undefined}
                             />
                         </Field>
 
-                        <Field label="メールアドレス" required error={errors.email}>
+                        <Field
+                            label="メールアドレス"
+                            htmlFor="contact-email"
+                            required
+                            error={errors.email}
+                            errorId="contact-email-error"
+                        >
                             <input
+                                id="contact-email"
                                 type="email"
                                 className="kt-form-input"
                                 value={data.email}
                                 onChange={update('email')}
                                 placeholder="example@example.com"
+                                autoComplete="email"
+                                required
+                                aria-required="true"
+                                aria-invalid={Boolean(errors.email)}
+                                aria-describedby={errors.email ? 'contact-email-error' : undefined}
                             />
                         </Field>
 
-                        <Field label="ご相談内容" required error={errors.message}>
+                        <Field
+                            label="ご相談内容"
+                            htmlFor="contact-message"
+                            required
+                            error={errors.message}
+                            errorId="contact-message-error"
+                        >
                             {prefilledPlan && (
                                 <p className="kt-contact-prefill-note">
                                     ※ 内容を編集してから送信してください
                                 </p>
                             )}
                             <textarea
+                                id="contact-message"
                                 className="kt-form-input kt-form-input--textarea"
                                 rows={prefilledPlan ? 9 : 6}
                                 value={data.message}
                                 onChange={update('message')}
                                 placeholder="制作のご要望・参考イメージ・予算感などお聞かせください"
+                                required
+                                aria-required="true"
+                                aria-invalid={Boolean(errors.message)}
+                                aria-describedby={errors.message ? 'contact-message-error' : undefined}
                             />
                         </Field>
 

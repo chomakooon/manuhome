@@ -1,10 +1,62 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>manuhome</title>
+
+    <!-- Phase 15: SEO / OGP / Favicon の既定値。
+         各ページの <title> / <meta> / <link rel="canonical"> 等は
+         React 19 ネイティブの Document Metadata 機能で動的に上書きされる。 -->
+    <title>カタチ便 | 伝えたいを、イラストで一瞬に。</title>
+    <meta name="description" content="岡崎真奈が運営する個人クリエイティブスタジオ「カタチ便」。漫画・キャラクター・ペットイラスト・名刺・ロゴ・グッズ制作まで、伝えたい想いを一枚の絵に。お見積もり無料。" />
+    <meta name="keywords" content="イラスト,漫画,キャラクターデザイン,ペットイラスト,名刺デザイン,ロゴデザイン,4コマ漫画,PR漫画,岡崎真奈,カタチ便" />
+    <meta name="author" content="岡崎真奈" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#00CFFF" />
+
+    <!-- Favicon (Phase 15)
+         - favicon.svg をプライマリに使用（ベクター: タブで鮮明）
+         - PNG / ICO / Apple Touch Icon は岡崎さんが後日差し替え予定
+         - 未配置時はブラウザがデフォルトを表示する（404 でも致命的ではない） -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="alternate icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- 既定 OGP（各ページで上書き） -->
+    <meta property="og:site_name" content="カタチ便" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="カタチ便 | 伝えたいを、イラストで一瞬に。" />
+    <meta property="og:description" content="岡崎真奈が運営する個人クリエイティブスタジオ「カタチ便」。漫画・キャラクター・ペットイラスト・名刺・ロゴ・グッズ制作まで、伝えたい想いを一枚の絵に。お見積もり無料。" />
+    <meta property="og:url" content="https://manuhome.vercel.app/" />
+    <meta property="og:image" content="https://manuhome.vercel.app/og-images/og-home.jpg" />
+
+    <!-- Twitter Card (各ページで上書き) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="カタチ便 | 伝えたいを、イラストで一瞬に。" />
+    <meta name="twitter:description" content="岡崎真奈が運営する個人クリエイティブスタジオ「カタチ便」。漫画・キャラクター・ペットイラスト・名刺・ロゴ・グッズ制作まで、伝えたい想いを一枚の絵に。お見積もり無料。" />
+    <meta name="twitter:image" content="https://manuhome.vercel.app/og-images/og-home.jpg" />
+
+    <!-- 既定 canonical（SPA のため、各ページで動的に上書き） -->
+    <link rel="canonical" href="https://manuhome.vercel.app/" />
+
+    <!-- Organization 構造化データ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "カタチ便",
+        "url": "https://manuhome.vercel.app",
+        "logo": "https://manuhome.vercel.app/favicon.svg",
+        "description": "岡崎真奈が運営する個人クリエイティブスタジオ「カタチ便」。漫画・キャラクター・ペットイラスト・名刺・ロゴ・グッズ制作まで、伝えたい想いを一枚の絵に。",
+        "founder": {
+          "@type": "Person",
+          "name": "岡崎真奈"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

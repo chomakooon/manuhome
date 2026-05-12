@@ -8,6 +8,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PageSeo from '../../../components/PageSeo';
 import '../styles/forms.css';
 import './PawsPressContactPage.css';
 
@@ -90,6 +91,7 @@ export default function PawsPressContactPage() {
 
     return (
         <div className="paws-contact">
+            <PageSeo pageKey="petContact" />
             <header className="paws-contact__hero">
                 <h1 className="paws-contact__title">お問い合わせ</h1>
                 <p className="paws-contact__subtitle">

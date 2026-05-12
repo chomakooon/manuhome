@@ -34,7 +34,7 @@
 }
 
 .kt-breadcrumb__link:hover {
-    color: var(--brand-primary);
+    color: var(--brand-primary-text);
     text-decoration: underline;
 }
 

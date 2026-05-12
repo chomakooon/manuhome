@@ -12,7 +12,7 @@
  *   - リンクをクリックすると onClose を呼んで遷移後の重なりを防ぐ
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { X, Search as SearchIcon } from 'lucide-react';
 import { worksCategories } from '../../../config/works/categories';
@@ -33,6 +33,8 @@ const QUICK_LINKS = [
  * @param {{ open: boolean, onClose: () => void }} props
  */
 export default function SearchModal({ open, onClose }) {
+    const closeBtnRef = useRef(null);
+
     useEffect(() => {
         if (!open) return;
         const onKey = (e) => {
@@ -41,6 +43,9 @@ export default function SearchModal({ open, onClose }) {
         document.addEventListener('keydown', onKey);
         const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
+        // Phase 13: 開いた直後に閉じるボタンへフォーカスを移し、
+        // キーボードのみのユーザーが ESC で抜けられることを明示する。
+        closeBtnRef.current?.focus();
         return () => {
             document.removeEventListener('keydown', onKey);
             document.body.style.overflow = prevOverflow;
@@ -73,12 +78,13 @@ export default function SearchModal({ open, onClose }) {
                         サイト内を探す
                     </span>
                     <button
+                        ref={closeBtnRef}
                         type="button"
                         className="kt-search-modal__close"
                         onClick={onClose}
-                        aria-label="閉じる"
+                        aria-label="検索を閉じる"
                     >
-                        <X size={20} strokeWidth={2} />
+                        <X size={20} strokeWidth={2} aria-hidden="true" />
                     </button>
                 </header>
 

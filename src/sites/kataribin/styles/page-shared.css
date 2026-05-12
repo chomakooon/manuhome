@@ -66,11 +66,19 @@
     font-size: 0.95rem;
     text-decoration: none;
     border: 2px solid transparent;
-    transition: transform 150ms ease, box-shadow 150ms ease,
-        background-color 150ms ease, color 150ms ease,
-        border-color 150ms ease;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth),
+        background-color var(--transition-fast) var(--easing-smooth),
+        color var(--transition-fast) var(--easing-smooth),
+        border-color var(--transition-fast) var(--easing-smooth);
     cursor: pointer;
     white-space: nowrap;
+}
+
+.kt-btn:active {
+    transform: translateY(0) scale(0.98);
+    transition-duration: var(--transition-fast);
 }
 
 .kt-btn--primary {
@@ -80,8 +88,8 @@
 .kt-btn--primary:hover {
     background-color: var(--brand-primary-dark);
     color: #FFFFFF;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 207, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-cta-glow);
 }
 
 .kt-btn--outline {
@@ -91,17 +99,18 @@
 }
 .kt-btn--outline:hover {
     border-color: var(--brand-primary);
-    color: var(--brand-primary);
-    transform: translateY(-1px);
+    color: var(--brand-primary-text);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover-soft);
 }
 
 .kt-btn--white {
     background-color: #FFFFFF;
-    color: var(--brand-primary);
+    color: var(--brand-primary-text);
 }
 .kt-btn--white:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
 .kt-btn--lg {
