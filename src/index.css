@@ -3,7 +3,8 @@
    — Newspaper-Inspired × Cyan × Friendly
    ======================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=Noto+Serif+JP:wght@400;500;600;700;900&family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@400;700;800;900&family=Yomogi&display=swap');
+/* Phase 18: フォントは index.html の <link rel="preconnect"/"stylesheet"> に移管。
+   CSS @import はパース後の逐次取得になりパフォーマンス劣化を招くため撤去。 */
 
 /* --- CSS Variables --- */
 :root {

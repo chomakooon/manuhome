@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Phase 18: Google Fonts を <link> + preconnect で並列ロード（CSS @import から移管）。
+         display=swap で FOUT を許容しテキスト即時表示を優先する。 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=Noto+Serif+JP:wght@400;500;600;700;900&family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@400;700;800;900&family=Yomogi&display=swap"
+    />
+
     <!-- Phase 15: SEO / OGP / Favicon の既定値。
          各ページの <title> / <meta> / <link rel="canonical"> 等は
          React 19 ネイティブの Document Metadata 機能で動的に上書きされる。 -->

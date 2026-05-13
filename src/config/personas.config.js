@@ -30,12 +30,17 @@
 
 /** @type {Persona[]} */
 export const PERSONAS = [
+    // Phase 19: 二刀流戦略のトーン調整。
+    //   - 個人事業主 / ペットオーナー: 親しみ重視
+    //   - 飲食店: 共感重視
+    //   - 企業: 経営価値重視（指名買い・成約率・採用力）
     {
         id: 'freelancer',
         icon: 'Briefcase',
         title: '個人事業主・フリーランス',
-        problem: '自分のサービスの世界観を伝えるビジュアルが欲しい',
-        solution: 'ロゴ・キャラクター・名刺デザインで、一貫したブランディングをお手伝いします。',
+        problem: '世界観で「選ばれる存在」になりたい',
+        solution:
+            'ロゴ・キャラクター・名刺を一貫した世界観で設計し、価格ではなく「あなた」で選ばれる状態を作ります。',
         recommendedPlan: '名刺 Portrait / キャラクターデザイン',
         ctaLink: '/pricing',
         ctaText: '名刺・キャラのプランを見る →',
@@ -44,8 +49,9 @@ export const PERSONAS = [
         id: 'restaurant',
         icon: 'Utensils',
         title: '飲食店・小規模店舗オーナー',
-        problem: 'メニュー紹介や販促を、漫画で楽しく伝えたい',
-        solution: '4コマ漫画でメニュー紹介、LP 漫画で集客力アップにつなげます。',
+        problem: 'お店の魅力、ちゃんと伝わっていますか？',
+        solution:
+            '4 コマ漫画でメニューのこだわりを「読ませて」伝え、SNS 拡散と来店動機の両方を強化します。',
         recommendedPlan: 'Single 4コマ / Monthly Pack',
         ctaLink: '/pricing',
         ctaText: '漫画プランを見る →',
@@ -55,7 +61,8 @@ export const PERSONAS = [
         icon: 'Heart',
         title: 'ペットオーナー',
         problem: 'うちの子の写真を、オリジナルグッズにしたい',
-        solution: 'ペット写真をイラスト化し、フレーム・グッズに展開できます。',
+        solution:
+            'ペット写真をイラスト化し、フレーム・グッズに展開。家族みんなが笑顔になる仕上がりをお届けします。',
         recommendedPlan: 'PAWS PRESS Pair Set（推奨）',
         ctaLink: '/pet',
         ctaText: 'PAWS PRESS を見る →',
@@ -63,9 +70,10 @@ export const PERSONAS = [
     {
         id: 'business',
         icon: 'Building2',
-        title: '企業・サービス事業者',
-        problem: 'サービス説明を、漫画やキャラで分かりやすくしたい',
-        solution: 'LP 漫画・キャラクターデザイン・マスコット制作で、認知から理解までを支援します。',
+        title: '企業・中小事業者',
+        problem: '価格競争から抜け出す、ブランドの力を作りたい',
+        solution:
+            'LP 漫画・キャラ・マスコット制作を通じて、指名買い・成約率向上・採用力 UP に直結するブランド資産を構築します。',
         recommendedPlan: '1ページ漫画 / キャラクターデザイン',
         ctaLink: '/pricing',
         ctaText: '法人向けプランを見る →',

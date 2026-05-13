@@ -26,7 +26,7 @@ export default function KataribinFooter() {
         <footer className="kt-footer">
             <div className="kt-footer__inner">
                 <Link to="/" className="kt-footer__brand" aria-label="カタチ便ホーム">
-                    <img src={doveLogo} alt="" className="kt-footer__logo" />
+                    <img src={doveLogo} alt="" className="kt-footer__logo" loading="lazy" />
                     <span className="kt-footer__brand-text">
                         <span className="kt-footer__name">カタチ便</span>
                         <span className="kt-footer__sub">

@@ -156,6 +156,437 @@
     }
 }
 
+/* ── Concerns section (Phase 19: 悩み言語化) ──────── */
+.kt-concerns-section {
+    background-color: var(--brand-bg-subtle);
+    padding: 5rem 1.5rem;
+}
+
+.kt-concerns-section__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.kt-concerns-section .kt-section__lead {
+    margin-bottom: 3rem;
+}
+
+.kt-concerns-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.kt-concern-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 1.25rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 16px;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth);
+}
+
+.kt-concern-card:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-hover-soft);
+}
+
+.kt-concern-card__icon {
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.kt-concern-card__text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--brand-text);
+}
+
+.kt-concerns-section__outro {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.kt-concerns-section__bridge {
+    margin: 0 0 0.75rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.kt-concerns-section__jump {
+    display: inline-block;
+    color: var(--brand-primary-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.35rem 0.5rem;
+    transition: opacity var(--transition-fast) var(--easing-smooth);
+}
+
+.kt-concerns-section__jump:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .kt-concerns-section {
+        padding: 3rem 1rem;
+    }
+    .kt-concerns-grid {
+        grid-template-columns: 1fr;
+        gap: 0.875rem;
+    }
+    .kt-concern-card {
+        padding: 1.25rem 1rem;
+    }
+}
+
+/* ── Strengths section (Phase 19: 5 つの強み 縦リスト) ─── */
+.kt-strengths-section {
+    background-color: #FFFFFF;
+    padding: 5rem 1.5rem;
+    scroll-margin-top: 80px;
+}
+
+.kt-strengths-section__inner {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.kt-strengths-section .kt-section__lead {
+    margin-bottom: 3rem;
+}
+
+.kt-strengths-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.kt-strength-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.75rem 2rem;
+    background-color: var(--brand-bg-subtle);
+    border-radius: 16px;
+    border: 1px solid transparent;
+    transition:
+        transform var(--transition-base) var(--easing-smooth),
+        box-shadow var(--transition-base) var(--easing-smooth),
+        border-color var(--transition-base) var(--easing-smooth);
+}
+
+.kt-strength-row:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover-soft);
+    border-color: var(--brand-primary);
+}
+
+.kt-strength-row__num {
+    font-family: var(--brand-font-display);
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand-primary);
+    letter-spacing: 0.02em;
+    min-width: 4.5rem;
+}
+
+.kt-strength-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.kt-strength-row__title {
+    margin: 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--brand-text);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.kt-strength-row__subtitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--brand-primary-text);
+    letter-spacing: 0.04em;
+}
+
+.kt-strength-row__desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle);
+}
+
+.kt-strength-row__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--brand-accent-soft);
+    color: var(--brand-primary-text);
+    flex-shrink: 0;
+}
+
+.kt-strengths-section__cta {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.kt-strengths-section__bridge {
+    margin: 0 0 1.5rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+@media (max-width: 768px) {
+    .kt-strengths-section {
+        padding: 3rem 1rem;
+    }
+    .kt-strength-row {
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "num icon"
+            "body body";
+        gap: 0.75rem 1rem;
+        padding: 1.5rem 1.25rem;
+    }
+    .kt-strength-row__num {
+        grid-area: num;
+        font-size: 2.5rem;
+        min-width: auto;
+    }
+    .kt-strength-row__icon {
+        grid-area: icon;
+        justify-self: end;
+        width: 44px;
+        height: 44px;
+    }
+    .kt-strength-row__body {
+        grid-area: body;
+    }
+    .kt-strength-row__title {
+        font-size: 1.1rem;
+    }
+}
+
+/* ── Before / After section (Phase 19) ─────────────── */
+.kt-ba-section {
+    background-color: var(--brand-bg-subtle);
+    padding: 5rem 1.5rem;
+}
+
+.kt-ba-section__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.kt-ba-section .kt-section__lead {
+    margin-bottom: 3rem;
+}
+
+.kt-ba-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.kt-ba-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+.kt-ba-card__title {
+    margin: 0 0 1rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+.kt-ba-card__challenge,
+.kt-ba-card__solution {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--brand-text);
+}
+
+.kt-ba-card__challenge {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--brand-bg-subtle);
+    border-left: 3px solid var(--brand-text-subtle);
+    border-radius: 0 8px 8px 0;
+}
+
+.kt-ba-card__solution {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--brand-accent-soft);
+    border-left: 3px solid var(--brand-primary);
+    border-radius: 0 8px 8px 0;
+}
+
+.kt-ba-card__challenge-label,
+.kt-ba-card__solution-label {
+    display: inline-block;
+    margin-right: 0.6rem;
+    padding: 0.1rem 0.5rem;
+    font-family: var(--brand-font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 4px;
+    color: #FFFFFF;
+    background-color: var(--brand-text-subtle);
+}
+
+.kt-ba-card__solution-label {
+    background-color: var(--brand-primary-text);
+}
+
+.kt-ba-card__pair {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+.kt-ba-card__side {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-radius: 14px;
+    border: 1px solid var(--brand-border);
+}
+
+.kt-ba-card__side--before {
+    background-color: #FAFAF8;
+}
+
+.kt-ba-card__side--after {
+    background-color: #FFFFFF;
+    border-color: var(--brand-primary);
+    box-shadow: 0 4px 14px rgba(0, 207, 255, 0.08);
+}
+
+.kt-ba-card__badge {
+    align-self: flex-start;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-family: var(--brand-font-display);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #FFFFFF;
+}
+
+.kt-ba-card__badge--before {
+    background-color: var(--brand-text-subtle);
+}
+
+.kt-ba-card__badge--after {
+    background-color: var(--brand-primary);
+}
+
+.kt-ba-card__text {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: var(--brand-text);
+}
+
+.kt-ba-card__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-primary);
+    align-self: center;
+}
+
+.kt-ba-card__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--brand-bg-subtle);
+}
+
+.kt-ba-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.kt-ba-card__tags {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.kt-ba-card__tag {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--brand-text-subtle);
+    background-color: var(--brand-bg-subtle);
+    border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+    .kt-ba-section {
+        padding: 3rem 1rem;
+    }
+    .kt-ba-card {
+        padding: 1.5rem 1.25rem;
+    }
+    .kt-ba-card__pair {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    .kt-ba-card__arrow {
+        transform: rotate(90deg);
+    }
+}
+
 /* ── 2. Trust section (Phase 8: 安心ポイント 3カラム) ─── */
 .kt-trust-section {
     max-width: 1200px;

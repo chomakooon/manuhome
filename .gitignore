@@ -27,3 +27,31 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+
+# ── Phase 16 additions ────────────────────────────────────────────
+
+# Profile photo originals (large; keep web-optimized version only).
+# 過去履歴からの完全削除は実行しない方針。完全削除したい場合の手順:
+#   git filter-repo --invert-paths --path public/profile/mana-portrait-original.jpg
+#   git push origin main --force
+# ※ 履歴改変は共同作業者がいる場合に問題を引き起こすため、慎重に実行すべき。
+public/profile/*-original.*
+public/profile/*-source.*
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor backup files (*.sw? は既存で網羅済み)
+*~
+
+# Caches / build artifacts
+.npm/
+.cache/
+coverage/
+*.tsbuildinfo
+
+# Vercel
+.vercel
+.claude/

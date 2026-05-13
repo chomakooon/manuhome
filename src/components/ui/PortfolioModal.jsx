@@ -53,6 +53,7 @@ export default function PortfolioModal({ item, isOpen, onClose, onNext, onPrev, 
                     <img
                         src={item.image}
                         alt={item.title}
+                        loading="lazy"
                         onError={(e) => console.warn(`[portfolio] image failed to load (id=${item.id}): ${e.currentTarget.src}`)}
                     />
 

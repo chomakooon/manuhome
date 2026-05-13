@@ -62,6 +62,7 @@ function PawsPressFooter() {
                         src={LOGO_PATH}
                         alt="PAWS PRESS"
                         className="paws-footer__logo"
+                        loading="lazy"
                         onError={handleLogoError}
                     />
                     <span>PAWS PRESS</span>

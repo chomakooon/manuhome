@@ -10,10 +10,12 @@
  *   - ESC キー / 背景クリック / 閉じるボタンで close
  *   - 開いている間は body スクロールをロック
  *   - リンクをクリックすると onClose を呼んで遷移後の重なりを防ぐ
+ *   - Phase 17: focus-trap-react で Tab/Shift+Tab がモーダル内で循環するよう拘束
  */
 
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { FocusTrap } from 'focus-trap-react';
 import { X, Search as SearchIcon } from 'lucide-react';
 import { worksCategories } from '../../../config/works/categories';
 import './SearchModal.css';
@@ -35,22 +37,19 @@ const QUICK_LINKS = [
 export default function SearchModal({ open, onClose }) {
     const closeBtnRef = useRef(null);
 
+    // Phase 17 以降: ESC は focus-trap の escapeDeactivates に一本化したため、
+    // ここでは body スクロールロック + 初期フォーカス（閉じるボタン）のみ担当する。
     useEffect(() => {
         if (!open) return;
-        const onKey = (e) => {
-            if (e.key === 'Escape') onClose();
-        };
-        document.addEventListener('keydown', onKey);
         const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
         // Phase 13: 開いた直後に閉じるボタンへフォーカスを移し、
         // キーボードのみのユーザーが ESC で抜けられることを明示する。
         closeBtnRef.current?.focus();
         return () => {
-            document.removeEventListener('keydown', onKey);
             document.body.style.overflow = prevOverflow;
         };
-    }, [open, onClose]);
+    }, [open]);
 
     if (!open) return null;
 
@@ -59,6 +58,20 @@ export default function SearchModal({ open, onClose }) {
     );
 
     return (
+        <FocusTrap
+            active={open}
+            focusTrapOptions={{
+                // 既存の closeBtnRef.focus() を尊重するため自前初期フォーカスは無効化
+                initialFocus: false,
+                // ESC で trap を解除 → onDeactivate へ → onClose 呼び出し
+                escapeDeactivates: true,
+                // 背景クリックで trap 解除（手動で onClose も呼んでいるので二重安全網）
+                clickOutsideDeactivates: true,
+                onDeactivate: onClose,
+                // モーダルが閉じてアンマウントされる際に直前要素へフォーカスを戻す
+                returnFocusOnDeactivate: true,
+            }}
+        >
         <div
             className="kt-search-modal"
             role="dialog"
@@ -127,5 +140,6 @@ export default function SearchModal({ open, onClose }) {
                 </section>
             </div>
         </div>
+        </FocusTrap>
     );
 }

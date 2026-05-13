@@ -420,6 +420,7 @@ export default function ContactPage() {
                                                     src={p.dataUrl}
                                                     alt={p.name}
                                                     className="kt-photo-item__img"
+                                                    loading="lazy"
                                                 />
                                             )}
                                             <div className="kt-photo-item__meta">

@@ -266,6 +266,7 @@ function Step2Photos({ photos, onAddFiles, onRemove, errors }) {
                                     src={photo.dataUrl}
                                     alt={photo.name}
                                     className="paws-photo-item__img"
+                                    loading="lazy"
                                 />
                             )}
                             <div className="paws-photo-item__meta">
@@ -426,6 +427,7 @@ function Step4Review({ plan, goodsTypes, photos, customer }) {
                                         src={p.dataUrl}
                                         alt={p.name}
                                         className="paws-review__photo"
+                                        loading="lazy"
                                     />
                                 )
                         ))}

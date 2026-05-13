@@ -2,20 +2,23 @@
  * @file src/sites/kataribin/pages/KataribinHomePage.jsx
  *
  * カタチ便（メイン HP）のホームページ。
- * Phase 12: 運営者紹介セクションを追加（Credibility 強化）。
+ * Phase 19: ブランディング論を反映した 3 セクション追加（悩み / 5 つの強み / Before-After）。
  *
  * セクション構成:
  *   1. Hero (画像フルワイド + CTA)
- *   2. こんな方におすすめ
- *   3. 安心ポイント 3カラム
- *   4. 制作事例ティザー (代表6件)
- *   5. 数字で見るカタチ便
- *   6. お客様の声
- *   7. 運営者紹介 (★Phase 12 追加)
- *   8. プラン紹介ティザー  → /pricing 直行
- *   9. 制作の流れティザー  → /flow 直行
- *  10. PAWS PRESS への誘導
- *  11. 大型 CTA
+ *   2. お悩み確認 (★Phase 19 追加: 悩み言語化)
+ *   3. こんな方におすすめ (Phase 19: トーン調整)
+ *   4. 安心ポイント 3カラム
+ *   5. カタチ便の 5 つの強み (★Phase 19 追加: 独自性の明示)
+ *   6. 制作事例ティザー (代表6件)
+ *   7. Before → After (★Phase 19 追加: 変化の可視化)
+ *   8. 数字で見るカタチ便
+ *   9. お客様の声
+ *  10. 運営者紹介
+ *  11. プラン紹介ティザー  → /pricing 直行
+ *  12. 制作の流れティザー  → /flow 直行
+ *  13. PAWS PRESS への誘導
+ *  14. 大型 CTA
  */
 
 import { useMemo } from 'react';
@@ -23,12 +26,16 @@ import { Link } from 'react-router-dom';
 import {
     MessageCircle, Clock, Palette, Quote,
     Briefcase, Utensils, Heart, Building2,
+    BookOpen, GitBranch, Sparkles, Bot, ArrowRight,
 } from 'lucide-react';
 import { portfolioItems } from '../../../data/portfolioData';
 import { SITE_STATS } from '../../../config/site-stats.config';
 import { TESTIMONIALS } from '../../../config/testimonials.config';
 import { PERSONAS } from '../../../config/personas.config';
 import { PROFILE, PROFILE_INITIALS } from '../../../config/profile.config';
+import { CONCERNS } from '../../../config/concerns.config';
+import { STRENGTHS } from '../../../config/strengths.config';
+import { BEFORE_AFTER_CASES } from '../../../config/before-after.config';
 import PortraitPhoto from '../components/PortraitPhoto';
 import PageSeo from '../../../components/PageSeo';
 import useScrollReveal from '../hooks/useScrollReveal';
@@ -37,6 +44,7 @@ import '../styles/page-shared.css';
 import './KataribinHomePage.css';
 
 const PERSONA_ICONS = { Briefcase, Utensils, Heart, Building2 };
+const STRENGTH_ICONS = { Palette, BookOpen, GitBranch, Sparkles, Bot };
 
 const HERO_IMAGE = '/hero/kataribin-hero.jpg';
 const PAWSPRESS_LOGO = '/hero/pawspress-logo.jpg';
@@ -77,7 +85,7 @@ function HeroSection() {
         <section className="kt-hero">
             <img
                 src={HERO_IMAGE}
-                alt="カタチ便のメインビジュアル：漫画・キャラクター・ペットイラストなど、岡崎真奈による多彩な作品群"
+                alt="カタチ便のメインビジュアル：『伝えたいを、イラストで一瞬に。』岡崎真奈による漫画・キャラクターデザイン・リアルペットイラストの作例と、平日対応・テイスト調整 OK の対応方針"
                 className="kt-hero__media"
                 loading="eager"
                 onError={onImgError('hero')}
@@ -88,6 +96,193 @@ function HeroSection() {
                     <span className="kt-btn__main">無料で相談する →</span>
                     <span className="kt-btn__sub">ヒアリングのみ・営業電話なし</span>
                 </Link>
+            </div>
+        </section>
+    );
+}
+
+function ConcernsSection() {
+    const revealRef = useScrollReveal();
+    return (
+        <section
+            ref={revealRef}
+            className="kt-concerns-section reveal"
+            aria-labelledby="kt-concerns-title"
+        >
+            <div className="kt-concerns-section__inner">
+                <h2 id="kt-concerns-title" className="kt-section__title">
+                    こんなお悩み、ありませんか？
+                </h2>
+                <p className="kt-section__lead">
+                    ひとつでも当てはまるなら、ご相談ください。
+                </p>
+                <ul className="kt-concerns-grid">
+                    {CONCERNS.map((c) => (
+                        <li key={c.id} className="kt-concern-card">
+                            <span
+                                className="kt-concern-card__icon"
+                                aria-hidden="true"
+                            >
+                                {c.icon}
+                            </span>
+                            <p className="kt-concern-card__text">{c.text}</p>
+                        </li>
+                    ))}
+                </ul>
+                <div className="kt-concerns-section__outro">
+                    <p className="kt-concerns-section__bridge">
+                        これらはすべて「世界観の設計」で解決できます。
+                    </p>
+                    <a
+                        href="#kt-strengths"
+                        className="kt-concerns-section__jump"
+                    >
+                        カタチ便のアプローチを見る ↓
+                    </a>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function StrengthsSection() {
+    const revealRef = useScrollReveal();
+    return (
+        <section
+            ref={revealRef}
+            id="kt-strengths"
+            className="kt-strengths-section reveal"
+            aria-labelledby="kt-strengths-title"
+        >
+            <div className="kt-strengths-section__inner">
+                <h2 id="kt-strengths-title" className="kt-section__title">
+                    カタチ便ができること
+                </h2>
+                <p className="kt-section__lead">
+                    単なる制作ではない、5 つの専門性。
+                </p>
+                <ul className="kt-strengths-list">
+                    {STRENGTHS.map((s) => {
+                        const Icon = STRENGTH_ICONS[s.icon];
+                        return (
+                            <li key={s.id} className="kt-strength-row">
+                                <span
+                                    className="kt-strength-row__num"
+                                    aria-hidden="true"
+                                >
+                                    {s.id}
+                                </span>
+                                <div className="kt-strength-row__body">
+                                    <h3 className="kt-strength-row__title">
+                                        {s.title}
+                                        <span className="kt-strength-row__subtitle">
+                                            {s.subtitle}
+                                        </span>
+                                    </h3>
+                                    <p className="kt-strength-row__desc">
+                                        {s.description}
+                                    </p>
+                                </div>
+                                <span
+                                    className="kt-strength-row__icon"
+                                    aria-hidden="true"
+                                >
+                                    {Icon && <Icon size={32} strokeWidth={1.5} />}
+                                </span>
+                            </li>
+                        );
+                    })}
+                </ul>
+                <div className="kt-strengths-section__cta">
+                    <p className="kt-strengths-section__bridge">
+                        あなたのビジネスに必要な力を、お選びください。
+                    </p>
+                    <Link
+                        to="/contact"
+                        className="kt-btn kt-btn--primary kt-btn--xl"
+                    >
+                        <span className="kt-btn__main">無料で相談する →</span>
+                        <span className="kt-btn__sub">
+                            ヒアリングのみ・営業電話なし
+                        </span>
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function BeforeAfterSection() {
+    const revealRef = useScrollReveal();
+    return (
+        <section
+            ref={revealRef}
+            className="kt-ba-section reveal"
+            aria-labelledby="kt-ba-title"
+        >
+            <div className="kt-ba-section__inner">
+                <h2 id="kt-ba-title" className="kt-section__title">
+                    Before → After
+                </h2>
+                <p className="kt-section__lead">ご依頼前と、ご依頼後の変化。</p>
+                <ul className="kt-ba-list">
+                    {BEFORE_AFTER_CASES.map((c) => (
+                        <li key={c.id} className="kt-ba-card">
+                            <h3 className="kt-ba-card__title">{c.title}</h3>
+                            <p className="kt-ba-card__challenge">
+                                <span className="kt-ba-card__challenge-label">
+                                    課題
+                                </span>
+                                {c.challenge}
+                            </p>
+                            <div className="kt-ba-card__pair">
+                                <div className="kt-ba-card__side kt-ba-card__side--before">
+                                    <span className="kt-ba-card__badge kt-ba-card__badge--before">
+                                        BEFORE
+                                    </span>
+                                    <p className="kt-ba-card__text">
+                                        {c.beforeText}
+                                    </p>
+                                </div>
+                                <span
+                                    className="kt-ba-card__arrow"
+                                    aria-hidden="true"
+                                >
+                                    <ArrowRight size={28} strokeWidth={2} />
+                                </span>
+                                <div className="kt-ba-card__side kt-ba-card__side--after">
+                                    <span className="kt-ba-card__badge kt-ba-card__badge--after">
+                                        AFTER
+                                    </span>
+                                    <div className="kt-ba-card__image">
+                                        <img
+                                            src={c.afterImage}
+                                            alt={c.afterAlt}
+                                            loading="lazy"
+                                            onError={onImgError(`ba-${c.id}`)}
+                                        />
+                                    </div>
+                                    <p className="kt-ba-card__text">
+                                        {c.afterText}
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="kt-ba-card__solution">
+                                <span className="kt-ba-card__solution-label">
+                                    解決策
+                                </span>
+                                {c.solution}
+                            </p>
+                            <ul className="kt-ba-card__tags">
+                                {c.tags.map((tag) => (
+                                    <li key={tag} className="kt-ba-card__tag">
+                                        {tag}
+                                    </li>
+                                ))}
+                            </ul>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </section>
     );
@@ -341,6 +536,7 @@ function PawsPressTeaserSection() {
                     src={PAWSPRESS_LOGO}
                     alt="PAWS PRESS"
                     className="kt-pp-cross__logo"
+                    loading="lazy"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
                 <h2 className="kt-pp-cross__title">ペットグッズ専門ブランドはこちら</h2>
@@ -385,9 +581,12 @@ export default function KataribinHomePage() {
         <div className="kt-home">
             <PageSeo pageKey="home" />
             <HeroSection />
+            <ConcernsSection />
             <PersonasSection />
             <TrustSection />
+            <StrengthsSection />
             <PortfolioTeaserSection items={teaserItems} />
+            <BeforeAfterSection />
             <StatsSection />
             <TestimonialsSection />
             <CreatorTeaserSection />

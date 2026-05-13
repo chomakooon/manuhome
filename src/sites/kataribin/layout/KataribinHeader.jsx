@@ -8,12 +8,15 @@
  * - <=1024px: ハンバーガー → 右からスライドインメニュー
  */
 
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import doveLogo from '../../../assets/pixel_art_dove.png';
-import SearchModal from '../components/SearchModal';
 import './KataribinHeader.css';
+
+// Phase 18: SearchModal は検索アイコン押下時のみ表示されるため lazy 化。
+// 同梱の focus-trap-react（gzip 約 10kB）も初回ロードから外れる。
+const SearchModal = lazy(() => import('../components/SearchModal'));
 
 // Phase 12.5: ナビは 7 項目を維持しつつ「ビジュアル診断」を「カタチ便について」に置換。
 // /diagnostic は補助機能としてフッター・ホーム CTA 等から到達可能（ルート自体は存続）。
@@ -126,10 +129,14 @@ export default function KataribinHeader() {
                 />
             )}
 
-            <SearchModal
-                open={searchOpen}
-                onClose={() => setSearchOpenOnKey(null)}
-            />
+            {searchOpen && (
+                <Suspense fallback={null}>
+                    <SearchModal
+                        open={searchOpen}
+                        onClose={() => setSearchOpenOnKey(null)}
+                    />
+                </Suspense>
+            )}
         </header>
     );
 }
