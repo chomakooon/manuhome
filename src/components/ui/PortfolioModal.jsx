@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import PictureWebp from '../PictureWebp';
 import './PortfolioModal.css';
 
 export default function PortfolioModal({ item, isOpen, onClose, onNext, onPrev, hasNext, hasPrev }) {
@@ -50,7 +51,7 @@ export default function PortfolioModal({ item, isOpen, onClose, onNext, onPrev, 
                 </button>
 
                 <div className="portfolio-modal-image-container">
-                    <img
+                    <PictureWebp
                         src={item.image}
                         alt={item.title}
                         loading="lazy"

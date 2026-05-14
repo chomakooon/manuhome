@@ -38,6 +38,7 @@ import { STRENGTHS } from '../../../config/strengths.config';
 import { BEFORE_AFTER_CASES } from '../../../config/before-after.config';
 import PortraitPhoto from '../components/PortraitPhoto';
 import PageSeo from '../../../components/PageSeo';
+import PictureWebp from '../../../components/PictureWebp';
 import useScrollReveal from '../hooks/useScrollReveal';
 import useCountUp from '../hooks/useCountUp';
 import '../styles/page-shared.css';
@@ -83,7 +84,7 @@ const onImgError = (label) => (e) => {
 function HeroSection() {
     return (
         <section className="kt-hero">
-            <img
+            <PictureWebp
                 src={HERO_IMAGE}
                 alt="カタチ便のメインビジュアル：『伝えたいを、イラストで一瞬に。』岡崎真奈による漫画・キャラクターデザイン・リアルペットイラストの作例と、平日対応・テイスト調整 OK の対応方針"
                 className="kt-hero__media"
@@ -255,7 +256,7 @@ function BeforeAfterSection() {
                                         AFTER
                                     </span>
                                     <div className="kt-ba-card__image">
-                                        <img
+                                        <PictureWebp
                                             src={c.afterImage}
                                             alt={c.afterAlt}
                                             loading="lazy"
@@ -367,7 +368,7 @@ function PortfolioTeaserSection({ items }) {
                             className="kt-portfolio-card"
                         >
                             <div className="kt-portfolio-card__img">
-                                <img
+                                <PictureWebp
                                     src={it.image}
                                     alt={it.title}
                                     loading="lazy"
@@ -532,7 +533,7 @@ function PawsPressTeaserSection() {
     return (
         <section ref={revealRef} className="kt-pp-cross reveal">
             <div className="kt-pp-cross__inner">
-                <img
+                <PictureWebp
                     src={PAWSPRESS_LOGO}
                     alt="PAWS PRESS"
                     className="kt-pp-cross__logo"

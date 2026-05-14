@@ -11,6 +11,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import doveLogoWebp from '../../../assets/pixel_art_dove.webp';
 import doveLogo from '../../../assets/pixel_art_dove.png';
 import './KataribinHeader.css';
 
@@ -74,7 +75,10 @@ export default function KataribinHeader() {
         <header className="kt-header">
             <div className="kt-header__inner">
                 <Link to="/" className="kt-brand" aria-label="カタチ便ホーム">
-                    <img src={doveLogo} alt="" className="kt-brand__logo" />
+                    <picture>
+                        <source srcSet={doveLogoWebp} type="image/webp" />
+                        <img src={doveLogo} alt="" className="kt-brand__logo" />
+                    </picture>
                     <span className="kt-brand__text">
                         <span className="kt-brand__name">カタチ便</span>
                         <span className="kt-brand__sub">

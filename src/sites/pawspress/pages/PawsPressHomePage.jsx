@@ -15,6 +15,7 @@ import { portfolioItems } from '../../../data/portfolioData';
 import { pawspressPlans } from '../data/plans';
 import PortfolioModal from '../../../components/ui/PortfolioModal';
 import PageSeo from '../../../components/PageSeo';
+import PictureWebp from '../../../components/PictureWebp';
 import './PawsPressHomePage.css';
 
 const SUB_CATEGORY_LABEL = {
@@ -46,7 +47,7 @@ function HeroSection({ heroImage }) {
                     <p className="paws-hero__note">平日対応・全国送料無料</p>
                 </div>
                 <div className="paws-hero__visual">
-                    <img
+                    <PictureWebp
                         src={heroImage}
                         alt="ペットイラスト制作の例"
                         loading="eager"
@@ -100,7 +101,7 @@ function FlowStep({ n, title, image, alt }) {
         <div className="paws-flow__step">
             <div className="paws-flow__num">STEP {n}</div>
             <div className="paws-flow__img">
-                <img
+                <PictureWebp
                     src={image}
                     alt={alt}
                     loading="lazy"
@@ -141,7 +142,7 @@ function GallerySection({ items, onOpen }) {
                             onClick={() => onOpen(idx)}
                             aria-label={`${item.title} を拡大して見る`}
                         >
-                            <img
+                            <PictureWebp
                                 src={item.image}
                                 alt={item.title}
                                 loading="lazy"

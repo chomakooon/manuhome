@@ -9,6 +9,7 @@
  */
 
 import { useState } from 'react';
+import PictureWebp from '../../../components/PictureWebp';
 import './PortraitPhoto.css';
 
 /**
@@ -40,7 +41,7 @@ export default function PortraitPhoto({
 
     return (
         <div className={className}>
-            <img
+            <PictureWebp
                 src={src}
                 alt={alt}
                 loading="lazy"

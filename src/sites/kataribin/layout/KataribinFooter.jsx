@@ -5,6 +5,7 @@
  */
 
 import { Link } from 'react-router-dom';
+import doveLogoWebp from '../../../assets/pixel_art_dove.webp';
 import doveLogo from '../../../assets/pixel_art_dove.png';
 import './KataribinFooter.css';
 
@@ -26,7 +27,10 @@ export default function KataribinFooter() {
         <footer className="kt-footer">
             <div className="kt-footer__inner">
                 <Link to="/" className="kt-footer__brand" aria-label="カタチ便ホーム">
-                    <img src={doveLogo} alt="" className="kt-footer__logo" loading="lazy" />
+                    <picture>
+                        <source srcSet={doveLogoWebp} type="image/webp" />
+                        <img src={doveLogo} alt="" className="kt-footer__logo" loading="lazy" />
+                    </picture>
                     <span className="kt-footer__brand-text">
                         <span className="kt-footer__name">カタチ便</span>
                         <span className="kt-footer__sub">

@@ -4,6 +4,7 @@ import './PortfolioPage.css';
 import { portfolioItems, categories } from '../../data/portfolioData';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
 import PageSeo from '../../components/PageSeo';
+import PictureWebp from '../../components/PictureWebp';
 
 const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
@@ -26,7 +27,7 @@ const PortfolioDetailItem = ({ baseItem, index, allItems, categories }) => {
             className={`portfolio-list-item fade-in ${index % 2 !== 0 ? 'reverse' : ''}`}
         >
             <div className="portfolio-item__image">
-                <img src={activeItem.image} alt={activeItem.title} loading="lazy" onError={handleImageError(activeItem.id)} />
+                <PictureWebp src={activeItem.image} alt={activeItem.title} loading="lazy" onError={handleImageError(activeItem.id)} />
                 <span className="portfolio-item__badge">
                     {categories.find(c => c.id === activeItem.category)?.name}
                 </span>
@@ -52,7 +53,7 @@ const PortfolioDetailItem = ({ baseItem, index, allItems, categories }) => {
                                 style={{ opacity: activeItem.id === item.id ? 0.6 : 1 }}
                             >
                                 <div className="related-card__image">
-                                    <img src={item.image} alt={item.title} loading="lazy" onError={handleImageError(item.id)} />
+                                    <PictureWebp src={item.image} alt={item.title} loading="lazy" onError={handleImageError(item.id)} />
                                 </div>
                                 <span className="related-card__title">{item.title}</span>
                             </div>
@@ -161,7 +162,7 @@ export default function PortfolioPage() {
                                 onClick={() => scrollToItem(item.id)}
                             >
                                 <div className="portfolio-card__image">
-                                    <img src={item.image} alt={item.title} loading="lazy" onError={handleImageError(item.id)} />
+                                    <PictureWebp src={item.image} alt={item.title} loading="lazy" onError={handleImageError(item.id)} />
                                     <div className="portfolio-card__overlay">
                                         <span className="portfolio-card__overlay-text">詳細を見る</span>
                                     </div>

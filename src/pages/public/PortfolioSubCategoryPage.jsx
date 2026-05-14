@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { portfolioItems, categories } from '../../data/portfolioData';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
+import PictureWebp from '../../components/PictureWebp';
 import { SEO_DEFAULTS } from '../../config/seo.config';
 import './PortfolioSubCategoryPage.css';
 
@@ -75,7 +76,7 @@ export default function PortfolioSubCategoryPage() {
                         {galleryItems.map((item, index) => (
                             <div key={`sub-${item.id}-${index}`} className="subcategory-card fade-in">
                                 <div className="subcategory-card__image">
-                                    <img
+                                    <PictureWebp
                                         src={item.image}
                                         alt={item.title}
                                         loading="lazy"
