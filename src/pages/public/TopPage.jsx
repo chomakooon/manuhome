@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './TopPage.css';
+import pixelDoveWebp from '../../assets/pixel_art_dove.webp';
 import pixelDove from '../../assets/pixel_art_dove.png';
+import orderFlowMangaWebp from '../../assets/order_flow_manga.webp';
 import orderFlowManga from '../../assets/order_flow_manga.png';
 import Icon from '../../components/common/Icon';
 
@@ -28,7 +30,10 @@ export default function TopPage() {
 
                     {/* --- CENTER VISUAL --- */}
                     <div className="mag-center-visual">
-                        <img src={pixelDove} alt="カタチ便 — イラスト制作・図解デザイン・漫画制作のビジュアルスタジオ" className="mag-dove-img" />
+                        <picture>
+                            <source srcSet={pixelDoveWebp} type="image/webp" />
+                            <img src={pixelDove} alt="カタチ便 — イラスト制作・図解デザイン・漫画制作のビジュアルスタジオ" className="mag-dove-img" />
+                        </picture>
                         <p className="mag-center-desc">イラスト制作 ・ 漫画制作 ・ 図解デザイン ・ ブランディング</p>
                     </div>
 
@@ -175,7 +180,10 @@ export default function TopPage() {
                     </p>
                 </div>
                 <div className="bs-manga-flow-wrapper">
-                    <img src={orderFlowManga} alt="カタチ便の注文フロー：悩み相談→依頼→デザイン制作→完成納品の4ステップ" className="bs-manga-img" />
+                    <picture>
+                        <source srcSet={orderFlowMangaWebp} type="image/webp" />
+                        <img src={orderFlowManga} alt="カタチ便の注文フロー：悩み相談→依頼→デザイン制作→完成納品の4ステップ" className="bs-manga-img" />
+                    </picture>
                 </div>
                 <div className="bs-flow-grid">
                     <div className="flow-step">

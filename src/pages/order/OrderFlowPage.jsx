@@ -10,6 +10,7 @@ import { getTemplateById } from '../../lib/templates';
 import { generateMangaPreview } from '../../lib/gemini';
 import { useVoiceInput } from '../../hooks/useVoiceInput';
 import FieldHint from '../../components/common/FieldHint';
+import orderFlowMangaWebp from '../../assets/order_flow_manga.webp';
 import orderFlowManga from '../../assets/order_flow_manga.png';
 import './OrderFlowPage.css';
 
@@ -311,7 +312,10 @@ export default function OrderFlowPage() {
                     </h1>
                     <p className="section-subtitle">{template.description}</p>
                     <div className="order-hero__manga">
-                        <img src={orderFlowManga} alt="注文フロー：悩み相談→依頼→デザイン制作→完成納品" />
+                        <picture>
+                            <source srcSet={orderFlowMangaWebp} type="image/webp" />
+                            <img src={orderFlowManga} alt="注文フロー：悩み相談→依頼→デザイン制作→完成納品" />
+                        </picture>
                     </div>
                 </div>
             </section>

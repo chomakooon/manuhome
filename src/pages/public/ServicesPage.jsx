@@ -1,8 +1,14 @@
 import React from 'react';
 import './ServicesPage.css';
+// Phase 20.1: 各画像を WebP + PNG フォールバック構成に。
+// Vite が import を解決してハッシュ付き URL を返す（public/ 配下の string パスとは別経路）。
+import brandingStrategyWebp from '../../assets/branding_strategy.webp';
 import brandingStrategyImg from '../../assets/branding_strategy.png';
+import studioGreetingWebp from '../../assets/studio_greeting.webp';
 import studioGreetingImg from '../../assets/studio_greeting.png';
+import orderFlowMangaWebp from '../../assets/order_flow_manga.webp';
 import orderFlowManga from '../../assets/order_flow_manga.png';
+import pixelDoveWebp from '../../assets/pixel_art_dove.webp';
 import pixelDove from '../../assets/pixel_art_dove.png';
 import Icon from '../../components/common/Icon';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
@@ -36,7 +42,10 @@ export default function ServicesPage() {
                     </div>
 
                     <div className="kb-news-profile-img-box">
-                        <img src={studioGreetingImg} alt="カタチ便 代表 — ビジュアルデザイナー まぬちゃん" />
+                        <picture>
+                            <source srcSet={studioGreetingWebp} type="image/webp" />
+                            <img src={studioGreetingImg} alt="カタチ便 代表 — ビジュアルデザイナー まぬちゃん" />
+                        </picture>
                     </div>
 
                     <h3 className="kb-news-intro-headline">「伝わらない」を、<br />利益に変える。</h3>
@@ -83,7 +92,10 @@ export default function ServicesPage() {
                             <div className="kb-news-center-visual">
                                 <span className="kb-news-badge-corner">注</span>
                                 <span className="kb-news-badge-corner" style={{ top: 'auto', bottom: '10px', left: 'auto', right: '10px' }}>目</span>
-                                <img src={brandingStrategyImg} alt="カタチ便のブランディング戦略 ― ビジュアルで収益を加速" />
+                                <picture>
+                                    <source srcSet={brandingStrategyWebp} type="image/webp" />
+                                    <img src={brandingStrategyImg} alt="カタチ便のブランディング戦略 ― ビジュアルで収益を加速" />
+                                </picture>
                             </div>
                             <p className="kb-news-article-body">
                                 「伝えたい価値はあるのに、顧客に正しく伝わっていない」――この悩みは、個人事業主・中小企業に共通する最大の課題です。カタチ便は、イラスト・漫画・図解を戦略的に活用し、0.1秒で顧客の心をつかむビジュアルを設計。ビジネスの成長を視覚面から支援します。
@@ -148,7 +160,10 @@ export default function ServicesPage() {
                 <aside className="kb-news-col kb-news-right">
                     <div className="kb-news-brand-logo">
                         <div className="kb-news-brand-inner">
-                            <img src={pixelDove} alt="カタチ便" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+                            <picture>
+                                <source srcSet={pixelDoveWebp} type="image/webp" />
+                                <img src={pixelDove} alt="カタチ便" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+                            </picture>
                         </div>
                     </div>
 
@@ -181,7 +196,10 @@ export default function ServicesPage() {
                     {/* 制作フロー4コマ */}
                     <div className="kb-news-manga-sidebar">
                         <h4 className="kb-news-manga-label">▼ 制作の流れ</h4>
-                        <img src={orderFlowManga} alt="カタチ便 注文フロー 4コマ漫画：悩み相談→依頼→制作→納品" className="kb-news-manga-thumb" />
+                        <picture>
+                            <source srcSet={orderFlowMangaWebp} type="image/webp" />
+                            <img src={orderFlowManga} alt="カタチ便 注文フロー 4コマ漫画：悩み相談→依頼→制作→納品" className="kb-news-manga-thumb" />
+                        </picture>
                     </div>
                 </aside>
             </div>
