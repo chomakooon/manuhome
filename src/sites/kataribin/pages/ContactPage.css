@@ -96,6 +96,67 @@
     text-align: center;
 }
 
+/* Phase 22: 送信中の fieldset ラッパ — 入れ子要素を一括 disable する。
+   ブラウザ既定の枠線・余白は除去して既存レイアウトを維持。 */
+.kt-contact-form__fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+.kt-contact-form__fieldset[disabled] {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* 送信中のローディングスピナー */
+.kt-contact-spinner {
+    animation: kt-contact-spin 0.9s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes kt-contact-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kt-contact-spinner {
+        animation: none;
+    }
+}
+
+/* Phase 22: 送信失敗時のリトライバナー */
+.kt-contact-submit-error {
+    background-color: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    border-left: 4px solid #C04040;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--brand-text);
+}
+
+.kt-contact-submit-error:focus-visible {
+    outline: 3px solid var(--brand-primary);
+    outline-offset: 2px;
+}
+
+.kt-contact-submit-error__title {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    color: #B91C1C;
+}
+
+.kt-contact-submit-error__text {
+    margin: 0 0 1rem 0;
+    font-size: 0.925rem;
+    line-height: 1.85;
+    color: var(--brand-text);
+}
+
 /* Phase 7: フォーム送信ボタン直下の正式注文 fallback リンク */
 .kt-contact-form__intake-hint {
     margin: 0.75rem 0 0 0;

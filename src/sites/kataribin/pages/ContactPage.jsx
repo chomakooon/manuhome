@@ -10,11 +10,20 @@
  *   - フォーム送信ボタン直下に /intake 誘導リンクを追加（既存 SNS 下も維持）
  *   - /contact?plan=<id> でプラン情報をテキストエリアに自動転記
  *
- * 送信は console.log のモック。Cloudflare Worker 連携は次フェーズ。
+ * Phase 22 (現在):
+ *   - 状態マシン化: 'idle' / 'submitting' / 'success' / 'error'
+ *   - submitContactForm 関数を分離（エンジニア接続ポイントを明示）
+ *   - 送信中の二重送信防止 + ローディング表示
+ *   - 失敗時のリトライ UI（入力内容は保持）
+ *   - aria-live で状態遷移を読み上げ
+ *
+ * バックエンド接続（Cloudflare Worker /api/contact）は別途エンジニア担当。
+ * 接続ポイントの詳細は submitContactForm 関数の JSDoc 参照。
  */
 
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
 import { pricingPlans } from '../../../config/pricing.config';
 import { SNS_LINKS } from '../../../config/social.config';
 import Breadcrumb from '../components/Breadcrumb';
@@ -88,6 +97,57 @@ const readAsDataUrl = (file) =>
         r.readAsDataURL(file);
     });
 
+/* ================================================================
+   🔧 ENGINEER CONNECTION POINT (Phase 22 → 次フェーズ)
+   ================================================================
+
+   この関数を Cloudflare Worker（`/api/contact`）への fetch に
+   置き換えてください。それ以外の UI / バリデーション / 状態管理は
+   呼び出し側で完成しているため、本関数のシグネチャ（formData を受け取り
+   ok: boolean を返す Promise）を維持すれば差し替え可能です。
+
+   ── 期待する HTTP 仕様 ──────────────────────────
+   POST https://ai-reply-worker.mana-ai.workers.dev/api/contact
+   Content-Type: application/json
+   Body: JSON.stringify(formData)   // 下記 formData の構造を参照
+
+   ── 期待するレスポンス ─────────────────────────
+   成功:  HTTP 200, { ok: true }
+   失敗:  HTTP 4xx / 5xx, or network error → throw
+
+   ── formData の構造（contract） ───────────────
+   {
+     name: string,          // 必須
+     email: string,         // 必須
+     message: string,       // 必須
+     planId: string | null, // /contact?plan=<id> から自動セット
+     referencePhotos: [     // 添付画像のメタ情報（最大 3 枚）
+       { name: string, size: number, type: string, dataUrl: string }
+     ],
+     submittedAt: string,   // ISO 8601 タイムスタンプ
+     userAgent: string,     // ブラウザ識別（任意、スパム対策で利用可能）
+   }
+
+   ── 実装の注意点 ───────────────────────────────
+   - referencePhotos[].dataUrl は base64 文字列で大きい（数 MB ある可能性）
+     → Worker 側で multipart/form-data に変換するか、別途 R2 等にアップロード
+   - 失敗時は throw すれば呼び出し側で status="error" が立ちます
+   - reCAPTCHA / Turnstile 等の bot 対策は Worker 側で要検討
+*/
+async function submitContactForm(formData) {
+    // ⚠️ 未実装 — エンジニアがここを fetch 実装に置き換える
+    // 開発中の擬似遅延（実 API の体感に近い 1.2 秒）
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+
+    // ── テスト切替（一時的に有効化して挙動確認） ─────
+    // throw new Error('SUBMIT_FAILED');          // ❌ 失敗ケース
+    // ─────────────────────────────────────────
+
+    // 開発中はコンソールにダンプ（実装時に削除可）
+    console.log('[contact] submission (mock):', formData);
+    return { ok: true };
+}
+
 // ── Sub components ─────────────────────────────
 
 function PageHero() {
@@ -123,8 +183,15 @@ function ShortFaqSection() {
 }
 
 function CompletedScreen() {
+    // Phase 22: マウント時に当画面へフォーカスを移し、スクリーンリーダーで読み上げる
+    const ref = useRef(null);
+    useEffect(() => {
+        ref.current?.focus();
+    }, []);
     return (
         <div
+            ref={ref}
+            tabIndex={-1}
             className="kt-contact-completed"
             role="status"
             aria-live="polite"
@@ -185,7 +252,8 @@ export default function ContactPage() {
         [planId]
     );
 
-    const [submitted, setSubmitted] = useState(false);
+    // Phase 22: 'idle' | 'submitting' | 'success' | 'error'
+    const [status, setStatus] = useState('idle');
     const [errors, setErrors] = useState({});
     const [data, setData] = useState(() => ({
         name: '',
@@ -195,6 +263,10 @@ export default function ContactPage() {
     const [photos, setPhotos] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
     const inputRef = useRef(null);
+    const formRef = useRef(null);
+    const errorBannerRef = useRef(null);
+
+    const isSubmitting = status === 'submitting';
 
     const update = (key) => (e) => setData((d) => ({ ...d, [key]: e.target.value }));
 
@@ -260,24 +332,57 @@ export default function ContactPage() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        // 二重送信防止
+        if (isSubmitting) return;
+
         const errs = validate();
         setErrors(errs);
-        if (Object.keys(errs).length) return;
+        if (Object.keys(errs).length) {
+            // 最初のエラー項目にフォーカス（a11y）
+            const firstKey = Object.keys(errs)[0];
+            formRef.current?.querySelector(`#contact-${firstKey}`)?.focus();
+            return;
+        }
 
-        const submission = {
-            ...data,
-            referencePhotos: photos.map((p) => ({ name: p.name, size: p.size, type: p.type })),
-            planContext: planId ?? null,
+        // 送信ペイロードを組み立て（formData の構造は submitContactForm の
+        // JSDoc コントラクトを参照）
+        const formData = {
+            name: data.name.trim(),
+            email: data.email.trim(),
+            message: data.message.trim(),
+            planId: planId ?? null,
+            referencePhotos: photos.map((p) => ({
+                name: p.name,
+                size: p.size,
+                type: p.type,
+                dataUrl: p.dataUrl,
+            })),
             submittedAt: new Date().toISOString(),
+            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
         };
-        console.log('[contact] submission:', submission);
-        setSubmitted(true);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        setStatus('submitting');
+        try {
+            const result = await submitContactForm(formData);
+            if (!result?.ok) throw new Error('UNEXPECTED_RESPONSE');
+            setStatus('success');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (err) {
+            console.warn('[contact] submit failed:', err);
+            setStatus('error');
+            // エラーバナーへフォーカス
+            requestAnimationFrame(() => errorBannerRef.current?.focus());
+        }
     };
 
-    if (submitted) return <CompletedScreen />;
+    const handleRetry = () => {
+        // データを保持したまま idle に戻し、再送信を促す
+        setStatus('idle');
+    };
+
+    if (status === 'success') return <CompletedScreen />;
 
     const isFull = photos.length >= MAX_PHOTOS;
 
@@ -298,7 +403,51 @@ export default function ContactPage() {
                             （{prefilledPlan.priceLabel}{prefilledPlan.priceUnit ? ` ／${prefilledPlan.priceUnit}` : ''}）
                         </p>
                     )}
-                    <form className="kt-contact-form" onSubmit={handleSubmit} noValidate>
+
+                    {/* Phase 22: 送信失敗時のリトライ UI */}
+                    {status === 'error' && (
+                        <div
+                            ref={errorBannerRef}
+                            tabIndex={-1}
+                            role="alert"
+                            aria-live="assertive"
+                            className="kt-contact-submit-error"
+                        >
+                            <p className="kt-contact-submit-error__title">
+                                送信に失敗しました
+                            </p>
+                            <p className="kt-contact-submit-error__text">
+                                通信状況により一時的に送信できませんでした。
+                                お手数ですが再度お試しください。
+                                <br />
+                                繰り返し失敗する場合は、下記の SNS DM からもご相談いただけます。
+                            </p>
+                            <button
+                                type="button"
+                                onClick={handleRetry}
+                                className="kt-btn kt-btn--primary"
+                            >
+                                再送信する
+                            </button>
+                        </div>
+                    )}
+
+                    {/* 状態の読み上げ用ライブリージョン（submitting 中の sr 通知） */}
+                    <p className="sr-only" aria-live="polite">
+                        {isSubmitting ? '送信中です。少々お待ちください。' : ''}
+                    </p>
+
+                    <form
+                        ref={formRef}
+                        className="kt-contact-form"
+                        onSubmit={handleSubmit}
+                        noValidate
+                        aria-busy={isSubmitting}
+                    >
+                        <fieldset
+                            disabled={isSubmitting}
+                            className="kt-contact-form__fieldset"
+                        >
                         <Field
                             label="お名前"
                             htmlFor="contact-name"
@@ -445,14 +594,29 @@ export default function ContactPage() {
                             <button
                                 type="submit"
                                 className="kt-btn kt-btn--primary kt-btn--lg"
+                                disabled={isSubmitting}
+                                aria-disabled={isSubmitting}
                             >
-                                送信する →
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader2
+                                            size={18}
+                                            strokeWidth={2.2}
+                                            className="kt-contact-spinner"
+                                            aria-hidden="true"
+                                        />
+                                        送信中…
+                                    </>
+                                ) : (
+                                    '送信する →'
+                                )}
                             </button>
                         </div>
                         <p className="kt-contact-form__intake-hint">
                             より詳細な内容で正式注文される方は
                             <Link to="/intake">こちら →</Link>
                         </p>
+                        </fieldset>
                     </form>
                 </div>
             </section>
