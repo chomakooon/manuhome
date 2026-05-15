@@ -95,6 +95,11 @@ export function AuthProvider({ children }) {
     );
 }
 
+// Phase 23: AuthProvider と同じファイルで Hook を export しているため
+// react-refresh/only-export-components が警告を出すが、これは Vite の Fast Refresh
+// （HMR）に関する dev-only の最適化ヒントで本番動作には影響しない。
+// 将来的に Hook を別ファイル（src/contexts/useAuth.js 等）に分離するのが理想。
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
     const context = useContext(AuthContext);
     if (!context) {

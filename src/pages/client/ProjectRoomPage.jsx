@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import StatusTimeline from '../../components/portal/StatusTimeline';
@@ -36,11 +36,7 @@ export default function ProjectRoomPage() {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('status');
 
-    useEffect(() => {
-        loadProject();
-    }, [id]);
-
-    async function loadProject() {
+    const loadProject = useCallback(async () => {
         try {
             // Try to load from Supabase
             const { getProject } = await import('../../lib/api');
@@ -52,7 +48,11 @@ export default function ProjectRoomPage() {
         } finally {
             setLoading(false);
         }
-    }
+    }, [id]);
+
+    useEffect(() => {
+        loadProject();
+    }, [loadProject]);
 
     async function handleSendMessage(content) {
         if (!user) return;
@@ -63,7 +63,7 @@ export default function ProjectRoomPage() {
                 ...prev,
                 project_messages: [...(prev.project_messages || []), msg],
             }));
-        } catch (err) {
+        } catch {
             // Demo mode: add locally
             const demoMsg = {
                 id: Date.now().toString(),

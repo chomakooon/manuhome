@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import StatusTimeline from '../../components/portal/StatusTimeline';
@@ -39,11 +39,7 @@ export default function DashProjectDetailPage() {
     const [notes, setNotes] = useState('');
     const [deliveryFiles, setDeliveryFiles] = useState([]);
 
-    useEffect(() => {
-        loadProject();
-    }, [id]);
-
-    async function loadProject() {
+    const loadProject = useCallback(async () => {
         try {
             const { getProject } = await import('../../lib/api');
             const data = await getProject(id);
@@ -55,7 +51,11 @@ export default function DashProjectDetailPage() {
         } finally {
             setLoading(false);
         }
-    }
+    }, [id]);
+
+    useEffect(() => {
+        loadProject();
+    }, [loadProject]);
 
     async function handleStatusChange(newStatus) {
         try {
@@ -136,7 +136,6 @@ export default function DashProjectDetailPage() {
 
     const assets = (project.project_files || []).filter(f => f.file_type === 'asset');
     const deliveries = (project.project_files || []).filter(f => f.file_type === 'delivery');
-    const currentStatusIndex = PROJECT_STATUS_ORDER.indexOf(project.status);
 
     return (
         <div className="dash-page dashpd">
@@ -161,7 +160,7 @@ export default function DashProjectDetailPage() {
                 <h2 className="dashpd__section-title">ステータス管理</h2>
                 <StatusTimeline currentStatus={project.status} />
                 <div className="dashpd__status-controls">
-                    {PROJECT_STATUS_ORDER.map((status, i) => (
+                    {PROJECT_STATUS_ORDER.map((status) => (
                         <button
                             key={status}
                             className={`dashpd__status-btn ${project.status === status ? 'dashpd__status-btn--active' : ''}`}

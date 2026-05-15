@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { FolderOpen, Clock, ArrowRight } from 'lucide-react';
@@ -28,11 +28,7 @@ export default function ProjectListPage() {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        loadProjects();
-    }, [user]);
-
-    async function loadProjects() {
+    const loadProjects = useCallback(async () => {
         try {
             if (user) {
                 const { getProjectsByCustomer } = await import('../../lib/api');
@@ -44,7 +40,11 @@ export default function ProjectListPage() {
         } finally {
             setLoading(false);
         }
-    }
+    }, [user]);
+
+    useEffect(() => {
+        loadProjects();
+    }, [loadProjects]);
 
     if (loading) return (
         <div className="project-list-page">

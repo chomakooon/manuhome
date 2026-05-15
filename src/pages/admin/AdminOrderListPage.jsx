@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { Search, Filter, Eye } from 'lucide-react';
@@ -10,19 +10,15 @@ export default function AdminOrderListPage() {
     const [filterStatus, setFilterStatus] = useState('all');
     const [sortOrder, setSortOrder] = useState('desc');
 
-    useEffect(() => {
-        fetchOrders();
-    }, [filterStatus, sortOrder]);
-
-    const fetchOrders = async () => {
+    const fetchOrders = useCallback(async () => {
         setLoading(true);
         try {
             let query = supabase.from('orders').select('*');
-            
+
             if (filterStatus !== 'all') {
                 query = query.eq('status', filterStatus);
             }
-            
+
             query = query.order('created_at', { ascending: sortOrder === 'asc' });
 
             const { data, error } = await query;
@@ -33,7 +29,11 @@ export default function AdminOrderListPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [filterStatus, sortOrder]);
+
+    useEffect(() => {
+        fetchOrders();
+    }, [fetchOrders]);
 
     const getStatusBadge = (status) => {
         const statuses = {

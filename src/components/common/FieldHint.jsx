@@ -9,6 +9,15 @@ export default function FieldHint({ hint, children }) {
     const timerRef = useRef(null);
     const [dismissed, setDismissed] = useState(false);
 
+    // Phase 23: hint が変わったら dismissed をリセットする「prop sync」パターン。
+    // useEffect + setState ではなく、レンダー中に前回値と比較して直接更新する
+    // （React 公式: https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes）
+    const [prevHint, setPrevHint] = useState(hint);
+    if (prevHint !== hint) {
+        setPrevHint(hint);
+        setDismissed(false);
+    }
+
     const startTimer = () => {
         if (dismissed || !hint) return;
         clearTimeout(timerRef.current);
@@ -33,10 +42,6 @@ export default function FieldHint({ hint, children }) {
     useEffect(() => {
         return () => clearTimeout(timerRef.current);
     }, []);
-
-    useEffect(() => {
-        setDismissed(false);
-    }, [hint]);
 
     if (!hint) return children;
 

@@ -49,9 +49,7 @@ export default function OrderFlowPage() {
     const { templateId } = useParams();
     const template = getTemplateById(templateId);
 
-    if (!template) {
-        return <Navigate to="/order" replace />;
-    }
+    // Phase 23: hooks は早期 return より前に全て呼ぶ（react-hooks/rules-of-hooks）
     const [currentStep, setCurrentStep] = useState(1);
     const [loading, setLoading] = useState(false);
 
@@ -69,17 +67,18 @@ export default function OrderFlowPage() {
         form_data: {}
     });
 
-    const STEPS = template.formSteps;
+    const STEPS = template?.formSteps ?? [];
     const currentStepConfig = STEPS.find(s => s.step === currentStep);
 
-    // Calculate dynamic pricing
-    const { basePrice, optionsTotal, totalPrice } = useMemo(() => {
+    // Calculate dynamic pricing — template が null の場合は totalPrice=0 を返す
+    const { totalPrice } = useMemo(() => {
+        if (!template) return { totalPrice: 0 };
         const tier = template.tiers.find(t => t.id === orderData.tier_id);
         const base = tier ? tier.price : 0;
         const opts = orderData.selected_options.map(optId => template.options.find(o => o.id === optId)?.price || 0);
         const optTotal = opts.reduce((a, b) => a + b, 0);
-        return { basePrice: base, optionsTotal: optTotal, totalPrice: base + optTotal };
-    }, [orderData.tier_id, orderData.selected_options]);
+        return { totalPrice: base + optTotal };
+    }, [template, orderData.tier_id, orderData.selected_options]);
 
     // AI Preview generation
     const generatePreview = useCallback(async () => {
@@ -106,6 +105,11 @@ export default function OrderFlowPage() {
         }
     }, [currentStepConfig?.type, aiPreviewGenerated, aiPreviewLoading, generatePreview]);
 
+    // 早期 return は全 hooks の後に
+    if (!template) {
+        return <Navigate to="/order" replace />;
+    }
+
     const canProceed = () => {
         if (!currentStepConfig) return false;
 
@@ -130,9 +134,10 @@ export default function OrderFlowPage() {
                     }
                 }
                 return true;
-            case 'asset_upload':
+            case 'asset_upload': {
                 const min = currentStepConfig.minFiles ?? 1;
                 return orderData.files.length >= min;
+            }
             case 'ai_image_select':
                 return orderData.form_data.selected_pattern !== undefined && orderData.form_data.selected_pattern !== null;
             case 'confirmation':
@@ -308,7 +313,7 @@ export default function OrderFlowPage() {
                 <div className="container">
                     <p className="order-hero__badge">ペットイラスト注文</p>
                     <h1 className="order-hero__title">
-                        ペットイラスト　<span className="text-gradient-warm">ご注文</span>
+                        ペットイラスト <span className="text-gradient-warm">ご注文</span>
                     </h1>
                     <p className="section-subtitle">{template.description}</p>
                     <div className="order-hero__manga">
