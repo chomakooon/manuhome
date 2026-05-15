@@ -105,9 +105,12 @@ function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, errors }) {
                 {pawspressPlans.map((plan) => (
                     <label
                         key={plan.id}
+                        htmlFor={`plan-${plan.id}`}
                         className={`paws-plan-radio${planId === plan.id ? ' paws-plan-radio--checked' : ''}`}
                     >
+                        <span className="sr-only">{plan.name}</span>
                         <input
+                            id={`plan-${plan.id}`}
                             type="radio"
                             name="plan"
                             value={plan.id}

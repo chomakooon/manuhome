@@ -32,15 +32,18 @@ export default function PortfolioModal({ item, isOpen, onClose, onNext, onPrev, 
 
     if (!isOpen || !item) return null;
 
-    const handleBackdropClick = (e) => {
-        // Prevent closing if modal content is clicked
-        if (e.target.classList.contains('portfolio-modal-backdrop')) {
-            onClose();
-        }
-    };
+    // Phase 21: 背景クリックで閉じる動作は専用の <button> に分離。
+    // dialog 要素自体に onClick を持たせると jsx-a11y/no-noninteractive-element-interactions に違反するため、
+    // 背景は背面に置いた <button>、コンテンツは前面に配置する z-index 戦略で対応する。
 
     return (
-        <div className="portfolio-modal-backdrop" onClick={handleBackdropClick} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div className="portfolio-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button
+                type="button"
+                className="portfolio-modal-backdrop-btn"
+                onClick={onClose}
+                aria-label="モーダルを閉じる"
+            />
             <div className="portfolio-modal-content">
                 <button
                     className="portfolio-modal-close"

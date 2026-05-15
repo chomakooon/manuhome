@@ -7,6 +7,19 @@
     cursor: pointer;
 }
 
+/* Phase 21: <button> として描画された Card の native スタイルを無効化し、
+   既存 <div>/<a> 版と見た目を揃える。 */
+.card--button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    text-align: inherit;
+    color: inherit;
+    width: 100%;
+}
+
 .card__icon {
     font-size: 1.5rem;
     flex-shrink: 0;

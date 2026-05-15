@@ -77,48 +77,54 @@ export default function LoginPage() {
                 <form className="login-form" onSubmit={handleSubmit}>
                     {mode === 'register' && (
                         <div className="login-form__group">
-                            <label className="login-form__label">
+                            <label htmlFor="login-fullName" className="login-form__label">
                                 <User size={16} strokeWidth={1.5} />
                                 お名前
                             </label>
                             <input
+                                id="login-fullName"
                                 type="text"
                                 className="form-input"
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
                                 placeholder="山田太郎"
+                                autoComplete="name"
                                 required
                             />
                         </div>
                     )}
 
                     <div className="login-form__group">
-                        <label className="login-form__label">
+                        <label htmlFor="login-email" className="login-form__label">
                             <Mail size={16} strokeWidth={1.5} />
                             メールアドレス
                         </label>
                         <input
+                            id="login-email"
                             type="email"
                             className="form-input"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="example@email.com"
+                            autoComplete="email"
                             required
                         />
                     </div>
 
                     {mode !== 'magic' && (
                         <div className="login-form__group">
-                            <label className="login-form__label">
+                            <label htmlFor="login-password" className="login-form__label">
                                 <Lock size={16} strokeWidth={1.5} />
                                 パスワード
                             </label>
                             <input
+                                id="login-password"
                                 type="password"
                                 className="form-input"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••"
+                                autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
                                 required
                                 minLength={6}
                             />

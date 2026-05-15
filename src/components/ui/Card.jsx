@@ -47,8 +47,23 @@ export default function Card({
         );
     }
 
+    // onClick が指定された場合のみインタラクティブ要素として <button> を返す。
+    // それ以外は静的な <div>（イベントなし）。
+    if (onClick) {
+        return (
+            <button
+                type="button"
+                className={`${classes} card--button`}
+                style={style}
+                onClick={onClick}
+            >
+                {content}
+            </button>
+        );
+    }
+
     return (
-        <div className={classes} style={style} onClick={onClick}>
+        <div className={classes} style={style}>
             {content}
         </div>
     );

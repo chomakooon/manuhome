@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Briefcase, Dog, Users, MessageCircle, Send } from 'lucide-react';
 import './IntakePage.css';
@@ -31,9 +31,18 @@ const BUDGET_OPTIONS = [
 export default function IntakePage() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const [step, setStep] = useState(1);
+
+    // Phase 23: URL の ?type=<value> を初期 state に取り込む lazy initializer。
+    // 旧実装は useEffect 内で setState していたが、set-state-in-effect を避けて
+    // マウント時に一度だけ評価する方式へ書き換えた。
+    const initialType = (() => {
+        const type = searchParams.get('type');
+        return type && INQUIRY_TYPES.some(t => t.value === type) ? type : '';
+    })();
+
+    const [step, setStep] = useState(initialType ? 2 : 1);
     const [formData, setFormData] = useState({
-        inquiryType: '',
+        inquiryType: initialType,
         name: '',
         company: '',
         email: '',
@@ -57,14 +66,6 @@ export default function IntakePage() {
         // other
         free_detail: '',
     });
-
-    useEffect(() => {
-        const type = searchParams.get('type');
-        if (type && INQUIRY_TYPES.some(t => t.value === type)) {
-            setFormData(prev => ({ ...prev, inquiryType: type }));
-            setStep(2);
-        }
-    }, [searchParams]);
 
     const handleTypeSelect = (type) => {
         setFormData(prev => ({ ...prev, inquiryType: type }));
@@ -210,33 +211,33 @@ export default function IntakePage() {
                                 <legend className="intake-legend">基本情報</legend>
 
                                 <div className="form-group">
-                                    <label className="form-label">お名前 <span className="required">*</span></label>
-                                    <input type="text" name="name" className="form-input" value={formData.name}
-                                        onChange={handleChange} required placeholder="山田太郎" />
+                                    <label htmlFor="intake-name" className="form-label">お名前 <span className="required">*</span></label>
+                                    <input id="intake-name" type="text" name="name" className="form-input" value={formData.name}
+                                        onChange={handleChange} required placeholder="山田太郎" autoComplete="name" />
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="form-label">会社名・屋号</label>
-                                    <input type="text" name="company" className="form-input" value={formData.company}
-                                        onChange={handleChange} placeholder="株式会社サンプル（任意）" />
+                                    <label htmlFor="intake-company" className="form-label">会社名・屋号</label>
+                                    <input id="intake-company" type="text" name="company" className="form-input" value={formData.company}
+                                        onChange={handleChange} placeholder="株式会社サンプル（任意）" autoComplete="organization" />
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="form-label">メールアドレス <span className="required">*</span></label>
-                                    <input type="email" name="email" className="form-input" value={formData.email}
-                                        onChange={handleChange} required placeholder="example@email.com" />
+                                    <label htmlFor="intake-email" className="form-label">メールアドレス <span className="required">*</span></label>
+                                    <input id="intake-email" type="email" name="email" className="form-input" value={formData.email}
+                                        onChange={handleChange} required placeholder="example@email.com" autoComplete="email" />
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="form-label">SNSアカウント</label>
-                                    <input type="text" name="sns" className="form-input" value={formData.sns}
+                                    <label htmlFor="intake-sns" className="form-label">SNSアカウント</label>
+                                    <input id="intake-sns" type="text" name="sns" className="form-input" value={formData.sns}
                                         onChange={handleChange} placeholder="@your_account（任意）" />
                                 </div>
 
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label className="form-label">目的 <span className="required">*</span></label>
-                                        <select name="goal" className="form-select" value={formData.goal}
+                                        <label htmlFor="intake-goal" className="form-label">目的 <span className="required">*</span></label>
+                                        <select id="intake-goal" name="goal" className="form-select" value={formData.goal}
                                             onChange={handleChange} required>
                                             <option value="">選択してください</option>
                                             {GOAL_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
@@ -244,8 +245,8 @@ export default function IntakePage() {
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">予算感 <span className="required">*</span></label>
-                                        <select name="budget_range" className="form-select" value={formData.budget_range}
+                                        <label htmlFor="intake-budget" className="form-label">予算感 <span className="required">*</span></label>
+                                        <select id="intake-budget" name="budget_range" className="form-select" value={formData.budget_range}
                                             onChange={handleChange} required>
                                             <option value="">選択してください</option>
                                             {BUDGET_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
@@ -254,8 +255,8 @@ export default function IntakePage() {
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="form-label">希望納期</label>
-                                    <input type="text" name="deadline" className="form-input" value={formData.deadline}
+                                    <label htmlFor="intake-deadline" className="form-label">希望納期</label>
+                                    <input id="intake-deadline" type="text" name="deadline" className="form-input" value={formData.deadline}
                                         onChange={handleChange} placeholder="例: 3月末まで、1ヶ月以内 など" />
                                 </div>
                             </fieldset>
@@ -265,8 +266,8 @@ export default function IntakePage() {
                                 <fieldset className="intake-fieldset">
                                     <legend className="intake-legend">制作の詳細</legend>
                                     <div className="form-group">
-                                        <label className="form-label">用途</label>
-                                        <select name="use_case" className="form-select" value={formData.use_case} onChange={handleChange}>
+                                        <label htmlFor="intake-use-case" className="form-label">用途</label>
+                                        <select id="intake-use-case" name="use_case" className="form-select" value={formData.use_case} onChange={handleChange}>
                                             <option value="">選択してください</option>
                                             <option value="lp">LP・ランディングページ</option>
                                             <option value="sns_ad">SNS広告</option>
@@ -276,8 +277,8 @@ export default function IntakePage() {
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">メディア種別</label>
-                                        <select name="media_type" className="form-select" value={formData.media_type} onChange={handleChange}>
+                                        <label htmlFor="intake-media-type" className="form-label">メディア種別</label>
+                                        <select id="intake-media-type" name="media_type" className="form-select" value={formData.media_type} onChange={handleChange}>
                                             <option value="">選択してください</option>
                                             <option value="manga">漫画</option>
                                             <option value="illustration">イラスト</option>
@@ -286,13 +287,13 @@ export default function IntakePage() {
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">ターゲット</label>
-                                        <input type="text" name="target" className="form-input" value={formData.target}
+                                        <label htmlFor="intake-target" className="form-label">ターゲット</label>
+                                        <input id="intake-target" type="text" name="target" className="form-input" value={formData.target}
                                             onChange={handleChange} placeholder="例: 30代女性、中小企業の経営者 など" />
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">トーン・雰囲気</label>
-                                        <input type="text" name="tone" className="form-input" value={formData.tone}
+                                        <label htmlFor="intake-tone" className="form-label">トーン・雰囲気</label>
+                                        <input id="intake-tone" type="text" name="tone" className="form-input" value={formData.tone}
                                             onChange={handleChange} placeholder="例: 親しみやすい、プロフェッショナル、ポップ など" />
                                     </div>
                                 </fieldset>
@@ -302,8 +303,8 @@ export default function IntakePage() {
                                 <fieldset className="intake-fieldset">
                                     <legend className="intake-legend">ペットグッズの詳細</legend>
                                     <div className="form-group">
-                                        <label className="form-label">ペットの数</label>
-                                        <select name="pet_count" className="form-select" value={formData.pet_count} onChange={handleChange}>
+                                        <label htmlFor="intake-pet-count" className="form-label">ペットの数</label>
+                                        <select id="intake-pet-count" name="pet_count" className="form-select" value={formData.pet_count} onChange={handleChange}>
                                             <option value="">選択してください</option>
                                             <option value="1">1匹</option>
                                             <option value="2">2匹</option>
@@ -311,8 +312,8 @@ export default function IntakePage() {
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">イラストのスタイル</label>
-                                        <select name="style" className="form-select" value={formData.style} onChange={handleChange}>
+                                        <label htmlFor="intake-style" className="form-label">イラストのスタイル</label>
+                                        <select id="intake-style" name="style" className="form-select" value={formData.style} onChange={handleChange}>
                                             <option value="">選択してください</option>
                                             <option value="realistic">リアル風</option>
                                             <option value="cute">かわいい系</option>
@@ -321,8 +322,8 @@ export default function IntakePage() {
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">グッズの種類</label>
-                                        <select name="goods_type" className="form-select" value={formData.goods_type} onChange={handleChange}>
+                                        <label htmlFor="intake-goods-type" className="form-label">グッズの種類</label>
+                                        <select id="intake-goods-type" name="goods_type" className="form-select" value={formData.goods_type} onChange={handleChange}>
                                             <option value="">選択してください</option>
                                             <option value="mug">マグカップ</option>
                                             <option value="tshirt">Tシャツ</option>
@@ -338,13 +339,13 @@ export default function IntakePage() {
                                 <fieldset className="intake-fieldset">
                                     <legend className="intake-legend">交流会の詳細</legend>
                                     <div className="form-group">
-                                        <label className="form-label">参加の目的</label>
-                                        <input type="text" name="purpose" className="form-input" value={formData.purpose}
+                                        <label htmlFor="intake-purpose" className="form-label">参加の目的</label>
+                                        <input id="intake-purpose" type="text" name="purpose" className="form-input" value={formData.purpose}
                                             onChange={handleChange} placeholder="例: 人脈づくり、コラボ先探し、勉強 など" />
                                     </div>
                                     <div className="form-group">
-                                        <label className="form-label">希望日程</label>
-                                        <input type="text" name="preferred_date" className="form-input" value={formData.preferred_date}
+                                        <label htmlFor="intake-preferred-date" className="form-label">希望日程</label>
+                                        <input id="intake-preferred-date" type="text" name="preferred_date" className="form-input" value={formData.preferred_date}
                                             onChange={handleChange} placeholder="例: 3月の週末、平日夜 など" />
                                     </div>
                                 </fieldset>
@@ -354,8 +355,8 @@ export default function IntakePage() {
                                 <fieldset className="intake-fieldset">
                                     <legend className="intake-legend">ご相談の詳細</legend>
                                     <div className="form-group">
-                                        <label className="form-label">詳しい内容</label>
-                                        <textarea name="free_detail" className="form-textarea" value={formData.free_detail}
+                                        <label htmlFor="intake-free-detail" className="form-label">詳しい内容</label>
+                                        <textarea id="intake-free-detail" name="free_detail" className="form-textarea" value={formData.free_detail}
                                             onChange={handleChange} placeholder="ご相談内容を自由にご記入ください" rows={5} />
                                     </div>
                                 </fieldset>
@@ -365,8 +366,8 @@ export default function IntakePage() {
                             <fieldset className="intake-fieldset">
                                 <legend className="intake-legend">メッセージ</legend>
                                 <div className="form-group">
-                                    <label className="form-label">その他、伝えたいこと</label>
-                                    <textarea name="message" className="form-textarea" value={formData.message}
+                                    <label htmlFor="intake-message" className="form-label">その他、伝えたいこと</label>
+                                    <textarea id="intake-message" name="message" className="form-textarea" value={formData.message}
                                         onChange={handleChange} placeholder="補足情報やご希望があればご記入ください" rows={4} />
                                 </div>
                             </fieldset>

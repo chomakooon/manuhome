@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { ArrowLeft, Save, User, Tag, Edit3, Settings } from 'lucide-react';
 import './AdminOrderDetailPage.css';
 
 export default function AdminOrderDetailPage() {
     const { id } = useParams();
-    const navigate = useNavigate();
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -15,30 +14,28 @@ export default function AdminOrderDetailPage() {
     const [status, setStatus] = useState('');
     const [notes, setNotes] = useState('');
 
-    useEffect(() => {
-        fetchOrderDetails();
-    }, [id]);
-
-    const fetchOrderDetails = async () => {
+    const fetchOrderDetails = useCallback(async () => {
         try {
             const { data, error } = await supabase
                 .from('orders')
                 .select('*')
                 .eq('id', id)
                 .single();
-            
+
             if (error) throw error;
             setOrder(data);
             setStatus(data.status || 'new');
             setNotes(data.notes || '');
         } catch (error) {
             console.error('Error fetching order details:', error);
-            // Optionally redirect if not found
-            // navigate('/admin/orders');
         } finally {
             setLoading(false);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        fetchOrderDetails();
+    }, [fetchOrderDetails]);
 
     const handleSave = async () => {
         setSaving(true);
@@ -113,10 +110,11 @@ export default function AdminOrderDetailPage() {
                         <h2><Settings size={18}/> Management</h2>
                         <div className="card-content">
                             <div className="form-group">
-                                <label>Status</label>
-                                <select 
-                                    className="form-input" 
-                                    value={status} 
+                                <label htmlFor="admin-order-status">Status</label>
+                                <select
+                                    id="admin-order-status"
+                                    className="form-input"
+                                    value={status}
                                     onChange={(e) => setStatus(e.target.value)}
                                 >
                                     <option value="new">New</option>
@@ -128,10 +126,11 @@ export default function AdminOrderDetailPage() {
                             </div>
 
                             <div className="form-group">
-                                <label><Edit3 size={16}/> Internal Notes (Hidden from customer)</label>
-                                <textarea 
-                                    className="form-input notes-input" 
-                                    value={notes} 
+                                <label htmlFor="admin-order-notes"><Edit3 size={16}/> Internal Notes (Hidden from customer)</label>
+                                <textarea
+                                    id="admin-order-notes"
+                                    className="form-input notes-input"
+                                    value={notes}
                                     onChange={(e) => setNotes(e.target.value)}
                                     placeholder="Add preparation notes, drafts links, etc."
                                 />

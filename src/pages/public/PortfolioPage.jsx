@@ -15,6 +15,14 @@ const handleImageError = (id) => (e) => {
     console.warn(`[portfolio] image failed to load (id=${id}): ${e.currentTarget.src}`);
 };
 
+// Phase 21: role="button" 化した <div> を Enter / Space で発火させるための共通ハンドラ。
+const handleActivateKey = (callback) => (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        callback();
+    }
+};
+
 const PortfolioDetailItem = ({ baseItem, index, allItems, categories }) => {
     const [activeItem, setActiveItem] = useState(baseItem);
 
@@ -48,6 +56,7 @@ const PortfolioDetailItem = ({ baseItem, index, allItems, categories }) => {
                                 key={item.id}
                                 className={`related-card ${activeItem.id === item.id ? 'active' : ''}`}
                                 onClick={() => setActiveItem(item)}
+                                onKeyDown={handleActivateKey(() => setActiveItem(item))}
                                 role="button"
                                 tabIndex={0}
                                 style={{ opacity: activeItem.id === item.id ? 0.6 : 1 }}
@@ -160,6 +169,10 @@ export default function PortfolioPage() {
                                 key={`nav-${item.id}`}
                                 className="portfolio-card fade-in"
                                 onClick={() => scrollToItem(item.id)}
+                                onKeyDown={handleActivateKey(() => scrollToItem(item.id))}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={`${item.title} の詳細にジャンプ`}
                             >
                                 <div className="portfolio-card__image">
                                     <PictureWebp src={item.image} alt={item.title} loading="lazy" onError={handleImageError(item.id)} />
