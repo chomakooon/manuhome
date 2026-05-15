@@ -8,19 +8,14 @@ import { useBrandTheme } from './sites/useBrandTheme';
 // NOTE: TopPage は src/pages/public/TopPage.jsx に温存。/ は KataribinLayout + KataribinHomePage に置換済み（Step 2-D）
 const ServicesPage = lazy(() => import('./pages/public/ServicesPage'));
 // NOTE: PetPage は src/pages/public/PetPage.jsx に温存。/pet は PAWS PRESS LP に置き換え済み
-const NetworkingPage = lazy(() => import('./pages/public/NetworkingPage'));
 // NOTE: 旧 AboutPage（新聞風） は src/pages/public/AboutPage.jsx に温存。
 // Phase 12 でプロフィール強化版 KataribinAboutPage に差し替え済み。
 // 物理ファイルを残しているのは、必要時に App.jsx のルートを差し戻すだけで復元できるようにするため。
 const LinksPage = lazy(() => import('./pages/public/LinksPage'));
 const IntakePage = lazy(() => import('./pages/public/IntakePage'));
 const DiagnosticPage = lazy(() => import('./pages/public/DiagnosticPage'));
-const ThanksPage = lazy(() => import('./pages/client/ThanksPage'));
 const PortfolioPage = lazy(() => import('./pages/public/PortfolioPage'));
 const PortfolioSubCategoryPage = lazy(() => import('./pages/public/PortfolioSubCategoryPage'));
-const OrderPage = lazy(() => import('./pages/public/OrderPage'));
-const OrderFlowPage = lazy(() => import('./pages/order/OrderFlowPage'));
-const OrderSuccessPage = lazy(() => import('./pages/order/OrderSuccessPage'));
 const AdminLayout = lazy(() => import('./components/layout/AdminLayout'));
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
 const AdminOrderListPage = lazy(() => import('./pages/admin/AdminOrderListPage'));
@@ -56,7 +51,6 @@ function AppRoutes() {
         {/* ── Public Pages (kataribin) ── */}
         <Route path="/" element={<KataribinLayout><KataribinHomePage /></KataribinLayout>} />
         <Route path="/services" element={<KataribinLayout><ServicesPage /></KataribinLayout>} />
-        <Route path="/networking" element={<KataribinLayout><NetworkingPage /></KataribinLayout>} />
         <Route path="/about" element={<KataribinLayout><KataribinAboutPage /></KataribinLayout>} />
         <Route path="/portfolio" element={<KataribinLayout><PortfolioPage /></KataribinLayout>} />
         <Route path="/portfolio/:subCategory" element={<KataribinLayout><PortfolioSubCategoryPage /></KataribinLayout>} />
@@ -66,12 +60,6 @@ function AppRoutes() {
         <Route path="/pricing" element={<KataribinLayout><PricingPage /></KataribinLayout>} />
         <Route path="/flow" element={<KataribinLayout><FlowPage /></KataribinLayout>} />
         <Route path="/contact" element={<KataribinLayout><ContactPage /></KataribinLayout>} />
-        <Route path="/thanks" element={<KataribinLayout><ThanksPage /></KataribinLayout>} />
-
-        {/* ── Order Flow ── */}
-        <Route path="/order" element={<KataribinLayout><OrderPage /></KataribinLayout>} />
-        <Route path="/order/flow/:templateId" element={<KataribinLayout><OrderFlowPage /></KataribinLayout>} />
-        <Route path="/order/success" element={<KataribinLayout><OrderSuccessPage /></KataribinLayout>} />
 
         {/* ── PAWS PRESS (Step 2-B / 2-C) ── */}
         <Route path="/pet" element={<PawsPressLayout><PawsPressHomePage /></PawsPressLayout>} />

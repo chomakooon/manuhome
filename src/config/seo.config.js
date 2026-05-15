@@ -1,18 +1,40 @@
 /**
+ * ====================================================================
+ * 【記入ガイド】SEO / OGP / 構造化データ (seo.config.js)
+ * ====================================================================
+ * 各ページコンポーネントが <PageSeo pageKey="xxx" /> 経由でこれを読みます。
+ *
+ * ⚠️ 公開前に必ず確認・更新が必要な箇所:
+ *   1. SEO_DEFAULTS.siteUrl       — 独自ドメイン取得時に置換
+ *   2. SEO_DEFAULTS.twitterHandle — 現状 "@kataribin_jp"（仮）→ 実アカウントへ
+ *   3. ORG_JSON_LD.sameAs         — 実 SNS URL を配列で（社会的証明の強化）
+ *
+ * ── フィールド説明 ──
+ *   SEO_DEFAULTS
+ *     siteName            サイト名（OG / Twitter で使用）
+ *     siteUrl             本番 URL（末尾スラッシュなし）
+ *     author              運営者名
+ *     locale              既定 'ja_JP'
+ *     defaultDescription  全ページのフォールバック説明文
+ *     keywords[]          検索キーワード
+ *     defaultOgImage      og:image のフォールバック
+ *     twitterHandle       @ から始まる Twitter ハンドル
+ *
+ *   PAGE_SEO.<key>
+ *     path        対応するルート
+ *     title       <title> + og:title + twitter:title
+ *     description meta description（80〜160 字目安）
+ *     ogImage     1200×630px 推奨。public/og-images/ 配下
+ *
+ *   ORG_JSON_LD  Organization 構造化データ（Schema.org）
+ *     sameAs[]   ⚠️ 実 SNS URL に置き換える対象（現状は空配列）
+ *
+ * ── OG 画像について ──
+ *   public/og-images/README.txt に必要画像一覧あり。未配置時は SNS シェア時に
+ *   画像なしで表示される（致命的ではないが説得力 ↓）。
+ * ====================================================================
+ *
  * @file src/config/seo.config.js
- *
- * SEO / OGP / Twitter Card / 構造化データの単一ソース（Phase 15）。
- * 各ページコンポーネントは src/components/PageSeo を経由して参照する。
- *
- * 編集ルール:
- *   - siteUrl は本番ドメインに合わせて更新（末尾スラッシュなし）
- *   - title は「<ページ名> | カタチ便」を基本とし、ホームのみ「<キャッチコピー>」形式
- *   - description は 80〜160 字目安（検索結果表示の上限を意識）
- *   - ogImage は 1200×630px の絶対パス推奨（public/og-images/ 配下）
- *
- * TODO(運用):
- *   - twitterHandle を実アカウントへ更新
- *   - public/og-images/ 配下に画像を配置（未配置時は defaultOgImage にフォールバック）
  */
 
 export const SEO_DEFAULTS = {
@@ -36,7 +58,7 @@ export const SEO_DEFAULTS = {
     ],
     defaultOgImage: '/og-images/og-home.jpg',
     twitterCard: 'summary_large_image',
-    twitterHandle: '@kataribin_jp', // TODO: 実アカウントに差し替え
+    twitterHandle: '@kataribin_jp', // ← サンプル、要差し替え（実 X ハンドル）
 };
 
 /**
