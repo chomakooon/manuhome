@@ -213,6 +213,78 @@ function StrengthsSection() {
     );
 }
 
+/**
+ * Before 側のダミープレビュー（CSS のみで作る「依頼前の残念な状態」の再現）。
+ * beforeType に応じて flyer / website / namecard の 3 種類を出し分ける。
+ * 装飾要素のため aria-hidden（中身のテキストはスクリーンリーダーには
+ * 露出させず、beforeText のキャプションで意味を伝える）。
+ */
+function BeforeMock({ type }) {
+    if (type === 'flyer') {
+        return (
+            <div
+                className="kt-ba-mock kt-ba-mock--flyer"
+                aria-hidden="true"
+            >
+                <div className="kt-ba-mock__flyer-title">
+                    新サービスのお知らせ
+                </div>
+                <div className="kt-ba-mock__flyer-body">
+                    この度、当社では新しいサービスを開始することに
+                    なりました。詳細につきましては以下をご覧ください。
+                    お忙しいところ恐縮ですが、ご検討のほど何卒よろしく
+                    お願い申し上げます。
+                </div>
+                <div className="kt-ba-mock__flyer-placeholder">画像</div>
+                <div className="kt-ba-mock__flyer-footer">
+                    お問い合わせは下記まで／受付時間 平日 9:00–18:00
+                </div>
+            </div>
+        );
+    }
+
+    if (type === 'website') {
+        return (
+            <div
+                className="kt-ba-mock kt-ba-mock--website"
+                aria-hidden="true"
+            >
+                <div className="kt-ba-mock__site-header">ショップ名</div>
+                <div className="kt-ba-mock__site-nav">
+                    <span>ホーム</span>
+                    <span>商品一覧</span>
+                    <span>お問い合わせ</span>
+                </div>
+                <div className="kt-ba-mock__site-body">
+                    <div className="kt-ba-mock__site-h2">商品紹介</div>
+                    <div className="kt-ba-mock__site-p">
+                        当店の商品をご紹介します。豊富なラインナップから
+                        お選びいただけます。
+                    </div>
+                    <div className="kt-ba-mock__site-p">
+                        ご注文はオンラインから承っております。
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // namecard
+    return (
+        <div
+            className="kt-ba-mock kt-ba-mock--namecard"
+            aria-hidden="true"
+        >
+            <div className="kt-ba-mock__card-name">氏名</div>
+            <div className="kt-ba-mock__card-role">フリーランス</div>
+            <div className="kt-ba-mock__card-contact">
+                <div>TEL: 000-1234-5678</div>
+                <div>MAIL: sample@mail.com</div>
+            </div>
+        </div>
+    );
+}
+
 function BeforeAfterSection() {
     const revealRef = useScrollReveal();
     return (
@@ -241,6 +313,9 @@ function BeforeAfterSection() {
                                     <span className="kt-ba-card__badge kt-ba-card__badge--before">
                                         BEFORE
                                     </span>
+                                    <div className="kt-ba-card__mock-frame">
+                                        <BeforeMock type={c.beforeType} />
+                                    </div>
                                     <p className="kt-ba-card__text">
                                         {c.beforeText}
                                     </p>
