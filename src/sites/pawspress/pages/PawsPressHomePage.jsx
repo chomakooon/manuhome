@@ -24,6 +24,28 @@ const SUB_CATEGORY_LABEL = {
     pet_goods: 'グッズ',
 };
 
+// ギャラリーを「写真 → イラスト → グッズ化」の制作フロー順に見せるためのグループ定義
+const GALLERY_GROUPS = [
+    {
+        key: 'pet_photo',
+        step: 'STEP 1',
+        title: 'お写真',
+        caption: 'お気に入りの一枚を、お送りいただきます。',
+    },
+    {
+        key: 'pet_illust',
+        step: 'STEP 2',
+        title: 'イラスト',
+        caption: 'その一枚から、温かみのあるイラストを描き起こします。',
+    },
+    {
+        key: 'pet_goods',
+        step: 'STEP 3',
+        title: 'グッズ化',
+        caption: 'Tシャツ・マグ・トートなど、世界にひとつのグッズになります。',
+    },
+];
+
 const onImgError = (label) => (e) => {
     console.warn(`[paws] ${label} image missing: ${e.currentTarget.src}`);
 };
@@ -129,28 +151,51 @@ function FlowSection({ photo, illust, goods }) {
 }
 
 function GallerySection({ items, onOpen }) {
+    const groups = GALLERY_GROUPS.map((g) => ({
+        ...g,
+        items: items.filter((it) => it.subCategory === g.key),
+    })).filter((g) => g.items.length > 0);
+
     return (
         <section className="paws-gallery">
             <div className="paws-gallery__inner">
                 <h2 className="paws-section-title">これまでの制作</h2>
-                <div className="paws-gallery__grid">
-                    {items.map((item, idx) => (
-                        <button
-                            type="button"
-                            key={item.id}
-                            className="paws-gallery__item"
-                            onClick={() => onOpen(idx)}
-                            aria-label={`${item.title} を拡大して見る`}
-                        >
-                            <PictureWebp
-                                src={item.image}
-                                alt={item.title}
-                                loading="lazy"
-                                onError={onImgError(`gallery (id=${item.id})`)}
-                            />
-                        </button>
-                    ))}
-                </div>
+                <p className="paws-gallery__lead">
+                    「お写真」一枚が、「イラスト」になり、「グッズ」になるまで。
+                </p>
+                {groups.map((group) => (
+                    <div key={group.key} className="paws-gallery__group">
+                        <div className="paws-gallery__group-head">
+                            <span className="paws-gallery__group-step">
+                                {group.step}
+                            </span>
+                            <h3 className="paws-gallery__group-title">
+                                {group.title}
+                            </h3>
+                            <p className="paws-gallery__group-caption">
+                                {group.caption}
+                            </p>
+                        </div>
+                        <div className="paws-gallery__grid">
+                            {group.items.map((item) => (
+                                <button
+                                    type="button"
+                                    key={item.id}
+                                    className="paws-gallery__item"
+                                    onClick={() => onOpen(items.indexOf(item))}
+                                    aria-label={`${item.title} を拡大して見る`}
+                                >
+                                    <PictureWebp
+                                        src={item.image}
+                                        alt={item.title}
+                                        loading="lazy"
+                                        onError={onImgError(`gallery (id=${item.id})`)}
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                ))}
                 <div className="paws-gallery__more">
                     <Link to="/portfolio" className="paws-btn paws-btn--outline">
                         もっと見る
