@@ -49,7 +49,7 @@ function HeroSection({ heroImage }) {
                 <div className="paws-hero__visual">
                     <PictureWebp
                         src={heroImage}
-                        alt="ペットイラスト制作の例"
+                        alt="PAWS PRESS のご利用の流れ：1.お気に入りのペット写真を送る 2.プロのイラストレーターが制作 3.最短一週間でお届け 4.世界でひとつだけのうちの子グッズに"
                         loading="eager"
                         onError={onImgError('hero')}
                     />
@@ -213,7 +213,7 @@ export default function PawsPressHomePage() {
     return (
         <div className="paws-home">
             <PageSeo pageKey="pet" />
-            <HeroSection heroImage={illustItem?.image ?? '/works/pet-illust-1.jpg'} />
+            <HeroSection heroImage="/works/pet-hero.jpg" />
             <PlansSection />
             <FlowSection
                 photo={photoItem?.image ?? '/works/pet-photo-1.jpg'}
