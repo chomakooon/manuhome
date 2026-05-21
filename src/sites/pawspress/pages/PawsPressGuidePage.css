@@ -1,16 +1,12 @@
 .paws-guide-page {
-    padding: 6rem 1.5rem;
+    padding: 4.5rem 1.5rem 6rem;
     background-color: var(--brand-bg);
     min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .paws-guide-page__inner {
-    max-width: 640px;
+    max-width: 720px;
     margin: 0 auto;
-    text-align: center;
 }
 
 .paws-guide-page__eyebrow {
@@ -20,30 +16,256 @@
     font-weight: 700;
     letter-spacing: 0.18em;
     color: var(--brand-primary);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .paws-guide-page__title {
     font-family: var(--brand-font-display);
     font-size: 2rem;
     font-weight: 800;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
     color: var(--brand-text);
 }
 
-.paws-guide-page__msg {
-    font-size: 1rem;
+.paws-guide-page__lead {
+    font-size: 1.05rem;
     line-height: 1.9;
-    color: var(--brand-text-subtle, #6b6b6b);
+    color: var(--brand-text);
     margin: 0 0 2.5rem 0;
 }
 
+.paws-guide-page__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.paws-guide-page__heading {
+    font-family: var(--brand-font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    color: var(--brand-text);
+}
+
+/* ── steps ── */
+.paws-guide-page__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.paws-guide-page__step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.paws-guide-page__step-num {
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-guide-page__step-title {
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0.2rem 0 0.3rem 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-page__step-desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--brand-text-subtle, #6b6b6b);
+}
+
+/* ── dos / donts ── */
+.paws-guide-page__dosdonts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.paws-guide-page__do,
+.paws-guide-page__dont {
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.paws-guide-page__do-head,
+.paws-guide-page__dont-head {
+    font-family: var(--brand-font-display);
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 0 0 0.75rem 0;
+}
+
+.paws-guide-page__do-head {
+    color: var(--brand-primary);
+}
+
+.paws-guide-page__dont-head {
+    color: #b08968;
+}
+
+.paws-guide-page__do ul,
+.paws-guide-page__dont ul {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.paws-guide-page__do li,
+.paws-guide-page__dont li {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--brand-text);
+}
+
+/* ── list ── */
+.paws-guide-page__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.paws-guide-page__list li {
+    position: relative;
+    padding: 0.45rem 0 0.45rem 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--brand-text);
+}
+
+.paws-guide-page__list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.45rem;
+    color: var(--brand-primary);
+    font-weight: 800;
+}
+
+/* ── table ── */
+.paws-guide-page__table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.paws-guide-page__table th,
+.paws-guide-page__table td {
+    text-align: left;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.paws-guide-page__table th {
+    background-color: var(--brand-bg);
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-guide-page__table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ── faq ── */
+.paws-guide-page__faq {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.paws-guide-page__faq-item {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 0 1.25rem;
+}
+
+.paws-guide-page__faq-q {
+    cursor: pointer;
+    list-style: none;
+    padding: 1rem 0;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--brand-text);
+    position: relative;
+    padding-right: 1.5rem;
+}
+
+.paws-guide-page__faq-q::-webkit-details-marker {
+    display: none;
+}
+
+.paws-guide-page__faq-q::after {
+    content: '＋';
+    position: absolute;
+    right: 0;
+    color: var(--brand-primary);
+    transition: transform 150ms ease;
+}
+
+.paws-guide-page__faq-item[open] .paws-guide-page__faq-q::after {
+    content: '−';
+}
+
+.paws-guide-page__faq-a {
+    margin: 0;
+    padding: 0 0 1rem 0;
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle, #6b6b6b);
+}
+
+/* ── prose ── */
+.paws-guide-page__prose p {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.98rem;
+    line-height: 1.9;
+    color: var(--brand-text);
+}
+
+/* ── note ── */
+.paws-guide-page__note {
+    margin: 0;
+    padding: 0.85rem 1.25rem;
+    background-color: var(--brand-accent-soft, rgba(0, 0, 0, 0.03));
+    border-left: 3px solid var(--brand-primary);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--brand-text);
+}
+
+/* ── actions / back ── */
 .paws-guide-page__actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin: 3.5rem 0 1.5rem;
 }
 
 .paws-guide-page__back {
@@ -60,10 +282,14 @@
 
 @media (max-width: 768px) {
     .paws-guide-page {
-        padding: 4rem 1.25rem;
+        padding: 3.5rem 1.25rem 4.5rem;
     }
 
     .paws-guide-page__title {
         font-size: 1.6rem;
+    }
+
+    .paws-guide-page__dosdonts {
+        grid-template-columns: 1fr;
     }
 }
