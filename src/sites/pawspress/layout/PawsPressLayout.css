@@ -17,6 +17,63 @@
     flex: 1;
 }
 
+/* ── 共通ボタン（全 /pet ページ共通。Layout は全ページで読み込まれる） ─── */
+.paws-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-family: var(--brand-font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: transform 150ms ease, box-shadow 150ms ease,
+        background-color 150ms ease, color 150ms ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.paws-btn--primary {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-btn--primary:hover {
+    background-color: var(--brand-primary-dark);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 207, 255, 0.25);
+}
+
+.paws-btn--outline {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    background-color: transparent;
+}
+
+.paws-btn--outline:hover {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-btn--white {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+}
+
+.paws-btn--white:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.paws-btn--lg {
+    padding: 18px 40px;
+    font-size: 1.05rem;
+}
+
 /* ── Header ─────────────────────────────────────── */
 .paws-header {
     position: sticky;

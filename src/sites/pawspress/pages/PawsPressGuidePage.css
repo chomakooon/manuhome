@@ -1,40 +1,121 @@
-.paws-guide-page {
-    padding: 4.5rem 1.5rem 6rem;
-    background-color: var(--brand-bg);
-    min-height: 60vh;
-}
+/* ================================================================
+   PAWS PRESS ご利用ガイド（汎用レンダラ）
+   - body.theme-pawspress / --brand-* 変数前提
+   - 配色トークン: cyan=#00CFFF(--brand-primary) / pink=#FFB6C1 / cream=#FFF8F5
+   ================================================================ */
 
-.paws-guide-page__inner {
-    max-width: 720px;
+/* ── パンくず ── */
+.paws-guide-crumbs {
+    max-width: 1100px;
     margin: 0 auto;
+    padding: 1rem 1.5rem 0;
+    font-size: 0.825rem;
+    color: var(--brand-text-subtle);
 }
 
-.paws-guide-page__eyebrow {
+.paws-guide-crumbs a {
+    color: var(--brand-text-subtle);
+    text-decoration: none;
+    transition: color 150ms ease;
+}
+
+.paws-guide-crumbs a:hover {
+    color: var(--brand-primary);
+}
+
+.paws-guide-crumbs span {
+    margin: 0 0.5rem;
+}
+
+.paws-guide-crumbs__current {
+    color: var(--brand-text);
+    margin-right: 0;
+}
+
+/* ── ヒーロー ── */
+.paws-guide-hero {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFF1F2 50%, #FFE4E6 100%);
+    padding: 3.5rem 1.5rem 4rem;
+}
+
+.paws-guide-hero__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.paws-guide-hero__eyebrow {
     display: inline-block;
     font-family: var(--brand-font-display);
     font-size: 0.8rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--brand-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
-.paws-guide-page__title {
+.paws-guide-hero__title {
     font-family: var(--brand-font-display);
-    font-size: 2rem;
+    font-size: 2.6rem;
     font-weight: 800;
-    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    margin: 0 0 1.1rem 0;
     color: var(--brand-text);
 }
 
-.paws-guide-page__lead {
-    font-size: 1.05rem;
+.paws-guide-hero__lead {
+    font-size: 1.1rem;
     line-height: 1.9;
-    color: var(--brand-text);
-    margin: 0 0 2.5rem 0;
+    color: var(--brand-text-subtle);
+    margin: 0;
 }
 
-.paws-guide-page__body {
+.paws-guide-hero__media {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    aspect-ratio: 4 / 3;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    background-color: #FFFFFF;
+}
+
+.paws-guide-hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.paws-guide-hero__iconwrap {
+    width: 16rem;
+    height: 16rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-guide-hero__icon {
+    color: var(--brand-primary);
+}
+
+/* ── 本文 ── */
+.paws-guide-body {
+    background-color: #FFFFFF;
+    padding: 4rem 1.5rem;
+}
+
+.paws-guide-body__inner {
+    max-width: 840px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
@@ -48,29 +129,72 @@
     color: var(--brand-text);
 }
 
-/* ── steps ── */
-.paws-guide-page__steps {
+/* ── summary box ── */
+.paws-guide-summary {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background-color: #E6FBFF;
+    border-left: 4px solid var(--brand-primary);
+    border-radius: 0 16px 16px 0;
+    padding: 1.5rem 1.75rem;
+}
+
+.paws-guide-summary__icon {
+    color: var(--brand-primary);
+    flex-shrink: 0;
+}
+
+.paws-guide-summary__label {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0086AE;
+}
+
+.paws-guide-summary__value {
+    margin: 0.1rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+.paws-guide-summary__sub {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--brand-text-subtle);
+}
+
+/* ── timeline ── */
+.paws-guide-timeline {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
 }
 
-.paws-guide-page__step {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
+.paws-guide-timeline__item {
+    position: relative;
+    padding-left: 2.5rem;
+    padding-bottom: 1.75rem;
+    border-left: 2px solid #CCF6FF;
 }
 
-.paws-guide-page__step-num {
-    flex: 0 0 auto;
-    width: 2rem;
-    height: 2rem;
+.paws-guide-timeline__item:last-child {
+    border-left-color: transparent;
+    padding-bottom: 0;
+}
+
+.paws-guide-timeline__badge {
+    position: absolute;
+    left: -1.25rem;
+    top: 0;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
-    background-color: var(--brand-primary);
-    color: #FFFFFF;
+    background-color: #FFFFFF;
+    border: 2px solid var(--brand-primary);
+    color: var(--brand-primary);
     font-family: var(--brand-font-display);
     font-weight: 800;
     display: flex;
@@ -78,66 +202,358 @@
     justify-content: center;
 }
 
-.paws-guide-page__step-title {
+.paws-guide-timeline__card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 200ms ease;
+}
+
+.paws-guide-timeline__card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.paws-guide-timeline__cardicon {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-guide-timeline__body {
+    flex: 1;
+}
+
+.paws-guide-timeline__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.paws-guide-timeline__title {
     font-family: var(--brand-font-display);
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    margin: 0.2rem 0 0.3rem 0;
+    margin: 0;
     color: var(--brand-text);
 }
 
-.paws-guide-page__step-desc {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--brand-text-subtle, #6b6b6b);
+.paws-guide-timeline__duration {
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background-color: #FFF3E0;
+    color: #B45309;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
-/* ── dos / donts ── */
-.paws-guide-page__dosdonts {
+.paws-guide-timeline__desc {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-timeline__tip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0.5rem 0.85rem;
+    background-color: #E6FBFF;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: #0086AE;
+}
+
+.paws-guide-timeline__tip a {
+    color: #0086AE;
+    text-decoration: none;
+}
+
+.paws-guide-timeline__tip a:hover {
+    text-decoration: underline;
+}
+
+/* ── banner (LINE 相談) ── */
+.paws-guide-banner {
+    background: linear-gradient(90deg, #F0FDF4 0%, #E6FBFF 100%);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+
+.paws-guide-banner__icon {
+    color: #22C55E;
+    margin-bottom: 0.5rem;
+}
+
+.paws-guide-banner__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.6rem 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-banner__text {
+    margin: 0 0 1.5rem 0;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-banner__btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border-radius: 999px;
+    background-color: #22C55E;
+    color: #FFFFFF;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+}
+
+.paws-guide-banner__btn:hover {
+    background-color: #16A34A;
+}
+
+.paws-guide-banner__note {
+    margin: 1rem 0 0 0;
+    font-size: 0.75rem;
+    color: var(--brand-text-subtle);
+}
+
+/* ── cards (3つのポイント) ── */
+.paws-guide-cards {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.paws-guide-card {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 200ms ease;
+}
+
+.paws-guide-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.paws-guide-card__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.paws-guide-card__icon--good {
+    background-color: #F0FDF4;
+    color: #22C55E;
+}
+
+.paws-guide-card__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.6rem 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-card__desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--brand-text-subtle);
+}
+
+/* ── examples (良い例 / 避けたい例) ── */
+.paws-guide-examples__head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.paws-guide-examples__heading {
+    font-family: var(--brand-font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-examples__headicon--good {
+    color: #22C55E;
+}
+
+.paws-guide-examples__headicon--avoid {
+    color: #EF4444;
+}
+
+.paws-guide-examples__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
 }
 
-.paws-guide-page__do,
-.paws-guide-page__dont {
-    border-radius: 14px;
-    padding: 1.25rem 1.5rem;
+.paws-guide-example {
+    border-radius: 16px;
+    overflow: hidden;
     background-color: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 2px solid transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.paws-guide-page__do-head,
-.paws-guide-page__dont-head {
-    font-family: var(--brand-font-display);
-    font-size: 0.95rem;
-    font-weight: 800;
-    margin: 0 0 0.75rem 0;
+.paws-guide-example--good {
+    border-color: #BBF7D0;
 }
 
-.paws-guide-page__do-head {
-    color: var(--brand-primary);
+.paws-guide-example--avoid {
+    border-color: #FECACA;
 }
 
-.paws-guide-page__dont-head {
-    color: #b08968;
+.paws-guide-example__imgwrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background-color: #F1F1EE;
 }
 
-.paws-guide-page__do ul,
-.paws-guide-page__dont ul {
+.paws-guide-example__img {
+    width: 100%;
+    height: 100%;
+}
+
+.paws-guide-example__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.paws-guide-example__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.paws-guide-example__badge--good {
+    background-color: #22C55E;
+}
+
+.paws-guide-example__badge--avoid {
+    background-color: #EF4444;
+}
+
+.paws-guide-example__caption {
+    padding: 1rem;
+}
+
+.paws-guide-example__title {
     margin: 0;
-    padding-left: 1.1rem;
-}
-
-.paws-guide-page__do li,
-.paws-guide-page__dont li {
-    font-size: 0.9rem;
-    line-height: 1.8;
+    font-weight: 700;
     color: var(--brand-text);
 }
 
-/* ── list ── */
+.paws-guide-example__sub {
+    margin: 0.3rem 0 0 0;
+    font-size: 0.85rem;
+    color: var(--brand-text-subtle);
+}
+
+/* ── reassurance (安心メッセージ) ── */
+.paws-guide-reassurance {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: linear-gradient(135deg, #FFF1F2 0%, #FFF7ED 100%);
+    border: 1px solid #FBCFE8;
+    border-radius: 24px;
+    padding: 2rem;
+}
+
+.paws-guide-reassurance__icon {
+    color: #EC4899;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+.paws-guide-reassurance__heading {
+    font-family: var(--brand-font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 0.85rem 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-reassurance__p {
+    margin: 0 0 0.75rem 0;
+    line-height: 1.9;
+    color: var(--brand-text);
+}
+
+.paws-guide-reassurance__p:last-child {
+    margin-bottom: 0;
+}
+
+/* ── spec table ── */
+.paws-guide-spec__table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.paws-guide-spec__table th,
+.paws-guide-spec__table td {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.paws-guide-spec__table th {
+    width: 33%;
+    background-color: var(--brand-bg);
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-guide-spec__table td {
+    color: var(--brand-text);
+}
+
+.paws-guide-spec__table tr:last-child th,
+.paws-guide-spec__table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ── list / table / faq / prose / note（汎用ブロック） ── */
 .paws-guide-page__list {
     margin: 0;
     padding: 0;
@@ -161,7 +577,6 @@
     font-weight: 800;
 }
 
-/* ── table ── */
 .paws-guide-page__table {
     width: 100%;
     border-collapse: collapse;
@@ -190,7 +605,6 @@
     border-bottom: none;
 }
 
-/* ── faq ── */
 .paws-guide-page__faq {
     display: flex;
     flex-direction: column;
@@ -207,13 +621,12 @@
 .paws-guide-page__faq-q {
     cursor: pointer;
     list-style: none;
-    padding: 1rem 0;
+    padding: 1rem 1.5rem 1rem 0;
     font-family: var(--brand-font-display);
     font-weight: 700;
     font-size: 0.98rem;
     color: var(--brand-text);
     position: relative;
-    padding-right: 1.5rem;
 }
 
 .paws-guide-page__faq-q::-webkit-details-marker {
@@ -225,7 +638,6 @@
     position: absolute;
     right: 0;
     color: var(--brand-primary);
-    transition: transform 150ms ease;
 }
 
 .paws-guide-page__faq-item[open] .paws-guide-page__faq-q::after {
@@ -237,10 +649,9 @@
     padding: 0 0 1rem 0;
     font-size: 0.92rem;
     line-height: 1.85;
-    color: var(--brand-text-subtle, #6b6b6b);
+    color: var(--brand-text-subtle);
 }
 
-/* ── prose ── */
 .paws-guide-page__prose p {
     margin: 0 0 0.75rem 0;
     font-size: 0.98rem;
@@ -248,11 +659,10 @@
     color: var(--brand-text);
 }
 
-/* ── note ── */
 .paws-guide-page__note {
     margin: 0;
     padding: 0.85rem 1.25rem;
-    background-color: var(--brand-accent-soft, rgba(0, 0, 0, 0.03));
+    background-color: var(--brand-accent-soft);
     border-left: 3px solid var(--brand-primary);
     border-radius: 0 8px 8px 0;
     font-size: 0.9rem;
@@ -260,36 +670,149 @@
     color: var(--brand-text);
 }
 
-/* ── actions / back ── */
-.paws-guide-page__actions {
+/* ── 関連ページ ── */
+.paws-guide-related {
+    background-color: #F6F6F3;
+    padding: 3rem 1.5rem;
+}
+
+.paws-guide-related__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-guide-related__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin: 0 0 2rem 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.paws-guide-related__card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 200ms ease;
+}
+
+.paws-guide-related__card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.paws-guide-related__cardicon {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 200ms ease;
+}
+
+.paws-guide-related__card:hover .paws-guide-related__cardicon {
+    background-color: #CCF6FF;
+}
+
+.paws-guide-related__cardtitle {
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-guide-related__arrow {
+    margin-left: auto;
+    color: var(--brand-primary);
+    transition: transform 200ms ease;
+}
+
+.paws-guide-related__card:hover .paws-guide-related__arrow {
+    transform: translateX(4px);
+}
+
+/* ── 末尾CTA ── */
+.paws-guide-cta {
+    background: linear-gradient(135deg, #FFF1F2 0%, #FFF7ED 100%);
+    padding: 4rem 1.5rem;
+}
+
+.paws-guide-cta__inner {
+    max-width: 840px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.paws-guide-cta__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0 0 0.75rem 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-cta__sub {
+    margin: 0 0 2rem 0;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-cta__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin: 3.5rem 0 1.5rem;
+    justify-content: center;
 }
 
-.paws-guide-page__back {
-    display: inline-block;
-    color: var(--brand-text-subtle, #6b6b6b);
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: color 150ms ease;
-}
-
-.paws-guide-page__back:hover {
-    color: var(--brand-primary);
-}
-
+/* ── レスポンシブ ── */
 @media (max-width: 768px) {
-    .paws-guide-page {
-        padding: 3.5rem 1.25rem 4.5rem;
+    .paws-guide-hero {
+        padding: 2.5rem 1.25rem 3rem;
     }
 
-    .paws-guide-page__title {
-        font-size: 1.6rem;
-    }
-
-    .paws-guide-page__dosdonts {
+    .paws-guide-hero__inner {
         grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .paws-guide-hero__media,
+    .paws-guide-hero__iconwrap {
+        order: -1;
+    }
+
+    .paws-guide-hero__iconwrap {
+        width: 11rem;
+        height: 11rem;
+    }
+
+    .paws-guide-hero__title {
+        font-size: 2rem;
+    }
+
+    .paws-guide-body {
+        padding: 3rem 1.25rem;
+    }
+
+    .paws-guide-cards,
+    .paws-guide-examples__grid,
+    .paws-guide-related__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .paws-guide-spec__table th {
+        width: 40%;
     }
 }

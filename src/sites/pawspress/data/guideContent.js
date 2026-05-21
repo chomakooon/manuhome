@@ -1,66 +1,119 @@
 /**
  * @file src/sites/pawspress/data/guideContent.js
  *
- * 「ご利用ガイド」各ページのモックコンテンツ（たたき台）。
- * pathname をキーに、PawsPressGuidePage がブロック単位で描画する。
+ * 「ご利用ガイド」各ページのコンテンツ定義。
+ * pathname をキーに、PawsPressGuidePage がページchrome（パンくず/ヒーロー/
+ * 関連ページ/末尾CTA）とブロックを描画する。
+ *
+ * ── ページメタ ──
+ *   iconName   : lucide-react アイコン名（ヒーロー/関連カード用、ICON_MAP 参照）
+ *   heroImage? : ヒーロー画像パス（未配置時はアイコン円形にフォールバック）
+ *   lead       : ヒーローのサブコピー
+ *   related?   : 関連ページ [{ to, iconName }]（title は guideLinks から解決）
+ *   blocks     : 本文ブロック配列
  *
  * ── ブロック種別 ──
- *   { kind: 'steps',    items: [{ title, desc }] }
- *   { kind: 'dosdonts', dos: [string], donts: [string] }
- *   { kind: 'list',     heading?, items: [string] }
- *   { kind: 'table',    columns: [string, string], rows: [[string, string]] }
- *   { kind: 'faq',      items: [{ q, a }] }
- *   { kind: 'prose',    heading, paragraphs: [string] }
- *   { kind: 'note',     text }
+ *   { kind: 'summary',    iconName, label, value, sub }
+ *   { kind: 'timeline',   items: [{ number, iconName, title, description, duration, tip, tipLink }] }
+ *   { kind: 'banner',     iconName, title, text, buttonLabel, buttonHref, note }
+ *   { kind: 'cards',      tone, items: [{ iconName, title, description }] }
+ *   { kind: 'examples',   tone:'good'|'avoid', heading, headingIcon, badge, items: [{ src, caption, subCaption }] }
+ *   { kind: 'reassurance',iconName, heading, paragraphs: [string] }
+ *   { kind: 'spectable',  heading, rows: [{ label, value }] }
+ *   { kind: 'list',       heading?, items: [string] }
+ *   { kind: 'table',      columns: [string, string], rows: [[string, string]] }
+ *   { kind: 'faq',        items: [{ q, a }] }
+ *   { kind: 'prose',      heading, paragraphs: [string] }
+ *   { kind: 'note',       text }
  *
  * ★ ENGINEER CONNECTION POINT ★
  *   このファイルは静的モック。実運用では各 content を CMS / API / 設定から
- *   取得する形に差し替える想定（下記コメントの該当箇所を参照）。
+ *   取得する形に差し替える想定（各 ENGINEER CONNECTION POINT コメント参照）。
  */
+
+import { orderFlowSteps } from '../../../config/order-flow-steps.config';
+import {
+    goodPoints,
+    goodExamples,
+    avoidExamples,
+    photoSpecs,
+} from '../../../config/photo-tips.config';
 
 export const GUIDE_CONTENT = {
     '/pet/guide/order-flow': {
-        lead: 'PAWS PRESS のご注文は、写真を送るだけ。あとはプロにおまかせください。',
+        iconName: 'Truck',
+        heroImage: '/works/guide-hero-order-flow.webp',
+        lead: 'PAWS PRESS のご注文は、写真を送るだけのシンプル5ステップです。',
+        related: [
+            { to: '/pet/guide/photo-tips', iconName: 'Camera' },
+            { to: '/pet/guide/design-check', iconName: 'CheckCircle' },
+            { to: '/pet/guide/revisions', iconName: 'Edit3' },
+        ],
         blocks: [
             {
-                kind: 'steps',
-                items: [
-                    { title: 'お写真を送る', desc: 'お気に入りの1枚を注文フォームからアップロードします。' },
-                    { title: 'プラン選択・お申し込み', desc: '内容をご確認のうえ、プランを選んでお申し込みください。' },
-                    { title: 'イラスト制作', desc: 'プロのイラストレーターが心を込めて制作します（目安3〜5日）。' },
-                    { title: 'デザイン確認', desc: '完成イメージをご確認いただきます。修正もこの段階で承ります。' },
-                    { title: 'グッズ化・お届け', desc: '確定後、グッズに展開して最短一週間でお届けします。' },
-                ],
+                kind: 'summary',
+                iconName: 'Clock',
+                label: '全工程の目安',
+                value: '約7〜14日',
+                sub: 'プランによって異なります',
             },
-            { kind: 'note', text: '納期はプラン・繁忙期により変動する場合があります。' },
+            { kind: 'timeline', items: orderFlowSteps },
+            {
+                kind: 'banner',
+                iconName: 'MessageCircle',
+                title: 'ご不安があればLINEでもご相談OK',
+                text: '写真の選び方、プラン選びのご相談など、お気軽にどうぞ。',
+                buttonLabel: 'LINEで相談する →',
+                // ★ ENGINEER CONNECTION POINT ★
+                // LINE公式アカウント開設後、buttonHref に友だち追加URLを設定する。
+                buttonHref: '#',
+                note: '※LINE公式アカウント開設後にリンクを追加予定',
+            },
         ],
     },
 
     '/pet/guide/photo-tips': {
-        lead: 'イラストの仕上がりは、元のお写真で決まります。下記のポイントを参考にお選びください。',
+        iconName: 'Camera',
+        heroImage: '/works/guide-hero-photo-tips.webp',
+        lead: 'イラストの仕上がりは、元のお写真で決まります。きれいに仕上がる写真のポイントをご紹介します。',
+        related: [
+            { to: '/pet/guide/order-flow', iconName: 'Truck' },
+            { to: '/pet/guide/design-check', iconName: 'CheckCircle' },
+            { to: '/pet/faq', iconName: 'HelpCircle' },
+        ],
         blocks: [
+            { kind: 'cards', tone: 'good', items: goodPoints },
             {
-                kind: 'dosdonts',
-                dos: [
-                    '明るい場所で撮影された写真',
-                    'ピントが合っている',
-                    '顔・全身がはっきり写っている',
-                    '高解像度（スマホ標準画質でOK）',
-                    '正面〜斜め前からのアングル',
-                ],
-                donts: [
-                    '暗い・強い逆光',
-                    'ブレている',
-                    '被写体が小さく写りすぎ',
-                    'スタンプ・加工が入っている',
-                    '後ろ姿のみ',
+                kind: 'examples',
+                tone: 'good',
+                heading: 'こんな写真がおすすめ',
+                headingIcon: 'CheckCircle',
+                badge: '✓ 良い例',
+                items: goodExamples,
+            },
+            {
+                kind: 'examples',
+                tone: 'avoid',
+                heading: '避けたい写真の例',
+                headingIcon: 'XCircle',
+                badge: '✗ 避けたい例',
+                items: avoidExamples,
+            },
+            {
+                kind: 'reassurance',
+                iconName: 'Heart',
+                heading: '古い写真・少し画質が粗い写真でも大丈夫です',
+                paragraphs: [
+                    'ご家族の大切な記録は、必ずしも完璧な写真ばかりではありません。プロのイラストレーターが、写真の状態に応じて丁寧に調整いたします。',
+                    '判断に迷われる場合は、お持ちの写真をそのままお送りください。制作前に確認のご連絡をいたします。',
                 ],
             },
-            { kind: 'note', text: '複数枚お送りいただければ、最適な1枚を一緒にご相談できます。' },
+            { kind: 'spectable', heading: '推奨スペック', rows: photoSpecs },
         ],
     },
 
     '/pet/guide/design-check': {
+        iconName: 'CheckCircle',
         lead: '制作後、完成イメージをご確認いただいてからグッズ化に進みます。',
         blocks: [
             {
@@ -88,6 +141,7 @@ export const GUIDE_CONTENT = {
     },
 
     '/pet/guide/revisions': {
+        iconName: 'Edit3',
         lead: 'ご満足いただけるよう、プランごとに無料修正回数を設けています。',
         blocks: [
             {
@@ -107,6 +161,7 @@ export const GUIDE_CONTENT = {
     },
 
     '/pet/guide/payment': {
+        iconName: 'CreditCard',
         lead: '下記のお支払い方法に対応しています。',
         blocks: [
             {
@@ -130,6 +185,7 @@ export const GUIDE_CONTENT = {
     },
 
     '/pet/guide/shipping': {
+        iconName: 'Package',
         lead: '全国送料無料でお届けします（デジタルのみのプランを除く）。',
         blocks: [
             {
@@ -149,6 +205,7 @@ export const GUIDE_CONTENT = {
     },
 
     '/pet/faq': {
+        iconName: 'HelpCircle',
         lead: 'よくいただくご質問をまとめました。',
         blocks: [
             {
@@ -186,6 +243,7 @@ export const GUIDE_CONTENT = {
     },
 
     '/pet/business': {
+        iconName: 'Building2',
         lead: 'ノベルティ・記念品・保護団体支援グッズなど、法人・団体さまのご相談を承ります。',
         blocks: [
             {

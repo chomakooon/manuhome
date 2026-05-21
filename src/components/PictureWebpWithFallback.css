@@ -1,0 +1,25 @@
+.paws-imgfallback {
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #F1F1EE;
+    color: #A8A8A2;
+    text-align: center;
+    padding: 1rem;
+}
+
+.paws-imgfallback__icon {
+    width: 3rem;
+    height: 3rem;
+    opacity: 0.4;
+}
+
+.paws-imgfallback__text {
+    margin: 0;
+    font-size: 0.85rem;
+}
