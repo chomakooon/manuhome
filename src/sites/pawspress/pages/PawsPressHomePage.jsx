@@ -24,25 +24,26 @@ const SUB_CATEGORY_LABEL = {
     pet_goods: 'グッズ',
 };
 
-// ギャラリーを「写真 → イラスト → グッズ化」の制作フロー順に見せるためのグループ定義
-const GALLERY_GROUPS = [
+// 「これまでの制作」を 写真 → イラスト → グッズ の制作フロー順に見せるグループ定義。
+// 各グループの代表画像は portfolioData の isMain フラグ付き1枚を使う（ホームには代表のみ表示）。
+const WORKS_GROUPS = [
     {
         key: 'pet_photo',
         step: 'STEP 1',
         title: 'お写真',
-        caption: 'お気に入りの一枚を、お送りいただきます。',
+        caption: 'お気に入りの一枚を、お送りください。',
     },
     {
         key: 'pet_illust',
         step: 'STEP 2',
         title: 'イラスト',
-        caption: 'その一枚から、温かみのあるイラストを描き起こします。',
+        caption: '温かみのあるタッチで描き起こします。',
     },
     {
         key: 'pet_goods',
         step: 'STEP 3',
-        title: 'グッズ化',
-        caption: 'Tシャツ・マグ・トートなど、世界にひとつのグッズになります。',
+        title: 'グッズ',
+        caption: 'Tシャツ・マグ・トートなどに展開できます。',
     },
 ];
 
@@ -92,8 +93,12 @@ function PlansSection() {
                             key={plan.id}
                             className={`paws-plan-card${plan.popular ? ' paws-plan-card--popular' : ''}`}
                         >
-                            {plan.popular && plan.badge && (
-                                <span className="paws-plan-card__badge">{plan.badge}</span>
+                            {plan.badge && (
+                                <span
+                                    className={`paws-plan-card__badge paws-plan-card__badge--${plan.badgeTone ?? 'pink'}`}
+                                >
+                                    {plan.badge}
+                                </span>
                             )}
                             <h3 className="paws-plan-card__name">{plan.name}</h3>
                             <p className="paws-plan-card__tagline">{plan.tagline}</p>
@@ -108,7 +113,7 @@ function PlansSection() {
                                 to={`/pet/order?plan=${plan.id}`}
                                 className="paws-btn paws-btn--primary"
                             >
-                                このプランで相談する
+                                このプランで注文する →
                             </Link>
                         </article>
                     ))}
@@ -118,103 +123,45 @@ function PlansSection() {
     );
 }
 
-function FlowStep({ n, title, image, alt }) {
-    return (
-        <div className="paws-flow__step">
-            <div className="paws-flow__num">STEP {n}</div>
-            <div className="paws-flow__img">
-                <PictureWebp
-                    src={image}
-                    alt={alt}
-                    loading="lazy"
-                    onError={onImgError(`flow step ${n}`)}
-                />
-            </div>
-            <h3 className="paws-flow__title">{title}</h3>
-        </div>
-    );
-}
-
-function FlowSection({ photo, illust, goods }) {
+// 「これまでの制作」: 写真→イラスト→グッズの代表1枚ずつを横3カラムで見せる。
+// 代表画像をクリックすると PortfolioModal で全作例を順送り閲覧できる。
+function WorksSection({ groups, onOpen }) {
     return (
         <section className="paws-flow">
             <div className="paws-flow__inner">
-                <h2 className="paws-section-title">写真から、世界にひとつのグッズへ</h2>
-                <div className="paws-flow__steps">
-                    <FlowStep n={1} title="お写真を送る" image={photo} alt="お写真サンプル" />
-                    <FlowStep n={2} title="イラストに変換" image={illust} alt="イラスト変換例" />
-                    <FlowStep n={3} title="グッズになって届く" image={goods} alt="完成グッズ例" />
-                </div>
-            </div>
-        </section>
-    );
-}
-
-function GallerySection({ items, onOpen }) {
-    const groups = GALLERY_GROUPS.map((g) => ({
-        ...g,
-        items: items.filter((it) => it.subCategory === g.key),
-    })).filter((g) => g.items.length > 0);
-
-    return (
-        <section className="paws-gallery">
-            <div className="paws-gallery__inner">
                 <h2 className="paws-section-title">これまでの制作</h2>
-                <p className="paws-gallery__lead">
+                <p className="paws-flow__lead">
                     「お写真」一枚が、「イラスト」になり、「グッズ」になるまで。
                 </p>
-                {groups.map((group) => (
-                    <div key={group.key} className="paws-gallery__group">
-                        <div className="paws-gallery__group-head">
-                            <span className="paws-gallery__group-step">
-                                {group.step}
-                            </span>
-                            <h3 className="paws-gallery__group-title">
-                                {group.title}
-                            </h3>
-                            <p className="paws-gallery__group-caption">
-                                {group.caption}
-                            </p>
+                <div className="paws-flow__steps">
+                    {groups.map((group) => (
+                        <div key={group.key} className="paws-flow__step">
+                            <div className="paws-flow__num">{group.step}</div>
+                            <button
+                                type="button"
+                                className="paws-flow__img"
+                                onClick={() =>
+                                    group.index >= 0 && onOpen(group.index)
+                                }
+                                aria-label={`${group.title}の作例を拡大して見る`}
+                            >
+                                <PictureWebp
+                                    src={group.item.image}
+                                    alt={group.item.title}
+                                    loading="lazy"
+                                    onError={onImgError(`works ${group.key}`)}
+                                />
+                            </button>
+                            <h3 className="paws-flow__title">{group.title}</h3>
+                            <p className="paws-flow__caption">{group.caption}</p>
                         </div>
-                        <div className="paws-gallery__grid">
-                            {group.items.map((item) => (
-                                <button
-                                    type="button"
-                                    key={item.id}
-                                    className="paws-gallery__item"
-                                    onClick={() => onOpen(items.indexOf(item))}
-                                    aria-label={`${item.title} を拡大して見る`}
-                                >
-                                    <PictureWebp
-                                        src={item.image}
-                                        alt={item.title}
-                                        loading="lazy"
-                                        onError={onImgError(`gallery (id=${item.id})`)}
-                                    />
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-                <div className="paws-gallery__more">
+                    ))}
+                </div>
+                <div className="paws-flow__more">
                     <Link to="/portfolio" className="paws-btn paws-btn--outline">
-                        もっと見る
+                        もっと事例を見る →
                     </Link>
                 </div>
-            </div>
-        </section>
-    );
-}
-
-function BigCtaSection() {
-    return (
-        <section className="paws-bigcta">
-            <div className="paws-bigcta__inner">
-                <h2 className="paws-bigcta__title">うちの子だけの一品を、今すぐ</h2>
-                <p className="paws-bigcta__sub">写真1枚から、最短7日でお届け</p>
-                <Link to="/pet/order" className="paws-btn paws-btn--white paws-btn--lg">
-                    写真を送って注文する →
-                </Link>
             </div>
         </section>
     );
@@ -229,9 +176,17 @@ export default function PawsPressHomePage() {
         []
     );
 
-    const photoItem = useMemo(() => portfolioItems.find((i) => i.id === 'pet-photo-01'), []);
-    const illustItem = useMemo(() => portfolioItems.find((i) => i.id === 'pet-illust-01'), []);
-    const goodsItem = useMemo(() => portfolioItems.find((i) => i.id === 'pet-goods-01'), []);
+    // 「これまでの制作」用: 各 subCategory の代表（isMain）1枚と、その petItems 内 index
+    const worksGroups = useMemo(
+        () =>
+            WORKS_GROUPS.map((g) => {
+                const item =
+                    petItems.find((it) => it.subCategory === g.key && it.isMain) ??
+                    petItems.find((it) => it.subCategory === g.key);
+                return { ...g, item, index: item ? petItems.indexOf(item) : -1 };
+            }).filter((g) => g.item),
+        [petItems]
+    );
 
     // ── modal state ─────────────────────────
     const [modalIndex, setModalIndex] = useState(-1);
@@ -260,13 +215,7 @@ export default function PawsPressHomePage() {
             <PageSeo pageKey="pet" />
             <HeroSection heroImage="/works/pet-hero.jpg" />
             <PlansSection />
-            <FlowSection
-                photo={photoItem?.image ?? '/works/pet-photo-1.jpg'}
-                illust={illustItem?.image ?? '/works/pet-illust-1.jpg'}
-                goods={goodsItem?.image ?? '/works/pet-goods-1.jpg'}
-            />
-            <GallerySection items={petItems} onOpen={setModalIndex} />
-            <BigCtaSection />
+            <WorksSection groups={worksGroups} onOpen={setModalIndex} />
 
             <PortfolioModal
                 item={modalItem}

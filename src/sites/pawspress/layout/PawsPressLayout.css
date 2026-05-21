@@ -96,6 +96,34 @@
     border-radius: 2px;
 }
 
+/* ── 右上アクション（CTA + クロスリンク） ───────── */
+.paws-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+.paws-header__cta {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: filter 150ms ease, transform 150ms ease;
+}
+
+.paws-header__cta:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+}
+
 .paws-header__crosslink {
     color: var(--brand-text);
     opacity: 0.55;
@@ -107,6 +135,91 @@
 
 .paws-header__crosslink:hover {
     opacity: 1;
+    color: var(--brand-primary);
+}
+
+/* ── ご利用ガイド ドロップダウン ─────────────────── */
+.paws-guide {
+    position: relative;
+    display: inline-flex;
+}
+
+.paws-guide__toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.paws-guide__caret {
+    font-size: 0.6rem;
+    transition: transform 150ms ease;
+}
+
+.paws-guide--open .paws-guide__caret {
+    transform: rotate(180deg);
+}
+
+.paws-guide__menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    min-width: 200px;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+    z-index: 110;
+}
+
+/* PC: hover で展開（hover 対応デバイスのみ） */
+@media (hover: hover) {
+    .paws-guide:hover .paws-guide__menu,
+    .paws-guide:focus-within .paws-guide__menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* tap 展開（モバイル / クリック） */
+.paws-guide--open .paws-guide__menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+
+.paws-guide__item {
+    display: block;
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.875rem;
+    color: var(--brand-text);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 120ms ease, color 120ms ease;
+}
+
+.paws-guide__item:hover {
+    background-color: var(--brand-bg);
     color: var(--brand-primary);
 }
 
@@ -135,9 +248,52 @@
         font-size: 0.95rem;
     }
 
+    /* actions を解体し、CTA とクロスリンクを inner の直接 flex item にする */
+    .paws-header__actions {
+        display: contents;
+    }
+
+    /* クロスリンクは brand 行の右端に */
     .paws-header__crosslink {
-        font-size: 0.75rem;
+        order: 2;
         margin-left: auto;
+        font-size: 0.75rem;
+    }
+
+    /* CTA は最終行に大きめ全幅で配置（ハンバーガー代替） */
+    .paws-header__cta {
+        order: 4;
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    /* ご利用ガイド: モバイルはアコーディオン展開（インライン） */
+    .paws-guide {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .paws-guide__toggle {
+        justify-content: center;
+    }
+
+    .paws-guide__menu {
+        position: static;
+        transform: none;
+        width: 100%;
+        min-width: 0;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        display: none;
+        text-align: center;
+    }
+
+    .paws-guide--open .paws-guide__menu {
+        display: block;
+        transform: none;
     }
 }
 

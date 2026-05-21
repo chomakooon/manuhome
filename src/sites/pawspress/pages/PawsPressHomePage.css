@@ -170,8 +170,8 @@
 
 .paws-plans__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
 }
 
 .paws-plan-card {
@@ -208,6 +208,22 @@
     padding: 6px 14px;
     border-radius: 999px;
     letter-spacing: 0.05em;
+}
+
+/* バッジ色のトーン分け（pink=人気No.1 / primary=お試し / gold=贈り物） */
+.paws-plan-card__badge--pink {
+    background-color: var(--brand-accent);
+    color: #2D2520;
+}
+
+.paws-plan-card__badge--primary {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-plan-card__badge--gold {
+    background-color: #E0A93B;
+    color: #2D2520;
 }
 
 .paws-plan-card__name {
@@ -261,6 +277,13 @@
     margin: 0 0 1.25rem 0;
 }
 
+@media (max-width: 1024px) {
+    .paws-plans__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+}
+
 @media (max-width: 768px) {
     .paws-plans {
         padding: 4rem 1.5rem;
@@ -281,6 +304,13 @@
 .paws-flow__inner {
     max-width: 1100px;
     margin: 0 auto;
+}
+
+.paws-flow__lead {
+    text-align: center;
+    color: var(--brand-text-subtle, #6b6b6b);
+    font-size: 1rem;
+    margin: 0 0 3rem 0;
 }
 
 .paws-flow__steps {
@@ -307,11 +337,20 @@
 .paws-flow__img {
     width: 100%;
     aspect-ratio: 1 / 1;
+    border: none;
+    padding: 0;
+    cursor: pointer;
     border-radius: 16px;
     overflow: hidden;
     background-color: #FFFFFF;
     margin-bottom: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.paws-flow__img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .paws-flow__img img {
@@ -324,8 +363,20 @@
 .paws-flow__title {
     font-family: var(--brand-font-display);
     font-size: 1.15rem;
-    margin: 0;
+    margin: 0 0 0.4rem 0;
     color: var(--brand-text);
+}
+
+.paws-flow__caption {
+    font-size: 0.9rem;
+    color: var(--brand-text-subtle, #6b6b6b);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.paws-flow__more {
+    text-align: center;
+    margin-top: 3rem;
 }
 
 @media (max-width: 768px) {
@@ -339,134 +390,3 @@
     }
 }
 
-/* ── 4. ギャラリー ─────────────────────────────── */
-.paws-gallery {
-    padding: 6rem 2rem;
-    background-color: #FFFFFF;
-}
-
-.paws-gallery__inner {
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.paws-gallery__lead {
-    text-align: center;
-    color: var(--brand-text-subtle, #6b6b6b);
-    font-size: 1rem;
-    margin: 0 0 3rem 0;
-}
-
-.paws-gallery__group {
-    margin-bottom: 3.5rem;
-}
-
-.paws-gallery__group-head {
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.paws-gallery__group-step {
-    display: inline-block;
-    font-family: var(--brand-font-display);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    color: var(--brand-primary, #00b8d4);
-    margin-bottom: 0.35rem;
-}
-
-.paws-gallery__group-title {
-    font-family: var(--brand-font-display);
-    font-size: 1.4rem;
-    font-weight: 800;
-    margin: 0 0 0.4rem 0;
-    color: var(--brand-text, #2b2b2b);
-}
-
-.paws-gallery__group-caption {
-    font-size: 0.92rem;
-    color: var(--brand-text-subtle, #6b6b6b);
-    margin: 0;
-}
-
-.paws-gallery__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin-bottom: 0;
-}
-
-.paws-gallery__item {
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    border-radius: 12px;
-    overflow: hidden;
-    aspect-ratio: 1 / 1;
-    transition: transform 200ms ease, box-shadow 200ms ease;
-}
-
-.paws-gallery__item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.paws-gallery__item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-}
-
-.paws-gallery__more {
-    text-align: center;
-}
-
-@media (max-width: 768px) {
-    .paws-gallery {
-        padding: 4rem 1.5rem;
-    }
-
-    .paws-gallery__grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* ── 5. 大型 CTA ────────────────────────────────── */
-.paws-bigcta {
-    padding: 6rem 2rem;
-    background-color: var(--brand-accent);
-    text-align: center;
-}
-
-.paws-bigcta__inner {
-    max-width: 720px;
-    margin: 0 auto;
-}
-
-.paws-bigcta__title {
-    font-family: var(--brand-font-display);
-    font-size: 2.2rem;
-    margin: 0 0 0.5rem 0;
-    color: #2D2520;
-}
-
-.paws-bigcta__sub {
-    font-size: 1rem;
-    margin: 0 0 2rem 0;
-    color: #2D2520;
-    opacity: 0.85;
-}
-
-@media (max-width: 768px) {
-    .paws-bigcta {
-        padding: 4rem 1.5rem;
-    }
-
-    .paws-bigcta__title {
-        font-size: 1.6rem;
-    }
-}
