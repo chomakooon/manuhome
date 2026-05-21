@@ -13,23 +13,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { GUIDE_LINKS } from '../data/guideLinks';
 import './PawsPressLayout.css';
 
 const LOGO_PATH = '/hero/pawspress-logo.jpg';
-
-// ご利用ガイド ドロップダウン項目。
-// to は将来の遷移先（Batch B / Phase 26.5 で実装予定）。
-// 各ページ未実装の間は href="#" のプレースホルダとして表示する。
-const GUIDE_LINKS = [
-    { label: 'ご注文の流れ', to: '/pet/guide/order-flow' },
-    { label: 'お写真の選び方', to: '/pet/guide/photo-tips' },
-    { label: 'デザイン確認について', to: '/pet/guide/design-check' },
-    { label: '修正対応について', to: '/pet/guide/revisions' },
-    { label: 'お支払い方法', to: '/pet/guide/payment' },
-    { label: '配送・送料', to: '/pet/guide/shipping' },
-    { label: 'よくある質問', to: '/pet/faq' },
-    { label: '法人のお客様', to: '/pet/business' },
-];
 
 const handleLogoError = (e) => {
     e.currentTarget.style.display = 'none';
@@ -79,16 +66,14 @@ function GuideDropdown() {
             <ul className="paws-guide__menu" role="menu">
                 {GUIDE_LINKS.map((g) => (
                     <li key={g.label} role="none">
-                        {/* TODO(Batch B): 各ガイドページ実装後、button を <Link to={g.to}> に差し替え。
-                            現状はルート未実装（catch-all なし）のためプレースホルダ button。 */}
-                        <button
-                            type="button"
+                        <Link
+                            to={g.to}
                             role="menuitem"
                             className="paws-guide__item"
                             onClick={() => setOpen(false)}
                         >
                             {g.label}
-                        </button>
+                        </Link>
                     </li>
                 ))}
             </ul>

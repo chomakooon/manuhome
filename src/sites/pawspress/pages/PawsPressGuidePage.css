@@ -1,0 +1,69 @@
+.paws-guide-page {
+    padding: 6rem 1.5rem;
+    background-color: var(--brand-bg);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-guide-page__inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.paws-guide-page__eyebrow {
+    display: inline-block;
+    font-family: var(--brand-font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--brand-primary);
+    margin-bottom: 0.75rem;
+}
+
+.paws-guide-page__title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 1.5rem 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-page__msg {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--brand-text-subtle, #6b6b6b);
+    margin: 0 0 2.5rem 0;
+}
+
+.paws-guide-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.paws-guide-page__back {
+    display: inline-block;
+    color: var(--brand-text-subtle, #6b6b6b);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 150ms ease;
+}
+
+.paws-guide-page__back:hover {
+    color: var(--brand-primary);
+}
+
+@media (max-width: 768px) {
+    .paws-guide-page {
+        padding: 4rem 1.25rem;
+    }
+
+    .paws-guide-page__title {
+        font-size: 1.6rem;
+    }
+}

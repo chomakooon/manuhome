@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useBrandTheme } from './sites/useBrandTheme';
+import { GUIDE_LINKS } from './sites/pawspress/data/guideLinks';
 // NOTE: 旧 Layout / Header / Footer / StickyCTA は src/components/layout/ に温存。
 // Phase 5 ですべてのルートが KataribinLayout / PawsPressLayout / AdminLayout に移行済み。
 // 万が一の参照用に物理ファイルは残置（次フェーズで削除可能）。
@@ -26,6 +27,7 @@ const PawsPressLayout = lazy(() => import('./sites/pawspress/layout/PawsPressLay
 const PawsPressHomePage = lazy(() => import('./sites/pawspress/pages/PawsPressHomePage'));
 const PawsPressOrderPage = lazy(() => import('./sites/pawspress/pages/PawsPressOrderPage'));
 const PawsPressContactPage = lazy(() => import('./sites/pawspress/pages/PawsPressContactPage'));
+const PawsPressGuidePage = lazy(() => import('./sites/pawspress/pages/PawsPressGuidePage'));
 
 // ── Kataribin (Step 2-D / Phase 3 / Phase 12) ──
 const KataribinLayout = lazy(() => import('./sites/kataribin/layout/KataribinLayout'));
@@ -65,6 +67,15 @@ function AppRoutes() {
         <Route path="/pet" element={<PawsPressLayout><PawsPressHomePage /></PawsPressLayout>} />
         <Route path="/pet/order" element={<PawsPressLayout><PawsPressOrderPage /></PawsPressLayout>} />
         <Route path="/pet/contact" element={<PawsPressLayout><PawsPressContactPage /></PawsPressLayout>} />
+
+        {/* ── PAWS PRESS ご利用ガイド（暫定プレースホルダ。順次本実装に差し替え）── */}
+        {GUIDE_LINKS.map((g) => (
+          <Route
+            key={g.to}
+            path={g.to}
+            element={<PawsPressLayout><PawsPressGuidePage /></PawsPressLayout>}
+          />
+        ))}
 
         {/* ── Admin OS Dashboard ── */}
         <Route path="/admin" element={<AdminLayout />}>
