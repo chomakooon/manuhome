@@ -1259,3 +1259,441 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ================================================================
+   Batch B-3 追加ブロック（payment / shipping / faq）
+   配色は B-1/B-2 と同一パレット
+   ================================================================ */
+
+/* ── payment methods ── */
+.paws-guide-paymethods {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.paws-guide-paymethod {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    padding: 1.75rem;
+    transition: box-shadow 200ms ease;
+}
+
+.paws-guide-paymethod:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.paws-guide-paymethod__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: #0086AE;
+    margin-bottom: 1rem;
+}
+
+.paws-guide-paymethod__title {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-guide-paymethod__desc {
+    margin: 0 0 0.875rem 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-paymethod__brands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.paws-guide-paymethod__brand {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    background-color: #F2F2EF;
+    color: #555;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* ── payment timeline（横並び） ── */
+.paws-guide-paytl__steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    align-items: start;
+}
+
+.paws-guide-paytl__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.paws-guide-paytl__step::after {
+    content: '→';
+    position: absolute;
+    right: -0.6rem;
+    top: 1.25rem;
+    color: var(--brand-primary);
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.paws-guide-paytl__step:last-child::after {
+    display: none;
+}
+
+.paws-guide-paytl__icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: #0086AE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.paws-guide-paytl__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--brand-text);
+}
+
+.paws-guide-paytl__note {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--brand-text-subtle);
+    margin: 1.25rem 0 0 0;
+}
+
+/* ── security badge ── */
+.paws-guide-security {
+    max-width: 720px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #F0FFF4 0%, #E6FBFF 100%);
+    border-radius: 24px;
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.paws-guide-security__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    color: #00B074;
+    margin-bottom: 1rem;
+}
+
+.paws-guide-security__title {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+.paws-guide-security__desc {
+    margin: 0 0 1.25rem 0;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-security__items {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 480px;
+    text-align: left;
+}
+
+.paws-guide-security__items li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    font-size: 0.92rem;
+    color: var(--brand-text);
+}
+
+.paws-guide-security__items li::before {
+    content: '✓';
+    color: #00B074;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* ── shipping info grid ── */
+.paws-guide-shipinfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.paws-guide-shipinfo__card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    padding: 1.75rem;
+}
+
+.paws-guide-shipinfo__icon {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: #0086AE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-guide-shipinfo__label {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-shipinfo__value {
+    margin: 0 0 0.375rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-guide-shipinfo__note {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--brand-text-subtle);
+}
+
+/* ── shipping flow（6 ステージ横並び） ── */
+.paws-guide-shipflow {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    align-items: start;
+    padding: 1.5rem;
+    background-color: #FAFAF8;
+    border-radius: 20px;
+}
+
+.paws-guide-shipflow__stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.paws-guide-shipflow__stage::after {
+    content: '→';
+    position: absolute;
+    right: -0.5rem;
+    top: 0.9rem;
+    color: var(--brand-primary);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.paws-guide-shipflow__stage:last-child::after {
+    display: none;
+}
+
+.paws-guide-shipflow__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    color: #0086AE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.4rem;
+    border: 1.5px solid #E6FBFF;
+}
+
+.paws-guide-shipflow__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--brand-text);
+}
+
+/* ── alert box ── */
+.paws-guide-alertbox {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.5rem;
+    border-radius: 16px;
+    border-left: 4px solid;
+}
+
+.paws-guide-alertbox--info {
+    background-color: #E6FBFF;
+    border-color: var(--brand-primary);
+    color: #006B8C;
+}
+
+.paws-guide-alertbox--warning {
+    background-color: #FFF8E1;
+    border-color: #FFA500;
+    color: #8B5A00;
+}
+
+.paws-guide-alertbox--error {
+    background-color: #FFEBEE;
+    border-color: #E53935;
+    color: #B71C1C;
+}
+
+.paws-guide-alertbox__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.1rem;
+}
+
+.paws-guide-alertbox__title {
+    margin: 0 0 0.375rem 0;
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 1.05rem;
+}
+
+.paws-guide-alertbox__desc {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+/* ── faq categories ── */
+.paws-guide-faqcat__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+}
+
+.paws-guide-faqcat__navitem {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background-color: #FFFFFF;
+    border: 1.5px solid var(--brand-primary);
+    color: #0086AE;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+
+.paws-guide-faqcat__navitem:hover {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-guide-faqcat__cat {
+    margin-bottom: 2.5rem;
+    scroll-margin-top: 100px;
+}
+
+.paws-guide-faqcat__cat:last-child {
+    margin-bottom: 0;
+}
+
+.paws-guide-faqcat__cathead {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 2px solid #E6FBFF;
+}
+
+.paws-guide-faqcat__caticon {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: #0086AE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-guide-faqcat__cattitle {
+    margin: 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+/* ── Batch B-3 レスポンシブ ── */
+@media (max-width: 768px) {
+    .paws-guide-paymethods,
+    .paws-guide-shipinfo {
+        grid-template-columns: 1fr;
+    }
+
+    .paws-guide-shipflow {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem 0.5rem;
+    }
+
+    .paws-guide-shipflow__stage:nth-child(3)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .paws-guide-paytl__steps {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem 0.5rem;
+    }
+
+    .paws-guide-paytl__step:nth-child(2)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .paws-guide-shipflow {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .paws-guide-shipflow__stage:nth-child(2)::after,
+    .paws-guide-shipflow__stage:nth-child(4)::after {
+        display: none;
+    }
+}

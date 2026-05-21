@@ -226,82 +226,190 @@ export const GUIDE_CONTENT = {
 
     '/pet/guide/payment': {
         iconName: 'CreditCard',
-        lead: '下記のお支払い方法に対応しています。',
+        heroImage: '/works/guide-hero-payment.webp',
+        lead: 'お客様のご都合に合わせて、複数のお支払い方法をご用意しています。',
+        related: [
+            { to: '/pet/guide/shipping', iconName: 'Truck', title: '配送・送料' },
+            { to: '/pet/guide/order-flow', iconName: 'ListChecks', title: 'ご注文の流れ' },
+            { to: '/pet/faq', iconName: 'HelpCircle', title: 'よくある質問' },
+        ],
         blocks: [
             {
-                kind: 'list',
-                heading: 'ご利用いただける決済',
+                kind: 'infobox',
+                iconName: 'Wallet',
+                label: '対応決済',
+                title: '4種類のお支払い方法に対応',
+                description: 'クレジットカード、銀行振込、コンビニ決済、QR・スマホ決済からお選びいただけます。',
+            },
+            { kind: 'sectiontitle', text: 'ご利用いただける決済方法' },
+            {
+                kind: 'paymentmethods',
                 // ★ ENGINEER CONNECTION POINT ★
                 // 決済手段・手数料・決済処理は決済プロバイダ（Stripe 等）の設定から取得・接続する。
+                methods: [
+                    { iconName: 'CreditCard', title: 'クレジットカード', description: '主要ブランドに対応。一括払いのみ。', brands: ['Visa', 'Mastercard', 'JCB', 'Amex'] },
+                    { iconName: 'Building', title: '銀行振込', description: 'ご注文後、振込先口座をメールでお知らせします。' },
+                    { iconName: 'Store', title: 'コンビニ決済', description: 'セブン-イレブン、ローソン、ファミリーマートほか主要コンビニ。' },
+                    { iconName: 'Smartphone', title: 'QR・スマホ決済', description: '各種QRコード決済に対応。', brands: ['PayPay', 'LINE Pay', '楽天ペイ'] },
+                ],
+            },
+            { kind: 'sectiontitle', text: 'お支払いのタイミング' },
+            {
+                kind: 'paymenttimeline',
+                steps: [
+                    { iconName: 'ShoppingBag', label: 'ご注文' },
+                    { iconName: 'CreditCard', label: 'お支払い' },
+                    { iconName: 'Brush', label: '制作開始' },
+                    { iconName: 'Truck', label: '発送・お届け' },
+                ],
+                note: 'ご注文確定時の前払いとなります。お支払い確認後に制作を開始します。',
+            },
+            {
+                kind: 'securitybadge',
+                iconName: 'ShieldCheck',
+                title: '安全な決済環境',
+                description: 'SSL暗号化通信で、お客様の情報を保護しています。',
                 items: [
-                    'クレジットカード（Visa / Mastercard / JCB / AMEX）',
-                    '銀行振込',
-                    'コンビニ決済',
-                    '各種QR・スマホ決済',
+                    'クレジットカード情報は当店では保持しません',
+                    '決済処理は信頼性の高い決済代行サービスを通じて行います',
+                    '通信は全てSSL/TLSで暗号化されています',
                 ],
             },
             {
-                kind: 'prose',
-                heading: 'お支払いのタイミング',
-                paragraphs: ['ご注文確定時の前払いとなります。お支払い確認後に制作を開始します。'],
+                kind: 'alertbox',
+                variant: 'info',
+                iconName: 'Info',
+                title: '領収書について',
+                description: '領収書が必要な場合は、ご注文時または注文後にお知らせください。PDFまたは郵送でお送りします。',
             },
         ],
     },
 
     '/pet/guide/shipping': {
-        iconName: 'Package',
-        lead: '全国送料無料でお届けします（デジタルのみのプランを除く）。',
+        iconName: 'Truck',
+        heroImage: '/works/guide-hero-shipping.webp',
+        lead: '全国送料無料でお届けします（デジタル納品プランを除く）。',
+        related: [
+            { to: '/pet/guide/payment', iconName: 'CreditCard', title: 'お支払い方法' },
+            { to: '/pet/guide/order-flow', iconName: 'ListChecks', title: 'ご注文の流れ' },
+            { to: '/pet/faq', iconName: 'HelpCircle', title: 'よくある質問' },
+        ],
         blocks: [
             {
-                kind: 'table',
-                columns: ['項目', '内容'],
+                kind: 'infobox',
+                iconName: 'PiggyBank',
+                label: '送料',
+                title: '全国送料無料',
+                description: 'Single Item / Pair Set / Premium Frame は全国どこへでも送料無料でお届けします。',
+            },
+            { kind: 'sectiontitle', text: '配送情報' },
+            {
+                kind: 'shippinginfogrid',
                 // ★ ENGINEER CONNECTION POINT ★
                 // 送料・納期・配送業者は配送マスタ / 在庫API から取得する。
-                rows: [
-                    ['送料', '全国一律無料（グッズを含むプラン）'],
-                    ['配送方法', '宅配便（追跡番号あり）'],
-                    ['お届け目安', 'デザイン確定後 約7〜14日'],
-                    ['海外配送', '現在は国内のみ対応'],
+                items: [
+                    { iconName: 'PiggyBank', label: '送料', value: '全国送料無料', note: 'デジタル納品プランを除く' },
+                    { iconName: 'Truck', label: '配送方法', value: '宅配便（追跡番号あり）', note: 'ヤマト運輸または佐川急便' },
+                    { iconName: 'Calendar', label: 'お届け目安', value: 'デザイン確定後 約7〜14日', note: 'プランによって異なります' },
+                    { iconName: 'Globe', label: '海外配送', value: '現在は国内のみ対応', note: '今後対応予定' },
                 ],
             },
-            { kind: 'note', text: '繁忙期（年末年始など）はお届けに通常より時間をいただく場合があります。' },
+            { kind: 'sectiontitle', text: 'お届けまでの流れ' },
+            {
+                kind: 'shippingflow',
+                stages: [
+                    { iconName: 'CheckCircle', label: 'デザイン確定' },
+                    { iconName: 'Printer', label: '印刷' },
+                    { iconName: 'PackageCheck', label: '検品' },
+                    { iconName: 'Package', label: '梱包' },
+                    { iconName: 'Truck', label: '発送' },
+                    { iconName: 'Home', label: 'お届け' },
+                ],
+            },
+            {
+                kind: 'alertbox',
+                variant: 'warning',
+                iconName: 'AlertTriangle',
+                title: '繁忙期のお届けについて',
+                description: '年末年始・大型連休期間は通常より時間をいただく場合があります。お早めのご注文をおすすめします。',
+            },
+            {
+                kind: 'infobox',
+                iconName: 'Gift',
+                label: 'ギフト発送について',
+                title: '別住所への発送も承ります',
+                description: 'プレゼント用に別の住所へお届けすることも可能です。ご注文時にお知らせください。',
+            },
         ],
     },
 
     '/pet/faq': {
         iconName: 'HelpCircle',
-        lead: 'よくいただくご質問をまとめました。',
+        heroImage: '/works/guide-hero-faq.webp',
+        lead: 'よくいただくご質問をまとめました。お探しの内容が見つからない場合は、お気軽にお問い合わせください。',
+        related: [
+            { to: '/pet/guide/order-flow', iconName: 'ListChecks', title: 'ご注文の流れ' },
+            { to: '/pet/guide/photo-tips', iconName: 'Camera', title: 'お写真の選び方' },
+            { to: '/pet/contact', iconName: 'Mail', title: 'お問い合わせ' },
+        ],
         blocks: [
             {
-                kind: 'faq',
+                kind: 'faqcategories',
                 // ★ ENGINEER CONNECTION POINT ★
                 // FAQ項目は CMS / 管理画面から取得・編集できるようにする想定。
-                items: [
+                categories: [
                     {
-                        q: 'どんな写真でも依頼できますか？',
-                        a: '明るくピントの合った写真であれば、スマホ撮影でも問題ありません。詳しくは「お写真の選び方」をご覧ください。',
+                        id: 'photo',
+                        iconName: 'Camera',
+                        title: '写真について',
+                        faqs: [
+                            { q: 'どんな写真でも依頼できますか？', a: '明るくピントが合った写真であれば、ほとんどの場合対応可能です。詳しくは「お写真の選び方」をご覧ください。' },
+                            { q: '古い写真でも大丈夫ですか？', a: 'はい、対応可能です。多少画質が粗くてもプロのイラストレーターが調整いたします。' },
+                            { q: '複数のペットを1枚に描けますか？', a: 'Pair Set プランなら2頭まで対応可能です。3頭以上は別途お見積りとなります。' },
+                            { q: 'スマホで撮った写真でも問題ないですか？', a: '問題ありません。最近のスマホカメラは高画質なので、十分な品質で制作できます。' },
+                        ],
                     },
                     {
-                        q: '制作にどれくらいかかりますか？',
-                        a: 'プランにより異なりますが、デザイン確定後 最短7日でお届けします。',
+                        id: 'production',
+                        iconName: 'Brush',
+                        title: '制作・修正について',
+                        faqs: [
+                            { q: '制作にどれくらいかかりますか？', a: 'プランによって異なります。Trial Digital と Premium Frame は約7日、Single Item と Pair Set は約14日が目安です。' },
+                            { q: '修正はできますか？', a: 'はい、プランごとに無料修正回数を設けております。詳しくは「修正対応について」をご覧ください。' },
+                            { q: 'イラストのタッチは選べますか？', a: '現在は岡崎真奈の温かみのある手描きタッチでの制作となります。今後タッチのバリエーションを追加予定です。' },
+                            { q: '亡くなったペットのイラストもお願いできますか？', a: 'はい、心を込めて制作いたします。お写真をお送りいただく際に、その旨を一言添えていただけると幸いです。' },
+                        ],
                     },
                     {
-                        q: '複数のペットを1枚に描けますか？',
-                        a: '可能です。頭数により追加料金が発生する場合がありますので、お問い合わせください。',
+                        id: 'payment-shipping',
+                        iconName: 'CreditCard',
+                        title: 'お支払い・配送について',
+                        faqs: [
+                            { q: '支払い方法は何がありますか？', a: 'クレジットカード、銀行振込、コンビニ決済、QR・スマホ決済に対応しています。詳しくは「お支払い方法」をご覧ください。' },
+                            { q: '送料はかかりますか？', a: '全国送料無料です（デジタル納品プランを除く）。' },
+                            { q: '海外発送はできますか？', a: '現在は日本国内のみとなっております。今後の対応を検討しております。' },
+                            { q: 'プレゼント用に別の住所へ送れますか？', a: 'はい、可能です。ご注文時にお届け先をお知らせください。' },
+                        ],
                     },
                     {
-                        q: '修正はできますか？',
-                        a: 'プランごとに無料修正回数があります。「修正対応について」をご確認ください。',
-                    },
-                    {
-                        q: '支払い方法は？',
-                        a: 'クレジットカード・銀行振込・コンビニ決済などに対応しています。',
-                    },
-                    {
-                        q: '法人での大量注文は可能ですか？',
-                        a: '可能です。「法人のお客様」よりお問い合わせください。',
+                        id: 'business',
+                        iconName: 'Building2',
+                        title: '法人・大量注文について',
+                        faqs: [
+                            { q: '法人での大量注文は可能ですか？', a: 'はい、最小10個から承ります。数量に応じた割引もございます。詳しくは「法人のお客様」をご覧ください。' },
+                            { q: 'ノベルティとして使えますか？', a: 'もちろん可能です。動物病院やトリミングサロン、保護団体、ペット関連企業様にご活用いただいております。' },
+                            { q: '請求書払いは可能ですか？', a: '法人様の場合、ご相談に応じて請求書払いも対応可能です。お問い合わせフォームよりご相談ください。' },
+                        ],
                     },
                 ],
+            },
+            {
+                kind: 'inlinecta',
+                variant: 'secondary',
+                title: 'ご質問が見つからない場合',
+                description: 'お気軽にお問い合わせください。1営業日以内にご返信いたします。',
+                buttonLabel: 'お問い合わせフォームへ →',
+                buttonHref: '/pet/contact',
             },
         ],
     },

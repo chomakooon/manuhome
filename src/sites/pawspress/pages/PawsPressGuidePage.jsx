@@ -46,6 +46,19 @@ import {
     Gift,
     FileText,
     ArrowRight,
+    Building,
+    Store,
+    Smartphone,
+    ShieldCheck,
+    PiggyBank,
+    Calendar,
+    Globe,
+    Printer,
+    PackageCheck,
+    Home,
+    AlertTriangle,
+    Wallet,
+    ListChecks,
 } from 'lucide-react';
 import PageSeo from '../../../components/PageSeo';
 import PictureWebp from '../../../components/PictureWebp';
@@ -87,6 +100,19 @@ const ICON_MAP = {
     Gift,
     FileText,
     ArrowRight,
+    Building,
+    Store,
+    Smartphone,
+    ShieldCheck,
+    PiggyBank,
+    Calendar,
+    Globe,
+    Printer,
+    PackageCheck,
+    Home,
+    AlertTriangle,
+    Wallet,
+    ListChecks,
 };
 
 function Icon({ name, size = 24, className }) {
@@ -513,6 +539,168 @@ function Block({ block }) {
                     <Link to={block.buttonHref} className="paws-guide-inlinecta__btn">
                         {block.buttonLabel}
                     </Link>
+                </div>
+            );
+
+        case 'paymentmethods':
+            return (
+                <div className="paws-guide-paymethods">
+                    {block.methods.map((m) => (
+                        <div key={m.title} className="paws-guide-paymethod">
+                            <span className="paws-guide-paymethod__icon">
+                                <Icon name={m.iconName} size={28} />
+                            </span>
+                            <h3 className="paws-guide-paymethod__title">{m.title}</h3>
+                            <p className="paws-guide-paymethod__desc">{m.description}</p>
+                            {m.brands?.length > 0 && (
+                                <div className="paws-guide-paymethod__brands">
+                                    {m.brands.map((b) => (
+                                        <span key={b} className="paws-guide-paymethod__brand">
+                                            {b}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            );
+
+        case 'paymenttimeline':
+            return (
+                <div className="paws-guide-paytl">
+                    {block.title && (
+                        <h3 className="paws-guide-page__heading">{block.title}</h3>
+                    )}
+                    <div className="paws-guide-paytl__steps">
+                        {block.steps.map((s) => (
+                            <div key={s.label} className="paws-guide-paytl__step">
+                                <span className="paws-guide-paytl__icon">
+                                    <Icon name={s.iconName} size={24} />
+                                </span>
+                                <span className="paws-guide-paytl__label">{s.label}</span>
+                            </div>
+                        ))}
+                    </div>
+                    {block.note && <p className="paws-guide-paytl__note">{block.note}</p>}
+                </div>
+            );
+
+        case 'securitybadge':
+            return (
+                <div className="paws-guide-security">
+                    <span className="paws-guide-security__icon">
+                        <Icon name={block.iconName} size={36} />
+                    </span>
+                    <h3 className="paws-guide-security__title">{block.title}</h3>
+                    {block.description && (
+                        <p className="paws-guide-security__desc">{block.description}</p>
+                    )}
+                    {block.items?.length > 0 && (
+                        <ul className="paws-guide-security__items">
+                            {block.items.map((it) => (
+                                <li key={it}>{it}</li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            );
+
+        case 'shippinginfogrid':
+            return (
+                <div className="paws-guide-shipinfo">
+                    {block.items.map((it) => (
+                        <div key={it.label} className="paws-guide-shipinfo__card">
+                            <span className="paws-guide-shipinfo__icon">
+                                <Icon name={it.iconName} size={24} />
+                            </span>
+                            <div>
+                                <p className="paws-guide-shipinfo__label">{it.label}</p>
+                                <p className="paws-guide-shipinfo__value">{it.value}</p>
+                                {it.note && (
+                                    <p className="paws-guide-shipinfo__note">{it.note}</p>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+
+        case 'shippingflow':
+            return (
+                <div className="paws-guide-shipflow-wrap">
+                    {block.title && (
+                        <h3 className="paws-guide-page__heading">{block.title}</h3>
+                    )}
+                    <div className="paws-guide-shipflow">
+                        {block.stages.map((s) => (
+                            <div key={s.label} className="paws-guide-shipflow__stage">
+                                <span className="paws-guide-shipflow__icon">
+                                    <Icon name={s.iconName} size={20} />
+                                </span>
+                                <span className="paws-guide-shipflow__label">{s.label}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+
+        case 'alertbox':
+            return (
+                <div
+                    className={`paws-guide-alertbox paws-guide-alertbox--${block.variant ?? 'info'}`}
+                >
+                    <span className="paws-guide-alertbox__icon">
+                        <Icon name={block.iconName} size={22} />
+                    </span>
+                    <div>
+                        <p className="paws-guide-alertbox__title">{block.title}</p>
+                        {block.description && (
+                            <p className="paws-guide-alertbox__desc">{block.description}</p>
+                        )}
+                    </div>
+                </div>
+            );
+
+        case 'faqcategories':
+            return (
+                <div className="paws-guide-faqcat">
+                    <nav className="paws-guide-faqcat__nav" aria-label="FAQカテゴリ">
+                        {block.categories.map((cat) => (
+                            <a
+                                key={cat.id}
+                                href={`#faqcat-${cat.id}`}
+                                className="paws-guide-faqcat__navitem"
+                            >
+                                <Icon name={cat.iconName} size={16} />
+                                {cat.title}
+                            </a>
+                        ))}
+                    </nav>
+                    {block.categories.map((cat) => (
+                        <section
+                            key={cat.id}
+                            id={`faqcat-${cat.id}`}
+                            className="paws-guide-faqcat__cat"
+                        >
+                            <div className="paws-guide-faqcat__cathead">
+                                <span className="paws-guide-faqcat__caticon">
+                                    <Icon name={cat.iconName} size={22} />
+                                </span>
+                                <h2 className="paws-guide-faqcat__cattitle">{cat.title}</h2>
+                            </div>
+                            <div className="paws-guide-page__faq">
+                                {cat.faqs.map((f) => (
+                                    <details key={f.q} className="paws-guide-page__faq-item">
+                                        <summary className="paws-guide-page__faq-q">
+                                            {f.q}
+                                        </summary>
+                                        <p className="paws-guide-page__faq-a">{f.a}</p>
+                                    </details>
+                                ))}
+                            </div>
+                        </section>
+                    ))}
                 </div>
             );
 
