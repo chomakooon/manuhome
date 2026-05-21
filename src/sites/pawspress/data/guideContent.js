@@ -114,49 +114,113 @@ export const GUIDE_CONTENT = {
 
     '/pet/guide/design-check': {
         iconName: 'CheckCircle',
-        lead: '制作後、完成イメージをご確認いただいてからグッズ化に進みます。',
+        heroImage: '/works/guide-hero-design-check.webp',
+        lead: '制作後、完成イメージをメールまたはLINEでお送りします。ご満足いただいてから、グッズ化に進みます。',
+        related: [
+            { to: '/pet/guide/revisions', iconName: 'Edit3', title: '修正対応について' },
+            { to: '/pet/guide/order-flow', iconName: 'Truck', title: 'ご注文の流れ' },
+            { to: '/pet/faq', iconName: 'HelpCircle', title: 'よくある質問' },
+        ],
         blocks: [
             {
-                kind: 'prose',
-                heading: '確認の流れ',
-                paragraphs: [
-                    '制作が完了したら、完成イメージを画像でお送りします。メールまたはフォームからご確認ください。',
+                kind: 'infobox',
+                iconName: 'Mail',
+                label: '確認方法',
+                title: 'メール または LINE',
+                description: 'ご注文時にご希望の連絡方法をお選びいただけます。',
+            },
+            {
+                kind: 'mockup',
+                // ★ ENGINEER CONNECTION POINT ★
+                // 確認画像の配信・承認フローは、将来マイページ or 承認API に接続する。
+                src: '/works/mockup-design-check-email.webp',
+                alt: 'デザイン確認メールの例',
+                caption: '実際の確認画面イメージ',
+                channels: [
+                    { iconName: 'Mail', label: 'メールで確認' },
+                    { iconName: 'MessageCircle', label: 'LINEでも確認可' },
+                ],
+            },
+            { kind: 'sectiontitle', text: '確認の流れ' },
+            {
+                kind: 'timeline',
+                items: [
+                    { number: 1, iconName: 'Brush', title: 'イラスト完成', description: 'プロのイラストレーターが心を込めて制作いたします。', duration: '3〜5日' },
+                    { number: 2, iconName: 'Send', title: '完成イメージ送付', description: 'メールまたはLINEにてご連絡します。', duration: '即日' },
+                    { number: 3, iconName: 'Eye', title: 'ご確認・ご返信', description: '確定の旨、または修正希望をお知らせください。', duration: '1〜3日' },
+                    { number: 4, iconName: 'CheckCircle', title: 'デザイン確定', description: '確定次第、グッズ制作に進みます。', duration: '即日' },
+                ],
+            },
+            { kind: 'sectiontitle', text: 'ご確認いただくポイント' },
+            {
+                kind: 'cards',
+                tone: 'primary',
+                items: [
+                    { iconName: 'Palette', title: '毛色・模様の再現', description: 'ベースカラー、模様の入り方、特徴的なマーキングなど。' },
+                    { iconName: 'Smile', title: '表情の雰囲気', description: '目の表情、口元の柔らかさ、全体の印象。' },
+                    { iconName: 'Sparkles', title: '全体のタッチ・印象', description: 'イラストのタッチ、構図のバランス、雰囲気。' },
                 ],
             },
             {
-                kind: 'list',
-                heading: 'ご確認いただくポイント',
-                items: ['毛色・模様の再現', '表情の雰囲気', '全体のタッチ・印象'],
+                kind: 'inlinecta',
+                variant: 'secondary',
+                title: '修正できる回数はプランごとに異なります',
+                description: 'プラン別の無料修正回数をご確認ください。',
+                buttonLabel: '修正対応について →',
+                buttonHref: '/pet/guide/revisions',
             },
-            {
-                kind: 'prose',
-                heading: 'お返事の目安',
-                paragraphs: [
-                    '確認のご依頼から3日以内にお返事ください。お返事が遅れると、お届け日が後ろ倒しになる場合があります。',
-                ],
-            },
-            // ★ ENGINEER CONNECTION POINT ★
-            // 確認画像の配信・承認フローは、将来マイページ or 承認API に接続する。
         ],
     },
 
     '/pet/guide/revisions': {
         iconName: 'Edit3',
+        heroImage: '/works/guide-hero-revisions.webp',
         lead: 'ご満足いただけるよう、プランごとに無料修正回数を設けています。',
+        related: [
+            { to: '/pet/guide/design-check', iconName: 'CheckCircle', title: 'デザイン確認について' },
+            { to: '/pet#plans', iconName: 'ShoppingBag', title: 'プラン一覧' },
+            { to: '/pet/faq', iconName: 'HelpCircle', title: 'よくある質問' },
+        ],
         blocks: [
             {
-                kind: 'table',
-                columns: ['プラン', '無料修正回数'],
+                kind: 'infobox',
+                iconName: 'Heart',
+                label: '修正方針',
+                title: 'ご満足いただくまで、丁寧に対応いたします',
+                description: 'デザイン確認の段階で、お気づきの点を遠慮なくお知らせください。',
+            },
+            {
+                kind: 'comparison',
+                title: 'プラン別 無料修正回数',
                 // ★ ENGINEER CONNECTION POINT ★
                 // 修正回数は plans.js のプラン定義と連動させる（重複定義を避ける）。
-                rows: [
-                    ['Trial Digital', '1回まで'],
-                    ['Single Item', '2回まで'],
-                    ['Premium Frame', '2回まで'],
-                    ['Pair Set', '3回まで'],
+                cards: [
+                    { plan: 'Trial Digital', mainValue: '1', unit: '回まで', note: 'デジタル納品のお試しプラン' },
+                    { plan: 'Single Item', mainValue: '2', unit: '回まで', note: 'グッズ1点プラン' },
+                    { plan: 'Premium Frame', mainValue: '2', unit: '回まで', note: '額装プラン' },
+                    { plan: 'Pair Set', mainValue: '3', unit: '回まで', note: 'グッズ2点プラン', highlighted: true },
+                ],
+                footnote: '回数を超える修正・大幅なデザイン変更は、別途お見積りとなります。',
+            },
+            { kind: 'sectiontitle', text: 'よくある修正のご依頼' },
+            {
+                kind: 'beforeafter',
+                items: [
+                    { label: '毛色を濃くする', before: '/works/revision-1-before.webp', after: '/works/revision-1-after.webp', description: 'もっと濃いめの毛色のご希望に対応' },
+                    { label: '表情を笑顔に', before: '/works/revision-2-before.webp', after: '/works/revision-2-after.webp', description: '口元の表情をより明るく' },
+                    { label: '背景・装飾を変更', before: '/works/revision-3-before.webp', after: '/works/revision-3-after.webp', description: 'お花や背景色の調整' },
                 ],
             },
-            { kind: 'note', text: '回数を超える修正・大幅なデザイン変更は、別途お見積りとなります。' },
+            { kind: 'sectiontitle', text: '修正対応の範囲' },
+            {
+                kind: 'cards',
+                tone: 'primary',
+                items: [
+                    { iconName: 'Check', title: '無料修正の範囲', description: '毛色の調整、表情の微調整、ポーズの細かな修正、背景色の変更など。' },
+                    { iconName: 'AlertCircle', title: '別途お見積りとなる場合', description: 'ペットの数を変更、構図を全面的に変える、別の写真への差し替えなど。' },
+                    { iconName: 'MessageCircle', title: 'ご相談ください', description: '判断に迷うご要望は、お気軽にご相談ください。柔軟に対応いたします。' },
+                ],
+            },
         ],
     },
 
@@ -243,28 +307,67 @@ export const GUIDE_CONTENT = {
     },
 
     '/pet/business': {
+        category: '法人のお客様',
         iconName: 'Building2',
-        lead: 'ノベルティ・記念品・保護団体支援グッズなど、法人・団体さまのご相談を承ります。',
+        heroImage: '/works/guide-hero-business.webp',
+        lead: 'ノベルティ・記念品・保護団体支援など、法人・団体さまのご相談を承ります。',
+        related: [
+            { to: '/pet#plans', iconName: 'ShoppingBag', title: 'プラン一覧' },
+            { to: '/pet/guide/order-flow', iconName: 'Truck', title: 'ご注文の流れ' },
+            { to: '/pet/contact', iconName: 'Mail', title: 'お問い合わせ' },
+        ],
         blocks: [
             {
-                kind: 'list',
-                heading: 'ご活用例',
+                kind: 'infobox',
+                iconName: 'Sparkles',
+                label: '特長',
+                title: 'デザイン費・送料込み、丁寧な個別対応',
+                description: '個別お見積り、ご相談からデザイン提案まで一貫してサポートいたします。',
+            },
+            {
+                kind: 'usecase',
+                title: 'ご活用例',
+                cases: [
+                    { iconName: 'Stethoscope', title: '動物病院・トリミングサロン', description: 'ノベルティ、待合室のディスプレイ、ご利用記念品など' },
+                    { iconName: 'Tag', title: 'ペット関連商品の販促', description: 'オリジナルパッケージ、購入特典、キャンペーン景品など' },
+                    { iconName: 'HandHeart', title: '保護団体の支援グッズ', description: '里親募集の啓発、寄付返礼品、チャリティイベント記念品' },
+                    { iconName: 'Gift', title: 'イベント記念品・贈答品', description: 'セミナー記念、株主優待、お客様への特別ギフト' },
+                ],
+            },
+            { kind: 'sectiontitle', text: 'ロット・お見積り' },
+            {
+                kind: 'pricingtier',
+                title: '数量別の目安',
+                // ★ ENGINEER CONNECTION POINT ★
+                // 数量別割引・お見積りロジックは、将来見積API / 管理設定から取得・接続する。
+                tiers: [
+                    { range: '10〜29個', discount: '通常価格', note: '最小ロット 10個から承ります' },
+                    { range: '30〜49個', discount: '5% OFF', note: '中ロット' },
+                    { range: '50〜99個', discount: '10% OFF', note: '推奨ロット', highlighted: true },
+                    { range: '100個〜', discount: '個別お見積り', note: '大ロット・特別対応' },
+                ],
+                note: 'デザイン費・送料込み。数量・納期・カスタマイズ内容に応じて個別にお見積りいたします。',
+            },
+            { kind: 'sectiontitle', text: 'ご依頼から納品までの流れ' },
+            {
+                kind: 'timeline',
                 items: [
-                    '動物病院・トリミングサロンのノベルティ',
-                    'ペット関連商品の販促・特典',
-                    '保護団体の支援グッズ',
-                    'イベント記念品・贈答品',
+                    { number: 1, iconName: 'Mail', title: 'お問い合わせ・ヒアリング', description: 'ご希望の用途・数量・予算・納期をお聞かせください。', duration: '1〜2日' },
+                    { number: 2, iconName: 'FileText', title: 'お見積り・ご提案', description: 'デザイン提案＋お見積書をご提示します。', duration: '2〜3日' },
+                    { number: 3, iconName: 'Brush', title: 'サンプル制作', description: 'ご希望に応じてサンプル制作を行います。', duration: '5〜7日' },
+                    { number: 4, iconName: 'Truck', title: '本制作・納品', description: 'ご承認後、本制作・納品。', duration: '2〜4週間' },
                 ],
             },
             {
-                kind: 'prose',
-                heading: 'ロット・お見積り',
-                paragraphs: [
-                    '数量・納期に応じて個別にお見積りいたします。まずはお気軽にご相談ください。',
-                ],
+                kind: 'inlinecta',
+                variant: 'primary',
+                // ★ ENGINEER CONNECTION POINT ★
+                // 法人見積フォーム送信は /pet/contact と同じ送信処理に接続する（問い合わせ種別=法人 を付与）。
+                title: '法人向け見積もりをご希望の方',
+                description: 'ご利用人数・希望グッズ・納期をお知らせください。1営業日以内にご連絡いたします。',
+                buttonLabel: '法人お見積りフォームへ →',
+                buttonHref: '/pet/contact?type=business',
             },
-            // ★ ENGINEER CONNECTION POINT ★
-            // 法人問い合わせは /pet/contact と同じ送信処理に接続する（問い合わせ種別=法人 を付与）。
         ],
     },
 };

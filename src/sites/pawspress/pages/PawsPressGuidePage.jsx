@@ -33,6 +33,19 @@ import {
     XCircle,
     Info,
     Sparkles,
+    Mail,
+    Send,
+    Eye,
+    Palette,
+    Smile,
+    Check,
+    AlertCircle,
+    Stethoscope,
+    Tag,
+    HandHeart,
+    Gift,
+    FileText,
+    ArrowRight,
 } from 'lucide-react';
 import PageSeo from '../../../components/PageSeo';
 import PictureWebp from '../../../components/PictureWebp';
@@ -61,6 +74,19 @@ const ICON_MAP = {
     XCircle,
     Info,
     Sparkles,
+    Mail,
+    Send,
+    Eye,
+    Palette,
+    Smile,
+    Check,
+    AlertCircle,
+    Stethoscope,
+    Tag,
+    HandHeart,
+    Gift,
+    FileText,
+    ArrowRight,
 };
 
 function Icon({ name, size = 24, className }) {
@@ -309,6 +335,187 @@ function Block({ block }) {
         case 'note':
             return <p className="paws-guide-page__note">{block.text}</p>;
 
+        case 'infobox':
+            return (
+                <div className="paws-guide-infobox">
+                    <Icon name={block.iconName} size={32} className="paws-guide-infobox__icon" />
+                    <div>
+                        {block.label && (
+                            <p className="paws-guide-infobox__label">{block.label}</p>
+                        )}
+                        <p className="paws-guide-infobox__title">{block.title}</p>
+                        {block.description && (
+                            <p className="paws-guide-infobox__desc">{block.description}</p>
+                        )}
+                    </div>
+                </div>
+            );
+
+        case 'sectiontitle':
+            return <h2 className="paws-guide-sectiontitle">{block.text}</h2>;
+
+        case 'mockup':
+            return (
+                <div className="paws-guide-mockup">
+                    <div className="paws-guide-mockup__frame">
+                        <PictureWebpWithFallback
+                            src={block.src}
+                            alt={block.alt}
+                            placeholderText="画面イメージ準備中"
+                            className="paws-guide-mockup__img"
+                        />
+                    </div>
+                    {block.caption && (
+                        <p className="paws-guide-mockup__caption">{block.caption}</p>
+                    )}
+                    {block.channels?.length > 0 && (
+                        <div className="paws-guide-mockup__channels">
+                            {block.channels.map((c) => (
+                                <span key={c.label} className="paws-guide-mockup__badge">
+                                    <Icon name={c.iconName} size={16} />
+                                    {c.label}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+
+        case 'comparison':
+            return (
+                <div className="paws-guide-comparison">
+                    {block.title && (
+                        <h3 className="paws-guide-page__heading">{block.title}</h3>
+                    )}
+                    <div className="paws-guide-comparison__grid">
+                        {block.cards.map((c) => (
+                            <div
+                                key={c.plan}
+                                className={`paws-guide-comparison__card${c.highlighted ? ' paws-guide-comparison__card--hl' : ''}`}
+                            >
+                                {c.highlighted && (
+                                    <span className="paws-guide-comparison__pop">人気No.1</span>
+                                )}
+                                <p className="paws-guide-comparison__plan">{c.plan}</p>
+                                <p className="paws-guide-comparison__value">
+                                    {c.mainValue}
+                                    <span className="paws-guide-comparison__unit">{c.unit}</span>
+                                </p>
+                                {c.note && (
+                                    <p className="paws-guide-comparison__note">{c.note}</p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    {block.footnote && (
+                        <p className="paws-guide-comparison__footnote">{block.footnote}</p>
+                    )}
+                </div>
+            );
+
+        case 'beforeafter':
+            return (
+                <div className="paws-guide-ba">
+                    {block.title && (
+                        <h3 className="paws-guide-page__heading">{block.title}</h3>
+                    )}
+                    {block.items.map((it) => (
+                        <div key={it.label} className="paws-guide-ba__item">
+                            <div className="paws-guide-ba__grid">
+                                <div className="paws-guide-ba__cell">
+                                    <span className="paws-guide-ba__badge paws-guide-ba__badge--before">
+                                        Before
+                                    </span>
+                                    <PictureWebpWithFallback
+                                        src={it.before}
+                                        alt={`${it.label}（修正前）`}
+                                        placeholderText="画像準備中"
+                                        className="paws-guide-ba__img"
+                                    />
+                                </div>
+                                <span className="paws-guide-ba__arrow" aria-hidden="true">
+                                    <ArrowRight size={28} />
+                                </span>
+                                <div className="paws-guide-ba__cell">
+                                    <span className="paws-guide-ba__badge paws-guide-ba__badge--after">
+                                        After
+                                    </span>
+                                    <PictureWebpWithFallback
+                                        src={it.after}
+                                        alt={`${it.label}（修正後）`}
+                                        placeholderText="画像準備中"
+                                        className="paws-guide-ba__img"
+                                    />
+                                </div>
+                            </div>
+                            <p className="paws-guide-ba__label">{it.label}</p>
+                            {it.description && (
+                                <p className="paws-guide-ba__desc">{it.description}</p>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            );
+
+        case 'usecase':
+            return (
+                <div className="paws-guide-usecase-wrap">
+                    {block.title && (
+                        <h3 className="paws-guide-page__heading">{block.title}</h3>
+                    )}
+                    <div className="paws-guide-usecase">
+                        {block.cases.map((c) => (
+                            <div key={c.title} className="paws-guide-usecase__card">
+                                <span className="paws-guide-usecase__icon">
+                                    <Icon name={c.iconName} size={28} />
+                                </span>
+                                <div>
+                                    <h4 className="paws-guide-usecase__title">{c.title}</h4>
+                                    <p className="paws-guide-usecase__desc">{c.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+
+        case 'pricingtier':
+            return (
+                <div className="paws-guide-pricing-wrap">
+                    {block.title && (
+                        <h3 className="paws-guide-page__heading">{block.title}</h3>
+                    )}
+                    <div className="paws-guide-pricing">
+                        {block.tiers.map((t) => (
+                            <div
+                                key={t.range}
+                                className={`paws-guide-pricing__row${t.highlighted ? ' paws-guide-pricing__row--hl' : ''}`}
+                            >
+                                <span className="paws-guide-pricing__range">{t.range}</span>
+                                <span className="paws-guide-pricing__discount">{t.discount}</span>
+                                <span className="paws-guide-pricing__note">{t.note}</span>
+                            </div>
+                        ))}
+                    </div>
+                    {block.note && <p className="paws-guide-pricing__footer">{block.note}</p>}
+                </div>
+            );
+
+        case 'inlinecta':
+            return (
+                <div
+                    className={`paws-guide-inlinecta paws-guide-inlinecta--${block.variant ?? 'primary'}`}
+                >
+                    <h3 className="paws-guide-inlinecta__title">{block.title}</h3>
+                    {block.description && (
+                        <p className="paws-guide-inlinecta__desc">{block.description}</p>
+                    )}
+                    <Link to={block.buttonHref} className="paws-guide-inlinecta__btn">
+                        {block.buttonLabel}
+                    </Link>
+                </div>
+            );
+
         default:
             return null;
     }
@@ -318,6 +525,7 @@ export default function PawsPressGuidePage() {
     const { pathname } = useLocation();
     const title = findGuideLabel(pathname);
     const content = getGuideContent(pathname);
+    const category = content?.category ?? 'ご利用ガイド';
 
     return (
         <>
@@ -326,15 +534,19 @@ export default function PawsPressGuidePage() {
             <nav className="paws-guide-crumbs" aria-label="パンくずリスト">
                 <Link to="/pet">PAWS PRESS</Link>
                 <span aria-hidden="true">/</span>
-                <span>ご利用ガイド</span>
-                <span aria-hidden="true">/</span>
+                {category !== title && (
+                    <>
+                        <span>{category}</span>
+                        <span aria-hidden="true">/</span>
+                    </>
+                )}
                 <span className="paws-guide-crumbs__current">{title}</span>
             </nav>
 
             <section className="paws-guide-hero">
                 <div className="paws-guide-hero__inner">
                     <div className="paws-guide-hero__text">
-                        <span className="paws-guide-hero__eyebrow">ご利用ガイド</span>
+                        <span className="paws-guide-hero__eyebrow">{category}</span>
                         <h1 className="paws-guide-hero__title">{title}</h1>
                         {content?.lead && (
                             <p className="paws-guide-hero__lead">{content.lead}</p>
@@ -375,7 +587,7 @@ export default function PawsPressGuidePage() {
                                         <Icon name={r.iconName} size={24} />
                                     </span>
                                     <span className="paws-guide-related__cardtitle">
-                                        {findGuideLabel(r.to)}
+                                        {r.title ?? findGuideLabel(r.to)}
                                     </span>
                                     <span className="paws-guide-related__arrow" aria-hidden="true">
                                         →

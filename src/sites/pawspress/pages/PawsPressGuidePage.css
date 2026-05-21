@@ -816,3 +816,446 @@
         width: 40%;
     }
 }
+
+/* ================================================================
+   Batch B-2 追加ブロック（design-check / revisions / business）
+   配色は B-1 と同一パレット: cyan=#00CFFF / cyan-50=#E6FBFF /
+   cyan-700テキスト=#0086AE / pink=#EC4899 / gray-subtle=--brand-text-subtle
+   ================================================================ */
+
+/* cards のトーン追加（B-1 の good に primary を追加） */
+.paws-guide-card__icon--primary {
+    background-color: #E6FBFF;
+    color: var(--brand-primary);
+}
+
+/* ── infobox（コールアウト） ── */
+.paws-guide-infobox {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    background-color: #E6FBFF;
+    border-left: 4px solid var(--brand-primary);
+    border-radius: 0 16px 16px 0;
+    padding: 1.5rem 1.75rem;
+}
+
+.paws-guide-infobox__icon {
+    color: var(--brand-primary);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.paws-guide-infobox__label {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0086AE;
+}
+
+.paws-guide-infobox__title {
+    margin: 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+.paws-guide-infobox__desc {
+    margin: 0.4rem 0 0 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle);
+}
+
+/* ── section title（区切り見出し） ── */
+.paws-guide-sectiontitle {
+    font-family: var(--brand-font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--brand-text);
+    margin: 1rem 0 0 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid #E6FBFF;
+}
+
+/* ── mockup ── */
+.paws-guide-mockup {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.paws-guide-mockup__frame {
+    aspect-ratio: 16 / 10;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.paws-guide-mockup__img {
+    width: 100%;
+    height: 100%;
+}
+
+.paws-guide-mockup__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.paws-guide-mockup__caption {
+    text-align: center;
+    color: var(--brand-text-subtle);
+    margin: 1rem 0 0 0;
+    font-size: 0.95rem;
+}
+
+.paws-guide-mockup__channels {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.paws-guide-mockup__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background-color: #E6FBFF;
+    color: #0086AE;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ── comparison cards ── */
+.paws-guide-comparison__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.paws-guide-comparison__card {
+    position: relative;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.paws-guide-comparison__card--hl {
+    border: 2px solid var(--brand-primary);
+    background-color: #E6FBFF;
+}
+
+.paws-guide-comparison__pop {
+    position: absolute;
+    top: -0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--brand-accent);
+    color: #2D2520;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.paws-guide-comparison__plan {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-comparison__value {
+    margin: 0;
+    font-family: var(--brand-font-display);
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand-primary);
+}
+
+.paws-guide-comparison__unit {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--brand-text);
+    margin-left: 0.2rem;
+}
+
+.paws-guide-comparison__note {
+    margin: 0.75rem 0 0 0;
+    font-size: 0.8rem;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-comparison__footnote {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--brand-text-subtle);
+    margin: 1.5rem 0 0 0;
+}
+
+/* ── before / after ── */
+.paws-guide-ba__item {
+    margin-bottom: 2.5rem;
+}
+
+.paws-guide-ba__item:last-child {
+    margin-bottom: 0;
+}
+
+.paws-guide-ba__grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.paws-guide-ba__cell {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #F1F1EE;
+    aspect-ratio: 1 / 1;
+}
+
+.paws-guide-ba__img {
+    width: 100%;
+    height: 100%;
+}
+
+.paws-guide-ba__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.paws-guide-ba__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 1;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.paws-guide-ba__badge--before {
+    background-color: #8A8A84;
+}
+
+.paws-guide-ba__badge--after {
+    background-color: var(--brand-primary);
+}
+
+.paws-guide-ba__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-primary);
+}
+
+.paws-guide-ba__label {
+    text-align: center;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 1rem 0 0 0;
+    color: var(--brand-text);
+}
+
+.paws-guide-ba__desc {
+    text-align: center;
+    color: var(--brand-text-subtle);
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0 0;
+}
+
+/* ── use case grid ── */
+.paws-guide-usecase {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.paws-guide-usecase__card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    padding: 1.75rem;
+    transition: box-shadow 200ms ease;
+}
+
+.paws-guide-usecase__card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.paws-guide-usecase__icon {
+    flex-shrink: 0;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-guide-usecase__title {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-guide-usecase__desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle);
+}
+
+/* ── pricing tier ── */
+.paws-guide-pricing {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.paws-guide-pricing__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.paws-guide-pricing__row:last-child {
+    border-bottom: none;
+}
+
+.paws-guide-pricing__row--hl {
+    background-color: #E6FBFF;
+}
+
+.paws-guide-pricing__range {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-guide-pricing__discount {
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--brand-primary);
+}
+
+.paws-guide-pricing__note {
+    font-size: 0.875rem;
+    color: var(--brand-text-subtle);
+}
+
+.paws-guide-pricing__footer {
+    font-size: 0.875rem;
+    color: var(--brand-text-subtle);
+    margin: 1rem 0 0 0;
+    line-height: 1.7;
+}
+
+/* ── inline CTA ── */
+.paws-guide-inlinecta {
+    max-width: 720px;
+    margin: 1rem auto;
+    padding: 2.5rem 2rem;
+    border-radius: 24px;
+    text-align: center;
+}
+
+.paws-guide-inlinecta--primary {
+    background: linear-gradient(135deg, #E6FBFF 0%, #CCF6FF 100%);
+}
+
+.paws-guide-inlinecta--secondary {
+    background: linear-gradient(135deg, #FFF1F2 0%, #FFF7ED 100%);
+}
+
+.paws-guide-inlinecta__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--brand-text);
+    margin: 0 0 0.6rem 0;
+}
+
+.paws-guide-inlinecta__desc {
+    color: var(--brand-text-subtle);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.7;
+}
+
+.paws-guide-inlinecta__btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border-radius: 999px;
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.paws-guide-inlinecta__btn:hover {
+    background-color: var(--brand-primary-dark);
+    transform: translateY(-1px);
+}
+
+/* ── Batch B-2 レスポンシブ ── */
+@media (max-width: 768px) {
+    .paws-guide-comparison__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .paws-guide-usecase {
+        grid-template-columns: 1fr;
+    }
+
+    .paws-guide-ba__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .paws-guide-ba__arrow {
+        transform: rotate(90deg);
+        padding: 0.25rem 0;
+    }
+
+    .paws-guide-pricing__row {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .paws-guide-comparison__grid {
+        grid-template-columns: 1fr;
+    }
+}
