@@ -48,8 +48,11 @@ export const pawspressPlans = [
     {
         id: 'pet-pair',
         name: 'Pair Set',
-        price: 12800,
-        priceLabel: '¥12,800',
+        price: 9900,
+        priceLabel: '¥9,900',
+        // 期間限定セール: 通常 ¥12,800 → 今だけ ¥9,900
+        originalPriceLabel: '¥12,800',
+        saleLabel: '今だけ',
         tagline: '1点ずつより、断然お得',
         features: [
             'フルカラーイラスト1点',
@@ -63,22 +66,20 @@ export const pawspressPlans = [
         badge: '人気No.1',
         badgeTone: 'pink',
     },
-    {
-        id: 'pet-frame',
-        name: 'Premium Frame',
-        price: 9800,
-        priceLabel: '¥9,800',
-        tagline: '額装で残す、家族の記念',
-        features: [
-            'フルカラーイラスト1点（A5サイズ相当）',
-            '額装フレーム付き',
-            'デジタルデータ納品（高解像度PNG/JPG）',
-            'SNSアイコン用トリミング画像',
-            '修正2回まで',
-        ],
-        deliveryDays: 7,
-        popular: false,
-        badge: '贈り物に人気',
-        badgeTone: 'gold',
-    },
 ];
+
+/**
+ * グッズ注文時に追加できるギフトオプション（注文フォームで +料金として選択）。
+ * プラン表示セクションの案内と注文フォームのチェックボックスで共通利用する。
+ *
+ * ★ ENGINEER CONNECTION POINT ★
+ *   料金・適用条件は決済/受注処理側の設定と整合させること（price=3300）。
+ */
+export const GIFT_WRAP_OPTION = {
+    id: 'gift-wrap',
+    label: 'プレゼント用特別包装 ＋ メッセージカード添え',
+    price: 3300,
+    priceLabel: '+¥3,300',
+    description:
+        'グッズをご注文の際、注文フォームで追加できます。大切な方への贈り物に。',
+};

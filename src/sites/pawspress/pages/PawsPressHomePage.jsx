@@ -12,7 +12,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { portfolioItems } from '../../../data/portfolioData';
-import { pawspressPlans } from '../data/plans';
+import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PortfolioModal from '../../../components/ui/PortfolioModal';
 import PageSeo from '../../../components/PageSeo';
 import PictureWebp from '../../../components/PictureWebp';
@@ -102,7 +102,23 @@ function PlansSection() {
                             )}
                             <h3 className="paws-plan-card__name">{plan.name}</h3>
                             <p className="paws-plan-card__tagline">{plan.tagline}</p>
-                            <div className="paws-plan-card__price">{plan.priceLabel}</div>
+                            {plan.originalPriceLabel ? (
+                                <div className="paws-plan-card__price paws-plan-card__price--sale">
+                                    <span className="paws-plan-card__price-original">
+                                        {plan.originalPriceLabel}
+                                    </span>
+                                    <span className="paws-plan-card__price-now">
+                                        {plan.saleLabel && (
+                                            <span className="paws-plan-card__sale-label">
+                                                {plan.saleLabel}
+                                            </span>
+                                        )}
+                                        {plan.priceLabel}
+                                    </span>
+                                </div>
+                            ) : (
+                                <div className="paws-plan-card__price">{plan.priceLabel}</div>
+                            )}
                             <ul className="paws-plan-card__features">
                                 {plan.features.map((f, i) => (
                                     <li key={i}>{f}</li>
@@ -117,6 +133,21 @@ function PlansSection() {
                             </Link>
                         </article>
                     ))}
+                </div>
+
+                <div className="paws-plans__gift">
+                    <span className="paws-plans__gift-icon" aria-hidden="true">🎁</span>
+                    <div className="paws-plans__gift-body">
+                        <p className="paws-plans__gift-title">
+                            ギフトオプション
+                            <span className="paws-plans__gift-price">
+                                {GIFT_WRAP_OPTION.priceLabel}
+                            </span>
+                        </p>
+                        <p className="paws-plans__gift-text">
+                            {GIFT_WRAP_OPTION.label}を承ります。{GIFT_WRAP_OPTION.description}
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>

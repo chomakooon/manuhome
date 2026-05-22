@@ -14,7 +14,7 @@
 
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { pawspressPlans } from '../data/plans';
+import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PageSeo from '../../../components/PageSeo';
 import '../styles/forms.css';
 import './PawsPressOrderPage.css';
@@ -97,7 +97,8 @@ function Field({ label, required, optional, error, children }) {
 
 // ── Step 1: Plan selection ─────────────────────────────
 
-function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, errors }) {
+function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, giftWrap, setGiftWrap, errors }) {
+    const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
     return (
         <section className="paws-form-section">
             <h2 className="paws-form-section__title">プランをお選びください</h2>
@@ -118,6 +119,7 @@ function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, errors }) {
                             onChange={() => {
                                 setPlanId(plan.id);
                                 setGoodsTypes(['', '']);
+                                setGiftWrap(false);
                             }}
                             className="paws-plan-radio__input"
                         />
@@ -177,6 +179,35 @@ function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, errors }) {
                             ))}
                         </div>
                     </Field>
+                </div>
+            )}
+
+            {hasGoods && (
+                <div className="paws-form-section__sub">
+                    <label className="paws-gift-option" htmlFor="gift-wrap">
+                        <span className="sr-only">
+                            {GIFT_WRAP_OPTION.label}（{GIFT_WRAP_OPTION.priceLabel}）
+                        </span>
+                        <input
+                            id="gift-wrap"
+                            type="checkbox"
+                            className="paws-gift-option__input"
+                            checked={giftWrap}
+                            onChange={(e) => setGiftWrap(e.target.checked)}
+                        />
+                        <span className="paws-gift-option__body">
+                            <span className="paws-gift-option__head">
+                                <span className="paws-gift-option__icon" aria-hidden="true">🎁</span>
+                                {GIFT_WRAP_OPTION.label}
+                                <span className="paws-gift-option__price">
+                                    {GIFT_WRAP_OPTION.priceLabel}
+                                </span>
+                            </span>
+                            <span className="paws-gift-option__desc">
+                                大切な方への贈り物に。特別包装とメッセージカードをお付けします。
+                            </span>
+                        </span>
+                    </label>
                 </div>
             )}
         </section>
@@ -394,7 +425,7 @@ function ReviewRow({ label, children }) {
     );
 }
 
-function Step4Review({ plan, goodsTypes, photos, customer }) {
+function Step4Review({ plan, goodsTypes, giftWrap, photos, customer }) {
     return (
         <section className="paws-form-section">
             <h2 className="paws-form-section__title">ご入力内容をご確認ください</h2>
@@ -411,6 +442,12 @@ function Step4Review({ plan, goodsTypes, photos, customer }) {
                 {plan.id === 'pet-pair' && (
                     <ReviewRow label="グッズ（2点）">
                         {goodsTypes[0]} ／ {goodsTypes[1]}
+                    </ReviewRow>
+                )}
+
+                {giftWrap && (
+                    <ReviewRow label="ギフトオプション">
+                        {GIFT_WRAP_OPTION.label}（{GIFT_WRAP_OPTION.priceLabel}）
                     </ReviewRow>
                 )}
 
@@ -497,6 +534,7 @@ export default function PawsPressOrderPage() {
         pawspressPlans.find((p) => p.id === initialPlan) ? initialPlan : ''
     );
     const [goodsTypes, setGoodsTypes] = useState(['', '']);
+    const [giftWrap, setGiftWrap] = useState(false);
     const [photos, setPhotos] = useState([]);
     const [customer, setCustomer] = useState({
         name: '', email: '', petName: '', petDetail: '',
@@ -563,12 +601,16 @@ export default function PawsPressOrderPage() {
     };
 
     const handleSubmit = () => {
+        const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
         const submission = {
             plan: selectedPlan,
             goodsTypes:
-                planId === 'pet-frame' ? []
-                    : planId === 'pet-single' ? [goodsTypes[0]]
-                        : goodsTypes,
+                planId === 'pet-single' ? [goodsTypes[0]]
+                    : planId === 'pet-pair' ? goodsTypes
+                        : [],
+            // ★ ENGINEER CONNECTION POINT ★
+            // ギフトオプション(+¥3,300)は受注/決済処理で加算する。グッズ系プランのみ適用。
+            giftWrap: hasGoods && giftWrap,
             photos: photos.map((p) => ({ name: p.name, size: p.size, type: p.type })),
             customer,
             submittedAt: new Date().toISOString(),
@@ -639,6 +681,8 @@ export default function PawsPressOrderPage() {
                         setPlanId={(id) => { setPlanId(id); setErrors({}); }}
                         goodsTypes={goodsTypes}
                         setGoodsTypes={setGoodsTypes}
+                        giftWrap={giftWrap}
+                        setGiftWrap={setGiftWrap}
                         errors={errors}
                     />
                 )}
@@ -661,6 +705,7 @@ export default function PawsPressOrderPage() {
                     <Step4Review
                         plan={selectedPlan}
                         goodsTypes={goodsTypes}
+                        giftWrap={giftWrap}
                         photos={photos}
                         customer={customer}
                     />
