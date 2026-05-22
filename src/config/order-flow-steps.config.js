@@ -24,7 +24,7 @@ export const orderFlowSteps = [
         iconName: 'ShoppingBag',
         title: 'プラン選択・お申し込み',
         description:
-            'Trial Digital / Single Item / Pair Set / Premium Frame の4プランから、ご希望のプランを選んでお申し込みください。',
+            'Trial Digital / Single Item / Pair Set の3プランから、ご希望のプランを選んでお申し込みください。',
         duration: '即日',
         tip: '初めての方は Trial Digital がおすすめ',
         tipLink: '/pet#plans',

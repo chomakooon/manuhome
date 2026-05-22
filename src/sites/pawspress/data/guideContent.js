@@ -197,7 +197,6 @@ export const GUIDE_CONTENT = {
                 cards: [
                     { plan: 'Trial Digital', mainValue: '1', unit: '回まで', note: 'デジタル納品のお試しプラン' },
                     { plan: 'Single Item', mainValue: '2', unit: '回まで', note: 'グッズ1点プラン' },
-                    { plan: 'Premium Frame', mainValue: '2', unit: '回まで', note: '額装プラン' },
                     { plan: 'Pair Set', mainValue: '3', unit: '回まで', note: 'グッズ2点プラン', highlighted: true },
                 ],
                 footnote: '回数を超える修正・大幅なデザイン変更は、別途お見積りとなります。',
@@ -300,7 +299,7 @@ export const GUIDE_CONTENT = {
                 iconName: 'PiggyBank',
                 label: '送料',
                 title: '全国送料無料',
-                description: 'Single Item / Pair Set / Premium Frame は全国どこへでも送料無料でお届けします。',
+                description: 'Single Item / Pair Set は全国どこへでも送料無料でお届けします。',
             },
             { kind: 'sectiontitle', text: '配送情報' },
             {
@@ -374,7 +373,7 @@ export const GUIDE_CONTENT = {
                         iconName: 'Brush',
                         title: '制作・修正について',
                         faqs: [
-                            { q: '制作にどれくらいかかりますか？', a: 'プランによって異なります。Trial Digital と Premium Frame は約7日、Single Item と Pair Set は約14日が目安です。' },
+                            { q: '制作にどれくらいかかりますか？', a: 'プランによって異なります。Trial Digital は約7日、Single Item と Pair Set は約14日が目安です。' },
                             { q: '修正はできますか？', a: 'はい、プランごとに無料修正回数を設けております。詳しくは「修正対応について」をご覧ください。' },
                             { q: 'イラストのタッチは選べますか？', a: '現在は岡崎真奈の温かみのある手描きタッチでの制作となります。今後タッチのバリエーションを追加予定です。' },
                             { q: '亡くなったペットのイラストもお願いできますか？', a: 'はい、心を込めて制作いたします。お写真をお送りいただく際に、その旨を一言添えていただけると幸いです。' },
