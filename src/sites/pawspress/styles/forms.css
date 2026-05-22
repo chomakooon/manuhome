@@ -158,6 +158,34 @@
     box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
 }
 
+/* 入力要件が揃った状態: 彩度を上げて目立たせる */
+.paws-form-btn--ready {
+    background-color: #FF5C7A;
+    color: #FFFFFF;
+    box-shadow: 0 8px 22px rgba(255, 92, 122, 0.4);
+}
+
+.paws-form-btn--ready:hover {
+    background-color: #F23A5E;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(255, 92, 122, 0.5);
+}
+
+/* 未入力の状態: 彩度を落としてくすませる（クリックは可能でエラーを表示） */
+.paws-form-btn--idle {
+    background-color: #EAD5DA;
+    color: #FFFFFF;
+    box-shadow: none;
+}
+
+.paws-form-btn--idle:hover {
+    background-color: #E3C7CE;
+    color: #FFFFFF;
+    transform: none;
+    box-shadow: none;
+}
+
 .paws-form-btn--secondary {
     background-color: #FFFFFF;
     color: var(--brand-text);

@@ -12,14 +12,14 @@
  * URL クエリ ?plan=<id> があれば Step 1 で初期選択する。
  */
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PageSeo from '../../../components/PageSeo';
 import '../styles/forms.css';
 import './PawsPressOrderPage.css';
 
-const STEP_LABELS = ['プラン選択', '写真アップロード', 'お客様情報', '確認・送信'];
+const STEP_LABELS = ['プラン選択', '写真アップロード', 'お客様情報', '確認', 'お支払い'];
 
 const GOODS_OPTIONS = [
     'Tシャツ',
@@ -28,6 +28,45 @@ const GOODS_OPTIONS = [
     'アクリルキーホルダー',
     'その他ご相談',
 ];
+
+const TSHIRT_SIZES = ['S', 'M', 'L', 'LL'];
+const TOTE_TYPES = ['長方形バッグ', 'お散歩バッグ'];
+
+// グッズの詳細（サイズ・種別）の選択肢と ⓘ 詳細情報。
+// goods 文字列をキーに、詳細セレクトと ⓘ ポップオーバーで利用する。
+const GOODS_DETAIL = {
+    'Tシャツ': {
+        field: 'サイズ',
+        options: TSHIRT_SIZES,
+        defaultValue: 'M',
+        info: {
+            title: 'Tシャツ サイズ目安（着丈 / 身幅）',
+            rows: [
+                ['S', '着丈 65cm / 身幅 49cm'],
+                ['M', '着丈 69cm / 身幅 52cm'],
+                ['L', '着丈 73cm / 身幅 55cm'],
+                ['LL', '着丈 77cm / 身幅 58cm'],
+            ],
+            note: '※ 平置き実寸の目安です。多少の個体差があります。',
+        },
+    },
+    'トートバッグ': {
+        field: '種類',
+        options: TOTE_TYPES,
+        defaultValue: '長方形バッグ',
+        info: {
+            title: 'トートバッグ 種類',
+            rows: [
+                ['長方形バッグ', '約 W36 × H37cm。A4が入る普段使いサイズ。'],
+                ['お散歩バッグ', '約 W25 × H20cm ＋ 外ポケット。お散歩グッズの携帯に。'],
+            ],
+            note: '※ サイズは目安です。',
+        },
+    },
+};
+
+// グッズ選択時に詳細（サイズ/種別）の初期値を返す（未対応グッズは空）
+const defaultGoodsDetail = (goods) => GOODS_DETAIL[goods]?.defaultValue ?? '';
 
 const ALLOWED_MIMES = new Set([
     'image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'image/heif',
@@ -59,6 +98,15 @@ const readAsDataUrl = (file) =>
     });
 
 const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+const formatYen = (n) => `¥${n.toLocaleString('ja-JP')}`;
+
+// モック決済のカード入力バリデーション（実決済は決済プロバイダに委譲）
+const isCardComplete = (card) =>
+    /^\d{14,16}$/.test(card.number.replace(/\s/g, '')) &&
+    /^\d{2}\s*\/\s*\d{2}$/.test(card.expiry.trim()) &&
+    /^\d{3,4}$/.test(card.cvc.trim()) &&
+    card.holder.trim().length > 0;
 
 // ── small UI ─────────────────────────────────────────
 
@@ -95,10 +143,99 @@ function Field({ label, required, optional, error, children }) {
     );
 }
 
+// ⓘ アイコン + タップで開く詳細ポップオーバー（サイズ感など）
+function InfoPopover({ info }) {
+    const [open, setOpen] = useState(false);
+    const ref = useRef(null);
+
+    useEffect(() => {
+        if (!open) return undefined;
+        const onPointer = (e) => {
+            if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+        };
+        const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+        document.addEventListener('pointerdown', onPointer);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('pointerdown', onPointer);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [open]);
+
+    return (
+        <span className="paws-info" ref={ref}>
+            <button
+                type="button"
+                className="paws-info__btn"
+                aria-label={`${info.title} の詳細を表示`}
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+            >
+                i
+            </button>
+            {open && (
+                <span className="paws-info__pop" role="dialog" aria-label={info.title}>
+                    <span className="paws-info__title">{info.title}</span>
+                    <span className="paws-info__rows">
+                        {info.rows.map((r) => (
+                            <span key={r[0]} className="paws-info__row">
+                                <span className="paws-info__key">{r[0]}</span>
+                                <span className="paws-info__val">{r[1]}</span>
+                            </span>
+                        ))}
+                    </span>
+                    {info.note && <span className="paws-info__note">{info.note}</span>}
+                </span>
+            )}
+        </span>
+    );
+}
+
 // ── Step 1: Plan selection ─────────────────────────────
 
-function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, giftWrap, setGiftWrap, errors }) {
+function GoodsDetailSelect({ goods, value, onChange }) {
+    const detail = GOODS_DETAIL[goods];
+    if (!detail) return null;
+    return (
+        <div className="paws-goods-detail">
+            <span className="paws-goods-detail__label">
+                {goods}の{detail.field}
+                <InfoPopover info={detail.info} />
+            </span>
+            <select
+                className="paws-form-input"
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                aria-label={`${goods}の${detail.field}`}
+            >
+                {detail.options.map((o) => (
+                    <option key={o} value={o}>{o}</option>
+                ))}
+            </select>
+        </div>
+    );
+}
+
+function Step1Plan({
+    planId, setPlanId, goodsTypes, setGoodsTypes,
+    goodsDetails, setGoodsDetails, giftWrap, setGiftWrap, errors,
+}) {
     const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
+
+    const setSlotGoods = (slot, value) => {
+        const nextTypes = [...goodsTypes];
+        nextTypes[slot] = value;
+        setGoodsTypes(nextTypes);
+        const nextDetails = [...goodsDetails];
+        nextDetails[slot] = defaultGoodsDetail(value);
+        setGoodsDetails(nextDetails);
+    };
+
+    const setSlotDetail = (slot, value) => {
+        const next = [...goodsDetails];
+        next[slot] = value;
+        setGoodsDetails(next);
+    };
     return (
         <section className="paws-form-section">
             <h2 className="paws-form-section__title">プランをお選びください</h2>
@@ -119,6 +256,7 @@ function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, giftWrap, set
                             onChange={() => {
                                 setPlanId(plan.id);
                                 setGoodsTypes(['', '']);
+                                setGoodsDetails(['', '']);
                                 setGiftWrap(false);
                             }}
                             className="paws-plan-radio__input"
@@ -148,12 +286,17 @@ function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, giftWrap, set
                         <select
                             className="paws-form-input"
                             value={goodsTypes[0]}
-                            onChange={(e) => setGoodsTypes([e.target.value, ''])}
+                            onChange={(e) => setSlotGoods(0, e.target.value)}
                         >
                             <option value="">選択してください</option>
                             {GOODS_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
                         </select>
                     </Field>
+                    <GoodsDetailSelect
+                        goods={goodsTypes[0]}
+                        value={goodsDetails[0]}
+                        onChange={(v) => setSlotDetail(0, v)}
+                    />
                 </div>
             )}
 
@@ -163,19 +306,21 @@ function Step1Plan({ planId, setPlanId, goodsTypes, setGoodsTypes, giftWrap, set
                         <p className="paws-form-help">同じ種類を2つお選びいただくこともできます。</p>
                         <div className="paws-form-pair">
                             {[0, 1].map((i) => (
-                                <select
-                                    key={i}
-                                    className="paws-form-input"
-                                    value={goodsTypes[i]}
-                                    onChange={(e) => {
-                                        const next = [...goodsTypes];
-                                        next[i] = e.target.value;
-                                        setGoodsTypes(next);
-                                    }}
-                                >
-                                    <option value="">{i === 0 ? '1つ目を選択' : '2つ目を選択'}</option>
-                                    {GOODS_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
-                                </select>
+                                <div key={i} className="paws-form-pair__slot">
+                                    <select
+                                        className="paws-form-input"
+                                        value={goodsTypes[i]}
+                                        onChange={(e) => setSlotGoods(i, e.target.value)}
+                                    >
+                                        <option value="">{i === 0 ? '1つ目を選択' : '2つ目を選択'}</option>
+                                        {GOODS_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
+                                    </select>
+                                    <GoodsDetailSelect
+                                        goods={goodsTypes[i]}
+                                        value={goodsDetails[i]}
+                                        onChange={(v) => setSlotDetail(i, v)}
+                                    />
+                                </div>
                             ))}
                         </div>
                     </Field>
@@ -360,7 +505,7 @@ function Step3Customer({ customer, updateCustomer, errors }) {
                 />
             </Field>
 
-            <Field label="ペットのお名前" required error={errors.petName}>
+            <Field label="ペットのお名前" optional>
                 <input
                     type="text"
                     className="paws-form-input"
@@ -370,13 +515,13 @@ function Step3Customer({ customer, updateCustomer, errors }) {
                 />
             </Field>
 
-            <Field label="ペットの種類・特徴" required error={errors.petDetail}>
+            <Field label="ペットの種類・特徴" optional>
                 <textarea
                     className="paws-form-input paws-form-input--textarea"
                     rows={4}
                     value={customer.petDetail}
                     onChange={updateCustomer('petDetail')}
-                    placeholder="例: ミニチュアダックスフンド・茶色・3歳・元気な男の子"
+                    placeholder="例: ミニチュアダックスフンド・茶色・3歳・元気な男の子（写真から判断できる場合は未記入でもOK）"
                 />
             </Field>
 
@@ -425,7 +570,9 @@ function ReviewRow({ label, children }) {
     );
 }
 
-function Step4Review({ plan, goodsTypes, giftWrap, photos, customer }) {
+function Step4Review({ plan, goodsTypes, goodsDetails, giftWrap, photos, customer }) {
+    const fmtGoods = (i) =>
+        goodsTypes[i] + (goodsDetails[i] ? `（${goodsDetails[i]}）` : '');
     return (
         <section className="paws-form-section">
             <h2 className="paws-form-section__title">ご入力内容をご確認ください</h2>
@@ -437,11 +584,11 @@ function Step4Review({ plan, goodsTypes, giftWrap, photos, customer }) {
                 </ReviewRow>
 
                 {plan.id === 'pet-single' && goodsTypes[0] && (
-                    <ReviewRow label="グッズ">{goodsTypes[0]}</ReviewRow>
+                    <ReviewRow label="グッズ">{fmtGoods(0)}</ReviewRow>
                 )}
                 {plan.id === 'pet-pair' && (
                     <ReviewRow label="グッズ（2点）">
-                        {goodsTypes[0]} ／ {goodsTypes[1]}
+                        {fmtGoods(0)} ／ {fmtGoods(1)}
                     </ReviewRow>
                 )}
 
@@ -477,10 +624,14 @@ function Step4Review({ plan, goodsTypes, giftWrap, photos, customer }) {
                 <ReviewRow label="お名前">{customer.name}</ReviewRow>
                 <ReviewRow label="メールアドレス">{customer.email}</ReviewRow>
                 {customer.phone && <ReviewRow label="電話番号">{customer.phone}</ReviewRow>}
-                <ReviewRow label="ペットのお名前">{customer.petName}</ReviewRow>
-                <ReviewRow label="ペットの種類・特徴">
-                    <span style={{ whiteSpace: 'pre-line' }}>{customer.petDetail}</span>
-                </ReviewRow>
+                {customer.petName && (
+                    <ReviewRow label="ペットのお名前">{customer.petName}</ReviewRow>
+                )}
+                {customer.petDetail && (
+                    <ReviewRow label="ペットの種類・特徴">
+                        <span style={{ whiteSpace: 'pre-line' }}>{customer.petDetail}</span>
+                    </ReviewRow>
+                )}
                 <ReviewRow label="郵便番号">{customer.postalCode}</ReviewRow>
                 <ReviewRow label="ご住所">{customer.address}</ReviewRow>
                 {customer.note && (
@@ -493,19 +644,103 @@ function Step4Review({ plan, goodsTypes, giftWrap, photos, customer }) {
     );
 }
 
+// ── Step 5: Payment（モック決済） ──────────────────────
+
+function Step5Payment({ plan, giftWrap, amount, card, updateCard }) {
+    return (
+        <section className="paws-form-section">
+            <h2 className="paws-form-section__title">お支払い</h2>
+            <p className="paws-form-help">
+                お申し込みを確定するため、お支払い情報をご入力ください。
+            </p>
+
+            <div className="paws-pay-summary">
+                <div className="paws-pay-summary__row">
+                    <span>{plan.name}</span>
+                    <span>{plan.priceLabel}</span>
+                </div>
+                {giftWrap && (
+                    <div className="paws-pay-summary__row">
+                        <span>ギフトオプション</span>
+                        <span>{GIFT_WRAP_OPTION.priceLabel}</span>
+                    </div>
+                )}
+                <div className="paws-pay-summary__row paws-pay-summary__row--total">
+                    <span>合計（税込）</span>
+                    <span>{formatYen(amount)}</span>
+                </div>
+            </div>
+
+            {/* ★ ENGINEER CONNECTION POINT ★
+                これはモックのカード入力UI。実決済は Stripe 等の決済プロバイダの
+                Elements / Checkout に置き換える（カード番号を自前で保持しないこと）。 */}
+            <div className="paws-pay-card">
+                <Field label="カード番号">
+                    <input
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="cc-number"
+                        className="paws-form-input"
+                        value={card.number}
+                        onChange={updateCard('number')}
+                        placeholder="1234 5678 9012 3456"
+                    />
+                </Field>
+                <div className="paws-form-pair">
+                    <Field label="有効期限 (MM/YY)">
+                        <input
+                            type="text"
+                            autoComplete="cc-exp"
+                            className="paws-form-input"
+                            value={card.expiry}
+                            onChange={updateCard('expiry')}
+                            placeholder="12 / 28"
+                        />
+                    </Field>
+                    <Field label="セキュリティコード">
+                        <input
+                            type="text"
+                            inputMode="numeric"
+                            autoComplete="cc-csc"
+                            className="paws-form-input"
+                            value={card.cvc}
+                            onChange={updateCard('cvc')}
+                            placeholder="123"
+                        />
+                    </Field>
+                </div>
+                <Field label="カード名義">
+                    <input
+                        type="text"
+                        autoComplete="cc-name"
+                        className="paws-form-input"
+                        value={card.holder}
+                        onChange={updateCard('holder')}
+                        placeholder="TARO YAMADA"
+                    />
+                </Field>
+            </div>
+
+            <p className="paws-form-help paws-form-help--note">
+                🔒 SSL暗号化通信。これはデモ用のモック画面です（実際の決済は行われません）。
+            </p>
+        </section>
+    );
+}
+
 // ── Completion screen ─────────────────────────────────
 
 function CompletedScreen() {
     return (
         <div className="paws-completed">
             <div className="paws-completed__inner">
-                <div className="paws-completed__mark" aria-hidden="true">🎀</div>
+                <div className="paws-completed__mark" aria-hidden="true">✓</div>
                 <h1 className="paws-completed__title">
-                    お申し込み<br />ありがとうございました
+                    ご注文<br />ありがとうございました
                 </h1>
                 <p className="paws-completed__text">
-                    内容を拝見のうえ、3営業日以内にご連絡いたします。<br />
-                    少々お待ちくださいませ。
+                    お支払いが完了しました。<br />
+                    確認メールをお送りします。内容を拝見のうえ、3営業日以内にご連絡いたします。
                 </p>
                 <div className="paws-completed__nav">
                     <Link to="/pet" className="paws-form-btn paws-form-btn--primary">
@@ -534,20 +769,31 @@ export default function PawsPressOrderPage() {
         pawspressPlans.find((p) => p.id === initialPlan) ? initialPlan : ''
     );
     const [goodsTypes, setGoodsTypes] = useState(['', '']);
+    const [goodsDetails, setGoodsDetails] = useState(['', '']);
     const [giftWrap, setGiftWrap] = useState(false);
     const [photos, setPhotos] = useState([]);
     const [customer, setCustomer] = useState({
         name: '', email: '', petName: '', petDetail: '',
         postalCode: '', address: '', phone: '', note: '',
     });
+    const [card, setCard] = useState({ number: '', expiry: '', cvc: '', holder: '' });
 
     const selectedPlan = useMemo(
         () => pawspressPlans.find((p) => p.id === planId) ?? null,
         [planId]
     );
 
+    const totalAmount = useMemo(() => {
+        const base = selectedPlan?.price ?? 0;
+        const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
+        return base + (hasGoods && giftWrap ? GIFT_WRAP_OPTION.price : 0);
+    }, [selectedPlan, planId, giftWrap]);
+
     const updateCustomer = (key) => (e) =>
         setCustomer((c) => ({ ...c, [key]: e.target.value }));
+
+    const updateCard = (key) => (e) =>
+        setCard((c) => ({ ...c, [key]: e.target.value }));
 
     const validate = useCallback((s) => {
         const next = {};
@@ -568,16 +814,24 @@ export default function PawsPressOrderPage() {
             if (!c.name.trim()) next.name = 'お名前のご記入をお願いします。';
             if (!c.email.trim()) next.email = 'メールアドレスのご記入をお願いします。';
             else if (!isValidEmail(c.email)) next.email = 'メールアドレスの形式をご確認ください。';
-            if (!c.petName.trim()) next.petName = 'ペットのお名前のご記入をお願いします。';
-            if (!c.petDetail.trim()) next.petDetail = 'ペットの種類・特徴のご記入をお願いします。';
             if (!c.postalCode.trim()) next.postalCode = '郵便番号のご記入をお願いします。';
             else if (!isValidPostalCode(c.postalCode)) {
                 next.postalCode = '郵便番号は7桁の数字でご記入ください（例: 1234567 / 123-4567）。';
             }
             if (!c.address.trim()) next.address = 'ご住所のご記入をお願いします。';
+        } else if (s === 5) {
+            if (!isCardComplete(card)) {
+                next.card = 'カード情報をご確認ください。';
+            }
         }
         return next;
-    }, [planId, goodsTypes, photos, customer]);
+    }, [planId, goodsTypes, photos, customer, card]);
+
+    // 現ステップが「次へ進める状態か」（ボタンの彩度切替に使用）
+    const stepValid = useMemo(
+        () => Object.keys(validate(step)).length === 0,
+        [validate, step]
+    );
 
     const handleNext = () => {
         const e = validate(step);
@@ -594,13 +848,25 @@ export default function PawsPressOrderPage() {
         scrollTop();
     };
 
+    // 「修正する」は確認(4)から1ステップずつ戻る（お客様情報へ）
     const handleEdit = () => {
-        setStep(1);
         setErrors({});
+        setStep((s) => Math.max(1, s - 1));
         scrollTop();
     };
 
-    const handleSubmit = () => {
+    // 確認(4) → 送信: 即完了にせず、決済ステップ(5)へ進む
+    const handleProceedToPayment = () => {
+        setErrors({});
+        setStep(5);
+        scrollTop();
+    };
+
+    const handlePay = () => {
+        const e = validate(5);
+        setErrors(e);
+        if (Object.keys(e).length > 0) return;
+
         const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
         const submission = {
             plan: selectedPlan,
@@ -608,9 +874,17 @@ export default function PawsPressOrderPage() {
                 planId === 'pet-single' ? [goodsTypes[0]]
                     : planId === 'pet-pair' ? goodsTypes
                         : [],
+            goodsDetails:
+                planId === 'pet-single' ? [goodsDetails[0]]
+                    : planId === 'pet-pair' ? goodsDetails
+                        : [],
             // ★ ENGINEER CONNECTION POINT ★
             // ギフトオプション(+¥3,300)は受注/決済処理で加算する。グッズ系プランのみ適用。
             giftWrap: hasGoods && giftWrap,
+            amount: totalAmount,
+            // ★ ENGINEER CONNECTION POINT ★
+            // 実決済は決済プロバイダ(Stripe等)に委譲。カード番号は送信ペイロードに含めない。
+            paid: true,
             photos: photos.map((p) => ({ name: p.name, size: p.size, type: p.type })),
             customer,
             submittedAt: new Date().toISOString(),
@@ -681,6 +955,8 @@ export default function PawsPressOrderPage() {
                         setPlanId={(id) => { setPlanId(id); setErrors({}); }}
                         goodsTypes={goodsTypes}
                         setGoodsTypes={setGoodsTypes}
+                        goodsDetails={goodsDetails}
+                        setGoodsDetails={setGoodsDetails}
                         giftWrap={giftWrap}
                         setGiftWrap={setGiftWrap}
                         errors={errors}
@@ -705,15 +981,25 @@ export default function PawsPressOrderPage() {
                     <Step4Review
                         plan={selectedPlan}
                         goodsTypes={goodsTypes}
+                        goodsDetails={goodsDetails}
                         giftWrap={giftWrap}
                         photos={photos}
                         customer={customer}
                     />
                 )}
+                {step === 5 && (
+                    <Step5Payment
+                        plan={selectedPlan}
+                        giftWrap={giftWrap}
+                        amount={totalAmount}
+                        card={card}
+                        updateCard={updateCard}
+                    />
+                )}
             </div>
 
             <div className="paws-order__nav">
-                {step > 1 && step < 4 && (
+                {((step > 1 && step < 4) || step === 5) && (
                     <button
                         type="button"
                         onClick={handleBack}
@@ -726,7 +1012,7 @@ export default function PawsPressOrderPage() {
                     <button
                         type="button"
                         onClick={handleNext}
-                        className="paws-form-btn paws-form-btn--primary"
+                        className={`paws-form-btn paws-form-btn--primary paws-form-btn--${stepValid ? 'ready' : 'idle'}`}
                     >
                         次へ →
                     </button>
@@ -742,12 +1028,21 @@ export default function PawsPressOrderPage() {
                         </button>
                         <button
                             type="button"
-                            onClick={handleSubmit}
-                            className="paws-form-btn paws-form-btn--primary"
+                            onClick={handleProceedToPayment}
+                            className="paws-form-btn paws-form-btn--primary paws-form-btn--ready"
                         >
-                            送信する
+                            お支払いに進む →
                         </button>
                     </>
+                )}
+                {step === 5 && (
+                    <button
+                        type="button"
+                        onClick={handlePay}
+                        className={`paws-form-btn paws-form-btn--primary paws-form-btn--${stepValid ? 'ready' : 'idle'}`}
+                    >
+                        {formatYen(totalAmount)} を支払う
+                    </button>
                 )}
             </div>
         </div>
