@@ -28,6 +28,7 @@ const PawsPressHomePage = lazy(() => import('./sites/pawspress/pages/PawsPressHo
 const PawsPressOrderPage = lazy(() => import('./sites/pawspress/pages/PawsPressOrderPage'));
 const PawsPressContactPage = lazy(() => import('./sites/pawspress/pages/PawsPressContactPage'));
 const PawsPressGuidePage = lazy(() => import('./sites/pawspress/pages/PawsPressGuidePage'));
+const PawsPressGalleryPage = lazy(() => import('./sites/pawspress/pages/PawsPressGalleryPage'));
 
 // ── Kataribin (Step 2-D / Phase 3 / Phase 12) ──
 const KataribinLayout = lazy(() => import('./sites/kataribin/layout/KataribinLayout'));
@@ -67,6 +68,7 @@ function AppRoutes() {
         <Route path="/pet" element={<PawsPressLayout><PawsPressHomePage /></PawsPressLayout>} />
         <Route path="/pet/order" element={<PawsPressLayout><PawsPressOrderPage /></PawsPressLayout>} />
         <Route path="/pet/contact" element={<PawsPressLayout><PawsPressContactPage /></PawsPressLayout>} />
+        <Route path="/pet/gallery" element={<PawsPressLayout><PawsPressGalleryPage /></PawsPressLayout>} />
 
         {/* ── PAWS PRESS ご利用ガイド（暫定プレースホルダ。順次本実装に差し替え）── */}
         {GUIDE_LINKS.map((g) => (

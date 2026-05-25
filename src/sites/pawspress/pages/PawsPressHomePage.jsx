@@ -189,7 +189,7 @@ function WorksSection({ groups, onOpen }) {
                     ))}
                 </div>
                 <div className="paws-flow__more">
-                    <Link to="/portfolio" className="paws-btn paws-btn--outline">
+                    <Link to="/pet/gallery" className="paws-btn paws-btn--outline">
                         もっと事例を見る →
                     </Link>
                 </div>

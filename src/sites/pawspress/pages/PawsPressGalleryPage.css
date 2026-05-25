@@ -1,0 +1,235 @@
+/* ================================================================
+   PAWS PRESS 制作事例ページ (/pet/gallery)
+   配色は確立済みパレット: cyan=#00CFFF / cyan-50=#E6FBFF / pink=#FFB6C1
+   ================================================================ */
+
+/* ── パンくず ── */
+.paws-gallery-page__crumbs {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 0;
+    font-size: 0.825rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+.paws-gallery-page__crumbs a {
+    color: var(--brand-text-subtle, #5A5A5A);
+    text-decoration: none;
+    transition: color 150ms ease;
+}
+
+.paws-gallery-page__crumbs a:hover {
+    color: var(--brand-primary);
+}
+
+.paws-gallery-page__crumbs span {
+    margin: 0 0.5rem;
+}
+
+.paws-gallery-page__crumbs-current {
+    color: var(--brand-text);
+    margin-right: 0;
+}
+
+/* ── ヒーロー（コンパクト） ── */
+.paws-gallery-page__hero {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFF1F2 50%, #FFE4E6 100%);
+    padding: 3rem 1.5rem 3.5rem;
+}
+
+.paws-gallery-page__hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.paws-gallery-page__title {
+    font-family: var(--brand-font-display);
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin: 0 0 0.75rem 0;
+    color: var(--brand-text);
+}
+
+.paws-gallery-page__lead {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle, #5A5A5A);
+    margin: 0;
+}
+
+/* ── 本文 ── */
+.paws-gallery-page__body {
+    background-color: #FFFFFF;
+    padding: 4rem 1.5rem;
+}
+
+.paws-gallery-page__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+/* ── グループ ── */
+.paws-gallery-page__group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.paws-gallery-page__grouphead {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #E6FBFF;
+}
+
+.paws-gallery-page__groupicon {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-gallery-page__groupstep {
+    display: inline-block;
+    font-family: var(--brand-font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--brand-primary);
+    margin-bottom: 0.15rem;
+}
+
+.paws-gallery-page__grouptitle {
+    margin: 0 0 0.25rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+.paws-gallery-page__groupcaption {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+/* ── サムネイルグリッド ── */
+.paws-gallery-page__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.paws-gallery-page__cell {
+    margin: 0;
+}
+
+.paws-gallery-page__thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: none;
+    padding: 0;
+    background-color: #F1F1EE;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.paws-gallery-page__thumb:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.paws-gallery-page__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* ── 末尾CTA ── */
+.paws-gallery-page__cta {
+    background: linear-gradient(135deg, #FFF1F2 0%, #FFF7ED 100%);
+    padding: 4rem 1.5rem;
+}
+
+.paws-gallery-page__cta-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.paws-gallery-page__cta-title {
+    font-family: var(--brand-font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0 0 0.6rem 0;
+    color: var(--brand-text);
+}
+
+.paws-gallery-page__cta-sub {
+    margin: 0 0 2rem 0;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+.paws-gallery-page__cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.paws-gallery-page__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 150ms ease;
+}
+
+.paws-gallery-page__back:hover {
+    color: var(--brand-primary);
+}
+
+/* ── レスポンシブ ── */
+@media (max-width: 1024px) {
+    .paws-gallery-page__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .paws-gallery-page__hero {
+        padding: 2.5rem 1.25rem 3rem;
+    }
+
+    .paws-gallery-page__title {
+        font-size: 1.85rem;
+    }
+
+    .paws-gallery-page__body {
+        padding: 3rem 1.25rem;
+    }
+
+    .paws-gallery-page__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
