@@ -1,16 +1,35 @@
 /**
  * @file src/sites/pawspress/pages/PawsPressHomePage.jsx
  *
- * PAWS PRESS のトップ LP。5セクションで構成される独立 LP として表示する。
+ * PAWS PRESS のトップ LP。下記の順で 1 ページで完結するスクロールLP。
  *  1. ヒーロー
- *  2. プラン (id="plans" — ナビ '/pet#plans' のスクロール先)
- *  3. ビフォーアフター
- *  4. 制作実績ギャラリー（既存 PortfolioModal を再利用）
- *  5. 大型 CTA
+ *  2. 共感（こんなお悩み, id="concerns"）
+ *  3. 特徴・選ばれる理由（id="strengths"）
+ *  4. 制作事例（id="works"）+ PortfolioModal
+ *  5. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
+ *  6. お客様の声（id="voices"）
+ *  7. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
+ *  8. よくある質問 抜粋（id="faq" → /pet/faq）
+ *  9. 最終CTA
  */
 
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import {
+    Heart,
+    Sparkles,
+    Gift,
+    Brush,
+    Package,
+    RefreshCw,
+    Building2,
+    Camera,
+    Send,
+    CheckCircle,
+    Truck,
+    Star,
+    HelpCircle,
+} from 'lucide-react';
 import { portfolioItems } from '../../../data/portfolioData';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PortfolioModal from '../../../components/ui/PortfolioModal';
@@ -23,6 +42,67 @@ const SUB_CATEGORY_LABEL = {
     pet_illust: 'イラスト',
     pet_goods: 'グッズ',
 };
+
+// ── LP セクション用コンテンツ定義（モック。実運用ではCMS等から取得） ─────
+
+// 共感パート: お悩み 3 つ
+const CONCERNS = [
+    { Icon: Heart, title: 'うちの子の今を、形に残したい', desc: 'かわいい瞬間を、いつでも見える場所に置いておきたい。' },
+    { Icon: Sparkles, title: '普通のグッズでは、物足りない', desc: '世界にひとつだけの、特別な記念品にしたい。' },
+    { Icon: Gift, title: '大切な家族への贈り物に困っている', desc: 'ありきたりじゃない、心に残るプレゼントを探している。' },
+];
+
+// 特徴: PAWS PRESS が選ばれる 4 つの理由
+const STRENGTHS = [
+    { Icon: Brush, title: 'プロイラストレーターの手描き', desc: '岡崎真奈による、温かみのあるオリジナルタッチ。' },
+    { Icon: Package, title: '写真1枚から世界にひとつ', desc: 'お気に入りの1枚をお送りいただくだけ。あとはお任せください。' },
+    { Icon: RefreshCw, title: '安心の修正対応', desc: 'デザイン確認の段階で、ご満足いただけるまで丁寧に。' },
+    { Icon: Building2, title: '法人・大量注文OK', desc: '動物病院・保護団体・ノベルティの実績多数。' },
+];
+
+// ご利用の流れ（短縮版）。詳細は /pet/guide/order-flow。
+const FLOW_PREVIEW = [
+    { Icon: Camera, title: 'お写真を送る', desc: 'お気に入りの1枚をフォームから送信' },
+    { Icon: Brush, title: 'イラスト制作', desc: '心を込めて手描きで制作' },
+    { Icon: CheckCircle, title: 'デザイン確認', desc: 'メール/LINEで完成イメージをご確認' },
+    { Icon: Truck, title: 'グッズお届け', desc: '確定後、最短一週間で全国へ' },
+];
+
+// ★ ENGINEER CONNECTION POINT ★
+// お客様の声はモック。実運用ではCMS / Google レビュー等から取得する想定。
+const VOICES = [
+    {
+        quote: 'うちの子そっくりに描いていただき、家族みんなで感動しました。Tシャツの仕上がりも丁寧で大満足です。',
+        author: 'M.S 様',
+        sub: 'トイプードル モカちゃん',
+    },
+    {
+        quote: '母の誕生日プレゼントに、亡くなったうちの子のイラスト入りマグカップを注文。涙が止まらないと喜んでくれました。',
+        author: 'K.T 様',
+        sub: 'ミニチュアダックスフンド ココちゃん',
+    },
+    {
+        quote: '動物病院のノベルティとして50個発注しました。患者さまにも好評で、リピートでお願いする予定です。',
+        author: '都内動物病院 H様',
+        sub: '法人ご注文',
+    },
+];
+
+// FAQ 抜粋（フルは /pet/faq）
+const FAQ_PREVIEW = [
+    {
+        q: 'どんな写真でも依頼できますか？',
+        a: '明るくピントが合った写真であれば、スマホ撮影でも問題ありません。詳しくは「お写真の選び方」をご覧ください。',
+    },
+    {
+        q: '制作にどれくらいかかりますか？',
+        a: 'プランによって異なりますが、デザイン確定後、最短7日でお届けします。',
+    },
+    {
+        q: '修正は何回まで可能ですか？',
+        a: 'プランごとに無料修正回数を設けています。詳しくは「修正対応について」をご覧ください。',
+    },
+];
 
 // 「これまでの制作」を 写真 → イラスト → グッズ の制作フロー順に見せるグループ定義。
 // 各グループの代表画像は portfolioData の isMain フラグ付き1枚を使う（ホームには代表のみ表示）。
@@ -198,6 +278,200 @@ function WorksSection({ groups, onOpen }) {
     );
 }
 
+// ── LP: 共感（お悩み） ───────────────────────────────
+function ConcernsSection() {
+    return (
+        <section className="paws-concerns" id="concerns" aria-labelledby="concerns-title">
+            <div className="paws-concerns__inner">
+                <h2 id="concerns-title" className="paws-section-title">
+                    こんなお悩み、ありませんか？
+                </h2>
+                <p className="paws-section-lead">
+                    ひとつでも当てはまる方は、PAWS PRESS にお任せください。
+                </p>
+                <ul className="paws-concerns__grid">
+                    {CONCERNS.map((c) => (
+                        <li key={c.title} className="paws-concerns__card">
+                            <span className="paws-concerns__icon" aria-hidden="true">
+                                <c.Icon size={28} />
+                            </span>
+                            <h3 className="paws-concerns__title">{c.title}</h3>
+                            <p className="paws-concerns__desc">{c.desc}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
+}
+
+// ── LP: 特徴・選ばれる理由 ──────────────────────────
+function StrengthsSection() {
+    return (
+        <section className="paws-strengths" id="strengths" aria-labelledby="strengths-title">
+            <div className="paws-strengths__inner">
+                <h2 id="strengths-title" className="paws-section-title">
+                    PAWS PRESS が選ばれる理由
+                </h2>
+                <p className="paws-section-lead">
+                    写真1枚から、想いまで届くグッズを。
+                </p>
+                <ul className="paws-strengths__grid">
+                    {STRENGTHS.map((s) => (
+                        <li key={s.title} className="paws-strengths__card">
+                            <span className="paws-strengths__icon" aria-hidden="true">
+                                <s.Icon size={26} />
+                            </span>
+                            <h3 className="paws-strengths__title">{s.title}</h3>
+                            <p className="paws-strengths__desc">{s.desc}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
+}
+
+// ── LP: ご利用の流れ（抜粋） ────────────────────────
+function FlowPreviewSection() {
+    return (
+        <section className="paws-flowprev" id="flow" aria-labelledby="flow-title">
+            <div className="paws-flowprev__inner">
+                <h2 id="flow-title" className="paws-section-title">
+                    ご利用の流れ
+                </h2>
+                <p className="paws-section-lead">
+                    写真を送るだけ。あとはプロにおまかせください。
+                </p>
+                <ol className="paws-flowprev__steps">
+                    {FLOW_PREVIEW.map((s, i) => (
+                        <li key={s.title} className="paws-flowprev__step">
+                            <span className="paws-flowprev__num">{i + 1}</span>
+                            <span className="paws-flowprev__icon" aria-hidden="true">
+                                <s.Icon size={22} />
+                            </span>
+                            <span className="paws-flowprev__title">{s.title}</span>
+                            <span className="paws-flowprev__desc">{s.desc}</span>
+                        </li>
+                    ))}
+                </ol>
+                <div className="paws-flowprev__more">
+                    <Link
+                        to="/pet/guide/order-flow"
+                        className="paws-btn paws-btn--outline"
+                    >
+                        詳しい流れを見る →
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// ── LP: お客様の声 ──────────────────────────────────
+function VoicesSection() {
+    return (
+        <section className="paws-voices" id="voices" aria-labelledby="voices-title">
+            <div className="paws-voices__inner">
+                <h2 id="voices-title" className="paws-section-title">
+                    お客様の声
+                </h2>
+                <p className="paws-section-lead">
+                    実際にご利用いただいた皆様からのコメントです。
+                </p>
+                <ul className="paws-voices__grid">
+                    {VOICES.map((v) => (
+                        <li key={v.author} className="paws-voices__card">
+                            <span
+                                className="paws-voices__stars"
+                                aria-label="評価: 星5つ"
+                            >
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                    <Star
+                                        key={i}
+                                        size={16}
+                                        fill="#F5B400"
+                                        strokeWidth={0}
+                                        aria-hidden="true"
+                                    />
+                                ))}
+                            </span>
+                            <p className="paws-voices__quote">「{v.quote}」</p>
+                            <p className="paws-voices__author">
+                                {v.author}
+                                <span className="paws-voices__sub"> / {v.sub}</span>
+                            </p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
+}
+
+// ── LP: よくある質問（抜粋） ──────────────────────
+function FaqPreviewSection() {
+    return (
+        <section className="paws-faqprev" id="faq" aria-labelledby="faq-title">
+            <div className="paws-faqprev__inner">
+                <h2 id="faq-title" className="paws-section-title">
+                    よくある質問
+                </h2>
+                <p className="paws-section-lead">
+                    お申し込み前によくいただくご質問をご紹介します。
+                </p>
+                <div className="paws-faqprev__list">
+                    {FAQ_PREVIEW.map((f) => (
+                        <details key={f.q} className="paws-faqprev__item">
+                            <summary className="paws-faqprev__q">
+                                <HelpCircle size={18} aria-hidden="true" />
+                                {f.q}
+                            </summary>
+                            <p className="paws-faqprev__a">{f.a}</p>
+                        </details>
+                    ))}
+                </div>
+                <div className="paws-faqprev__more">
+                    <Link to="/pet/faq" className="paws-btn paws-btn--outline">
+                        すべての質問を見る →
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// ── LP: 最終CTA ────────────────────────────────────
+function FinalCtaSection() {
+    return (
+        <section className="paws-finalcta" aria-labelledby="finalcta-title">
+            <div className="paws-finalcta__inner">
+                <h2 id="finalcta-title" className="paws-finalcta__title">
+                    うちの子を、世界にひとつのグッズに。
+                </h2>
+                <p className="paws-finalcta__sub">
+                    写真1枚から、最短7日。全国送料無料でお届けします。
+                </p>
+                <div className="paws-finalcta__actions">
+                    <Link
+                        to="/pet/contact"
+                        className="paws-btn paws-btn--outline paws-btn--lg"
+                    >
+                        まずは相談する
+                    </Link>
+                    <Link
+                        to="/pet/order"
+                        className="paws-btn paws-btn--primary paws-btn--lg"
+                    >
+                        写真を送って注文する →
+                    </Link>
+                </div>
+                <p className="paws-finalcta__note">平日対応・全国送料無料</p>
+            </div>
+        </section>
+    );
+}
+
 export default function PawsPressHomePage() {
     const location = useLocation();
 
@@ -245,8 +519,14 @@ export default function PawsPressHomePage() {
         <div className="paws-home">
             <PageSeo pageKey="pet" />
             <HeroSection heroImage="/works/pet-hero.jpg" />
-            <PlansSection />
+            <ConcernsSection />
+            <StrengthsSection />
             <WorksSection groups={worksGroups} onOpen={setModalIndex} />
+            <FlowPreviewSection />
+            <VoicesSection />
+            <PlansSection />
+            <FaqPreviewSection />
+            <FinalCtaSection />
 
             <PortfolioModal
                 item={modalItem}

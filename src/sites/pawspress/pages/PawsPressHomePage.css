@@ -416,3 +416,462 @@
     }
 }
 
+
+/* ================================================================
+   Phase 27: LP セクション拡張（共感/特徴/流れ/お客様の声/FAQ/最終CTA）
+   配色は確立済みパレット: cyan=#00CFFF / cyan-50=#E6FBFF / pink=#FFB6C1
+   ================================================================ */
+
+/* スクロール時にスティッキーヘッダーの裏に隠れないようオフセット */
+.paws-home section[id] {
+    scroll-margin-top: 80px;
+}
+
+/* セクション共通リード（タイトル直下の説明文） */
+.paws-section-title + .paws-section-lead {
+    margin-top: -2.25rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+/* ── 共感（お悩み） ── */
+.paws-concerns {
+    background-color: #FFFFFF;
+    padding: 5rem 1.5rem;
+}
+
+.paws-concerns__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-concerns__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.paws-concerns__card {
+    background-color: var(--brand-bg, #FFF8F5);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.paws-concerns__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background-color: #FFE4E6;
+    color: #EC4899;
+    margin-bottom: 1rem;
+}
+
+.paws-concerns__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.6rem 0;
+    color: var(--brand-text);
+}
+
+.paws-concerns__desc {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+/* ── 特徴・選ばれる理由 ── */
+.paws-strengths {
+    background-color: var(--brand-bg, #FFF8F5);
+    padding: 5rem 1.5rem;
+}
+
+.paws-strengths__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-strengths__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.paws-strengths__card {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 200ms ease;
+}
+
+.paws-strengths__card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.paws-strengths__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #E6FBFF;
+    color: var(--brand-primary);
+    margin-bottom: 0.85rem;
+}
+
+.paws-strengths__title {
+    font-family: var(--brand-font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--brand-text);
+    line-height: 1.45;
+}
+
+.paws-strengths__desc {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+/* ── ご利用の流れ（抜粋） ── */
+.paws-flowprev {
+    background-color: #FFFFFF;
+    padding: 5rem 1.5rem;
+}
+
+.paws-flowprev__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-flowprev__steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.paws-flowprev__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 0.75rem;
+    background-color: var(--brand-bg, #FFF8F5);
+    border-radius: 16px;
+    gap: 0.4rem;
+}
+
+.paws-flowprev__step::after {
+    content: '→';
+    position: absolute;
+    right: -0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--brand-primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+    z-index: 1;
+}
+
+.paws-flowprev__step:last-child::after {
+    display: none;
+}
+
+.paws-flowprev__num {
+    font-family: var(--brand-font-display);
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--brand-primary);
+    background-color: #FFFFFF;
+    border: 2px solid var(--brand-primary);
+    border-radius: 999px;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-flowprev__icon {
+    color: var(--brand-primary);
+    margin-top: 0.25rem;
+}
+
+.paws-flowprev__title {
+    font-family: var(--brand-font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+.paws-flowprev__desc {
+    font-size: 0.78rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+    line-height: 1.6;
+}
+
+.paws-flowprev__more {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+/* ── お客様の声 ── */
+.paws-voices {
+    background: linear-gradient(180deg, var(--brand-bg, #FFF8F5) 0%, #FFFFFF 100%);
+    padding: 5rem 1.5rem;
+}
+
+.paws-voices__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-voices__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.paws-voices__card {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 1.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.paws-voices__stars {
+    display: inline-flex;
+    gap: 0.2rem;
+}
+
+.paws-voices__quote {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--brand-text);
+    flex: 1;
+}
+
+.paws-voices__author {
+    margin: 0;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    color: var(--brand-text);
+    font-size: 0.9rem;
+}
+
+.paws-voices__sub {
+    font-weight: 400;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+/* ── FAQ 抜粋 ── */
+.paws-faqprev {
+    background-color: #FFFFFF;
+    padding: 5rem 1.5rem;
+}
+
+.paws-faqprev__inner {
+    max-width: 840px;
+    margin: 0 auto;
+}
+
+.paws-faqprev__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.paws-faqprev__item {
+    background-color: var(--brand-bg, #FFF8F5);
+    border-radius: 14px;
+    padding: 0 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.paws-faqprev__q {
+    list-style: none;
+    cursor: pointer;
+    padding: 1rem 1.5rem 1rem 0;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--brand-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.paws-faqprev__q::-webkit-details-marker {
+    display: none;
+}
+
+.paws-faqprev__q::after {
+    content: '＋';
+    position: absolute;
+    right: 0;
+    color: var(--brand-primary);
+}
+
+.paws-faqprev__item[open] .paws-faqprev__q::after {
+    content: '−';
+}
+
+.paws-faqprev__a {
+    margin: 0;
+    padding: 0 0 1rem 0;
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+.paws-faqprev__more {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+/* ── 最終CTA ── */
+.paws-finalcta {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, #5CE1FF 100%);
+    padding: 5rem 1.5rem;
+    text-align: center;
+}
+
+.paws-finalcta__inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.paws-finalcta__title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 0.85rem 0;
+    line-height: 1.4;
+}
+
+.paws-finalcta__sub {
+    color: #FFFFFF;
+    opacity: 0.95;
+    margin: 0 0 2rem 0;
+    font-size: 1rem;
+    line-height: 1.85;
+}
+
+.paws-finalcta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.paws-finalcta .paws-btn--outline {
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    background-color: transparent;
+}
+
+.paws-finalcta .paws-btn--outline:hover {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+}
+
+.paws-finalcta .paws-btn--primary {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+}
+
+.paws-finalcta .paws-btn--primary:hover {
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.paws-finalcta__note {
+    color: #FFFFFF;
+    opacity: 0.85;
+    font-size: 0.85rem;
+    margin: 1.5rem 0 0 0;
+}
+
+/* ── レスポンシブ ── */
+@media (max-width: 1024px) {
+    .paws-strengths__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .paws-flowprev__steps {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem 1rem;
+    }
+
+    .paws-flowprev__step:nth-child(2)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .paws-concerns,
+    .paws-strengths,
+    .paws-flowprev,
+    .paws-voices,
+    .paws-faqprev,
+    .paws-finalcta {
+        padding: 4rem 1.25rem;
+    }
+
+    .paws-concerns__grid,
+    .paws-voices__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .paws-flowprev__steps {
+        grid-template-columns: 1fr;
+    }
+
+    .paws-flowprev__step::after {
+        content: '↓';
+        right: 50%;
+        top: auto;
+        bottom: -1rem;
+        transform: translateX(50%);
+    }
+
+    .paws-finalcta__title {
+        font-size: 1.55rem;
+    }
+}
