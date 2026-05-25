@@ -180,6 +180,20 @@ function PlansSection() {
                                     {plan.badge}
                                 </span>
                             )}
+                            {plan.image && (
+                                <div className="paws-plan-card__image">
+                                    <PictureWebp
+                                        src={plan.image}
+                                        alt={plan.imageAlt ?? plan.name}
+                                        loading="lazy"
+                                        onError={(e) => {
+                                            console.warn(
+                                                `[paws] plan image missing: ${e.currentTarget.src}`
+                                            );
+                                        }}
+                                    />
+                                </div>
+                            )}
                             <h3 className="paws-plan-card__name">{plan.name}</h3>
                             <p className="paws-plan-card__tagline">{plan.tagline}</p>
                             {plan.originalPriceLabel ? (

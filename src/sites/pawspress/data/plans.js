@@ -18,6 +18,8 @@ export const pawspressPlans = [
         name: 'Trial Digital',
         price: 4980,
         priceLabel: '¥4,980',
+        image: '/plans/trial.webp',
+        imageAlt: 'スマホで受け取るイラストデータのイメージ',
         tagline: 'まずはお試し、デジタルデータのみ',
         features: [
             'フルカラーイラスト1点',
@@ -35,6 +37,8 @@ export const pawspressPlans = [
         name: 'Single Item',
         price: 7800,
         priceLabel: '¥7,800',
+        image: '/plans/single.webp',
+        imageAlt: 'オリジナルアイテム1点（トートバッグ）の作例',
         tagline: '日常で使える、1点もの',
         features: [
             'フルカラーイラスト1点',
@@ -50,6 +54,8 @@ export const pawspressPlans = [
         name: 'Pair Set',
         price: 9900,
         priceLabel: '¥9,900',
+        image: '/plans/pair.webp',
+        imageAlt: '組み合わせ自由、選べる2点の作例（Tシャツ・マグ・トートなど）',
         // 期間限定セール: 通常 ¥12,800 → 今だけ ¥9,900
         originalPriceLabel: '¥12,800',
         saleLabel: '今だけ',
