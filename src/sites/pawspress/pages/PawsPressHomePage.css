@@ -892,3 +892,126 @@
         font-size: 1.55rem;
     }
 }
+
+/* ── LP: 画風（キャラクター調メイン / 実写風 選択可） ── */
+.paws-style {
+    background: linear-gradient(135deg, #FFF8F5 0%, #FFE8EE 100%);
+    padding: 5rem 1.5rem;
+}
+
+.paws-style__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.paws-style__inner .paws-section-title strong {
+    color: var(--brand-primary);
+}
+
+.paws-style__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.paws-style__card {
+    position: relative;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.paws-style__card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.paws-style__card--main {
+    border: 2px solid var(--brand-primary);
+    box-shadow: 0 6px 22px rgba(0, 207, 255, 0.15);
+}
+
+.paws-style__badge {
+    position: absolute;
+    top: -0.7rem;
+    left: 1.5rem;
+    padding: 0.25rem 0.85rem;
+    border-radius: 999px;
+    font-family: var(--brand-font-display);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    z-index: 1;
+}
+
+.paws-style__badge--main {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-style__badge--alt {
+    background-color: #FFFFFF;
+    color: var(--brand-text-subtle, #5A5A5A);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.paws-style__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--brand-bg, #FFF8F5);
+    margin-bottom: 1.25rem;
+}
+
+.paws-style__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.paws-style__card--alt .paws-style__image img {
+    object-fit: cover;
+}
+
+.paws-style__name {
+    font-family: var(--brand-font-display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 0 0 0.6rem 0;
+    color: var(--brand-text);
+}
+
+.paws-style__card--main .paws-style__name {
+    color: var(--brand-primary);
+}
+
+.paws-style__desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--brand-text);
+}
+
+.paws-style__note {
+    text-align: center;
+    margin: 2.25rem 0 0 0;
+    font-size: 0.9rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+@media (max-width: 768px) {
+    .paws-style {
+        padding: 4rem 1.25rem;
+    }
+    .paws-style__grid {
+        grid-template-columns: 1fr;
+    }
+}
