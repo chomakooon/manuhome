@@ -697,3 +697,45 @@
     display: flex;
     flex-direction: column;
 }
+
+/* ── ギフトオプション: 案内ヒント + メッセージ記入欄 ───────── */
+.paws-gift-option__hint {
+    display: inline-block;
+    margin-top: 0.45rem;
+    font-size: 0.8rem;
+    color: var(--brand-primary);
+    background-color: rgba(0, 207, 255, 0.08);
+    padding: 0.3rem 0.65rem;
+    border-radius: 8px;
+    line-height: 1.6;
+    align-self: flex-start;
+}
+
+.paws-gift-message {
+    margin-top: 0.85rem;
+    padding: 1rem 1.25rem 1.25rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-accent, #FFB6C1);
+    border-radius: 14px;
+}
+
+.paws-gift-message__label {
+    display: block;
+    font-weight: 700;
+    color: var(--brand-text);
+    margin-bottom: 0.25rem;
+}
+
+.paws-gift-message__help {
+    margin: 0 0 0.6rem 0;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+.paws-gift-message__count {
+    text-align: right;
+    margin: 0.35rem 0 0 0;
+    font-size: 0.75rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+}

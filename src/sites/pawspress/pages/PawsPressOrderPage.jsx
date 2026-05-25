@@ -216,9 +216,13 @@ function GoodsDetailSelect({ goods, value, onChange }) {
     );
 }
 
+const GIFT_MESSAGE_MAX = 100;
+
 function Step1Plan({
     planId, setPlanId, goodsTypes, setGoodsTypes,
-    goodsDetails, setGoodsDetails, giftWrap, setGiftWrap, errors,
+    goodsDetails, setGoodsDetails,
+    giftWrap, setGiftWrap, giftMessage, setGiftMessage,
+    errors,
 }) {
     const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
 
@@ -258,6 +262,7 @@ function Step1Plan({
                                 setGoodsTypes(['', '']);
                                 setGoodsDetails(['', '']);
                                 setGiftWrap(false);
+                                setGiftMessage('');
                             }}
                             className="paws-plan-radio__input"
                         />
@@ -338,7 +343,10 @@ function Step1Plan({
                             type="checkbox"
                             className="paws-gift-option__input"
                             checked={giftWrap}
-                            onChange={(e) => setGiftWrap(e.target.checked)}
+                            onChange={(e) => {
+                                setGiftWrap(e.target.checked);
+                                if (!e.target.checked) setGiftMessage('');
+                            }}
                         />
                         <span className="paws-gift-option__body">
                             <span className="paws-gift-option__head">
@@ -351,8 +359,38 @@ function Step1Plan({
                             <span className="paws-gift-option__desc">
                                 大切な方への贈り物に。特別包装とメッセージカードをお付けします。
                             </span>
+                            <span className="paws-gift-option__hint">
+                                ✏️ 選択すると、下にメッセージカードに記入する内容を入力できます。
+                            </span>
                         </span>
                     </label>
+
+                    {giftWrap && (
+                        <div className="paws-gift-message">
+                            <label
+                                htmlFor="gift-message"
+                                className="paws-gift-message__label"
+                            >
+                                メッセージカードに記入する内容
+                                <span className="paws-form-label__opt">（任意）</span>
+                            </label>
+                            <p className="paws-gift-message__help">
+                                贈り先の方への一言を添えられます。空欄の場合はメッセージなしのカードをお付けします。
+                            </p>
+                            <textarea
+                                id="gift-message"
+                                className="paws-form-input paws-form-input--textarea"
+                                rows={3}
+                                maxLength={GIFT_MESSAGE_MAX}
+                                value={giftMessage}
+                                onChange={(e) => setGiftMessage(e.target.value)}
+                                placeholder="例: いつもありがとう。お誕生日おめでとう！"
+                            />
+                            <p className="paws-gift-message__count">
+                                {giftMessage.length} / {GIFT_MESSAGE_MAX}
+                            </p>
+                        </div>
+                    )}
                 </div>
             )}
         </section>
@@ -570,7 +608,7 @@ function ReviewRow({ label, children }) {
     );
 }
 
-function Step4Review({ plan, goodsTypes, goodsDetails, giftWrap, photos, customer }) {
+function Step4Review({ plan, goodsTypes, goodsDetails, giftWrap, giftMessage, photos, customer }) {
     const fmtGoods = (i) =>
         goodsTypes[i] + (goodsDetails[i] ? `（${goodsDetails[i]}）` : '');
     return (
@@ -595,6 +633,11 @@ function Step4Review({ plan, goodsTypes, goodsDetails, giftWrap, photos, custome
                 {giftWrap && (
                     <ReviewRow label="ギフトオプション">
                         {GIFT_WRAP_OPTION.label}（{GIFT_WRAP_OPTION.priceLabel}）
+                    </ReviewRow>
+                )}
+                {giftWrap && giftMessage && (
+                    <ReviewRow label="メッセージカード">
+                        <span style={{ whiteSpace: 'pre-line' }}>{giftMessage}</span>
                     </ReviewRow>
                 )}
 
@@ -771,6 +814,7 @@ export default function PawsPressOrderPage() {
     const [goodsTypes, setGoodsTypes] = useState(['', '']);
     const [goodsDetails, setGoodsDetails] = useState(['', '']);
     const [giftWrap, setGiftWrap] = useState(false);
+    const [giftMessage, setGiftMessage] = useState('');
     const [photos, setPhotos] = useState([]);
     const [customer, setCustomer] = useState({
         name: '', email: '', petName: '', petDetail: '',
@@ -881,6 +925,7 @@ export default function PawsPressOrderPage() {
             // ★ ENGINEER CONNECTION POINT ★
             // ギフトオプション(+¥3,300)は受注/決済処理で加算する。グッズ系プランのみ適用。
             giftWrap: hasGoods && giftWrap,
+            giftMessage: hasGoods && giftWrap ? giftMessage : '',
             amount: totalAmount,
             // ★ ENGINEER CONNECTION POINT ★
             // 実決済は決済プロバイダ(Stripe等)に委譲。カード番号は送信ペイロードに含めない。
@@ -959,6 +1004,8 @@ export default function PawsPressOrderPage() {
                         setGoodsDetails={setGoodsDetails}
                         giftWrap={giftWrap}
                         setGiftWrap={setGiftWrap}
+                        giftMessage={giftMessage}
+                        setGiftMessage={setGiftMessage}
                         errors={errors}
                     />
                 )}
@@ -983,6 +1030,7 @@ export default function PawsPressOrderPage() {
                         goodsTypes={goodsTypes}
                         goodsDetails={goodsDetails}
                         giftWrap={giftWrap}
+                        giftMessage={giftMessage}
                         photos={photos}
                         customer={customer}
                     />
