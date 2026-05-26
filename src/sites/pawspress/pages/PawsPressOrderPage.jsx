@@ -16,6 +16,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PageSeo from '../../../components/PageSeo';
+import PictureWebp from '../../../components/PictureWebp';
 import '../styles/forms.css';
 import './PawsPressOrderPage.css';
 
@@ -67,6 +68,26 @@ const GOODS_DETAIL = {
 
 // グッズ選択時に詳細（サイズ/種別）の初期値を返す（未対応グッズは空）
 const defaultGoodsDetail = (goods) => GOODS_DETAIL[goods]?.defaultValue ?? '';
+
+// 画風選択（キャラクター調がメイン、実写風も選択可）
+const ART_STYLES = [
+    {
+        id: 'character',
+        name: 'キャラクター調',
+        desc: '水彩タッチで、表情や個性をキャラクターとして描き起こします。',
+        image: '/works/style-character.webp',
+        recommended: true,
+    },
+    {
+        id: 'realistic',
+        name: '実写風',
+        desc: '写真の質感を活かした繊細なタッチ。よりリアルな仕上がりに。',
+        image: '/works/pet-illust-1.jpg',
+    },
+];
+
+const artStyleLabel = (id) =>
+    ART_STYLES.find((s) => s.id === id)?.name ?? id;
 
 const ALLOWED_MIMES = new Set([
     'image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'image/heif',
@@ -221,6 +242,7 @@ const GIFT_MESSAGE_MAX = 100;
 function Step1Plan({
     planId, setPlanId, goodsTypes, setGoodsTypes,
     goodsDetails, setGoodsDetails,
+    artStyle, setArtStyle,
     giftWrap, setGiftWrap, giftMessage, setGiftMessage,
     errors,
 }) {
@@ -329,6 +351,55 @@ function Step1Plan({
                             ))}
                         </div>
                     </Field>
+                </div>
+            )}
+
+            {planId && (
+                <div className="paws-form-section__sub">
+                    <p className="paws-form-label">
+                        画風をお選びください
+                        <span className="paws-form-label__opt">（おすすめ: キャラクター調）</span>
+                    </p>
+                    <p className="paws-form-help">
+                        PAWS PRESS は <strong>キャラクター調</strong> がメインです。実写風もお選びいただけます。
+                    </p>
+                    <div className="paws-art-style">
+                        {ART_STYLES.map((style) => {
+                            const checked = artStyle === style.id;
+                            return (
+                                <label
+                                    key={style.id}
+                                    htmlFor={`art-${style.id}`}
+                                    className={`paws-art-style__card${checked ? ' paws-art-style__card--checked' : ''}`}
+                                >
+                                    <span className="sr-only">{style.name}</span>
+                                    <input
+                                        id={`art-${style.id}`}
+                                        type="radio"
+                                        name="artStyle"
+                                        value={style.id}
+                                        checked={checked}
+                                        onChange={() => setArtStyle(style.id)}
+                                        className="paws-art-style__input"
+                                    />
+                                    {style.recommended && (
+                                        <span className="paws-art-style__badge">メイン</span>
+                                    )}
+                                    <span className="paws-art-style__image">
+                                        <PictureWebp
+                                            src={style.image}
+                                            alt={`${style.name}のサンプルイラスト`}
+                                            loading="lazy"
+                                        />
+                                    </span>
+                                    <span className="paws-art-style__body">
+                                        <span className="paws-art-style__name">{style.name}</span>
+                                        <span className="paws-art-style__desc">{style.desc}</span>
+                                    </span>
+                                </label>
+                            );
+                        })}
+                    </div>
                 </div>
             )}
 
@@ -608,7 +679,7 @@ function ReviewRow({ label, children }) {
     );
 }
 
-function Step4Review({ plan, goodsTypes, goodsDetails, giftWrap, giftMessage, photos, customer }) {
+function Step4Review({ plan, goodsTypes, goodsDetails, artStyle, giftWrap, giftMessage, photos, customer }) {
     const fmtGoods = (i) =>
         goodsTypes[i] + (goodsDetails[i] ? `（${goodsDetails[i]}）` : '');
     return (
@@ -629,6 +700,8 @@ function Step4Review({ plan, goodsTypes, goodsDetails, giftWrap, giftMessage, ph
                         {fmtGoods(0)} ／ {fmtGoods(1)}
                     </ReviewRow>
                 )}
+
+                <ReviewRow label="画風">{artStyleLabel(artStyle)}</ReviewRow>
 
                 {giftWrap && (
                     <ReviewRow label="ギフトオプション">
@@ -813,6 +886,7 @@ export default function PawsPressOrderPage() {
     );
     const [goodsTypes, setGoodsTypes] = useState(['', '']);
     const [goodsDetails, setGoodsDetails] = useState(['', '']);
+    const [artStyle, setArtStyle] = useState('character');
     const [giftWrap, setGiftWrap] = useState(false);
     const [giftMessage, setGiftMessage] = useState('');
     const [photos, setPhotos] = useState([]);
@@ -922,6 +996,7 @@ export default function PawsPressOrderPage() {
                 planId === 'pet-single' ? [goodsDetails[0]]
                     : planId === 'pet-pair' ? goodsDetails
                         : [],
+            artStyle, // 'character' (キャラクター調) | 'realistic' (実写風)
             // ★ ENGINEER CONNECTION POINT ★
             // ギフトオプション(+¥3,300)は受注/決済処理で加算する。グッズ系プランのみ適用。
             giftWrap: hasGoods && giftWrap,
@@ -1002,6 +1077,8 @@ export default function PawsPressOrderPage() {
                         setGoodsTypes={setGoodsTypes}
                         goodsDetails={goodsDetails}
                         setGoodsDetails={setGoodsDetails}
+                        artStyle={artStyle}
+                        setArtStyle={setArtStyle}
                         giftWrap={giftWrap}
                         setGiftWrap={setGiftWrap}
                         giftMessage={giftMessage}
@@ -1029,6 +1106,7 @@ export default function PawsPressOrderPage() {
                         plan={selectedPlan}
                         goodsTypes={goodsTypes}
                         goodsDetails={goodsDetails}
+                        artStyle={artStyle}
                         giftWrap={giftWrap}
                         giftMessage={giftMessage}
                         photos={photos}

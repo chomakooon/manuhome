@@ -29,8 +29,6 @@ export const pawspressPlans = [
         ],
         deliveryDays: 7,
         popular: false,
-        badge: '初めての方に',
-        badgeTone: 'primary',
     },
     {
         id: 'pet-single',

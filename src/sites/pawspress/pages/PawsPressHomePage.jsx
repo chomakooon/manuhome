@@ -4,14 +4,15 @@
  * PAWS PRESS のトップ LP。下記の順で 1 ページで完結するスクロールLP。
  *  1. ヒーロー
  *  2. 共感（こんなお悩み, id="concerns"）
- *  3. 画風（キャラクター調メイン / 実写風 選択可, id="style"）
- *  4. 特徴・選ばれる理由（id="strengths"）
- *  5. 制作事例（id="works"）+ PortfolioModal
- *  6. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
- *  7. お客様の声（id="voices"）
- *  8. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
- *  9. よくある質問 抜粋（id="faq" → /pet/faq）
- * 10. 最終CTA
+ *  3. 特徴・選ばれる理由（id="strengths"）
+ *  4. 制作事例（id="works"）+ PortfolioModal
+ *  5. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
+ *  6. お客様の声（id="voices"）
+ *  7. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
+ *  8. よくある質問 抜粋（id="faq" → /pet/faq）
+ *  9. 最終CTA
+ *
+ * 画風選択（キャラクター調メイン / 実写風 選択可）は注文フォーム Step 1 に配置。
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -320,70 +321,6 @@ function ConcernsSection() {
     );
 }
 
-// ── LP: 画風（キャラクター調 メイン / 実写風 選択可） ─────
-function StyleSection() {
-    return (
-        <section
-            className="paws-style"
-            id="style"
-            aria-labelledby="style-title"
-        >
-            <div className="paws-style__inner">
-                <h2 id="style-title" className="paws-section-title">
-                    プロのイラストレーターが、<br />
-                    お写真の子をキャラクターに。
-                </h2>
-                <p className="paws-section-lead">
-                    温かみのある手描きの<strong>キャラクター調イラスト</strong>がメイン。
-                    お好みで <strong>実写風</strong> もご注文時にお選びいただけます。
-                </p>
-
-                <div className="paws-style__grid">
-                    <article className="paws-style__card paws-style__card--main">
-                        <span className="paws-style__badge paws-style__badge--main">
-                            メイン
-                        </span>
-                        <div className="paws-style__image">
-                            <PictureWebp
-                                src="/works/style-character.webp"
-                                alt="キャラクター調イラストの作例：手描き水彩タッチのダックスフンド"
-                                loading="lazy"
-                            />
-                        </div>
-                        <h3 className="paws-style__name">キャラクター調</h3>
-                        <p className="paws-style__desc">
-                            水彩タッチで、うちの子の表情や個性を「キャラクター」として描き起こします。
-                            グッズにも映える、PAWS PRESS の代表画風です。
-                        </p>
-                    </article>
-
-                    <article className="paws-style__card paws-style__card--alt">
-                        <span className="paws-style__badge paws-style__badge--alt">
-                            選択可能
-                        </span>
-                        <div className="paws-style__image">
-                            <PictureWebp
-                                src="/works/pet-illust-1.jpg"
-                                alt="実写風イラストの作例：墨絵調の繊細なダックスフンド"
-                                loading="lazy"
-                            />
-                        </div>
-                        <h3 className="paws-style__name">実写風</h3>
-                        <p className="paws-style__desc">
-                            写真の質感を活かした、繊細なタッチ。よりリアルな仕上がりがお好きな方へ。
-                            ご注文フォームの画風選択でお選びいただけます。
-                        </p>
-                    </article>
-                </div>
-
-                <p className="paws-style__note">
-                    ご不明な点はお気軽にお問い合わせください。お写真を拝見してご相談も承ります。
-                </p>
-            </div>
-        </section>
-    );
-}
-
 // ── LP: 特徴・選ばれる理由 ──────────────────────────
 function StrengthsSection() {
     return (
@@ -599,7 +536,6 @@ export default function PawsPressHomePage() {
             <PageSeo pageKey="pet" />
             <HeroSection heroImage="/works/pet-hero.jpg" />
             <ConcernsSection />
-            <StyleSection />
             <StrengthsSection />
             <WorksSection groups={worksGroups} onOpen={setModalIndex} />
             <FlowPreviewSection />

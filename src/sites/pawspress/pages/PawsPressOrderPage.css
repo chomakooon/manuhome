@@ -739,3 +739,104 @@
     font-size: 0.75rem;
     color: var(--brand-text-subtle, #5A5A5A);
 }
+
+/* ── 画風選択（キャラクター調 / 実写風） ─────────────── */
+.paws-art-style {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 480px) {
+    .paws-art-style {
+        grid-template-columns: 1fr;
+    }
+}
+
+.paws-art-style__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #FFFFFF;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.paws-art-style__card:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+}
+
+.paws-art-style__card--checked {
+    border-color: var(--brand-primary);
+    box-shadow: 0 6px 18px rgba(0, 207, 255, 0.18);
+}
+
+.paws-art-style__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.paws-art-style__badge {
+    position: absolute;
+    top: -0.6rem;
+    left: 1rem;
+    padding: 0.18rem 0.65rem;
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+    font-family: var(--brand-font-display);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    border-radius: 999px;
+    z-index: 1;
+}
+
+.paws-art-style__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--brand-bg, #FFF8F5);
+}
+
+.paws-art-style__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.paws-art-style__card:nth-child(2) .paws-art-style__image img {
+    object-fit: cover;
+}
+
+.paws-art-style__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.paws-art-style__name {
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--brand-text);
+}
+
+.paws-art-style__card--checked .paws-art-style__name {
+    color: var(--brand-primary);
+}
+
+.paws-art-style__desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
