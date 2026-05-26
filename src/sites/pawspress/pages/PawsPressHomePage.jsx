@@ -3,8 +3,8 @@
  *
  * PAWS PRESS のトップ LP。下記の順で 1 ページで完結するスクロールLP。
  *  1. ヒーロー
- *  2. 共感（こんなお悩み, id="concerns"）
- *  3. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
+ *  2. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
+ *  3. 共感（こんなお悩み, id="concerns"）
  *  4. 特徴・選ばれる理由（id="strengths"）
  *  5. 制作事例（id="works"）+ PortfolioModal
  *  6. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
@@ -535,8 +535,8 @@ export default function PawsPressHomePage() {
         <div className="paws-home">
             <PageSeo pageKey="pet" />
             <HeroSection heroImage="/works/pet-hero.jpg" />
-            <ConcernsSection />
             <PlansSection />
+            <ConcernsSection />
             <StrengthsSection />
             <WorksSection groups={worksGroups} onOpen={setModalIndex} />
             <FlowPreviewSection />
