@@ -24,7 +24,7 @@
 
 /** @type {Record<string, string>} */
 export const SNS_LINKS = {
-    x: 'https://twitter.com/',            // ← サンプル、要差し替え（実 X URL）
-    instagram: 'https://instagram.com/',  // ← サンプル、要差し替え（実 Instagram URL）
+    x: 'https://x.com/paws_press_',
+    instagram: 'https://www.instagram.com/paws_press/',
     threads: 'https://threads.net/',      // ← サンプル、要差し替え（実 Threads URL）
 };

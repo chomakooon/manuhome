@@ -57,8 +57,7 @@ export const SEO_DEFAULTS = {
     ],
     defaultOgImage: '/og-images/og-home.jpg',
     twitterCard: 'summary_large_image',
-    // TODO: 実 X (Twitter) アカウントの取得後に '@xxx' を設定。未設定の間は null。
-    twitterHandle: null,
+    twitterHandle: '@paws_press_',
 };
 
 /**
@@ -169,7 +168,9 @@ export const ORG_JSON_LD = {
         '@type': 'Person',
         name: SEO_DEFAULTS.author,
     },
+    // Schema.org の社会的証明: 公式 SNS アカウント URL を列挙
     sameAs: [
-        // TODO: 実 SNS URL を更新（social.config.js と同期させる）
+        'https://x.com/paws_press_',
+        'https://www.instagram.com/paws_press/',
     ],
 };
