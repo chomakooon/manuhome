@@ -56,7 +56,7 @@ const CONCERNS = [
 
 // 特徴: PAWS PRESS が選ばれる 4 つの理由
 const STRENGTHS = [
-    { Icon: Brush, title: 'プロイラストレーターの手描き', desc: '岡崎真奈による、温かみのあるオリジナルタッチ。' },
+    { Icon: Brush, title: 'プロイラストレーターの手描き', desc: '温かみのあるオリジナルタッチで、心を込めて1点ずつ描き起こします。' },
     { Icon: Package, title: '写真1枚から世界にひとつ', desc: 'お気に入りの1枚をお送りいただくだけ。あとはお任せください。' },
     { Icon: RefreshCw, title: '安心の修正対応', desc: 'デザイン確認の段階で、ご満足いただけるまで丁寧に。' },
     { Icon: Building2, title: '法人・大量注文OK', desc: '動物病院・保護団体・ノベルティの実績多数。' },

@@ -134,7 +134,7 @@ function PawsPressFooter() {
                 <Link to="/" className="paws-footer__link">
                     岡崎真奈のHPに戻る ↗
                 </Link>
-                <p className="paws-footer__powered">Powered by 岡崎真奈</p>
+                <p className="paws-footer__powered">Powered by PAWS PRESS</p>
             </div>
         </footer>
     );
