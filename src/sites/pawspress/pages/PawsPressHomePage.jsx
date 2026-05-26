@@ -10,7 +10,8 @@
  *  6. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
  *  7. お客様の声（id="voices"）
  *  8. よくある質問 抜粋（id="faq" → /pet/faq）
- *  9. 最終CTA
+ *  9. Instagram 告知（id="instagram" → @paws_press）
+ * 10. 最終CTA
  *
  * 画風選択（キャラクター調メイン / 実写風 選択可）は注文フォーム Step 1 に配置。
  */
@@ -31,7 +32,10 @@ import {
     Truck,
     Star,
     HelpCircle,
+    Instagram,
 } from 'lucide-react';
+
+const INSTAGRAM_URL = 'https://www.instagram.com/paws_press/';
 import { portfolioItems } from '../../../data/portfolioData';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PortfolioModal from '../../../components/ui/PortfolioModal';
@@ -457,6 +461,38 @@ function FaqPreviewSection() {
     );
 }
 
+// ── LP: Instagram告知 ──────────────────────────────
+function InstagramSection() {
+    return (
+        <section
+            className="paws-insta"
+            id="instagram"
+            aria-labelledby="insta-title"
+        >
+            <div className="paws-insta__inner">
+                <span className="paws-insta__icon" aria-hidden="true">
+                    <Instagram size={40} />
+                </span>
+                <h2 id="insta-title" className="paws-insta__title">
+                    Instagramでも発信中
+                </h2>
+                <p className="paws-insta__sub">
+                    最新の作例や制作の様子、お知らせを <strong>@paws_press</strong> でお届けしています。
+                </p>
+                <a
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="paws-insta__btn"
+                >
+                    <Instagram size={18} aria-hidden="true" />
+                    Instagramでフォローする
+                </a>
+            </div>
+        </section>
+    );
+}
+
 // ── LP: 最終CTA ────────────────────────────────────
 function FinalCtaSection() {
     return (
@@ -542,6 +578,7 @@ export default function PawsPressHomePage() {
             <FlowPreviewSection />
             <VoicesSection />
             <FaqPreviewSection />
+            <InstagramSection />
             <FinalCtaSection />
 
             <PortfolioModal
