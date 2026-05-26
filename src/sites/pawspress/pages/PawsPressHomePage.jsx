@@ -4,11 +4,11 @@
  * PAWS PRESS のトップ LP。下記の順で 1 ページで完結するスクロールLP。
  *  1. ヒーロー
  *  2. 共感（こんなお悩み, id="concerns"）
- *  3. 特徴・選ばれる理由（id="strengths"）
- *  4. 制作事例（id="works"）+ PortfolioModal
- *  5. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
- *  6. お客様の声（id="voices"）
- *  7. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
+ *  3. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
+ *  4. 特徴・選ばれる理由（id="strengths"）
+ *  5. 制作事例（id="works"）+ PortfolioModal
+ *  6. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
+ *  7. お客様の声（id="voices"）
  *  8. よくある質問 抜粋（id="faq" → /pet/faq）
  *  9. 最終CTA
  *
@@ -536,11 +536,11 @@ export default function PawsPressHomePage() {
             <PageSeo pageKey="pet" />
             <HeroSection heroImage="/works/pet-hero.jpg" />
             <ConcernsSection />
+            <PlansSection />
             <StrengthsSection />
             <WorksSection groups={worksGroups} onOpen={setModalIndex} />
             <FlowPreviewSection />
             <VoicesSection />
-            <PlansSection />
             <FaqPreviewSection />
             <FinalCtaSection />
 
