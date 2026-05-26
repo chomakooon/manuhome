@@ -289,6 +289,15 @@ function Step1Plan({
                             className="paws-plan-radio__input"
                         />
                         <div className="paws-plan-radio__body">
+                            {plan.image && (
+                                <div className="paws-plan-radio__image">
+                                    <PictureWebp
+                                        src={plan.image}
+                                        alt={plan.imageAlt ?? plan.name}
+                                        loading="lazy"
+                                    />
+                                </div>
+                            )}
                             <div className="paws-plan-radio__head">
                                 <span className="paws-plan-radio__name">{plan.name}</span>
                                 {plan.popular && plan.badge && (

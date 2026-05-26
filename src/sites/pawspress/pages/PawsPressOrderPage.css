@@ -190,6 +190,22 @@
     box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.25);
 }
 
+.paws-plan-radio__image {
+    width: 100%;
+    aspect-ratio: 13 / 10;
+    margin-bottom: 0.85rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--brand-bg, #FFF8F5);
+}
+
+.paws-plan-radio__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .paws-plan-radio__head {
     display: flex;
     align-items: center;
