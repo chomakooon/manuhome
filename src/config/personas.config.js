@@ -9,7 +9,7 @@
  *     HomePage 側の PERSONA_ICONS マップに登録されているもののみ可
  *     新しいアイコンを使う際は HomePage の import / マップ両方に追記
  *   - problem は「ユーザーの心のセリフ」を一人称で書く（共感獲得が目的）
- *   - solution は「カタチ便ができること」を端的に
+ *   - solution は「カタチラボができること」を端的に
  *   - ctaLink は実在するルートを指す（Phase 6 でアンカー id は削除済み）
  *   - 並び順は配列順
  *

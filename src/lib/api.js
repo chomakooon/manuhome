@@ -1,7 +1,7 @@
 import { supabase } from './supabase';
 
 /* ========================================
-   カタチ便 — API Layer
+   カタチラボ — API Layer
    ======================================== */
 
 // ── Auth Helpers ──

@@ -199,8 +199,14 @@
 }
 
 .kt-concern-card__icon {
-    font-size: 2rem;
-    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: var(--brand-bg-subtle, #F4F6F8);
+    color: var(--brand-primary, #00CFFF);
     flex-shrink: 0;
 }
 

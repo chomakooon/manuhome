@@ -101,7 +101,7 @@ function StepCard({ step, alt }) {
                     </ul>
                 </div>
                 <div className="kt-step-card__col">
-                    <span className="kt-step-card__col-label">カタチ便</span>
+                    <span className="kt-step-card__col-label">カタチラボ</span>
                     <ul className="kt-step-card__list">
                         {step.studio.map((s, i) => <li key={i}>{s}</li>)}
                     </ul>

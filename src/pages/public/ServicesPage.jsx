@@ -44,14 +44,14 @@ export default function ServicesPage() {
                     <div className="kb-news-profile-img-box">
                         <picture>
                             <source srcSet={studioGreetingWebp} type="image/webp" />
-                            <img src={studioGreetingImg} alt="カタチ便 代表 — ビジュアルデザイナー まぬちゃん" />
+                            <img src={studioGreetingImg} alt="カタチラボ 代表 — ビジュアルデザイナー まぬちゃん" />
                         </picture>
                     </div>
 
                     <h3 className="kb-news-intro-headline">「伝わらない」を、<br />利益に変える。</h3>
                     
                     <div className="kb-news-intro-text">
-                        <p>カタチ便は、単なる「制作屋」ではありません。あなたのビジネスの核心を、顧客が即断できる「視覚資産」へと変換する戦略的パートナーです。</p>
+                        <p>カタチラボは、単なる「制作屋」ではありません。あなたのビジネスの核心を、顧客が即断できる「視覚資産」へと変換する戦略的パートナーです。</p>
                         <p>私たちは、情報の優先順位を整理し、顧客の意思決定を支援するビジュアルコミュニケーションを設計します。デザインはコストではなく、利益を生むための投資であるべきです。</p>
                         <p>個人事業主から中小企業まで、「デザイナーを使うほどではないけど、プロの力が必要」という方に向けて、手の届く価格で高品質なビジュアルを提供しています。</p>
                     </div>
@@ -94,11 +94,11 @@ export default function ServicesPage() {
                                 <span className="kb-news-badge-corner" style={{ top: 'auto', bottom: '10px', left: 'auto', right: '10px' }}>目</span>
                                 <picture>
                                     <source srcSet={brandingStrategyWebp} type="image/webp" />
-                                    <img src={brandingStrategyImg} alt="カタチ便のブランディング戦略 ― ビジュアルで収益を加速" />
+                                    <img src={brandingStrategyImg} alt="カタチラボのブランディング戦略 ― ビジュアルで収益を加速" />
                                 </picture>
                             </div>
                             <p className="kb-news-article-body">
-                                「伝えたい価値はあるのに、顧客に正しく伝わっていない」――この悩みは、個人事業主・中小企業に共通する最大の課題です。カタチ便は、イラスト・漫画・図解を戦略的に活用し、0.1秒で顧客の心をつかむビジュアルを設計。ビジネスの成長を視覚面から支援します。
+                                「伝えたい価値はあるのに、顧客に正しく伝わっていない」――この悩みは、個人事業主・中小企業に共通する最大の課題です。カタチラボは、イラスト・漫画・図解を戦略的に活用し、0.1秒で顧客の心をつかむビジュアルを設計。ビジネスの成長を視覚面から支援します。
                             </p>
                         </div>
                     </div>
@@ -162,7 +162,7 @@ export default function ServicesPage() {
                         <div className="kb-news-brand-inner">
                             <picture>
                                 <source srcSet={pixelDoveWebp} type="image/webp" />
-                                <img src={pixelDove} alt="カタチ便" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
+                                <img src={pixelDove} alt="カタチラボ" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
                             </picture>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ export default function ServicesPage() {
                         <h4 className="kb-news-manga-label">▼ 制作の流れ</h4>
                         <picture>
                             <source srcSet={orderFlowMangaWebp} type="image/webp" />
-                            <img src={orderFlowManga} alt="カタチ便 注文フロー 4コマ漫画：悩み相談→依頼→制作→納品" className="kb-news-manga-thumb" />
+                            <img src={orderFlowManga} alt="カタチラボ 注文フロー 4コマ漫画：悩み相談→依頼→制作→納品" className="kb-news-manga-thumb" />
                         </picture>
                     </div>
                 </aside>
@@ -249,7 +249,7 @@ export default function ServicesPage() {
                 <div className="kb-news-corporate">
                     <div className="kb-news-corp-title">スタジオ情報</div>
                     <dl className="kb-news-corp-info">
-                        <dt>名称</dt><dd>カタチ便 / ビジュアルデザイン室</dd>
+                        <dt>名称</dt><dd>カタチラボ / ビジュアルデザイン室</dd>
                         <dt>代表者</dt><dd>まぬちゃん（ビジュアルデザイナー）</dd>
                         <dt>事業内容</dt><dd>イラスト制作・漫画制作・図解デザイン・ブランディング支援</dd>
                         <dt>設立</dt><dd>令和4年10月14日</dd>

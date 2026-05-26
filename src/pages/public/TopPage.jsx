@@ -21,7 +21,7 @@ export default function TopPage() {
                     <div className="mag-header">
                         <div className="mag-title-group">
                             <span className="mag-title-sub">ビジュアルコミュニケーション・スタジオ</span>
-                            <h1 className="mag-title-main">カタチ便</h1>
+                            <h1 className="mag-title-main">カタチラボ</h1>
                             <p className="mag-title-catch">想いを、伝わるカタチに。</p>
                         </div>
                         <div className="mag-brand">青ドット舎</div>
@@ -32,7 +32,7 @@ export default function TopPage() {
                     <div className="mag-center-visual">
                         <picture>
                             <source srcSet={pixelDoveWebp} type="image/webp" />
-                            <img src={pixelDove} alt="カタチ便 — イラスト制作・図解デザイン・漫画制作のビジュアルスタジオ" className="mag-dove-img" />
+                            <img src={pixelDove} alt="カタチラボ — イラスト制作・図解デザイン・漫画制作のビジュアルスタジオ" className="mag-dove-img" />
                         </picture>
                         <p className="mag-center-desc">イラスト制作 ・ 漫画制作 ・ 図解デザイン ・ ブランディング</p>
                     </div>
@@ -65,7 +65,7 @@ export default function TopPage() {
                         <Link to="/about" className="mag-link-card mag-hl-4">
                             <div className="mag-badge">作者紹介</div>
                             <h2 className="mag-hl-title">クリエイター紹介</h2>
-                            <p className="mag-hl-desc">カタチ便を運営するビジュアルデザイナー・まぬちゃんのプロフィール。</p>
+                            <p className="mag-hl-desc">カタチラボを運営するビジュアルデザイナー・まぬちゃんのプロフィール。</p>
                         </Link>
 
                         {/* お問い合わせ CTA */}
@@ -116,7 +116,7 @@ export default function TopPage() {
                 <div className="bs-header">
                     <h2 className="bs-title">「伝わらない」を、ビジュアルで「選ばれる」へ。</h2>
                     <p className="bs-subtitle">
-                        カタチ便は、抽象的なビジネス概念を、ターゲットが「即断できる」視覚情報へ変換する
+                        カタチラボは、抽象的なビジネス概念を、ターゲットが「即断できる」視覚情報へ変換する
                         ビジュアルコミュニケーション・スタジオです。
                         独自のヒアリングとAI活用ワークフローにより、イラスト・漫画・図解を最適に組み合わせ、
                         顧客の行動を促す「伝わるデザイン」を設計します。
@@ -158,9 +158,9 @@ export default function TopPage() {
             </section>
 
             {/* --- BUSINESS SECTION 4: STRENGTH (強み) --- */}
-            <section className="business-section bs-white" aria-label="カタチ便の強み">
+            <section className="business-section bs-white" aria-label="カタチラボの強み">
                 <div className="bs-header">
-                    <h2 className="bs-title">カタチ便が選ばれる理由</h2>
+                    <h2 className="bs-title">カタチラボが選ばれる理由</h2>
                     <h3 className="bs-subtitle-strong">AIの実行力 × 人間の感性と言語化力</h3>
                 </div>
                 <div className="bs-content-wide">
@@ -182,7 +182,7 @@ export default function TopPage() {
                 <div className="bs-manga-flow-wrapper">
                     <picture>
                         <source srcSet={orderFlowMangaWebp} type="image/webp" />
-                        <img src={orderFlowManga} alt="カタチ便の注文フロー：悩み相談→依頼→デザイン制作→完成納品の4ステップ" className="bs-manga-img" />
+                        <img src={orderFlowManga} alt="カタチラボの注文フロー：悩み相談→依頼→デザイン制作→完成納品の4ステップ" className="bs-manga-img" />
                     </picture>
                 </div>
                 <div className="bs-flow-grid">

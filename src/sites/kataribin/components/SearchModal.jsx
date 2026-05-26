@@ -25,7 +25,7 @@ const QUICK_LINKS = [
     { label: '制作の流れ', to: '/flow' },
     { label: '制作事例', to: '/portfolio' },
     { label: 'ビジュアル診断', to: '/diagnostic' },
-    { label: 'カタチ便について', to: '/about' },
+    { label: 'カタチラボについて', to: '/about' },
     { label: 'SNS・リンク', to: '/links' },
     { label: 'お問い合わせ', to: '/contact' },
     { label: 'PAWS PRESS（ペット）', to: '/pet' },

@@ -1,7 +1,7 @@
 /**
  * @file src/sites/kataribin/theme/tokens.js
  *
- * 「カタチ便（岡崎真奈のクリエイティブスタジオ）」ブランドのデザイントークン。
+ * 「カタチラボ」ブランドのデザイントークン。
  * Step 2-D で全面再構成（旧コラム雑誌風コンセプトは廃止）。
  *
  * 注意:
@@ -11,8 +11,8 @@
  */
 
 export const theme = {
-    brandName: 'カタチ便',
-    brandTagline: '岡崎真奈 / Okazaki Mana',
+    brandName: 'カタチラボ',
+    brandTagline: 'Kata Chi Labo',
 
     colors: {
         primary: '#00CFFF',           // 共通ブランドシアン

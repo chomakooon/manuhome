@@ -8,7 +8,7 @@
  * 注意:
  *   - ロゴ画像 /hero/pawspress-logo.jpg は未配置時は console.warn でログ出力し、
  *     img 要素を非表示にしてテキストロゴだけで成立させる
- *   - 「岡崎真奈のHPへ」は内部 Link で SPA 遷移（テーマ切替も滑らか）
+ *   - 「カタチラボへ」は内部 Link で SPA 遷移（テーマ切替も滑らか）
  */
 
 import { useEffect, useRef, useState } from 'react';
@@ -109,7 +109,7 @@ function PawsPressHeader() {
                         写真を送って注文する →
                     </Link>
                     <Link to="/" className="paws-header__crosslink">
-                        岡崎真奈のHPへ ↗
+                        カタチラボへ ↗
                     </Link>
                 </div>
             </div>
@@ -157,7 +157,7 @@ function PawsPressFooter() {
                     @paws_press
                 </a>
                 <Link to="/" className="paws-footer__link">
-                    岡崎真奈のHPに戻る ↗
+                    カタチラボに戻る ↗
                 </Link>
                 <p className="paws-footer__powered">Powered by PAWS PRESS</p>
             </div>

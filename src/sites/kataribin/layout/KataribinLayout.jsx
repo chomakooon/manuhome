@@ -1,7 +1,7 @@
 /**
  * @file src/sites/kataribin/layout/KataribinLayout.jsx
  *
- * カタチ便ブランド用 Layout（Header + main + Footer）。
+ * カタチラボブランド用 Layout（Header + main + Footer）。
  * /pet 配下以外のページがこの Layout を順次採用していく予定。
  * 配色・タイポは body.theme-kataribin 配下の CSS 変数に依存。
  */

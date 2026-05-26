@@ -256,7 +256,7 @@ export default function DiagnosticPage() {
         <div className="container lead-container">
           <div className="lead-text">
             <h2>診断結果と詳しい資料を<br/>PDFで受け取る</h2>
-            <p>カタチ便のサービス詳細や料金表がまとまったPDF資料と、診断結果の詳細解説をメールでお送りします。</p>
+            <p>カタチラボのサービス詳細や料金表がまとまったPDF資料と、診断結果の詳細解説をメールでお送りします。</p>
           </div>
           <div className="lead-form">
             <div className="input-group">

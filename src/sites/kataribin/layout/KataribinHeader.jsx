@@ -1,8 +1,8 @@
 /**
  * @file src/sites/kataribin/layout/KataribinHeader.jsx
  *
- * カタチ便（メイン HP）用ヘッダー。
- * - 左: ピクセルアート鳥のロゴ + 「カタチ便」+ 「岡崎真奈 / Okazaki Mana」
+ * カタチラボ（メイン HP）用ヘッダー。
+ * - 左: ピクセルアート鳥のロゴ + 「カタチラボ」+ 「Kata Chi Labo」
  * - 中央右: 7項目ナビ
  * - 右端: PAWS PRESS への控えめリンク
  * - <=1024px: ハンバーガー → 右からスライドインメニュー
@@ -19,14 +19,14 @@ import './KataribinHeader.css';
 // 同梱の focus-trap-react（gzip 約 10kB）も初回ロードから外れる。
 const SearchModal = lazy(() => import('../components/SearchModal'));
 
-// Phase 12.5: ナビは 7 項目を維持しつつ「ビジュアル診断」を「カタチ便について」に置換。
+// Phase 12.5: ナビは 7 項目を維持しつつ「ビジュアル診断」を「カタチラボについて」に置換。
 // /diagnostic は補助機能としてフッター・ホーム CTA 等から到達可能（ルート自体は存続）。
 const NAV_ITEMS = [
     { path: '/', label: 'ホーム', exact: true },
     { path: '/pricing', label: 'プラン' },
     { path: '/portfolio', label: '制作事例' },
     { path: '/flow', label: '制作の流れ' },
-    { path: '/about', label: 'カタチ便について' },
+    { path: '/about', label: 'カタチラボについて' },
     { path: '/links', label: 'SNS・リンク' },
     { path: '/contact', label: 'お問い合わせ' },
 ];
@@ -74,16 +74,14 @@ export default function KataribinHeader() {
     return (
         <header className="kt-header">
             <div className="kt-header__inner">
-                <Link to="/" className="kt-brand" aria-label="カタチ便ホーム">
+                <Link to="/" className="kt-brand" aria-label="カタチラボホーム">
                     <picture>
                         <source srcSet={doveLogoWebp} type="image/webp" />
                         <img src={doveLogo} alt="" className="kt-brand__logo" />
                     </picture>
                     <span className="kt-brand__text">
-                        <span className="kt-brand__name">カタチ便</span>
-                        <span className="kt-brand__sub">
-                            岡崎真奈 / <span lang="en">Okazaki Mana</span>
-                        </span>
+                        <span className="kt-brand__name">カタチラボ</span>
+                        <span className="kt-brand__sub" lang="en">Kata Chi Labo</span>
                     </span>
                 </Link>
 

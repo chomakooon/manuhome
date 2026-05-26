@@ -1,7 +1,7 @@
 /**
  * @file src/sites/kataribin/pages/KataribinHomePage.jsx
  *
- * カタチ便（メイン HP）のホームページ。
+ * カタチラボ（メイン HP）のホームページ。
  * Phase 19: ブランディング論を反映した 3 セクション追加（悩み / 5 つの強み / Before-After）。
  *
  * セクション構成:
@@ -9,10 +9,10 @@
  *   2. お悩み確認 (★Phase 19 追加: 悩み言語化)
  *   3. こんな方におすすめ (Phase 19: トーン調整)
  *   4. 安心ポイント 3カラム
- *   5. カタチ便の 5 つの強み (★Phase 19 追加: 独自性の明示)
+ *   5. カタチラボの 5 つの強み (★Phase 19 追加: 独自性の明示)
  *   6. 制作事例ティザー (代表6件)
  *   7. Before → After (★Phase 19 追加: 変化の可視化)
- *   8. 数字で見るカタチ便
+ *   8. 数字で見るカタチラボ
  *   9. お客様の声
  *  10. 運営者紹介
  *  11. プラン紹介ティザー  → /pricing 直行
@@ -27,6 +27,7 @@ import {
     MessageCircle, Clock, Palette, Quote,
     Briefcase, Utensils, Heart, Building2,
     BookOpen, GitBranch, Sparkles, Bot, ArrowRight,
+    TrendingDown, Search, Frown, Lightbulb,
 } from 'lucide-react';
 import { portfolioItems } from '../../../data/portfolioData';
 import { SITE_STATS } from '../../../config/site-stats.config';
@@ -46,6 +47,16 @@ import './KataribinHomePage.css';
 
 const PERSONA_ICONS = { Briefcase, Utensils, Heart, Building2 };
 const STRENGTH_ICONS = { Palette, BookOpen, GitBranch, Sparkles, Bot };
+
+// 「こんなお悩み、ありませんか？」セクションの lucide アイコン解決マップ
+const CONCERN_ICONS = {
+    MessageCircle,
+    TrendingDown,
+    Palette,
+    Search,
+    Frown,
+    Lightbulb,
+};
 
 const HERO_IMAGE = '/hero/kataribin-hero.jpg';
 const PAWSPRESS_LOGO = '/hero/pawspress-logo.jpg';
@@ -86,7 +97,7 @@ function HeroSection() {
         <section className="kt-hero">
             <PictureWebp
                 src={HERO_IMAGE}
-                alt="カタチ便のメインビジュアル：『伝えたいを、イラストで一瞬に。』岡崎真奈による漫画・キャラクターデザイン・リアルペットイラストの作例と、平日対応・テイスト調整 OK の対応方針"
+                alt="カタチラボのメインビジュアル：『伝えたいを、イラストで一瞬に。』漫画・キャラクターデザイン・リアルペットイラストの作例と、平日対応・テイスト調整 OK の対応方針"
                 className="kt-hero__media"
                 loading="eager"
                 onError={onImgError('hero')}
@@ -118,17 +129,20 @@ function ConcernsSection() {
                     ひとつでも当てはまるなら、ご相談ください。
                 </p>
                 <ul className="kt-concerns-grid">
-                    {CONCERNS.map((c) => (
+                    {CONCERNS.map((c) => {
+                        const IconCmp = CONCERN_ICONS[c.iconName] ?? MessageCircle;
+                        return (
                         <li key={c.id} className="kt-concern-card">
                             <span
                                 className="kt-concern-card__icon"
                                 aria-hidden="true"
                             >
-                                {c.icon}
+                                <IconCmp size={22} strokeWidth={1.8} />
                             </span>
                             <p className="kt-concern-card__text">{c.text}</p>
                         </li>
-                    ))}
+                        );
+                    })}
                 </ul>
                 <div className="kt-concerns-section__outro">
                     <p className="kt-concerns-section__bridge">
@@ -138,7 +152,7 @@ function ConcernsSection() {
                         href="#kt-strengths"
                         className="kt-concerns-section__jump"
                     >
-                        カタチ便のアプローチを見る ↓
+                        カタチラボのアプローチを見る ↓
                     </a>
                 </div>
             </div>
@@ -157,7 +171,7 @@ function StrengthsSection() {
         >
             <div className="kt-strengths-section__inner">
                 <h2 id="kt-strengths-title" className="kt-section__title">
-                    カタチ便ができること
+                    カタチラボができること
                 </h2>
                 <p className="kt-section__lead">
                     単なる制作ではない、5 つの専門性。
@@ -474,7 +488,7 @@ function StatsSection() {
     return (
         <section ref={revealRef} className="kt-stats-section reveal">
             <div className="kt-stats-section__inner">
-                <span className="kt-stats-section__eyebrow">数字で見るカタチ便</span>
+                <span className="kt-stats-section__eyebrow">数字で見るカタチラボ</span>
                 <ul className="kt-stats-grid">
                     {SITE_STATS.map((s) => (
                         <li key={s.id} className="kt-stat-card">

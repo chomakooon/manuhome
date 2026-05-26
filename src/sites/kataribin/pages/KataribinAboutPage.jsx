@@ -6,7 +6,7 @@
  * セクション構成:
  *   1. ヒーロー: 写真 + キャッチコピー
  *   2. はじめまして
- *   3. カタチ便を始めた理由（ストーリー）
+ *   3. カタチラボを始めた理由（ストーリー）
  *   4. 3 つのこだわり
  *   5. 制作スタイル
  *   6. お客様に届けたい価値（クロージング）
@@ -28,7 +28,7 @@ import './KataribinAboutPage.css';
 
 const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
-    { label: 'カタチ便について', to: null },
+    { label: 'カタチラボについて', to: null },
 ];
 
 const VALUE_ICONS = { MessageCircle, Palette, Clock };
@@ -102,7 +102,7 @@ function StorySection() {
     return (
         <section className="kt-about-section kt-about-section--alt">
             <div className="kt-about-section__inner">
-                <h2 className="kt-about-section__title">カタチ便を始めた理由</h2>
+                <h2 className="kt-about-section__title">カタチラボを始めた理由</h2>
                 <div className="kt-about-section__body">
                     {PROFILE.story.map((paragraph, idx) => (
                         <p key={idx} className="kt-about-paragraph kt-about-paragraph--story">
