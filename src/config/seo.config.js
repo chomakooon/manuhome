@@ -57,7 +57,8 @@ export const SEO_DEFAULTS = {
     ],
     defaultOgImage: '/og-images/og-home.jpg',
     twitterCard: 'summary_large_image',
-    twitterHandle: '@kataribin_jp', // ← サンプル、要差し替え（実 X ハンドル）
+    // TODO: 実 X (Twitter) アカウントの取得後に '@xxx' を設定。未設定の間は null。
+    twitterHandle: null,
 };
 
 /**

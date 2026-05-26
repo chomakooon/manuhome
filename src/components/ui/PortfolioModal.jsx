@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { FocusTrap } from 'focus-trap-react';
 import PictureWebp from '../PictureWebp';
 import './PortfolioModal.css';
 
@@ -37,7 +38,15 @@ export default function PortfolioModal({ item, isOpen, onClose, onNext, onPrev, 
     // 背景は背面に置いた <button>、コンテンツは前面に配置する z-index 戦略で対応する。
 
     return (
-        <div className="portfolio-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <FocusTrap
+            focusTrapOptions={{
+                escapeDeactivates: false, // Escape は handleKeyDown 側で onClose 経由で処理
+                clickOutsideDeactivates: true,
+                initialFocus: false,      // 自動フォーカスは閉じるボタンに任せる
+                fallbackFocus: '.portfolio-modal-close',
+            }}
+        >
+            <div className="portfolio-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <button
                 type="button"
                 className="portfolio-modal-backdrop-btn"
@@ -90,6 +99,7 @@ export default function PortfolioModal({ item, isOpen, onClose, onNext, onPrev, 
                     <p className="portfolio-modal-desc">{item.description}</p>
                 </div>
             </div>
-        </div>
+            </div>
+        </FocusTrap>
     );
 }
