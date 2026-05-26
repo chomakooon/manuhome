@@ -1,7 +1,21 @@
-import { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useBrandTheme } from './sites/useBrandTheme';
 import { GUIDE_LINKS } from './sites/pawspress/data/guideLinks';
+
+/**
+ * ルート遷移時にページ上部へスクロール。
+ * hash が含まれる場合は各ページ側のアンカースクロール (例: /pet#plans) を
+ * 優先するため、ここでは何もしない。
+ */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) return;
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname, hash]);
+  return null;
+}
 // NOTE: 旧 Layout / Header / Footer / StickyCTA は src/components/layout/ に温存。
 // Phase 5 ですべてのルートが KataribinLayout / PawsPressLayout / AdminLayout に移行済み。
 // 万が一の参照用に物理ファイルは残置（次フェーズで削除可能）。
@@ -93,6 +107,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AppRoutes />
     </BrowserRouter>
   );
