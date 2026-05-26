@@ -229,6 +229,42 @@
     margin-top: 0.25rem;
 }
 
+/* セール価格表示（通常価格に取り消し線 + 「今だけ」見出し） */
+.paws-plan-radio__price--sale {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: inherit;
+}
+
+.paws-plan-radio__price-original {
+    font-family: var(--brand-font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--brand-text-subtle, #5A5A5A);
+    text-decoration: line-through;
+    text-decoration-color: #E5484D;
+}
+
+.paws-plan-radio__price-now {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    color: var(--brand-primary);
+}
+
+.paws-plan-radio__sale-label {
+    font-family: var(--brand-font-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    background-color: #E5484D;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transform: translateY(-0.3rem);
+}
+
 .paws-plan-radio__features {
     list-style: none;
     padding: 0;

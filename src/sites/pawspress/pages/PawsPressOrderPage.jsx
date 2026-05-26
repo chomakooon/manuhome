@@ -296,7 +296,23 @@ function Step1Plan({
                                 )}
                             </div>
                             <span className="paws-plan-radio__tagline">{plan.tagline}</span>
-                            <span className="paws-plan-radio__price">{plan.priceLabel}</span>
+                            {plan.originalPriceLabel ? (
+                                <span className="paws-plan-radio__price paws-plan-radio__price--sale">
+                                    <span className="paws-plan-radio__price-original">
+                                        {plan.originalPriceLabel}
+                                    </span>
+                                    <span className="paws-plan-radio__price-now">
+                                        {plan.saleLabel && (
+                                            <span className="paws-plan-radio__sale-label">
+                                                {plan.saleLabel}
+                                            </span>
+                                        )}
+                                        {plan.priceLabel}
+                                    </span>
+                                </span>
+                            ) : (
+                                <span className="paws-plan-radio__price">{plan.priceLabel}</span>
+                            )}
                             <ul className="paws-plan-radio__features">
                                 {plan.features.map((f, i) => <li key={i}>{f}</li>)}
                             </ul>
