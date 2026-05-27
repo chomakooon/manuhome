@@ -28,7 +28,7 @@ const QUICK_LINKS = [
     { label: 'カタチラボについて', to: '/about' },
     { label: 'SNS・リンク', to: '/links' },
     { label: 'お問い合わせ', to: '/contact' },
-    { label: 'PAWS PRESS（ペット）', to: '/pet' },
+    { label: 'タカララボ（ペット）', to: '/pet' },
 ];
 
 /**

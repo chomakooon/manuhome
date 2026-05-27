@@ -2,7 +2,7 @@
  * @file src/sites/useBrandTheme.js
  *
  * URL に応じて document.body のクラスを切り替えるフック。
- * - /pet 配下: body.theme-pawspress（PAWS PRESS テーマ）
+ * - /pet 配下: body.theme-pawspress（タカララボ テーマ）
  * - それ以外:   body.theme-kataribin（かたち便テーマ）
  *
  * CSS 変数の切替は src/index.css の `:root, body.theme-kataribin` /

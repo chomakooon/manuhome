@@ -133,23 +133,23 @@ export const PAGE_SEO = {
     },
     pet: {
         path: '/pet',
-        title: 'PAWS PRESS | ペットイラストグッズ専門ブランド',
+        title: 'タカララボ | ペットイラストグッズ専門ブランド',
         description:
-            'カタチラボのサブブランド「PAWS PRESS」。うちの子の写真を、世界に一つのイラストグッズに仕上げます。',
+            'カタチラボのサブブランド「タカララボ」。うちの子の写真を、世界に一つのイラストグッズに仕上げます。',
         ogImage: '/og-images/og-pet.jpg',
     },
     petOrder: {
         path: '/pet/order',
-        title: 'ご注文フロー | PAWS PRESS',
+        title: 'ご注文フロー | タカララボ',
         description:
             '4 ステップのフォームで、プラン選択・写真アップロード・お客様情報入力・確認まで完結。',
         ogImage: '/og-images/og-pet.jpg',
     },
     petContact: {
         path: '/pet/contact',
-        title: 'お問い合わせ | PAWS PRESS',
+        title: 'お問い合わせ | タカララボ',
         description:
-            'PAWS PRESS へのお問い合わせ窓口。商品仕様や納期など、お気軽にご相談ください。',
+            'タカララボ へのお問い合わせ窓口。商品仕様や納期など、お気軽にご相談ください。',
         ogImage: '/og-images/og-pet.jpg',
     },
 };

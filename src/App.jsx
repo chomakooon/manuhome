@@ -44,7 +44,7 @@ function ScrollToTop() {
 
 // NOTE: TopPage は src/pages/public/TopPage.jsx に温存。/ は KataribinLayout + KataribinHomePage に置換済み（Step 2-D）
 const ServicesPage = lazy(() => import('./pages/public/ServicesPage'));
-// NOTE: PetPage は src/pages/public/PetPage.jsx に温存。/pet は PAWS PRESS LP に置き換え済み
+// NOTE: PetPage は src/pages/public/PetPage.jsx に温存。/pet は タカララボ LP に置き換え済み
 // NOTE: 旧 AboutPage（新聞風） は src/pages/public/AboutPage.jsx に温存。
 // Phase 12 でプロフィール強化版 KataribinAboutPage に差し替え済み。
 // 物理ファイルを残しているのは、必要時に App.jsx のルートを差し戻すだけで復元できるようにするため。
@@ -58,7 +58,7 @@ const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage')
 const AdminOrderListPage = lazy(() => import('./pages/admin/AdminOrderListPage'));
 const AdminOrderDetailPage = lazy(() => import('./pages/admin/AdminOrderDetailPage'));
 
-// ── PAWS PRESS (Step 2-B / 2-C) ──
+// ── タカララボ (Step 2-B / 2-C) ──
 const PawsPressLayout = lazy(() => import('./sites/pawspress/layout/PawsPressLayout'));
 const PawsPressHomePage = lazy(() => import('./sites/pawspress/pages/PawsPressHomePage'));
 const PawsPressOrderPage = lazy(() => import('./sites/pawspress/pages/PawsPressOrderPage'));
@@ -100,13 +100,13 @@ function AppRoutes() {
         <Route path="/flow" element={<KataribinLayout><FlowPage /></KataribinLayout>} />
         <Route path="/contact" element={<KataribinLayout><ContactPage /></KataribinLayout>} />
 
-        {/* ── PAWS PRESS (Step 2-B / 2-C) ── */}
+        {/* ── タカララボ (Step 2-B / 2-C) ── */}
         <Route path="/pet" element={<PawsPressLayout><PawsPressHomePage /></PawsPressLayout>} />
         <Route path="/pet/order" element={<PawsPressLayout><PawsPressOrderPage /></PawsPressLayout>} />
         <Route path="/pet/contact" element={<PawsPressLayout><PawsPressContactPage /></PawsPressLayout>} />
         <Route path="/pet/gallery" element={<PawsPressLayout><PawsPressGalleryPage /></PawsPressLayout>} />
 
-        {/* ── PAWS PRESS ご利用ガイド（暫定プレースホルダ。順次本実装に差し替え）── */}
+        {/* ── タカララボ ご利用ガイド（暫定プレースホルダ。順次本実装に差し替え）── */}
         {GUIDE_LINKS.map((g) => (
           <Route
             key={g.to}

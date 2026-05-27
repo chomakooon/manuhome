@@ -386,7 +386,7 @@ function Step1Plan({
                         <span className="paws-form-label__opt">（おすすめ: キャラクター調）</span>
                     </p>
                     <p className="paws-form-help">
-                        PAWS PRESS は <strong>キャラクター調</strong> がメインです。実写風もお選びいただけます。
+                        タカララボ は <strong>キャラクター調</strong> がメインです。実写風もお選びいただけます。
                     </p>
                     <div className="paws-art-style">
                         {ART_STYLES.map((style) => {

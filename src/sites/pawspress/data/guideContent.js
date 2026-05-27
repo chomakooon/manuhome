@@ -43,7 +43,7 @@ export const GUIDE_CONTENT = {
     '/pet/guide/order-flow': {
         iconName: 'Truck',
         heroImage: '/works/guide-hero-order-flow.webp',
-        lead: 'PAWS PRESS のご注文は、写真を送るだけのシンプル5ステップです。',
+        lead: 'タカララボ のご注文は、写真を送るだけのシンプル5ステップです。',
         related: [
             { to: '/pet/guide/photo-tips', iconName: 'Camera' },
             { to: '/pet/guide/design-check', iconName: 'CheckCircle' },

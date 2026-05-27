@@ -1,7 +1,7 @@
 /**
  * @file src/sites/pawspress/data/plans.js
  *
- * PAWS PRESS の販売プラン定義。/pet トップの「プランから選ぶ」セクションと、
+ * タカララボ の販売プラン定義。/pet トップの「プランから選ぶ」セクションと、
  * 将来の /pet/order ページから参照される。
  *
  * 編集ルール:

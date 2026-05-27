@@ -1,7 +1,7 @@
 /**
  * @file src/sites/pawspress/theme/tokens.js
  *
- * 「PAWS PRESS（ペットグッズ専門ブランド）」のデザイントークン。
+ * 「タカララボ（ペットグッズ専門ブランド）」のデザイントークン。
  * メインカラーはかたち便と同系統のシアンを採用しつつ、ペット系の温かみを出す
  * 桃色系アクセントを追加して差別化する方針。
  *
@@ -12,7 +12,7 @@
  */
 
 export const theme = {
-    brandName: 'PAWS PRESS',
+    brandName: 'タカララボ',
     brandTagline: 'うちの子と暮らす、毎日のグッズ屋さん',
 
     colors: {

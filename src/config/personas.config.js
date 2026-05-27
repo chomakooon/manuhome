@@ -63,9 +63,9 @@ export const PERSONAS = [
         problem: 'うちの子の写真を、オリジナルグッズにしたい',
         solution:
             'ペット写真をイラスト化し、フレーム・グッズに展開。家族みんなが笑顔になる仕上がりをお届けします。',
-        recommendedPlan: 'PAWS PRESS Pair Set（推奨）',
+        recommendedPlan: 'タカララボ Pair Set（推奨）',
         ctaLink: '/pet',
-        ctaText: 'PAWS PRESS を見る →',
+        ctaText: 'タカララボ を見る →',
     },
     {
         id: 'business',

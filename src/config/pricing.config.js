@@ -13,8 +13,8 @@
  *   - sortOrder で並び替えされる
  *
  * メモ:
- *   - PAWS PRESS 側 (/pet/order) も同じペット系 3 プランを使用しているが、
- *     PAWS PRESS のテナントは src/sites/pawspress/data/plans.js に独立して
+ *   - タカララボ 側 (/pet/order) も同じペット系 3 プランを使用しているが、
+ *     タカララボ のテナントは src/sites/pawspress/data/plans.js に独立して
  *     データを持つ。両者の価格・特徴は意図的に同一にしている。
  */
 
