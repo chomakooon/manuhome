@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Sparkles, Layers, PawPrint } from 'lucide-react';
 import './PortfolioPage.css';
 import { portfolioItems, categories } from '../../data/portfolioData';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
@@ -133,6 +134,29 @@ export default function PortfolioPage() {
                 <div className="container">
                     <h1 className="page-title">制作事例・ポートフォリオ</h1>
                     <p className="page-subtitle">イラスト・漫画・図解・ブランディングの制作実績をカテゴリー別にご紹介。<br/>あなたの理想のテイストやスタイルが見つかります。</p>
+                    <ul className="portfolio-stats">
+                        <li className="portfolio-stat">
+                            <span className="portfolio-stat__icon" aria-hidden="true">
+                                <Sparkles size={20} strokeWidth={1.6} />
+                            </span>
+                            <span className="portfolio-stat__value">500件＋</span>
+                            <span className="portfolio-stat__label">制作実績</span>
+                        </li>
+                        <li className="portfolio-stat">
+                            <span className="portfolio-stat__icon" aria-hidden="true">
+                                <Layers size={20} strokeWidth={1.6} />
+                            </span>
+                            <span className="portfolio-stat__value">{categories.length - 1}</span>
+                            <span className="portfolio-stat__label">ジャンル</span>
+                        </li>
+                        <li className="portfolio-stat">
+                            <span className="portfolio-stat__icon" aria-hidden="true">
+                                <PawPrint size={20} strokeWidth={1.6} />
+                            </span>
+                            <span className="portfolio-stat__value">タカララボ</span>
+                            <span className="portfolio-stat__label">ペット専門ブランドも展開</span>
+                        </li>
+                    </ul>
                 </div>
             </header>
 
@@ -189,6 +213,22 @@ export default function PortfolioPage() {
                             </div>
                         ))}
                     </div>
+                </div>
+            </section>
+
+            {/* タカララボ（ペットグッズ）への横断ティザー */}
+            <section className="portfolio-cross section">
+                <div className="container">
+                    <Link to="/pet" className="portfolio-cross__card">
+                        <span className="portfolio-cross__icon" aria-hidden="true">
+                            <PawPrint size={28} strokeWidth={1.6} />
+                        </span>
+                        <div className="portfolio-cross__body">
+                            <p className="portfolio-cross__title">うちの子のイラスト・グッズが見たい方は</p>
+                            <p className="portfolio-cross__sub">ペット専門ブランド「タカララボ」のページへ</p>
+                        </div>
+                        <span className="portfolio-cross__arrow" aria-hidden="true">→</span>
+                    </Link>
                 </div>
             </section>
 

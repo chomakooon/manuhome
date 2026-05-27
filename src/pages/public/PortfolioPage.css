@@ -466,3 +466,135 @@
         border-bottom-width: 1px;
     }
 }
+/* ── ポートフォリオ ヘッダー統計行（新） ──────────── */
+.portfolio-stats {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.portfolio-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1rem 0.75rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border, #D5D5D0);
+    border-radius: 14px;
+}
+
+.portfolio-stat__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background-color: var(--color-accent-glow, rgba(0, 207, 255, 0.08));
+    color: var(--color-accent, #00CFFF);
+}
+
+.portfolio-stat__value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--color-accent, #00CFFF);
+    line-height: 1;
+}
+
+.portfolio-stat__label {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #8E8E8E);
+    text-align: center;
+    line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+    .portfolio-stats {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+}
+
+/* ── タカララボ クロスティザー（新） ─────────────── */
+.portfolio-cross {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.portfolio-cross__card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1.25rem 1.75rem;
+    background: linear-gradient(135deg, #FFF8F5 0%, #FFE8EE 100%);
+    border: 1px solid #FFB6C1;
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--color-text-primary, #1A1A1A);
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.portfolio-cross__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(255, 182, 193, 0.3);
+}
+
+.portfolio-cross__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    color: #EC4899;
+    flex-shrink: 0;
+}
+
+.portfolio-cross__body {
+    flex: 1;
+}
+
+.portfolio-cross__title {
+    margin: 0 0 0.2rem 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.portfolio-cross__sub {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted, #8E8E8E);
+}
+
+.portfolio-cross__arrow {
+    font-size: 1.4rem;
+    color: #EC4899;
+    transition: transform 150ms ease;
+    flex-shrink: 0;
+}
+
+.portfolio-cross__card:hover .portfolio-cross__arrow {
+    transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+    .portfolio-cross__card {
+        padding: 1rem 1.25rem;
+        gap: 0.85rem;
+    }
+    .portfolio-cross__title {
+        font-size: 0.92rem;
+    }
+}
