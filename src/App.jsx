@@ -7,12 +7,34 @@ import { GUIDE_LINKS } from './sites/pawspress/data/guideLinks';
  * ルート遷移時にページ上部へスクロール。
  * hash が含まれる場合は各ページ側のアンカースクロール (例: /pet#plans) を
  * 優先するため、ここでは何もしない。
+ *
+ * 実装上の注意:
+ *   - ブラウザの自動スクロール復元 (history.scrollRestoration='auto') が
+ *     SPA 遷移後に前ページのスクロール位置を上書きすることがあるため、
+ *     'manual' に設定して抑制する
+ *   - lazy/Suspense と組み合わせると useEffect 直後の scrollTo より
+ *     後で新ページの paint が走り、scroll が上書きされるケースがある。
+ *     requestAnimationFrame で次フレームに繰り越して確実に上書きする
+ *   - behavior:'instant' は新仕様で一部環境で無視されるため、
+ *     位置引数版 scrollTo(0, 0) を使う
  */
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
+
+  // ブラウザの自動スクロール復元を抑制（マウント時1回）
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   useEffect(() => {
     if (hash) return;
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    // 同期 + 次フレームの二段構えで確実に最上部へ
+    window.scrollTo(0, 0);
+    const id = requestAnimationFrame(() => window.scrollTo(0, 0));
+    return () => cancelAnimationFrame(id);
   }, [pathname, hash]);
   return null;
 }
