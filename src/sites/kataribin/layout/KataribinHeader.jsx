@@ -2,7 +2,7 @@
  * @file src/sites/kataribin/layout/KataribinHeader.jsx
  *
  * カタチラボ（メイン HP）用ヘッダー。
- * - 左: ピクセルアート鳥のロゴ + 「カタチラボ」+ 「Kata Chi Labo」
+ * - 左: ピクセルアート鳥のロゴ + 「カタチラボ」+ 「Katachi Labo」
  * - 中央右: 7項目ナビ
  * - 右端: PAWS PRESS への控えめリンク
  * - <=1024px: ハンバーガー → 右からスライドインメニュー
@@ -81,7 +81,7 @@ export default function KataribinHeader() {
                     </picture>
                     <span className="kt-brand__text">
                         <span className="kt-brand__name">カタチラボ</span>
-                        <span className="kt-brand__sub" lang="en">Kata Chi Labo</span>
+                        <span className="kt-brand__sub" lang="en">Katachi Labo</span>
                     </span>
                 </Link>
 

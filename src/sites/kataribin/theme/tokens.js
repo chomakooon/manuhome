@@ -12,7 +12,7 @@
 
 export const theme = {
     brandName: 'カタチラボ',
-    brandTagline: 'Kata Chi Labo',
+    brandTagline: 'Katachi Labo',
 
     colors: {
         primary: '#00CFFF',           // 共通ブランドシアン

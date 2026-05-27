@@ -33,7 +33,7 @@ export default function KataribinFooter() {
                     </picture>
                     <span className="kt-footer__brand-text">
                         <span className="kt-footer__name">カタチラボ</span>
-                        <span className="kt-footer__sub" lang="en">Kata Chi Labo</span>
+                        <span className="kt-footer__sub" lang="en">Katachi Labo</span>
                     </span>
                 </Link>
 
