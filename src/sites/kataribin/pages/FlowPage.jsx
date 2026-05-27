@@ -7,6 +7,7 @@
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import PageSeo from '../../../components/PageSeo';
+import PictureWebp from '../../../components/PictureWebp';
 import '../styles/page-shared.css';
 import './FlowPage.css';
 
@@ -20,6 +21,8 @@ const STEPS = [
         num: 1,
         title: 'お問い合わせ',
         desc: 'お問い合わせフォームから、ご希望のテイスト・用途・納期などをお聞かせください。参考画像や資料があると、初回ヒアリングがスムーズです。',
+        image: '/flow/step1.jpg',
+        imageAlt: 'ノートPCでメッセージを入力する手元',
         customer: ['フォームから相談', '参考画像・資料をご共有'],
         studio: ['1営業日以内に返信', '初期ヒアリング'],
         duration: '即日〜1営業日',
@@ -28,6 +31,8 @@ const STEPS = [
         num: 2,
         title: 'お見積り',
         desc: 'ご要件を整理し、最適なプラン・納期・料金をご提案します。ご質問・ご要望にお答えしながら詳細を詰めていきます。',
+        image: '/flow/step2.jpg',
+        imageAlt: 'デスクで打ち合わせをするイメージ',
         customer: ['要件確認', 'プラン承認'],
         studio: ['詳細ヒアリング', 'お見積もり提示', '制作スケジュール調整'],
         duration: '2〜3営業日',
@@ -36,6 +41,8 @@ const STEPS = [
         num: 3,
         title: '制作',
         desc: 'ラフ案 → ご確認 → 修正 → 仕上げ、の順で進行します。各段階でご確認をお願いし、方向性を合わせながら丁寧に作り込みます。',
+        image: '/flow/step3.jpg',
+        imageAlt: 'タブレットでイラストを描く手元',
         customer: ['ラフ確認', '修正リクエスト', '最終承認'],
         studio: ['ラフ作成', '修正対応', '本制作・仕上げ'],
         duration: 'プランによる（7〜21営業日）',
@@ -44,6 +51,8 @@ const STEPS = [
         num: 4,
         title: '納品',
         desc: 'ご指定の形式で納品します。商用利用OK。納品後の追加修正やアレンジもオプションでお気軽にご相談ください。',
+        image: '/flow/step4.jpg',
+        imageAlt: 'リボンのかかった贈り物',
         customer: ['納品データ受領', '最終確認'],
         studio: ['データ納品', '利用範囲のご案内'],
         duration: '即日',
@@ -88,6 +97,15 @@ function PageHero() {
 function StepCard({ step, alt }) {
     return (
         <article className={`kt-step-card${alt ? ' kt-step-card--alt' : ''}`}>
+            {step.image && (
+                <div className="kt-step-card__image">
+                    <PictureWebp
+                        src={step.image}
+                        alt={step.imageAlt ?? `STEP ${step.num} ${step.title}`}
+                        loading="lazy"
+                    />
+                </div>
+            )}
             <div className="kt-step-card__head">
                 <span className="kt-step-card__num">STEP {step.num}</span>
                 <h3 className="kt-step-card__title">{step.title}</h3>
