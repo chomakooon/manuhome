@@ -17,9 +17,14 @@
  */
 
 import { Link } from 'react-router-dom';
-import { MessageCircle, Palette, Clock } from 'lucide-react';
+import {
+    MessageCircle, Palette, Clock,
+    Briefcase, Sparkles, Layers, Calendar,
+    Wrench, Home as HomeIcon, Instagram,
+} from 'lucide-react';
 import { PROFILE, PROFILE_INITIALS } from '../../../config/profile.config';
 import { SEO_DEFAULTS } from '../../../config/seo.config';
+import { SNS_LINKS } from '../../../config/social.config';
 import PortraitPhoto from '../components/PortraitPhoto';
 import Breadcrumb from '../components/Breadcrumb';
 import PageSeo from '../../../components/PageSeo';
@@ -32,6 +37,14 @@ const BREADCRUMB = [
 ];
 
 const VALUE_ICONS = { MessageCircle, Palette, Clock };
+
+// 数字で見る実績（モック値ベース。実数は profile.config.js / 別 config 化検討）
+const STATS = [
+    { Icon: Briefcase, value: '6年', label: '個人事業主としての経験' },
+    { Icon: Sparkles, value: '500件＋', label: 'のべコンテンツ制作実績' },
+    { Icon: Layers, value: '4ジャンル', label: '漫画 / キャラ / 名刺 / ロゴ' },
+    { Icon: Calendar, value: '24h以内', label: '平日のご返信目安' },
+];
 
 const PERSON_JSON_LD = {
     '@context': 'https://schema.org',
@@ -115,6 +128,27 @@ function StorySection() {
     );
 }
 
+function StatsSection() {
+    return (
+        <section className="kt-about-section kt-about-section--alt">
+            <div className="kt-about-section__inner">
+                <h2 className="kt-about-section__title">数字で見る実績</h2>
+                <ul className="kt-about-stats">
+                    {STATS.map((s) => (
+                        <li key={s.label} className="kt-about-stat">
+                            <span className="kt-about-stat__icon" aria-hidden="true">
+                                <s.Icon size={26} strokeWidth={1.6} />
+                            </span>
+                            <p className="kt-about-stat__value">{s.value}</p>
+                            <p className="kt-about-stat__label">{s.label}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
+}
+
 function ValuesSection() {
     return (
         <section className="kt-about-section">
@@ -150,7 +184,10 @@ function StyleSection() {
                 <h2 className="kt-about-section__title">制作スタイル</h2>
 
                 <div className="kt-about-style-block">
-                    <h3 className="kt-about-style-block__heading">使用ツール</h3>
+                    <h3 className="kt-about-style-block__heading">
+                        <Wrench size={20} strokeWidth={1.6} aria-hidden="true" />
+                        使用ツール
+                    </h3>
                     <ul className="kt-about-tools">
                         {tools.map((t) => (
                             <li key={t} className="kt-about-tool">{t}</li>
@@ -159,12 +196,18 @@ function StyleSection() {
                 </div>
 
                 <div className="kt-about-style-block">
-                    <h3 className="kt-about-style-block__heading">制作環境</h3>
+                    <h3 className="kt-about-style-block__heading">
+                        <HomeIcon size={20} strokeWidth={1.6} aria-hidden="true" />
+                        制作環境
+                    </h3>
                     <p className="kt-about-paragraph">{environment}</p>
                 </div>
 
                 <div className="kt-about-style-block">
-                    <h3 className="kt-about-style-block__heading">1 日のスケジュール</h3>
+                    <h3 className="kt-about-style-block__heading">
+                        <Clock size={20} strokeWidth={1.6} aria-hidden="true" />
+                        1 日のスケジュール
+                    </h3>
                     <ol className="kt-about-schedule">
                         {schedule.map((s) => (
                             <li key={s.time} className="kt-about-schedule__item">
@@ -196,6 +239,39 @@ function ClosingSection() {
     );
 }
 
+function SnsSection() {
+    return (
+        <section className="kt-about-section">
+            <div className="kt-about-section__inner kt-about-section__inner--narrow kt-about-sns">
+                <h2 className="kt-about-section__title">普段の制作はSNSでも発信中</h2>
+                <p className="kt-about-section__lead">
+                    制作の途中経過や日々の創作風景を SNS で随時共有しています。
+                </p>
+                <div className="kt-about-sns__actions">
+                    <a
+                        href={SNS_LINKS.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="kt-about-sns__btn kt-about-sns__btn--ig"
+                    >
+                        <Instagram size={18} aria-hidden="true" />
+                        Instagram
+                    </a>
+                    <a
+                        href={SNS_LINKS.x}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="kt-about-sns__btn kt-about-sns__btn--x"
+                    >
+                        <span aria-hidden="true" className="kt-about-sns__xicon">𝕏</span>
+                        X (Twitter)
+                    </a>
+                </div>
+            </div>
+        </section>
+    );
+}
+
 function CtaSection() {
     return (
         <section className="kt-bigcta">
@@ -220,9 +296,11 @@ export default function KataribinAboutPage() {
             <HeroSection />
             <IntroSection />
             <StorySection />
+            <StatsSection />
             <ValuesSection />
             <StyleSection />
             <ClosingSection />
+            <SnsSection />
             <CtaSection />
         </div>
     );

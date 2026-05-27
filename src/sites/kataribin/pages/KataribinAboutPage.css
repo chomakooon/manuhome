@@ -290,3 +290,120 @@
         gap: 0.25rem;
     }
 }
+
+/* ── 数字で見る実績（新） ───────────────────────── */
+.kt-about-stats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.kt-about-stat {
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.kt-about-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.kt-about-stat__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background-color: var(--brand-bg-subtle, #F5F5F2);
+    color: var(--brand-primary);
+    margin-bottom: 0.6rem;
+}
+
+.kt-about-stat__value {
+    margin: 0 0 0.25rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--brand-primary);
+}
+
+.kt-about-stat__label {
+    margin: 0;
+    font-size: 0.825rem;
+    line-height: 1.55;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+@media (max-width: 768px) {
+    .kt-about-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+    }
+}
+
+/* ── スタイルブロックの見出しアイコン（新） ─────── */
+.kt-about-style-block__heading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.kt-about-style-block__heading svg {
+    color: var(--brand-primary);
+    flex-shrink: 0;
+}
+
+/* ── SNS セクション（新） ─────────────────────── */
+.kt-about-sns {
+    text-align: center;
+}
+
+.kt-about-sns__actions {
+    display: flex;
+    gap: 0.85rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+
+.kt-about-sns__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
+}
+
+.kt-about-sns__btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+
+.kt-about-sns__btn--ig {
+    background: linear-gradient(135deg, #FEDA77 0%, #F58529 40%, #DD2A7B 70%, #8134AF 100%);
+    box-shadow: 0 6px 16px rgba(221, 42, 123, 0.25);
+}
+
+.kt-about-sns__btn--x {
+    background-color: #000000;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.kt-about-sns__xicon {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+}
