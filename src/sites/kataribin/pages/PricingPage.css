@@ -144,3 +144,127 @@
     margin-top: auto;
     align-self: stretch;
 }
+
+/* ── カテゴリ早見表ナビ（新） ───────────────────── */
+.kt-pricing-jump {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 0;
+}
+
+.kt-pricing-jump__inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.kt-pricing-jump__card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    color: var(--brand-text);
+    transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.kt-pricing-jump__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+    border-color: var(--brand-primary);
+}
+
+.kt-pricing-jump__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background-color: var(--brand-bg-subtle);
+    color: var(--brand-primary);
+    flex-shrink: 0;
+}
+
+.kt-pricing-jump__label {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    flex: 1;
+}
+
+.kt-pricing-jump__arrow {
+    color: var(--brand-primary);
+    transition: transform 150ms ease;
+}
+
+.kt-pricing-jump__card:hover .kt-pricing-jump__arrow {
+    transform: translateX(3px);
+}
+
+@media (max-width: 768px) {
+    .kt-pricing-jump__inner {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+}
+
+/* スティッキーヘッダー対応 */
+.kt-page section[id^="cat-"] {
+    scroll-margin-top: 80px;
+}
+
+/* ── 診断ティザー（新） ──────────────────────────── */
+.kt-pricing-diag {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.75rem 2rem;
+    background: linear-gradient(135deg, #E6FBFF 0%, #FFF8F5 100%);
+    border: 1px solid var(--brand-border);
+    border-radius: 20px;
+}
+
+.kt-pricing-diag__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    color: var(--brand-primary);
+    flex-shrink: 0;
+}
+
+.kt-pricing-diag__body {
+    flex: 1;
+}
+
+.kt-pricing-diag__title {
+    margin: 0 0 0.4rem 0;
+    font-family: var(--brand-font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--brand-text);
+}
+
+.kt-pricing-diag__desc {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+@media (max-width: 768px) {
+    .kt-pricing-diag {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+}

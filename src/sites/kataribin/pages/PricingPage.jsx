@@ -6,6 +6,7 @@
  */
 
 import { Link } from 'react-router-dom';
+import { PawPrint, IdCard, BookOpen, Sparkles, ArrowRight } from 'lucide-react';
 import {
     pricingCategories,
     pricingPlans,
@@ -17,6 +18,13 @@ import PageSeo from '../../../components/PageSeo';
 import { SEO_DEFAULTS } from '../../../config/seo.config';
 import '../styles/page-shared.css';
 import './PricingPage.css';
+
+// カテゴリ早見表用のアイコン解決マップ
+const CATEGORY_ICONS = {
+    pet: PawPrint,
+    businesscard: IdCard,
+    manga: BookOpen,
+};
 
 const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
@@ -58,6 +66,33 @@ function PageHero() {
     );
 }
 
+function CategoryJumpNav({ categories }) {
+    return (
+        <nav className="kt-pricing-jump" aria-label="プラン カテゴリへの早見表">
+            <div className="kt-pricing-jump__inner">
+                {categories.map((cat) => {
+                    const Icon = CATEGORY_ICONS[cat.id] ?? Sparkles;
+                    return (
+                        <a
+                            key={cat.id}
+                            href={`#cat-${cat.id}`}
+                            className="kt-pricing-jump__card"
+                        >
+                            <span className="kt-pricing-jump__icon" aria-hidden="true">
+                                <Icon size={26} strokeWidth={1.6} />
+                            </span>
+                            <span className="kt-pricing-jump__label">{cat.label}</span>
+                            <span className="kt-pricing-jump__arrow" aria-hidden="true">
+                                <ArrowRight size={16} />
+                            </span>
+                        </a>
+                    );
+                })}
+            </div>
+        </nav>
+    );
+}
+
 function PlanCard({ plan }) {
     return (
         <article
@@ -90,7 +125,10 @@ function PlanCard({ plan }) {
 
 function PricingCategorySection({ category, plans, alt }) {
     return (
-        <section className={`kt-section${alt ? ' kt-section--alt' : ''}`}>
+        <section
+            id={`cat-${category.id}`}
+            className={`kt-section${alt ? ' kt-section--alt' : ''}`}
+        >
             <div className="kt-section__inner">
                 <h2 className="kt-section__title">{category.label}</h2>
                 {category.description && (
@@ -135,6 +173,27 @@ function FaqSection() {
     );
 }
 
+function DiagnosticTeaserSection() {
+    return (
+        <section className="kt-section">
+            <div className="kt-pricing-diag">
+                <span className="kt-pricing-diag__icon" aria-hidden="true">
+                    <Sparkles size={32} strokeWidth={1.5} />
+                </span>
+                <div className="kt-pricing-diag__body">
+                    <h2 className="kt-pricing-diag__title">迷ったら無料診断</h2>
+                    <p className="kt-pricing-diag__desc">
+                        いくつかの質問に答えるだけで、あなたに合った制作プランの方向性をご提案します。
+                    </p>
+                </div>
+                <Link to="/diagnostic" className="kt-btn kt-btn--primary">
+                    無料診断を試す →
+                </Link>
+            </div>
+        </section>
+    );
+}
+
 function BigCtaSection() {
     return (
         <section className="kt-bigcta">
@@ -160,6 +219,7 @@ export default function PricingPage() {
             <PageSeo pageKey="pricing" extraJsonLd={[buildPricingJsonLd()]} />
             <Breadcrumb items={BREADCRUMB} />
             <PageHero />
+            <CategoryJumpNav categories={sortedCategories} />
             {sortedCategories.map((cat, idx) => {
                 const plans = pricingPlans.filter((p) => p.category === cat.id);
                 if (plans.length === 0) return null;
@@ -174,6 +234,7 @@ export default function PricingPage() {
             })}
             <NotesSection />
             <FaqSection />
+            <DiagnosticTeaserSection />
             <BigCtaSection />
         </div>
     );
