@@ -1,7 +1,7 @@
 /**
  * @file src/sites/pawspress/pages/PawsPressHomePage.jsx
  *
- * タカララボ のトップ LP。下記の順で 1 ページで完結するスクロールLP。
+ * もふラボ のトップ LP。下記の順で 1 ページで完結するスクロールLP。
  *  1. ヒーロー
  *  2. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
  *  3. 共感（こんなお悩み, id="concerns"）
@@ -58,7 +58,7 @@ const CONCERNS = [
     { Icon: Gift, title: '大切な家族への贈り物に困っている', desc: 'ありきたりじゃない、心に残るプレゼントを探している。' },
 ];
 
-// 特徴: タカララボ が選ばれる 4 つの理由
+// 特徴: もふラボ が選ばれる 4 つの理由
 const STRENGTHS = [
     { Icon: Brush, title: 'プロイラストレーターの手描き', desc: '温かみのあるオリジナルタッチで、心を込めて1点ずつ描き起こします。' },
     { Icon: Package, title: '写真1枚から世界にひとつ', desc: 'お気に入りの1枚をお送りいただくだけ。あとはお任せください。' },
@@ -147,7 +147,7 @@ function HeroSection({ heroImage }) {
                         世界に一つのグッズに。
                     </h1>
                     <p className="paws-hero__subtitle">
-                        タカララボは、あなたの大切な家族（犬・猫）を温かみのあるタッチで描き、
+                        もふラボは、あなたの大切な家族（犬・猫）を温かみのあるタッチで描き、
                         Tシャツやマグカップに残せるペットグッズ専門ブランドです。
                     </p>
                     <Link to="/pet/order" className="paws-btn paws-btn--primary paws-btn--lg">
@@ -158,7 +158,7 @@ function HeroSection({ heroImage }) {
                 <div className="paws-hero__visual">
                     <PictureWebp
                         src={heroImage}
-                        alt="タカララボ のご利用の流れ：1.お気に入りのペット写真を送る 2.プロのイラストレーターが制作 3.最短一週間でお届け 4.世界でひとつだけのうちの子グッズに"
+                        alt="もふラボ のご利用の流れ：1.お気に入りのペット写真を送る 2.プロのイラストレーターが制作 3.最短一週間でお届け 4.世界でひとつだけのうちの子グッズに"
                         loading="eager"
                         onError={onImgError('hero')}
                     />
@@ -307,7 +307,7 @@ function ConcernsSection() {
                     こんなお悩み、ありませんか？
                 </h2>
                 <p className="paws-section-lead">
-                    ひとつでも当てはまる方は、タカララボ にお任せください。
+                    ひとつでも当てはまる方は、もふラボ にお任せください。
                 </p>
                 <ul className="paws-concerns__grid">
                     {CONCERNS.map((c) => (
@@ -331,7 +331,7 @@ function StrengthsSection() {
         <section className="paws-strengths" id="strengths" aria-labelledby="strengths-title">
             <div className="paws-strengths__inner">
                 <h2 id="strengths-title" className="paws-section-title">
-                    タカララボ が選ばれる理由
+                    もふラボ が選ばれる理由
                 </h2>
                 <p className="paws-section-lead">
                     写真1枚から、想いまで届くグッズを。
@@ -551,7 +551,7 @@ export default function PawsPressHomePage() {
     const modalItem = isModalOpen
         ? {
               ...petItems[modalIndex],
-              categoryName: SUB_CATEGORY_LABEL[petItems[modalIndex].subCategory] ?? 'タカララボ',
+              categoryName: SUB_CATEGORY_LABEL[petItems[modalIndex].subCategory] ?? 'もふラボ',
           }
         : null;
 

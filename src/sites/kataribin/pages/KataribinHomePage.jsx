@@ -17,7 +17,7 @@
  *  10. 運営者紹介
  *  11. プラン紹介ティザー  → /pricing 直行
  *  12. 制作の流れティザー  → /flow 直行
- *  13. タカララボ への誘導
+ *  13. もふラボ への誘導
  *  14. 大型 CTA
  */
 
@@ -624,7 +624,7 @@ function PawsPressTeaserSection() {
             <div className="kt-pp-cross__inner">
                 <PictureWebp
                     src={PAWSPRESS_LOGO}
-                    alt="タカララボ"
+                    alt="もふラボ"
                     className="kt-pp-cross__logo"
                     loading="lazy"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -632,10 +632,10 @@ function PawsPressTeaserSection() {
                 <h2 className="kt-pp-cross__title">ペットグッズ専門ブランドはこちら</h2>
                 <p className="kt-pp-cross__desc">
                     うちの子の写真を、世界に一つのイラストグッズに。<br />
-                    ペットイラスト・グッズ制作専門のタカララボをご覧ください。
+                    ペットイラスト・グッズ制作専門のもふラボをご覧ください。
                 </p>
                 <Link to="/pet" className="kt-btn kt-btn--primary">
-                    タカララボ を見る →
+                    もふラボ を見る →
                 </Link>
             </div>
         </section>

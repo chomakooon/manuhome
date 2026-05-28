@@ -1,13 +1,13 @@
 /**
  * @file src/sites/pawspress/pages/PawsPressGalleryPage.jsx
  *
- * /pet/gallery: タカララボ の制作事例ページ。
+ * /pet/gallery: もふラボ の制作事例ページ。
  * pet 配下の portfolioItems を「お写真 / イラスト / グッズ」の3グループに
  * 分けてグリッド表示する。サムネイルをタップで PortfolioModal を開き、
  * グループ横断で前後送りできる。
  *
  * 「もっと事例を見る」のリンク先（旧 /portfolio → カタチラボ側に遷移していた）
- * を タカララボ 内で完結させるための独立ページ。
+ * を もふラボ 内で完結させるための独立ページ。
  */
 
 import { useMemo, useState } from 'react';
@@ -75,7 +75,7 @@ export default function PawsPressGalleryPage() {
         ? {
               ...petItems[modalIndex],
               categoryName:
-                  SUB_CATEGORY_LABEL[petItems[modalIndex].subCategory] ?? 'タカララボ',
+                  SUB_CATEGORY_LABEL[petItems[modalIndex].subCategory] ?? 'もふラボ',
           }
         : null;
 
@@ -84,7 +84,7 @@ export default function PawsPressGalleryPage() {
             <PageSeo pageKey="pet" />
 
             <nav className="paws-gallery-page__crumbs" aria-label="パンくずリスト">
-                <Link to="/pet">タカララボ</Link>
+                <Link to="/pet">もふラボ</Link>
                 <span aria-hidden="true">/</span>
                 <span className="paws-gallery-page__crumbs-current">制作事例</span>
             </nav>

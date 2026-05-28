@@ -1,7 +1,7 @@
 /**
  * @file src/sites/pawspress/layout/PawsPressLayout.jsx
  *
- * タカララボ ブランド用の Layout（ヘッダー + メイン + フッター）。
+ * もふラボ ブランド用の Layout（ヘッダー + メイン + フッター）。
  * /pet 配下のすべてのページがこの Layout を使用する。
  * 配色・タイポは body.theme-pawspress 配下の CSS 変数に依存。
  *
@@ -86,14 +86,14 @@ function PawsPressHeader() {
     return (
         <header className="paws-header">
             <div className="paws-header__inner">
-                <Link to="/pet" className="paws-header__brand" aria-label="タカララボ ホーム">
+                <Link to="/pet" className="paws-header__brand" aria-label="もふラボ ホーム">
                     <img
                         src={LOGO_PATH}
-                        alt="タカララボ"
+                        alt="もふラボ"
                         className="paws-header__logo"
                         onError={handleLogoError}
                     />
-                    <span className="paws-header__brand-text">タカララボ</span>
+                    <span className="paws-header__brand-text">もふラボ</span>
                 </Link>
 
                 <nav className="paws-header__nav" aria-label="サイトナビゲーション">
@@ -124,14 +124,14 @@ function PawsPressFooter() {
                 <div className="paws-footer__brand">
                     <img
                         src={LOGO_PATH}
-                        alt="タカララボ"
+                        alt="もふラボ"
                         className="paws-footer__logo"
                         loading="lazy"
                         onError={handleLogoError}
                     />
-                    <span>タカララボ</span>
+                    <span>もふラボ</span>
                 </div>
-                <p className="paws-footer__copy">© 2026 タカララボ</p>
+                <p className="paws-footer__copy">© 2026 もふラボ</p>
                 <a
                     href={INSTAGRAM_URL}
                     target="_blank"
@@ -159,7 +159,7 @@ function PawsPressFooter() {
                 <Link to="/" className="paws-footer__link">
                     カタチラボに戻る ↗
                 </Link>
-                <p className="paws-footer__powered">Powered by タカララボ</p>
+                <p className="paws-footer__powered">Powered by もふラボ</p>
             </div>
         </footer>
     );

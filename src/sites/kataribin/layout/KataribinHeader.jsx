@@ -4,7 +4,7 @@
  * カタチラボ（メイン HP）用ヘッダー。
  * - 左: ピクセルアート鳥のロゴ + 「カタチラボ」+ 「Katachi Labo」
  * - 中央右: 7項目ナビ
- * - 右端: タカララボ への控えめリンク
+ * - 右端: もふラボ への控えめリンク
  * - <=1024px: ハンバーガー → 右からスライドインメニュー
  */
 
@@ -92,7 +92,7 @@ export default function KataribinHeader() {
                 >
                     {NAV_ITEMS.map(renderNavLink)}
                     <Link to="/pet" className="kt-nav__pp-mobile">
-                        ペットグッズ専門 タカララボ →
+                        ペットグッズ専門 もふラボ →
                     </Link>
                 </nav>
 
@@ -107,7 +107,7 @@ export default function KataribinHeader() {
                         <Search size={18} strokeWidth={2} aria-hidden="true" />
                     </button>
                     <Link to="/pet" className="kt-pawspress-link">
-                        ペットグッズ専門 タカララボ →
+                        ペットグッズ専門 もふラボ →
                     </Link>
                 </div>
 

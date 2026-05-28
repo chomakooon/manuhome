@@ -46,7 +46,7 @@ export default function KataribinFooter() {
                 </nav>
 
                 <Link to="/pet" className="kt-footer__pp">
-                    ペットグッズ専門 タカララボ →
+                    ペットグッズ専門 もふラボ →
                 </Link>
 
                 <p className="kt-footer__copy">© 2026 カタチラボ</p>
