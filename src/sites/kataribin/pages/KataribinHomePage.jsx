@@ -403,6 +403,16 @@ function PersonasSection() {
                         const Icon = PERSONA_ICONS[p.icon];
                         return (
                             <li key={p.id} className="kt-persona-card">
+                                {p.image && (
+                                    <div className="kt-persona-card__image">
+                                        <PictureWebp
+                                            src={p.image}
+                                            alt={p.imageAlt ?? p.title}
+                                            loading="lazy"
+                                            onError={onImgError(`persona-${p.id}`)}
+                                        />
+                                    </div>
+                                )}
                                 <div className="kt-persona-card__icon" aria-hidden="true">
                                     {Icon && <Icon size={28} strokeWidth={1.5} />}
                                 </div>

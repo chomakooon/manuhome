@@ -26,6 +26,8 @@
  * @property {string} recommendedPlan   - 推奨プラン名
  * @property {string} ctaLink           - 遷移先ルート
  * @property {string} ctaText           - ボタンラベル
+ * @property {string} image             - カード上部の代表作画像 (public/ 配下絶対パス、16:9 推奨)
+ * @property {string} imageAlt          - 画像 alt
  */
 
 /** @type {Persona[]} */
@@ -44,6 +46,8 @@ export const PERSONAS = [
         recommendedPlan: '名刺 Portrait / キャラクターデザイン',
         ctaLink: '/pricing',
         ctaText: '名刺・キャラのプランを見る →',
+        image: '/works/character-1.jpg',
+        imageAlt: '個人事業主向け：キャラクターデザイン制作例',
     },
     {
         id: 'restaurant',
@@ -55,6 +59,8 @@ export const PERSONAS = [
         recommendedPlan: 'Single 4コマ / Monthly Pack',
         ctaLink: '/pricing',
         ctaText: '漫画プランを見る →',
+        image: '/works/manga-4koma-1.jpg',
+        imageAlt: '飲食店向け：4コマ漫画でメニュー紹介の制作例',
     },
     {
         id: 'pet-owner',
@@ -66,6 +72,8 @@ export const PERSONAS = [
         recommendedPlan: 'もふラボ Pair Set（推奨）',
         ctaLink: '/pet',
         ctaText: 'もふラボ を見る →',
+        image: '/works/pet-illust-1.jpg',
+        imageAlt: 'ペットオーナー向け：ペットイラスト制作例',
     },
     {
         id: 'business',
@@ -77,5 +85,7 @@ export const PERSONAS = [
         recommendedPlan: '1ページ漫画 / キャラクターデザイン',
         ctaLink: '/pricing',
         ctaText: '法人向けプランを見る →',
+        image: '/works/manga-1page-1.jpg',
+        imageAlt: '企業向け：1ページ漫画でブランド訴求の制作例',
     },
 ];
