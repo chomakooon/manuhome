@@ -180,7 +180,7 @@ function HowItWorksSection() {
         >
             <div className="paws-howitworks__inner">
                 <h2 id="howitworks-title" className="paws-howitworks__title">
-                    こんな感じで、お写真がグッズになります
+                    かんたんステップで、お写真がグッズになります
                 </h2>
                 <p className="paws-howitworks__sub">
                     お送りいただいた写真からイラストを描き起こし、最短一週間で世界にひとつだけのグッズをお届けします。
