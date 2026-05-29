@@ -419,6 +419,20 @@ function Step1Plan({
             </div>
             {errors.planId && <p className="paws-form-error">{errors.planId}</p>}
 
+            {planId === 'pet-trial' && (
+                <div className="paws-form-section__sub">
+                    <div className="paws-form-callout paws-form-callout--info">
+                        <span className="paws-form-callout__icon" aria-hidden="true">💾</span>
+                        <div className="paws-form-callout__body">
+                            <p className="paws-form-callout__title">デジタルデータのみのプランです</p>
+                            <p className="paws-form-callout__desc">
+                                Trial Digital にはグッズは含まれません。Tシャツ・トートバッグ等のグッズが必要な場合は <strong>Single Item</strong> または <strong>Pair Set</strong> をお選びください。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {planId === 'pet-single' && (
                 <div className="paws-form-section__sub">
                     <Field label="グッズの種類" required error={errors.goodsTypes}>

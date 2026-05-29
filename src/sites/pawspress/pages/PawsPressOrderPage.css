@@ -641,6 +641,49 @@
     margin: 0;
 }
 
+/* ── インライン案内コールアウト ───────────────────── */
+.paws-form-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 0.95rem 1.1rem;
+    background-color: var(--brand-accent-soft, #FFF1ED);
+    border: 1px solid var(--brand-accent, #F4A890);
+    border-radius: 12px;
+}
+
+.paws-form-callout__icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.paws-form-callout__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.paws-form-callout__title {
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--brand-primary, #C13832);
+    margin: 0;
+}
+
+.paws-form-callout__desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--brand-text);
+    margin: 0;
+}
+
+.paws-form-callout__desc strong {
+    color: var(--brand-primary, #C13832);
+    font-weight: 700;
+}
+
 /* ── グッズ種類のビジュアルピッカー ───────────────────── */
 .paws-goods-picker {
     display: grid;
