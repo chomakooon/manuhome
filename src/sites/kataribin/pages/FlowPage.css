@@ -30,14 +30,23 @@
     border-color: transparent;
 }
 
-/* 各ステップ上部のビジュアル画像（フリー写真） */
+/* 各ステップ上部のビジュアル画像（フリー写真）
+   カード幅いっぱいだと写真が支配的になりすぎるため
+   max-width で約半分に制限し、左寄せで配置。 */
 .kt-step-card__image {
     width: 100%;
+    max-width: 360px;
     aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
     background-color: var(--brand-bg-subtle);
     margin: -0.5rem 0 1.5rem 0;
+}
+
+@media (max-width: 768px) {
+    .kt-step-card__image {
+        max-width: 100%;
+    }
 }
 
 .kt-step-card__image img {
