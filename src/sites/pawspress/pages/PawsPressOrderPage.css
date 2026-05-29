@@ -627,6 +627,44 @@
     color: var(--brand-text);
 }
 
+/* 単一仕様グッズの仕様サマリ (select が無い場合の代替表示) */
+.paws-goods-detail__specs {
+    list-style: none;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    background-color: var(--brand-bg-subtle, #FAF0EA);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.paws-goods-detail__specs li {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    align-items: baseline;
+}
+
+.paws-goods-detail__specs-key {
+    font-weight: 700;
+    color: var(--brand-primary, #C13832);
+    font-size: 0.8rem;
+}
+
+.paws-goods-detail__specs-val {
+    color: var(--brand-text);
+}
+
+@media (max-width: 540px) {
+    .paws-goods-detail__specs li {
+        grid-template-columns: 1fr;
+        gap: 0.1rem;
+    }
+}
+
 .paws-form-pair__slot {
     display: flex;
     flex-direction: column;
