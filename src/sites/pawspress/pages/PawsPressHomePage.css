@@ -1085,3 +1085,54 @@
         font-size: 1.55rem;
     }
 }
+
+/* ── プラン直前: 「こんな感じで写真がグッズに」説明 ─── */
+.paws-howitworks {
+    background-color: #FFFFFF;
+    padding: 3rem 1.5rem 1.5rem;
+}
+
+.paws-howitworks__inner {
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.paws-howitworks__title {
+    font-family: var(--brand-font-display);
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--brand-text);
+    margin: 0 0 0.75rem 0;
+}
+
+.paws-howitworks__sub {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--brand-text-subtle, #5A5A5A);
+    margin: 0 0 2rem 0;
+}
+
+.paws-howitworks__media {
+    max-width: 760px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    background-color: #FFFEF7;
+}
+
+.paws-howitworks__media img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .paws-howitworks {
+        padding: 2.5rem 1.25rem 1rem;
+    }
+    .paws-howitworks__title {
+        font-size: 1.35rem;
+    }
+}

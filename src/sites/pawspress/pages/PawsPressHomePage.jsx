@@ -2,8 +2,9 @@
  * @file src/sites/pawspress/pages/PawsPressHomePage.jsx
  *
  * もふラボ のトップ LP。下記の順で 1 ページで完結するスクロールLP。
- *  1. ヒーロー
- *  2. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
+ *  1. ヒーロー（グッズ作例ビジュアル）
+ *  2. こんな感じで写真がグッズに（id="howitworks" / 旧4コマ画像）
+ *  3. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
  *  3. 共感（こんなお悩み, id="concerns"）
  *  4. 特徴・選ばれる理由（id="strengths"）
  *  5. 制作事例（id="works"）+ PortfolioModal
@@ -159,9 +160,36 @@ function HeroSection({ heroImage }) {
                 <div className="paws-hero__visual">
                     <PictureWebp
                         src={heroImage}
-                        alt="もふラボ のご利用の流れ：1.お気に入りのペット写真を送る 2.プロのイラストレーターが制作 3.最短一週間でお届け 4.世界でひとつだけのうちの子グッズに"
+                        alt="もふラボのグッズ作例：トートバッグ、Tシャツ、マグカップ、キーホルダー、ポーチ、ポストカードなどに同じデザインで展開"
                         loading="eager"
                         onError={onImgError('hero')}
+                    />
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// プラン直前の「こんな感じで写真がグッズになります」説明セクション
+function HowItWorksSection() {
+    return (
+        <section
+            className="paws-howitworks"
+            id="howitworks"
+            aria-labelledby="howitworks-title"
+        >
+            <div className="paws-howitworks__inner">
+                <h2 id="howitworks-title" className="paws-howitworks__title">
+                    こんな感じで、お写真がグッズになります
+                </h2>
+                <p className="paws-howitworks__sub">
+                    お送りいただいた写真からイラストを描き起こし、最短一週間で世界にひとつだけのグッズをお届けします。
+                </p>
+                <div className="paws-howitworks__media">
+                    <PictureWebp
+                        src="/works/pet-flow-4koma.jpg"
+                        alt="もふラボご利用の流れ4コマ: 1.お気に入りのペット写真を送る 2.プロのイラストレーターが心を込めて制作 3.最短一週間でお届け 4.世界でひとつだけのうちの子グッズに"
+                        loading="lazy"
                     />
                 </div>
             </div>
@@ -618,6 +646,7 @@ export default function PawsPressHomePage() {
         <div className="paws-home">
             <PageSeo pageKey="pet" />
             <HeroSection heroImage="/works/pet-hero.jpg" />
+            <HowItWorksSection />
             <PlansSection />
             <ConcernsSection />
             <StrengthsSection />
