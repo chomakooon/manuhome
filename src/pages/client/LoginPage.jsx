@@ -52,7 +52,7 @@ export default function LoginPage() {
                     <span className="login-card__logo">
                         <Icon name="Package" color="var(--color-accent)" size={32} />
                     </span>
-                    <h1 className="login-card__title">カタチラボ</h1>
+                    <h1 className="login-card__title">カタチらぼ</h1>
                     <p className="login-card__subtitle">
                         {mode === 'register' ? '新規アカウント作成' : 'クライアントポータル'}
                     </p>

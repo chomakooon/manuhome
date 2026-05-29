@@ -1,5 +1,5 @@
 /* ================================================================
-   もふラボ — Order Page (Step 2-C)
+   もふらぼ — Order Page (Step 2-C)
    - body.theme-pawspress 配下で使用
    - フォーム共通スタイルは ../styles/forms.css
    ================================================================ */
@@ -36,12 +36,13 @@
 
 .paws-order__nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 1rem;
     flex-wrap: wrap;
 }
 
-.paws-order__nav > :first-child {
+/* 戻るボタン（secondary）が左端に来た場合のみ左寄せ、それ以外（次へ単独）は右寄せのまま */
+.paws-order__nav > .paws-form-btn--secondary:first-child {
     margin-right: auto;
 }
 
@@ -237,19 +238,21 @@
     color: var(--brand-text);
 }
 
+/* 通常価格: 落ち着いたダーク表示。赤は割引プランだけに使う。 */
 .paws-plan-radio__price {
     font-family: var(--brand-font-display);
     font-size: 1.6rem;
     font-weight: 800;
-    color: var(--brand-primary);
+    color: var(--brand-text);
     margin-top: 0.25rem;
 }
 
-/* セール価格表示（通常価格に取り消し線 + 「今だけ」見出し） */
+/* セール価格表示（通常価格に取り消し線 + 「今だけ」見出し）
+   全プラン中、唯一「赤＋大きく」して目立たせる。 */
 .paws-plan-radio__price--sale {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 0.15rem;
     font-size: inherit;
 }
 
@@ -259,26 +262,29 @@
     font-weight: 600;
     color: var(--brand-text-subtle, #5A5A5A);
     text-decoration: line-through;
-    text-decoration-color: #E5484D;
+    text-decoration-color: var(--brand-primary, #C13832);
 }
 
 .paws-plan-radio__price-now {
     display: inline-flex;
     align-items: baseline;
-    gap: 0.4rem;
+    gap: 0.5rem;
     color: var(--brand-primary);
+    font-size: 2rem;          /* 通常価格 1.6rem より一段大きく */
+    font-weight: 800;
+    line-height: 1.1;
 }
 
 .paws-plan-radio__sale-label {
     font-family: var(--brand-font-body);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
     color: #FFFFFF;
-    background-color: #E5484D;
-    padding: 0.1rem 0.55rem;
+    background-color: var(--brand-primary, #C13832);
+    padding: 0.18rem 0.6rem;
     border-radius: 999px;
     letter-spacing: 0.04em;
-    transform: translateY(-0.3rem);
+    transform: translateY(-0.4rem);
 }
 
 .paws-plan-radio__features {
@@ -700,7 +706,7 @@
     flex-shrink: 0;
     min-width: 4.5rem;
     font-weight: 700;
-    color: var(--brand-primary-text, #0086AE);
+    color: var(--brand-primary-text, #A32C26);
 }
 
 .paws-info__val {
@@ -792,15 +798,17 @@
     color: var(--brand-text-subtle, #5A5A5A);
 }
 
-/* ── 画風選択（キャラクター調 / 実写風） ─────────────── */
+/* ── 画風選択（キャラクター調 / 実写風 / その他） ─────────────── */
+/* メイン2つを大きく、その他を約 0.7 倍幅に。 */
 .paws-art-style {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 0.7fr;
+    align-items: start;
     gap: 1rem;
     margin-top: 0.5rem;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
     .paws-art-style {
         grid-template-columns: 1fr;
     }
@@ -891,6 +899,21 @@
     font-size: 0.85rem;
     line-height: 1.7;
     color: var(--brand-text-subtle, #5A5A5A);
+}
+
+/* その他のご相談カードは補助的なオプションなので、フォントとパディングを一段控えめに。 */
+.paws-art-style__card:has(.paws-art-style__icon) {
+    padding: 0.85rem;
+    gap: 0.4rem;
+}
+
+.paws-art-style__card:has(.paws-art-style__icon) .paws-art-style__name {
+    font-size: 0.95rem;
+}
+
+.paws-art-style__card:has(.paws-art-style__icon) .paws-art-style__desc {
+    font-size: 0.78rem;
+    line-height: 1.6;
 }
 
 /* ── 画風ピッカー: 画像なし時のアイコン表示 ─────── */

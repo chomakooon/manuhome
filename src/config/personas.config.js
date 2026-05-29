@@ -9,7 +9,7 @@
  *     HomePage 側の PERSONA_ICONS マップに登録されているもののみ可
  *     新しいアイコンを使う際は HomePage の import / マップ両方に追記
  *   - problem は「ユーザーの心のセリフ」を一人称で書く（共感獲得が目的）
- *   - solution は「カタチラボができること」を端的に
+ *   - solution は「カタチらぼができること」を端的に
  *   - ctaLink は実在するルートを指す（Phase 6 でアンカー id は削除済み）
  *   - 並び順は配列順
  *
@@ -69,9 +69,9 @@ export const PERSONAS = [
         problem: 'うちの子の写真を、オリジナルグッズにしたい',
         solution:
             'ペット写真をイラスト化し、フレーム・グッズに展開。家族みんなが笑顔になる仕上がりをお届けします。',
-        recommendedPlan: 'もふラボ Pair Set（推奨）',
+        recommendedPlan: 'もふらぼ Pair Set（推奨）',
         ctaLink: '/pet',
-        ctaText: 'もふラボ を見る →',
+        ctaText: 'もふらぼ を見る →',
         image: '/works/pet-illust-1.jpg',
         imageAlt: 'ペットオーナー向け：ペットイラスト制作例',
     },

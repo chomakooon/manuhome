@@ -1,7 +1,7 @@
 /**
  * @file src/sites/kataribin/hooks/useCountUp.js
  *
- * 「数字で見るカタチラボ」セクション用のカウントアップ hook（Phase 14）。
+ * 「数字で見るカタチらぼ」セクション用のカウントアップ hook（Phase 14）。
  *
  * 使い方:
  *   const { ref, display } = useCountUp('100+');

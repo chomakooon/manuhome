@@ -5,7 +5,7 @@ import './AboutPage.css';
 
 const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
-    { label: 'カタチラボについて', to: null },
+    { label: 'カタチらぼについて', to: null },
 ];
 
 export default function AboutPage() {
@@ -16,13 +16,13 @@ export default function AboutPage() {
             {/* --- HERO: Creator Introduction --- */}
             <section className="creator-info-section" aria-label="クリエイター紹介">
                 <div className="creator-info-container">
-                    <h1 className="creator-info-title">ビジュアルデザイナー まぬちゃん ― カタチラボ</h1>
+                    <h1 className="creator-info-title">ビジュアルデザイナー まぬちゃん ― カタチらぼ</h1>
                     
                     <div className="creator-info-card">
                         <div className="creator-info-photo">
                             <img 
                                 src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=400" 
-                                alt="カタチラボ ビジュアルデザイナー まぬちゃんのプロフィール写真" 
+                                alt="カタチらぼ ビジュアルデザイナー まぬちゃんのプロフィール写真" 
                             />
                         </div>
                         <div className="creator-info-details">
@@ -140,7 +140,7 @@ export default function AboutPage() {
                                 <span>2022</span>
                             </dt>
                             <dd className="about-timeline-desc">
-                                <strong>「カタチラボ」設立</strong>
+                                <strong>「カタチらぼ」設立</strong>
                                 <p>ビジュアルコミュニケーション専門の個人デザイン事務所として活動を開始。イラスト制作・図解デザインを軸にサービスを展開。</p>
                             </dd>
                         </div>

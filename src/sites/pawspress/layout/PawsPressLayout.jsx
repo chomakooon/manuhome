@@ -1,14 +1,14 @@
 /**
  * @file src/sites/pawspress/layout/PawsPressLayout.jsx
  *
- * もふラボ ブランド用の Layout（ヘッダー + メイン + フッター）。
+ * もふらぼ ブランド用の Layout（ヘッダー + メイン + フッター）。
  * /pet 配下のすべてのページがこの Layout を使用する。
  * 配色・タイポは body.theme-pawspress 配下の CSS 変数に依存。
  *
  * 注意:
  *   - ロゴ画像 /hero/pawspress-logo.jpg は未配置時は console.warn でログ出力し、
  *     img 要素を非表示にしてテキストロゴだけで成立させる
- *   - 「カタチラボへ」は内部 Link で SPA 遷移（テーマ切替も滑らか）
+ *   - 「カタチらぼへ」は内部 Link で SPA 遷移（テーマ切替も滑らか）
  */
 
 import { useEffect, useRef, useState } from 'react';
@@ -86,14 +86,14 @@ function PawsPressHeader() {
     return (
         <header className="paws-header">
             <div className="paws-header__inner">
-                <Link to="/pet" className="paws-header__brand" aria-label="もふラボ ホーム">
+                <Link to="/pet" className="paws-header__brand" aria-label="もふらぼ ホーム">
                     <img
                         src={LOGO_PATH}
-                        alt="もふラボ"
+                        alt="もふらぼ"
                         className="paws-header__logo"
                         onError={handleLogoError}
                     />
-                    <span className="paws-header__brand-text">もふラボ</span>
+                    <span className="paws-header__brand-text">もふらぼ</span>
                 </Link>
 
                 <nav className="paws-header__nav" aria-label="サイトナビゲーション">
@@ -109,7 +109,7 @@ function PawsPressHeader() {
                         写真を送って注文する →
                     </Link>
                     <Link to="/" className="paws-header__crosslink">
-                        カタチラボへ ↗
+                        カタチらぼへ ↗
                     </Link>
                 </div>
             </div>
@@ -124,14 +124,14 @@ function PawsPressFooter() {
                 <div className="paws-footer__brand">
                     <img
                         src={LOGO_PATH}
-                        alt="もふラボ"
+                        alt="もふらぼ"
                         className="paws-footer__logo"
                         loading="lazy"
                         onError={handleLogoError}
                     />
-                    <span>もふラボ</span>
+                    <span>もふらぼ</span>
                 </div>
-                <p className="paws-footer__copy">© 2026 もふラボ</p>
+                <p className="paws-footer__copy">© 2026 もふらぼ</p>
                 <a
                     href={INSTAGRAM_URL}
                     target="_blank"
@@ -157,9 +157,9 @@ function PawsPressFooter() {
                     @mofumofu_labo
                 </a>
                 <Link to="/" className="paws-footer__link">
-                    カタチラボに戻る ↗
+                    カタチらぼに戻る ↗
                 </Link>
-                <p className="paws-footer__powered">Powered by もふラボ</p>
+                <p className="paws-footer__powered">Powered by もふらぼ</p>
             </div>
         </footer>
     );

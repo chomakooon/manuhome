@@ -38,12 +38,12 @@
  */
 
 export const SEO_DEFAULTS = {
-    siteName: 'カタチラボ',
+    siteName: 'カタチらぼ',
     siteUrl: 'https://manuhome.vercel.app',
     author: '岡崎真奈',
     locale: 'ja_JP',
     defaultDescription:
-        '個人クリエイティブスタジオ「カタチラボ」。漫画・キャラクター・ペットイラスト・名刺・ロゴ・グッズ制作まで、伝えたい想いを一枚の絵に。お見積もり無料。',
+        '個人クリエイティブスタジオ「カタチらぼ」。漫画・キャラクター・ペットイラスト・名刺・ロゴ・グッズ制作まで、伝えたい想いを一枚の絵に。お見積もり無料。',
     keywords: [
         'イラスト',
         '漫画',
@@ -53,7 +53,7 @@ export const SEO_DEFAULTS = {
         'ロゴデザイン',
         '4コマ漫画',
         'PR漫画',
-        'カタチラボ',
+        'カタチらぼ',
     ],
     defaultOgImage: '/og-images/og-home.jpg',
     twitterCard: 'summary_large_image',
@@ -70,86 +70,86 @@ export const SEO_DEFAULTS = {
 export const PAGE_SEO = {
     home: {
         path: '/',
-        title: 'カタチラボ | 伝えたいを、イラストで一瞬に。',
+        title: 'カタチらぼ | 伝えたいを、イラストで一瞬に。',
         description:
-            '漫画・キャラクター・ペットイラスト・名刺・ロゴ制作までワンストップ。ヒアリング重視で「伝えたい想い」を視覚化する個人クリエイティブスタジオ「カタチラボ」。お見積もり無料。',
+            '漫画・キャラクター・ペットイラスト・名刺・ロゴ制作までワンストップ。ヒアリング重視で「伝えたい想い」を視覚化する個人クリエイティブスタジオ「カタチらぼ」。お見積もり無料。',
         ogImage: '/og-images/og-home.jpg',
     },
     pricing: {
         path: '/pricing',
-        title: '料金プラン | カタチラボ',
+        title: '料金プラン | カタチらぼ',
         description:
             'ペットイラスト・4コマ漫画・名刺・キャラクターデザインなど、ジャンル別の料金プランをご紹介。ご相談ベースで柔軟に対応します。',
         ogImage: '/og-images/og-pricing.jpg',
     },
     flow: {
         path: '/flow',
-        title: '制作の流れ | カタチラボ',
+        title: '制作の流れ | カタチらぼ',
         description:
             'お問い合わせから納品までの 4 ステップをわかりやすく解説。商用利用や修正対応の範囲も明記しています。',
         ogImage: '/og-images/og-flow.jpg',
     },
     contact: {
         path: '/contact',
-        title: 'お問い合わせ | カタチラボ',
+        title: 'お問い合わせ | カタチらぼ',
         description:
             '気軽な相談窓口です。お見積もり・ヒアリング無料、平日 24 時間以内に返信いたします。参考画像のアップロードにも対応しています。',
         ogImage: '/og-images/og-contact.jpg',
     },
     about: {
         path: '/about',
-        title: 'カタチラボについて',
+        title: 'カタチらぼについて',
         description:
-            '運営者の自己紹介と、カタチラボを始めた理由・3 つのこだわり・制作スタイルをご紹介します。',
+            '運営者の自己紹介と、カタチらぼを始めた理由・3 つのこだわり・制作スタイルをご紹介します。',
         ogImage: '/og-images/og-about.jpg',
     },
     portfolio: {
         path: '/portfolio',
-        title: '制作事例 | カタチラボ',
+        title: '制作事例 | カタチらぼ',
         description:
             'ペットイラスト・4コマ漫画・キャラクターデザイン・名刺・LP漫画など、カテゴリ別の制作事例をご紹介します。',
         ogImage: '/og-images/og-portfolio.jpg',
     },
     diagnostic: {
         path: '/diagnostic',
-        title: 'ビジュアル診断 | カタチラボ',
+        title: 'ビジュアル診断 | カタチらぼ',
         description:
             'いくつかの質問に答えるだけで、あなたに合った制作プランの方向性をご提案する無料診断です。',
         ogImage: '/og-images/og-diagnostic.jpg',
     },
     links: {
         path: '/links',
-        title: 'SNS・リンク | カタチラボ',
+        title: 'SNS・リンク | カタチらぼ',
         description:
-            'Instagram / X / note / LINE / メールなど、カタチラボの各プラットフォームへのリンク集です。',
+            'Instagram / X / note / LINE / メールなど、カタチらぼの各プラットフォームへのリンク集です。',
         ogImage: '/og-images/og-links.jpg',
     },
     services: {
         path: '/services',
-        title: 'サービス案内 | カタチラボ',
+        title: 'サービス案内 | カタチらぼ',
         description:
-            'カタチラボのサービス全体像と提供価値、代表挨拶を新聞風レイアウトでご紹介します。',
+            'カタチらぼのサービス全体像と提供価値、代表挨拶を新聞風レイアウトでご紹介します。',
         ogImage: '/og-images/og-services.jpg',
     },
     pet: {
         path: '/pet',
-        title: 'もふラボ | ペットイラストグッズ専門ブランド',
+        title: 'もふらぼ | ペットイラストグッズ専門ブランド',
         description:
-            'カタチラボのサブブランド「もふラボ」。うちの子の写真を、世界に一つのイラストグッズに仕上げます。',
+            'カタチらぼのサブブランド「もふらぼ」。うちの子の写真を、世界に一つのイラストグッズに仕上げます。',
         ogImage: '/og-images/og-pet.jpg',
     },
     petOrder: {
         path: '/pet/order',
-        title: 'ご注文フロー | もふラボ',
+        title: 'ご注文フロー | もふらぼ',
         description:
             '4 ステップのフォームで、プラン選択・写真アップロード・お客様情報入力・確認まで完結。',
         ogImage: '/og-images/og-pet.jpg',
     },
     petContact: {
         path: '/pet/contact',
-        title: 'お問い合わせ | もふラボ',
+        title: 'お問い合わせ | もふらぼ',
         description:
-            'もふラボ へのお問い合わせ窓口。商品仕様や納期など、お気軽にご相談ください。',
+            'もふらぼ へのお問い合わせ窓口。商品仕様や納期など、お気軽にご相談ください。',
         ogImage: '/og-images/og-pet.jpg',
     },
 };

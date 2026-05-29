@@ -1,10 +1,10 @@
 /**
  * @file src/sites/kataribin/layout/KataribinHeader.jsx
  *
- * カタチラボ（メイン HP）用ヘッダー。
- * - 左: ピクセルアート鳥のロゴ + 「カタチラボ」+ 「Katachi Labo」
+ * カタチらぼ（メイン HP）用ヘッダー。
+ * - 左: ピクセルアート鳥のロゴ + 「カタチらぼ」+ 「Katachi Labo」
  * - 中央右: 7項目ナビ
- * - 右端: もふラボ への控えめリンク
+ * - 右端: もふらぼ への控えめリンク
  * - <=1024px: ハンバーガー → 右からスライドインメニュー
  */
 
@@ -19,14 +19,14 @@ import './KataribinHeader.css';
 // 同梱の focus-trap-react（gzip 約 10kB）も初回ロードから外れる。
 const SearchModal = lazy(() => import('../components/SearchModal'));
 
-// Phase 12.5: ナビは 7 項目を維持しつつ「ビジュアル診断」を「カタチラボについて」に置換。
+// Phase 12.5: ナビは 7 項目を維持しつつ「ビジュアル診断」を「カタチらぼについて」に置換。
 // /diagnostic は補助機能としてフッター・ホーム CTA 等から到達可能（ルート自体は存続）。
 const NAV_ITEMS = [
     { path: '/', label: 'ホーム', exact: true },
     { path: '/pricing', label: 'プラン' },
     { path: '/portfolio', label: '制作事例' },
     { path: '/flow', label: '制作の流れ' },
-    { path: '/about', label: 'カタチラボについて' },
+    { path: '/about', label: 'カタチらぼについて' },
     { path: '/links', label: 'SNS・リンク' },
     { path: '/contact', label: 'お問い合わせ' },
 ];
@@ -74,13 +74,13 @@ export default function KataribinHeader() {
     return (
         <header className="kt-header">
             <div className="kt-header__inner">
-                <Link to="/" className="kt-brand" aria-label="カタチラボホーム">
+                <Link to="/" className="kt-brand" aria-label="カタチらぼホーム">
                     <picture>
                         <source srcSet={doveLogoWebp} type="image/webp" />
                         <img src={doveLogo} alt="" className="kt-brand__logo" />
                     </picture>
                     <span className="kt-brand__text">
-                        <span className="kt-brand__name">カタチラボ</span>
+                        <span className="kt-brand__name">カタチらぼ</span>
                         <span className="kt-brand__sub" lang="en">Katachi Labo</span>
                     </span>
                 </Link>
@@ -92,7 +92,7 @@ export default function KataribinHeader() {
                 >
                     {NAV_ITEMS.map(renderNavLink)}
                     <Link to="/pet" className="kt-nav__pp-mobile">
-                        ペットグッズ専門 もふラボ →
+                        ペットグッズ専門 もふらぼ →
                     </Link>
                 </nav>
 
@@ -107,7 +107,7 @@ export default function KataribinHeader() {
                         <Search size={18} strokeWidth={2} aria-hidden="true" />
                     </button>
                     <Link to="/pet" className="kt-pawspress-link">
-                        ペットグッズ専門 もふラボ →
+                        ペットグッズ専門 もふらぼ →
                     </Link>
                 </div>
 

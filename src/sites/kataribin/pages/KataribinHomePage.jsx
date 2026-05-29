@@ -1,7 +1,7 @@
 /**
  * @file src/sites/kataribin/pages/KataribinHomePage.jsx
  *
- * カタチラボ（メイン HP）のホームページ。
+ * カタチらぼ（メイン HP）のホームページ。
  * Phase 19: ブランディング論を反映した 3 セクション追加（悩み / 5 つの強み / Before-After）。
  *
  * セクション構成:
@@ -9,15 +9,15 @@
  *   2. お悩み確認 (★Phase 19 追加: 悩み言語化)
  *   3. こんな方におすすめ (Phase 19: トーン調整)
  *   4. 安心ポイント 3カラム
- *   5. カタチラボの 5 つの強み (★Phase 19 追加: 独自性の明示)
+ *   5. カタチらぼの 5 つの強み (★Phase 19 追加: 独自性の明示)
  *   6. 制作事例ティザー (代表6件)
  *   7. Before → After (★Phase 19 追加: 変化の可視化)
- *   8. 数字で見るカタチラボ
+ *   8. 数字で見るカタチらぼ
  *   9. お客様の声
  *  10. 運営者紹介
  *  11. プラン紹介ティザー  → /pricing 直行
  *  12. 制作の流れティザー  → /flow 直行
- *  13. もふラボ への誘導
+ *  13. もふらぼ への誘導
  *  14. 大型 CTA
  */
 
@@ -97,7 +97,7 @@ function HeroSection() {
         <section className="kt-hero">
             <PictureWebp
                 src={HERO_IMAGE}
-                alt="カタチラボのメインビジュアル：『伝えたいを、イラストで一瞬に。』漫画・キャラクターデザイン・リアルペットイラストの作例と、平日対応・テイスト調整 OK の対応方針"
+                alt="カタチらぼのメインビジュアル：『伝えたいを、イラストで一瞬に。』漫画・キャラクターデザイン・リアルペットイラストの作例と、平日対応・テイスト調整 OK の対応方針"
                 className="kt-hero__media"
                 loading="eager"
                 onError={onImgError('hero')}
@@ -152,7 +152,7 @@ function ConcernsSection() {
                         href="#kt-strengths"
                         className="kt-concerns-section__jump"
                     >
-                        カタチラボのアプローチを見る ↓
+                        カタチらぼのアプローチを見る ↓
                     </a>
                 </div>
             </div>
@@ -171,7 +171,7 @@ function StrengthsSection() {
         >
             <div className="kt-strengths-section__inner">
                 <h2 id="kt-strengths-title" className="kt-section__title">
-                    カタチラボができること
+                    カタチらぼができること
                 </h2>
                 <p className="kt-section__lead">
                     単なる制作ではない、5 つの専門性。
@@ -509,7 +509,7 @@ function StatsSection() {
     return (
         <section ref={revealRef} className="kt-stats-section reveal">
             <div className="kt-stats-section__inner">
-                <span className="kt-stats-section__eyebrow">数字で見るカタチラボ</span>
+                <span className="kt-stats-section__eyebrow">数字で見るカタチらぼ</span>
                 <ul className="kt-stats-grid">
                     {SITE_STATS.map((s) => (
                         <li key={s.id} className="kt-stat-card">
@@ -645,7 +645,7 @@ function PawsPressTeaserSection() {
             <div className="kt-pp-cross__inner">
                 <PictureWebp
                     src={PAWSPRESS_LOGO}
-                    alt="もふラボ"
+                    alt="もふらぼ"
                     className="kt-pp-cross__logo"
                     loading="lazy"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -653,10 +653,10 @@ function PawsPressTeaserSection() {
                 <h2 className="kt-pp-cross__title">ペットグッズ専門ブランドはこちら</h2>
                 <p className="kt-pp-cross__desc">
                     うちの子の写真を、世界に一つのイラストグッズに。<br />
-                    ペットイラスト・グッズ制作専門のもふラボをご覧ください。
+                    ペットイラスト・グッズ制作専門のもふらぼをご覧ください。
                 </p>
                 <Link to="/pet" className="kt-btn kt-btn--primary">
-                    もふラボ を見る →
+                    もふらぼ を見る →
                 </Link>
             </div>
         </section>

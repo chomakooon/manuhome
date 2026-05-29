@@ -1,5 +1,5 @@
 /* ========================================
-   カタチラボ — System Constants
+   カタチらぼ — System Constants
    ======================================== */
 
 export const PROJECT_STATUS = {

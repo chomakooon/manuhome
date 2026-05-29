@@ -1,6 +1,6 @@
 /* ================================================================
-   もふラボ 制作事例ページ (/pet/gallery)
-   配色は確立済みパレット: cyan=#00CFFF / cyan-50=#E6FBFF / pink=#FFB6C1
+   もふらぼ 制作事例ページ (/pet/gallery)
+   配色は朱赤パレット: red=#C13832 / cream-coral=#FFF1ED / coral=#F4A890
    ================================================================ */
 
 /* ── パンくず ── */
@@ -84,7 +84,7 @@
     align-items: center;
     gap: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid #E6FBFF;
+    border-bottom: 2px solid #FFF1ED;
 }
 
 .paws-gallery-page__groupicon {
@@ -92,7 +92,7 @@
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     color: var(--brand-primary);
     display: flex;
     align-items: center;

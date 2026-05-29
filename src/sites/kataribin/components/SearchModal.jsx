@@ -25,10 +25,10 @@ const QUICK_LINKS = [
     { label: '制作の流れ', to: '/flow' },
     { label: '制作事例', to: '/portfolio' },
     { label: 'ビジュアル診断', to: '/diagnostic' },
-    { label: 'カタチラボについて', to: '/about' },
+    { label: 'カタチらぼについて', to: '/about' },
     { label: 'SNS・リンク', to: '/links' },
     { label: 'お問い合わせ', to: '/contact' },
-    { label: 'もふラボ（ペット）', to: '/pet' },
+    { label: 'もふらぼ（ペット）', to: '/pet' },
 ];
 
 /**

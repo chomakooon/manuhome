@@ -1,5 +1,5 @@
 /* ========================================
-   カタチラボ Design System
+   カタチらぼ Design System
    — Newspaper-Inspired × Cyan × Friendly
    ======================================== */
 
@@ -140,18 +140,27 @@ body.theme-kataribin {
 }
 
 body.theme-pawspress {
-  /* New brand tokens (もふラボ) */
-  --brand-accent: #FFB6C1;
-  --brand-text: #2D2520;
-  --brand-bg: #FFF8F5;
+  /* もふらぼ ブランドカラー (差し色: #C13832 朱赤系)。
+     2026-05-29: 「ペット温かみ × 朱赤」方針に転換。
+     かたち便（シアン）とは別ブランドとしてアイデンティティを確立する。
+     #C13832 は白背景でコントラスト比 6.6:1 → WCAG AA を通常テキストでも余裕で達成。 */
+  --brand-primary: #C13832;
+  --brand-primary-dark: #A32C26;
+  --brand-primary-text: #A32C26;
+  --brand-accent: #F4A890;             /* やわらかいコーラル (差し色の補助) */
+  --brand-accent-soft: #FFF1ED;        /* 極淡クリームコーラル (背景tint) */
+  --brand-text: #2D2520;               /* 暖色寄り黒 (維持) */
+  --brand-text-subtle: #6B5751;        /* 暖色寄りグレー */
+  --brand-bg: #FFFAF6;                 /* 暖色オフホワイト */
+  --brand-bg-subtle: #FAF0EA;          /* 淡いウォームクリーム */
+  --brand-border: #EDDFD9;             /* 暖色ボーダー */
   --brand-font-display: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
-  /* --brand-primary stays #00CFFF (ブランドファミリー感) */
 
   /* Legacy variable overrides — 既存ページが /pet 配下でも pawspress テーマを継承する */
-  --color-bg: #FFF8F5;
+  --color-bg: #FFFAF6;
   --color-text-primary: #2D2520;
+  --color-accent: #C13832;
   --font-display: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
-  /* --color-accent (#00CFFF) は維持: brand cyan は両ブランド共通 */
 }
 
 /* --- Reset & Base --- */

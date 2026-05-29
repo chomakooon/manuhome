@@ -26,7 +26,7 @@
 export const SNS_LINKS = {
     x: 'https://x.com/mofu_labo_',
     instagram: 'https://www.instagram.com/mofumofu_labo',
-    line: 'https://lin.ee/58UAkhy',        // もふラボ公式 LINE（友だち追加で10%OFFクーポン）
+    line: 'https://lin.ee/58UAkhy',        // もふらぼ公式 LINE（友だち追加で10%OFFクーポン）
     threads: 'https://threads.net/',      // ← サンプル、要差し替え（実 Threads URL）
 };
 

@@ -37,8 +37,8 @@ export default function PortfolioSubCategoryPage() {
         { label: pageTitle, to: null },
     ];
 
-    const pageSeoTitle = `${pageTitle} | ${categoryName}の制作事例 | カタチラボ`;
-    const pageSeoDesc = `${categoryName}ジャンルの制作事例「${pageTitle}」を含む実績一覧。カタチラボ（${SEO_DEFAULTS.author}）の作品をご覧いただけます。`;
+    const pageSeoTitle = `${pageTitle} | ${categoryName}の制作事例 | カタチらぼ`;
+    const pageSeoDesc = `${categoryName}ジャンルの制作事例「${pageTitle}」を含む実績一覧。カタチらぼ（${SEO_DEFAULTS.author}）の作品をご覧いただけます。`;
     const canonical = `${SEO_DEFAULTS.siteUrl}/portfolio/${subCategory}`;
     const ogImage = `${SEO_DEFAULTS.siteUrl}${SEO_DEFAULTS.defaultOgImage}`;
 

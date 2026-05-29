@@ -1,7 +1,7 @@
 /* ================================================================
-   もふラボ ご利用ガイド（汎用レンダラ）
+   もふらぼ ご利用ガイド（汎用レンダラ）
    - body.theme-pawspress / --brand-* 変数前提
-   - 配色トークン: cyan=#00CFFF(--brand-primary) / pink=#FFB6C1 / cream=#FFF8F5
+   - 配色トークン: red=#C13832(--brand-primary) / pink=#FFB6C1 / cream=#FFF8F5
    ================================================================ */
 
 /* ── パンくず ── */
@@ -97,7 +97,7 @@
     height: 16rem;
     margin: 0 auto;
     border-radius: 50%;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,7 +134,7 @@
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     border-left: 4px solid var(--brand-primary);
     border-radius: 0 16px 16px 0;
     padding: 1.5rem 1.75rem;
@@ -149,7 +149,7 @@
     margin: 0;
     font-size: 0.85rem;
     font-weight: 700;
-    color: #0086AE;
+    color: #A32C26;
 }
 
 .paws-guide-summary__value {
@@ -177,7 +177,7 @@
     position: relative;
     padding-left: 2.5rem;
     padding-bottom: 1.75rem;
-    border-left: 2px solid #CCF6FF;
+    border-left: 2px solid #FFE2D6;
 }
 
 .paws-guide-timeline__item:last-child {
@@ -223,7 +223,7 @@
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     color: var(--brand-primary);
     display: flex;
     align-items: center;
@@ -272,14 +272,14 @@
     gap: 0.4rem;
     margin: 0;
     padding: 0.5rem 0.85rem;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     border-radius: 10px;
     font-size: 0.85rem;
-    color: #0086AE;
+    color: #A32C26;
 }
 
 .paws-guide-timeline__tip a {
-    color: #0086AE;
+    color: #A32C26;
     text-decoration: none;
 }
 
@@ -289,7 +289,7 @@
 
 /* ── banner (LINE 相談) ── */
 .paws-guide-banner {
-    background: linear-gradient(90deg, #F0FDF4 0%, #E6FBFF 100%);
+    background: linear-gradient(90deg, #FFF7F1 0%, #FFF1ED 100%);
     border-radius: 24px;
     padding: 2.5rem 2rem;
     text-align: center;
@@ -365,7 +365,7 @@
 }
 
 .paws-guide-card__icon--good {
-    background-color: #F0FDF4;
+    background-color: #FFF7F1;
     color: #22C55E;
 }
 
@@ -718,7 +718,7 @@
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     color: var(--brand-primary);
     display: flex;
     align-items: center;
@@ -727,7 +727,7 @@
 }
 
 .paws-guide-related__card:hover .paws-guide-related__cardicon {
-    background-color: #CCF6FF;
+    background-color: #FFE2D6;
 }
 
 .paws-guide-related__cardtitle {
@@ -819,13 +819,13 @@
 
 /* ================================================================
    Batch B-2 追加ブロック（design-check / revisions / business）
-   配色は B-1 と同一パレット: cyan=#00CFFF / cyan-50=#E6FBFF /
-   cyan-700テキスト=#0086AE / pink=#EC4899 / gray-subtle=--brand-text-subtle
+   配色は B-1 と同一パレット: red=#C13832 / cream-coral=#FFF1ED /
+   red-dark-text=#A32C26 / pink=#EC4899 / gray-subtle=--brand-text-subtle
    ================================================================ */
 
 /* cards のトーン追加（B-1 の good に primary を追加） */
 .paws-guide-card__icon--primary {
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     color: var(--brand-primary);
 }
 
@@ -834,7 +834,7 @@
     display: flex;
     align-items: flex-start;
     gap: 1.25rem;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     border-left: 4px solid var(--brand-primary);
     border-radius: 0 16px 16px 0;
     padding: 1.5rem 1.75rem;
@@ -850,7 +850,7 @@
     margin: 0 0 0.2rem 0;
     font-size: 0.8rem;
     font-weight: 700;
-    color: #0086AE;
+    color: #A32C26;
 }
 
 .paws-guide-infobox__title {
@@ -876,7 +876,7 @@
     color: var(--brand-text);
     margin: 1rem 0 0 0;
     padding-bottom: 0.6rem;
-    border-bottom: 2px solid #E6FBFF;
+    border-bottom: 2px solid #FFF1ED;
 }
 
 /* ── mockup ── */
@@ -926,8 +926,8 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.5rem 1rem;
-    background-color: #E6FBFF;
-    color: #0086AE;
+    background-color: #FFF1ED;
+    color: #A32C26;
     border-radius: 999px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -951,7 +951,7 @@
 
 .paws-guide-comparison__card--hl {
     border: 2px solid var(--brand-primary);
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
 }
 
 .paws-guide-comparison__pop {
@@ -1110,7 +1110,7 @@
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     color: var(--brand-primary);
     display: flex;
     align-items: center;
@@ -1154,7 +1154,7 @@
 }
 
 .paws-guide-pricing__row--hl {
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
 }
 
 .paws-guide-pricing__range {
@@ -1192,7 +1192,7 @@
 }
 
 .paws-guide-inlinecta--primary {
-    background: linear-gradient(135deg, #E6FBFF 0%, #CCF6FF 100%);
+    background: linear-gradient(135deg, #FFF1ED 0%, #FFE2D6 100%);
 }
 
 .paws-guide-inlinecta--secondary {
@@ -1291,8 +1291,8 @@
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
-    color: #0086AE;
+    background-color: #FFF1ED;
+    color: #A32C26;
     margin-bottom: 1rem;
 }
 
@@ -1361,8 +1361,8 @@
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
-    color: #0086AE;
+    background-color: #FFF1ED;
+    color: #A32C26;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1386,7 +1386,7 @@
 .paws-guide-security {
     max-width: 720px;
     margin: 0 auto;
-    background: linear-gradient(135deg, #F0FFF4 0%, #E6FBFF 100%);
+    background: linear-gradient(135deg, #FFF7F1 0%, #FFF1ED 100%);
     border-radius: 24px;
     padding: 2.5rem;
     text-align: center;
@@ -1463,8 +1463,8 @@
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
-    color: #0086AE;
+    background-color: #FFF1ED;
+    color: #A32C26;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1529,12 +1529,12 @@
     height: 2.5rem;
     border-radius: 50%;
     background-color: #FFFFFF;
-    color: #0086AE;
+    color: #A32C26;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 0.4rem;
-    border: 1.5px solid #E6FBFF;
+    border: 1.5px solid #FFF1ED;
 }
 
 .paws-guide-shipflow__label {
@@ -1554,7 +1554,7 @@
 }
 
 .paws-guide-alertbox--info {
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     border-color: var(--brand-primary);
     color: #006B8C;
 }
@@ -1608,7 +1608,7 @@
     padding: 0.5rem 1rem;
     background-color: #FFFFFF;
     border: 1.5px solid var(--brand-primary);
-    color: #0086AE;
+    color: #A32C26;
     border-radius: 999px;
     font-size: 0.875rem;
     font-weight: 600;
@@ -1636,7 +1636,7 @@
     gap: 0.875rem;
     margin-bottom: 1.25rem;
     padding-bottom: 0.875rem;
-    border-bottom: 2px solid #E6FBFF;
+    border-bottom: 2px solid #FFF1ED;
 }
 
 .paws-guide-faqcat__caticon {
@@ -1644,8 +1644,8 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
-    color: #0086AE;
+    background-color: #FFF1ED;
+    color: #A32C26;
     display: flex;
     align-items: center;
     justify-content: center;

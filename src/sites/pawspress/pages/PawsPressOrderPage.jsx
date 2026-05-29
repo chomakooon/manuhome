@@ -418,7 +418,7 @@ function Step1Plan({
                         <span className="paws-form-label__opt">（おすすめ: キャラクター調）</span>
                     </p>
                     <p className="paws-form-help">
-                        もふラボ は <strong>キャラクター調</strong> がメインです。実写風や、墨絵風/ドット絵風など <strong>その他のテイスト</strong> もご相談いただけます。
+                        もふらぼ は <strong>キャラクター調</strong> がメインです。実写風や、墨絵風/ドット絵風など <strong>その他のテイスト</strong> もご相談いただけます。
                     </p>
                     <div className="paws-art-style">
                         {ART_STYLES.map((style) => {

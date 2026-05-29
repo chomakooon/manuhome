@@ -6,7 +6,7 @@
  * セクション構成:
  *   1. ヒーロー: 写真 + キャッチコピー
  *   2. はじめまして
- *   3. カタチラボを始めた理由（ストーリー）
+ *   3. カタチらぼを始めた理由（ストーリー）
  *   4. 3 つのこだわり
  *   5. 制作スタイル
  *   6. お客様に届けたい価値（クロージング）
@@ -33,7 +33,7 @@ import './KataribinAboutPage.css';
 
 const BREADCRUMB = [
     { label: 'ホーム', to: '/' },
-    { label: 'カタチラボについて', to: null },
+    { label: 'カタチらぼについて', to: null },
 ];
 
 const VALUE_ICONS = { MessageCircle, Palette, Clock };
@@ -115,7 +115,7 @@ function StorySection() {
     return (
         <section className="kt-about-section kt-about-section--alt">
             <div className="kt-about-section__inner">
-                <h2 className="kt-about-section__title">カタチラボを始めた理由</h2>
+                <h2 className="kt-about-section__title">カタチらぼを始めた理由</h2>
                 <div className="kt-about-section__body">
                     {PROFILE.story.map((paragraph, idx) => (
                         <p key={idx} className="kt-about-paragraph kt-about-paragraph--story">
@@ -244,7 +244,7 @@ function SnsSection() {
         <section className="kt-about-section">
             <div className="kt-about-section__inner kt-about-section__inner--narrow kt-about-sns">
                 <h2 className="kt-about-section__title">
-                    ペットグッズ制作「もふラボ」では制作情報を発信中
+                    ペットグッズ制作「もふらぼ」では制作情報を発信中
                 </h2>
                 <p className="kt-about-section__lead">
                     うちの子グッズの制作風景・納品事例・お得なお知らせを、SNS で随時アップしています。フォローでぜひ覗いてみてください。

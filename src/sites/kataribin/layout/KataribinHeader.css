@@ -103,7 +103,7 @@
     display: none;
 }
 
-/* ── Actions (search + もふラボ link) ──────── */
+/* ── Actions (search + もふらぼ link) ──────── */
 .kt-header__actions {
     display: flex;
     align-items: center;
@@ -191,8 +191,8 @@
 
 /* ── Mobile breakpoint (<= 1024px) ───────────── */
 @media (max-width: 1024px) {
-    /* Phase 11: 検索ボタンはモバイルでも残し、もふラボ リンクのみ隠す
-       （もふラボ はハンバーガーメニュー内に重複表示があるため） */
+    /* Phase 11: 検索ボタンはモバイルでも残し、もふらぼ リンクのみ隠す
+       （もふらぼ はハンバーガーメニュー内に重複表示があるため） */
     .kt-header__actions {
         margin-left: auto;
         gap: 0.4rem;

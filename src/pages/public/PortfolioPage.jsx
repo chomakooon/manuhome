@@ -153,7 +153,7 @@ export default function PortfolioPage() {
                             <span className="portfolio-stat__icon" aria-hidden="true">
                                 <PawPrint size={20} strokeWidth={1.6} />
                             </span>
-                            <span className="portfolio-stat__value">もふラボ</span>
+                            <span className="portfolio-stat__value">もふらぼ</span>
                             <span className="portfolio-stat__label">ペット専門ブランドも展開</span>
                         </li>
                     </ul>
@@ -216,7 +216,7 @@ export default function PortfolioPage() {
                 </div>
             </section>
 
-            {/* もふラボ（ペットグッズ）への横断ティザー */}
+            {/* もふらぼ（ペットグッズ）への横断ティザー */}
             <section className="portfolio-cross section">
                 <div className="container">
                     <Link to="/pet" className="portfolio-cross__card">
@@ -225,7 +225,7 @@ export default function PortfolioPage() {
                         </span>
                         <div className="portfolio-cross__body">
                             <p className="portfolio-cross__title">うちの子のイラスト・グッズが見たい方は</p>
-                            <p className="portfolio-cross__sub">ペット専門ブランド「もふラボ」のページへ</p>
+                            <p className="portfolio-cross__sub">ペット専門ブランド「もふらぼ」のページへ</p>
                         </div>
                         <span className="portfolio-cross__arrow" aria-hidden="true">→</span>
                     </Link>

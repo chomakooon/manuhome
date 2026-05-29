@@ -1,7 +1,7 @@
 /**
  * @file src/sites/kataribin/theme/tokens.js
  *
- * 「カタチラボ」ブランドのデザイントークン。
+ * 「カタチらぼ」ブランドのデザイントークン。
  * Step 2-D で全面再構成（旧コラム雑誌風コンセプトは廃止）。
  *
  * 注意:
@@ -11,7 +11,7 @@
  */
 
 export const theme = {
-    brandName: 'カタチラボ',
+    brandName: 'カタチらぼ',
     brandTagline: 'Katachi Labo',
 
     colors: {

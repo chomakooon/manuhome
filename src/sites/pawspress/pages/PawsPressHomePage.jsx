@@ -1,7 +1,7 @@
 /**
  * @file src/sites/pawspress/pages/PawsPressHomePage.jsx
  *
- * もふラボ のトップ LP。下記の順で 1 ページで完結するスクロールLP。
+ * もふらぼ のトップ LP。下記の順で 1 ページで完結するスクロールLP。
  *  1. ヒーロー（グッズ作例ビジュアル）
  *  2. こんな感じで写真がグッズに（id="howitworks" / 旧4コマ画像）
  *  3. プラン（id="plans" — ナビ '/pet#plans' のスクロール先）
@@ -60,7 +60,7 @@ const CONCERNS = [
     { Icon: Gift, title: '大切な家族への贈り物に困っている', desc: 'ありきたりじゃない、心に残るプレゼントを探している。' },
 ];
 
-// 特徴: もふラボ が選ばれる 4 つの理由
+// 特徴: もふらぼ が選ばれる 4 つの理由
 const STRENGTHS = [
     { Icon: Brush, title: 'プロイラストレーターの手描き', desc: '温かみのあるオリジナルタッチで、心を込めて1点ずつ描き起こします。' },
     { Icon: Package, title: '写真1枚から世界にひとつ', desc: 'お気に入りの1枚をお送りいただくだけ。あとはお任せください。' },
@@ -149,7 +149,7 @@ function HeroSection({ heroImage }) {
                         世界に一つのグッズに。
                     </h1>
                     <p className="paws-hero__subtitle">
-                        もふラボは、あなたの大切な家族（犬・猫）を温かみのあるタッチで描き、
+                        もふらぼは、あなたの大切な家族（犬・猫）を温かみのあるタッチで描き、
                         Tシャツやマグカップに残せるペットグッズ専門ブランドです。
                     </p>
                     <Link to="/pet/order" className="paws-btn paws-btn--primary paws-btn--lg">
@@ -160,7 +160,7 @@ function HeroSection({ heroImage }) {
                 <div className="paws-hero__visual">
                     <PictureWebp
                         src={heroImage}
-                        alt="もふラボのグッズ作例：トートバッグ、Tシャツ、マグカップ、キーホルダー、ポーチ、ポストカードなどに同じデザインで展開"
+                        alt="もふらぼのグッズ作例：トートバッグ、Tシャツ、マグカップ、キーホルダー、ポーチ、ポストカードなどに同じデザインで展開"
                         loading="eager"
                         onError={onImgError('hero')}
                     />
@@ -188,7 +188,7 @@ function HowItWorksSection() {
                 <div className="paws-howitworks__media">
                     <PictureWebp
                         src="/works/pet-flow-4koma.jpg"
-                        alt="もふラボご利用の流れ4コマ: 1.お気に入りのペット写真を送る 2.プロのイラストレーターが心を込めて制作 3.最短一週間でお届け 4.世界でひとつだけのうちの子グッズに"
+                        alt="もふらぼご利用の流れ4コマ: 1.お気に入りのペット写真を送る 2.プロのイラストレーターが心を込めて制作 3.最短一週間でお届け 4.世界でひとつだけのうちの子グッズに"
                         loading="lazy"
                     />
                 </div>
@@ -336,7 +336,7 @@ function ConcernsSection() {
                     こんなお悩み、ありませんか？
                 </h2>
                 <p className="paws-section-lead">
-                    ひとつでも当てはまる方は、もふラボ にお任せください。
+                    ひとつでも当てはまる方は、もふらぼ にお任せください。
                 </p>
                 <ul className="paws-concerns__grid">
                     {CONCERNS.map((c) => (
@@ -360,7 +360,7 @@ function StrengthsSection() {
         <section className="paws-strengths" id="strengths" aria-labelledby="strengths-title">
             <div className="paws-strengths__inner">
                 <h2 id="strengths-title" className="paws-section-title">
-                    もふラボ が選ばれる理由
+                    もふらぼ が選ばれる理由
                 </h2>
                 <p className="paws-section-lead">
                     写真1枚から、想いまで届くグッズを。
@@ -626,7 +626,7 @@ export default function PawsPressHomePage() {
     const modalItem = isModalOpen
         ? {
               ...petItems[modalIndex],
-              categoryName: SUB_CATEGORY_LABEL[petItems[modalIndex].subCategory] ?? 'もふラボ',
+              categoryName: SUB_CATEGORY_LABEL[petItems[modalIndex].subCategory] ?? 'もふらぼ',
           }
         : null;
 

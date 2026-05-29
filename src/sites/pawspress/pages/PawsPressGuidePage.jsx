@@ -720,7 +720,7 @@ export default function PawsPressGuidePage() {
             <PageSeo pageKey="pet" />
 
             <nav className="paws-guide-crumbs" aria-label="パンくずリスト">
-                <Link to="/pet">もふラボ</Link>
+                <Link to="/pet">もふらぼ</Link>
                 <span aria-hidden="true">/</span>
                 {category !== title && (
                     <>

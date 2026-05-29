@@ -13,8 +13,8 @@
  *   - sortOrder で並び替えされる
  *
  * メモ:
- *   - もふラボ 側 (/pet/order) も同じペット系 3 プランを使用しているが、
- *     もふラボ のテナントは src/sites/pawspress/data/plans.js に独立して
+ *   - もふらぼ 側 (/pet/order) も同じペット系 3 プランを使用しているが、
+ *     もふらぼ のテナントは src/sites/pawspress/data/plans.js に独立して
  *     データを持つ。両者の価格・特徴は意図的に同一にしている。
  */
 
@@ -66,7 +66,7 @@ export const pricingPlans = [
         ],
         deliveryDays: 7,
         popular: false,
-        cta: { label: 'もふラボで詳しく見る', to: '/pet' },
+        cta: { label: 'もふらぼで詳しく見る', to: '/pet' },
     },
     {
         id: 'pet-single',
@@ -84,7 +84,7 @@ export const pricingPlans = [
         ],
         deliveryDays: 14,
         popular: false,
-        cta: { label: 'もふラボで詳しく見る', to: '/pet' },
+        cta: { label: 'もふらぼで詳しく見る', to: '/pet' },
     },
     {
         id: 'pet-pair',
@@ -104,7 +104,7 @@ export const pricingPlans = [
         deliveryDays: 14,
         popular: true,
         badge: '人気No.1',
-        cta: { label: 'もふラボで詳しく見る', to: '/pet' },
+        cta: { label: 'もふらぼで詳しく見る', to: '/pet' },
     },
 
     // ── 名刺 ──

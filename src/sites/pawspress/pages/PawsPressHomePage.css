@@ -1,5 +1,5 @@
 /* ================================================================
-   もふラボ Home LP
+   もふらぼ Home LP
    - body.theme-pawspress 配下で使用される前提
    - --brand-* 変数経由で色・フォントを取得
    - セクション間 6rem（PCのみ。モバイルは 4rem）
@@ -436,7 +436,7 @@
 
 /* ================================================================
    Phase 27: LP セクション拡張（共感/特徴/流れ/お客様の声/FAQ/最終CTA）
-   配色は確立済みパレット: cyan=#00CFFF / cyan-50=#E6FBFF / pink=#FFB6C1
+   配色は朱赤パレット: red=#C13832 / cream-coral=#FFF1ED / coral=#F4A890
    ================================================================ */
 
 /* スクロール時にスティッキーヘッダーの裏に隠れないようオフセット */
@@ -550,7 +550,7 @@
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background-color: #E6FBFF;
+    background-color: #FFF1ED;
     color: var(--brand-primary);
     margin-bottom: 0.85rem;
 }
@@ -782,7 +782,8 @@
 
 /* ── 最終CTA ── */
 .paws-finalcta {
-    background: linear-gradient(135deg, var(--brand-primary) 0%, #5CE1FF 100%);
+    /* 朱赤の濃淡で構成。中間にコーラルを通して、単調にならないようにする。 */
+    background: linear-gradient(135deg, #A32C26 0%, #C13832 55%, #D85A4F 100%);
     padding: 5rem 1.5rem;
     text-align: center;
 }
@@ -970,7 +971,7 @@
 
 /* ── LP: LINE 友だち追加 + 10%OFFクーポン ─────────── */
 .paws-line {
-    background: linear-gradient(135deg, #E8F8E8 0%, #F0FDF4 60%, #E6FBFF 100%);
+    background: linear-gradient(135deg, #E8F8E8 0%, #FFF7F1 60%, #FFF1ED 100%);
     padding: 4.5rem 1.5rem;
 }
 
