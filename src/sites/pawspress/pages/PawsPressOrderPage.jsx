@@ -22,13 +22,22 @@ import './PawsPressOrderPage.css';
 
 const STEP_LABELS = ['プラン選択', '写真アップロード', 'お客様情報', '確認', 'お支払い'];
 
+/**
+ * グッズ種類カタログ。
+ * name は select の旧 value と互換性を保つため文字列ベースで維持。
+ * image は注文ページ Step1 のビジュアルピッカーで使用。
+ */
 const GOODS_OPTIONS = [
-    'Tシャツ',
-    'トートバッグ',
-    'マグカップ',
-    'アクリルキーホルダー',
-    'その他ご相談',
+    { name: 'Tシャツ',           image: '/works/goods-tshirt.webp' },
+    { name: 'トートバッグ',       image: '/works/goods-tote.webp' },
+    { name: 'マグカップ',         image: '/works/goods-mug.webp' },
+    { name: 'クッション',         image: '/works/goods-cushion.webp' },
+    { name: 'スマホケース',       image: '/works/goods-phonecase.webp' },
+    { name: 'アクリルキーホルダー', image: null,  iconChar: '🔑' },
+    { name: 'その他ご相談',        image: null,  iconChar: '💬' },
 ];
+
+const goodsByName = (n) => GOODS_OPTIONS.find((g) => g.name === n);
 
 const TSHIRT_SIZES = ['S', 'M', 'L', 'LL'];
 const TOTE_TYPES = ['長方形バッグ', 'お散歩バッグ'];
@@ -88,8 +97,7 @@ const ART_STYLES = [
         id: 'other',
         name: 'その他のご相談',
         desc: '墨絵風・ドット絵風・油絵風など、ご希望のテイストを自由にご相談ください。',
-        image: null,        // 画像なし → アイコン表示
-        iconChar: '🎨',
+        image: '/works/style-other.webp',
     },
 ];
 
@@ -222,6 +230,53 @@ function InfoPopover({ info }) {
 }
 
 // ── Step 1: Plan selection ─────────────────────────────
+
+/**
+ * グッズ種類のビジュアルピッカー。
+ * 旧 <select> を置き換え、商品モックアップ画像で選びやすくする。
+ * value/onChange のインターフェースは <select> と同じ（文字列の name）。
+ */
+function GoodsPicker({ value, onChange, name, placeholder }) {
+    return (
+        <div className="paws-goods-picker" role="radiogroup" aria-label={placeholder ?? 'グッズを選択'}>
+            {GOODS_OPTIONS.map((g) => {
+                const checked = value === g.name;
+                const inputId = `${name}-${g.name}`;
+                return (
+                    <label
+                        key={g.name}
+                        htmlFor={inputId}
+                        className={`paws-goods-picker__card${checked ? ' paws-goods-picker__card--checked' : ''}`}
+                    >
+                        <input
+                            id={inputId}
+                            type="radio"
+                            name={name}
+                            value={g.name}
+                            checked={checked}
+                            onChange={() => onChange(g.name)}
+                            className="paws-goods-picker__input"
+                        />
+                        <span className="paws-goods-picker__image">
+                            {g.image ? (
+                                <PictureWebp
+                                    src={g.image}
+                                    alt={`${g.name}のイメージ`}
+                                    loading="lazy"
+                                />
+                            ) : (
+                                <span className="paws-goods-picker__icon" aria-hidden="true">
+                                    {g.iconChar ?? '🎁'}
+                                </span>
+                            )}
+                        </span>
+                        <span className="paws-goods-picker__name">{g.name}</span>
+                    </label>
+                );
+            })}
+        </div>
+    );
+}
 
 function GoodsDetailSelect({ goods, value, onChange }) {
     const detail = GOODS_DETAIL[goods];
@@ -367,14 +422,12 @@ function Step1Plan({
             {planId === 'pet-single' && (
                 <div className="paws-form-section__sub">
                     <Field label="グッズの種類" required error={errors.goodsTypes}>
-                        <select
-                            className="paws-form-input"
+                        <GoodsPicker
+                            name="goods-single"
                             value={goodsTypes[0]}
-                            onChange={(e) => setSlotGoods(0, e.target.value)}
-                        >
-                            <option value="">選択してください</option>
-                            {GOODS_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
-                        </select>
+                            onChange={(v) => setSlotGoods(0, v)}
+                            placeholder="グッズを選択"
+                        />
                     </Field>
                     <GoodsDetailSelect
                         goods={goodsTypes[0]}
@@ -391,14 +444,15 @@ function Step1Plan({
                         <div className="paws-form-pair">
                             {[0, 1].map((i) => (
                                 <div key={i} className="paws-form-pair__slot">
-                                    <select
-                                        className="paws-form-input"
+                                    <p className="paws-form-pair__slot-label">
+                                        {i === 0 ? '1つ目のグッズ' : '2つ目のグッズ'}
+                                    </p>
+                                    <GoodsPicker
+                                        name={`goods-pair-${i}`}
                                         value={goodsTypes[i]}
-                                        onChange={(e) => setSlotGoods(i, e.target.value)}
-                                    >
-                                        <option value="">{i === 0 ? '1つ目を選択' : '2つ目を選択'}</option>
-                                        {GOODS_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
-                                    </select>
+                                        onChange={(v) => setSlotGoods(i, v)}
+                                        placeholder={i === 0 ? '1つ目を選択' : '2つ目を選択'}
+                                    />
                                     <GoodsDetailSelect
                                         goods={goodsTypes[i]}
                                         value={goodsDetails[i]}

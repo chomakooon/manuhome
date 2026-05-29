@@ -630,7 +630,103 @@
 .paws-form-pair__slot {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 0.5rem;
+}
+
+.paws-form-pair__slot-label {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--brand-text);
+    margin: 0;
+}
+
+/* ── グッズ種類のビジュアルピッカー ───────────────────── */
+.paws-goods-picker {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+    .paws-goods-picker {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 540px) {
+    .paws-goods-picker {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.paws-goods-picker__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.6rem;
+    background-color: #FFFFFF;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.paws-goods-picker__card:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+}
+
+.paws-goods-picker__card--checked {
+    border-color: var(--brand-primary);
+    background-color: var(--brand-accent-soft, #FFF1ED);
+    box-shadow: 0 6px 16px rgba(193, 56, 50, 0.18);
+}
+
+.paws-goods-picker__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.paws-goods-picker__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--brand-bg, #FFFAF6);
+}
+
+.paws-goods-picker__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.paws-goods-picker__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 2.2rem;
+}
+
+.paws-goods-picker__name {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.825rem;
+    text-align: center;
+    color: var(--brand-text);
+    line-height: 1.35;
+}
+
+.paws-goods-picker__card--checked .paws-goods-picker__name {
+    color: var(--brand-primary);
 }
 
 /* ── ⓘ インフォボタン + ポップオーバー ─────────────── */
@@ -874,6 +970,12 @@
     object-position: center;
     display: block;
     padding: 0.3rem;
+}
+
+/* キャラクター調イラストは白背景に対して輪郭が細いため、視覚的に小さく感じる。
+   1.12 倍にスケールして実写風と見た目のサイズ感を揃える。 */
+.paws-art-style__card:nth-child(1) .paws-art-style__image img {
+    transform: scale(1.12);
 }
 
 .paws-art-style__body {
