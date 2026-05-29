@@ -32,7 +32,7 @@
 
 /* 各ステップ上部のビジュアル画像（フリー写真）
    カード幅いっぱいだと写真が支配的になりすぎるため
-   max-width で約半分に制限し、左寄せで配置。 */
+   max-width で約半分に制限し、中央寄せで配置。 */
 .kt-step-card__image {
     width: 100%;
     max-width: 360px;
@@ -40,7 +40,7 @@
     border-radius: 12px;
     overflow: hidden;
     background-color: var(--brand-bg-subtle);
-    margin: -0.5rem 0 1.5rem 0;
+    margin: -0.5rem auto 1.5rem auto;
 }
 
 @media (max-width: 768px) {

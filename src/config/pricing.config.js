@@ -66,7 +66,7 @@ export const pricingPlans = [
         ],
         deliveryDays: 7,
         popular: false,
-        cta: { label: 'このプランで相談', to: '/contact?plan=pet-frame' },
+        cta: { label: 'もふラボで詳しく見る', to: '/pet' },
     },
     {
         id: 'pet-single',
@@ -84,7 +84,7 @@ export const pricingPlans = [
         ],
         deliveryDays: 14,
         popular: false,
-        cta: { label: 'このプランで相談', to: '/contact?plan=pet-single' },
+        cta: { label: 'もふラボで詳しく見る', to: '/pet' },
     },
     {
         id: 'pet-pair',
@@ -104,7 +104,7 @@ export const pricingPlans = [
         deliveryDays: 14,
         popular: true,
         badge: '人気No.1',
-        cta: { label: 'このプランで相談', to: '/contact?plan=pet-pair' },
+        cta: { label: 'もふラボで詳しく見る', to: '/pet' },
     },
 
     // ── 名刺 ──
