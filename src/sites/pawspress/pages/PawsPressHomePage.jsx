@@ -126,10 +126,10 @@ const WORKS_GROUPS = [
         key: 'pet_illust',
         step: 'STEP 2',
         title: 'イラスト',
-        caption: '絵柄をお選びいただけます。キャラクター調・実写風からお好みのタッチで。',
-        // 2つのタッチを並べてピッカー感を演出
-        extraImage: '/works/style-character.webp',
-        extraImageAlt: 'キャラクター調の作例（水彩タッチ）',
+        caption: '絵柄をお選びいただけます。キャラクター調・実写風・ドット絵・絵本風・墨絵などお好みのタッチで。',
+        // メイン画像の代わりに「選べる絵柄」一覧をそのまま見せる
+        imageOverride: '/works/style-picker.webp',
+        imageOverrideAlt: '選べる絵柄サンプル（キャラ・実写・ドット・絵本・墨絵）',
     },
     {
         key: 'pet_goods',
