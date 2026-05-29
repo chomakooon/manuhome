@@ -61,13 +61,11 @@ export const GUIDE_CONTENT = {
             {
                 kind: 'banner',
                 iconName: 'MessageCircle',
-                title: 'ご不安があればLINEでもご相談OK',
-                text: '写真の選び方、プラン選びのご相談など、お気軽にどうぞ。',
-                buttonLabel: 'LINEで相談する →',
-                // ★ ENGINEER CONNECTION POINT ★
-                // LINE公式アカウント開設後、buttonHref に友だち追加URLを設定する。
-                buttonHref: '#',
-                note: '※LINE公式アカウント開設後にリンクを追加予定',
+                title: '友だち追加で 10% OFF クーポン進呈！',
+                text: '写真の選び方やプラン選びのご相談もLINEでお気軽にどうぞ。お友だち追加で、初回ご注文に使える10%OFFクーポンをお渡しします。',
+                buttonLabel: 'LINEで友だち追加する →',
+                buttonHref: 'https://lin.ee/58UAkhy',
+                note: '※クーポンはお一人様1回限り・他クーポンとの併用不可',
             },
         ],
     },

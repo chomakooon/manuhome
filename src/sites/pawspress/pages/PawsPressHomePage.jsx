@@ -10,8 +10,9 @@
  *  6. ご利用の流れ 抜粋（id="flow" → 詳細は /pet/guide/order-flow）
  *  7. お客様の声（id="voices"）
  *  8. よくある質問 抜粋（id="faq" → /pet/faq）
- *  9. Instagram 告知（id="instagram" → @paws_press）
- * 10. 最終CTA
+ *  9. LINE 友だち追加 + 10%OFFクーポン（id="line"）
+ * 10. Instagram 告知（id="instagram" → @mofumofu_labo）
+ * 11. 最終CTA
  *
  * 画風選択（キャラクター調メイン / 実写風 選択可）は注文フォーム Step 1 に配置。
  */
@@ -35,7 +36,7 @@ import {
     Instagram,
 } from 'lucide-react';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/paws_press/';
+const INSTAGRAM_URL = 'https://www.instagram.com/mofumofu_labo';
 import { portfolioItems } from '../../../data/portfolioData';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PortfolioModal from '../../../components/ui/PortfolioModal';
@@ -461,6 +462,52 @@ function FaqPreviewSection() {
     );
 }
 
+// ── LP: LINE友だち追加 + 10%OFFクーポン ─────────────
+function LineCouponSection() {
+    return (
+        <section
+            className="paws-line"
+            id="line"
+            aria-labelledby="line-title"
+        >
+            <div className="paws-line__inner">
+                <div className="paws-line__body">
+                    <span className="paws-line__pill">LINE限定特典</span>
+                    <h2 id="line-title" className="paws-line__title">
+                        友だち追加で<br />
+                        <strong>10% OFF クーポン</strong>進呈！
+                    </h2>
+                    <p className="paws-line__text">
+                        制作のご相談・お見積り・写真選びまで、LINEなら手軽にチャットでOK。
+                        お友だち追加で初回ご注文に使える <strong>10%OFFクーポン</strong> をお渡しします。
+                    </p>
+                    <a
+                        href="https://lin.ee/58UAkhy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="paws-line__btn"
+                    >
+                        LINEで友だち追加する
+                    </a>
+                    <p className="paws-line__note">
+                        ※クーポンはお一人様1回限り・他クーポンとの併用不可
+                    </p>
+                </div>
+                <div className="paws-line__qr">
+                    <img
+                        src="/sns/line-qr.png"
+                        alt="LINE 友だち追加用 QR コード"
+                        loading="lazy"
+                        width="180"
+                        height="180"
+                    />
+                    <p className="paws-line__qr-caption">QRコードからも追加できます</p>
+                </div>
+            </div>
+        </section>
+    );
+}
+
 // ── LP: Instagram告知 ──────────────────────────────
 function InstagramSection() {
     return (
@@ -477,7 +524,7 @@ function InstagramSection() {
                     Instagramでも発信中
                 </h2>
                 <p className="paws-insta__sub">
-                    最新の作例や制作の様子、お知らせを <strong>@paws_press</strong> でお届けしています。
+                    最新の作例や制作の様子、お知らせを <strong>@mofumofu_labo</strong> でお届けしています。
                 </p>
                 <a
                     href={INSTAGRAM_URL}
@@ -578,6 +625,7 @@ export default function PawsPressHomePage() {
             <FlowPreviewSection />
             <VoicesSection />
             <FaqPreviewSection />
+            <LineCouponSection />
             <InstagramSection />
             <FinalCtaSection />
 

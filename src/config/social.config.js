@@ -24,7 +24,18 @@
 
 /** @type {Record<string, string>} */
 export const SNS_LINKS = {
-    x: 'https://x.com/paws_press_',
-    instagram: 'https://www.instagram.com/paws_press/',
+    x: 'https://x.com/mofu_labo_',
+    instagram: 'https://www.instagram.com/mofumofu_labo',
+    line: 'https://lin.ee/58UAkhy',        // もふラボ公式 LINE（友だち追加で10%OFFクーポン）
     threads: 'https://threads.net/',      // ← サンプル、要差し替え（実 Threads URL）
+};
+
+/**
+ * LINE 友だち追加クーポンの訴求コピー（複数箇所で使うため共通化）
+ */
+export const LINE_COUPON = {
+    label: 'LINE友だち追加で10%OFFクーポン',
+    short: '10%OFFクーポン進呈',
+    qr: '/sns/line-qr.png',
+    url: 'https://lin.ee/58UAkhy',
 };

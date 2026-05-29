@@ -967,3 +967,121 @@
         font-size: 1.35rem;
     }
 }
+
+/* ── LP: LINE 友だち追加 + 10%OFFクーポン ─────────── */
+.paws-line {
+    background: linear-gradient(135deg, #E8F8E8 0%, #F0FDF4 60%, #E6FBFF 100%);
+    padding: 4.5rem 1.5rem;
+}
+
+.paws-line__inner {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.paws-line__body {
+    text-align: left;
+}
+
+.paws-line__pill {
+    display: inline-block;
+    background-color: #00B900;
+    color: #FFFFFF;
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 0.85rem;
+}
+
+.paws-line__title {
+    font-family: var(--brand-font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.4;
+    color: var(--brand-text);
+    margin: 0 0 1rem 0;
+}
+
+.paws-line__title strong {
+    color: #00B900;
+}
+
+.paws-line__text {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--brand-text);
+    margin: 0 0 1.5rem 0;
+}
+
+.paws-line__text strong {
+    color: #00B900;
+    font-weight: 800;
+}
+
+.paws-line__btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    background-color: #00B900;
+    color: #FFFFFF;
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 999px;
+    box-shadow: 0 8px 22px rgba(0, 185, 0, 0.3);
+    transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
+}
+
+.paws-line__btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    box-shadow: 0 12px 28px rgba(0, 185, 0, 0.4);
+}
+
+.paws-line__note {
+    margin: 1rem 0 0 0;
+    font-size: 0.78rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+.paws-line__qr {
+    text-align: center;
+}
+
+.paws-line__qr img {
+    width: 180px;
+    height: 180px;
+    border-radius: 16px;
+    background-color: #FFFFFF;
+    padding: 0.6rem;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+}
+
+.paws-line__qr-caption {
+    margin: 0.6rem 0 0 0;
+    font-size: 0.78rem;
+    color: var(--brand-text-subtle, #5A5A5A);
+}
+
+@media (max-width: 768px) {
+    .paws-line {
+        padding: 3.5rem 1.25rem;
+    }
+    .paws-line__inner {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    .paws-line__body {
+        text-align: center;
+    }
+    .paws-line__title {
+        font-size: 1.55rem;
+    }
+}

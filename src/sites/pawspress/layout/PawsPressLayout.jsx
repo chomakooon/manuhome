@@ -17,7 +17,7 @@ import { GUIDE_LINKS } from '../data/guideLinks';
 import './PawsPressLayout.css';
 
 const LOGO_PATH = '/hero/pawspress-logo.jpg';
-const INSTAGRAM_URL = 'https://www.instagram.com/paws_press/';
+const INSTAGRAM_URL = 'https://www.instagram.com/mofumofu_labo';
 
 const handleLogoError = (e) => {
     e.currentTarget.style.display = 'none';
@@ -137,7 +137,7 @@ function PawsPressFooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="paws-footer__sns"
-                    aria-label="Instagram (@paws_press) を別タブで開く"
+                    aria-label="Instagram (@mofumofu_labo) を別タブで開く"
                 >
                     <svg
                         width="20"
@@ -154,7 +154,7 @@ function PawsPressFooter() {
                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                     </svg>
-                    @paws_press
+                    @mofumofu_labo
                 </a>
                 <Link to="/" className="paws-footer__link">
                     カタチラボに戻る ↗

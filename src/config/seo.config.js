@@ -57,7 +57,7 @@ export const SEO_DEFAULTS = {
     ],
     defaultOgImage: '/og-images/og-home.jpg',
     twitterCard: 'summary_large_image',
-    twitterHandle: '@paws_press_',
+    twitterHandle: '@mofu_labo_',
 };
 
 /**
@@ -170,7 +170,8 @@ export const ORG_JSON_LD = {
     },
     // Schema.org の社会的証明: 公式 SNS アカウント URL を列挙
     sameAs: [
-        'https://x.com/paws_press_',
-        'https://www.instagram.com/paws_press/',
+        'https://x.com/mofu_labo_',
+        'https://www.instagram.com/mofumofu_labo',
+        'https://lin.ee/58UAkhy',
     ],
 };
