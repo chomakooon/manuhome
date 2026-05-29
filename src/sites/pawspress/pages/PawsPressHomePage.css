@@ -403,6 +403,49 @@
     display: block;
 }
 
+/* Step 2: 2 つの絵柄を重ねて「選べる」感を演出 */
+.paws-flow__img--stack {
+    position: relative;
+}
+
+.paws-flow__img-extra {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    width: 48%;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--brand-bg, #FFFAF6);
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paws-flow__img-extra img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.35rem;
+}
+
+.paws-flow__img-extra-label {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    padding: 0.18rem 0.55rem;
+    background-color: var(--brand-primary, #C13832);
+    color: #FFFFFF;
+    font-family: var(--brand-font-display);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    border-radius: 999px;
+    line-height: 1.2;
+}
+
 .paws-flow__title {
     font-family: var(--brand-font-display);
     font-size: 1.15rem;

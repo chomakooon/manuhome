@@ -113,7 +113,8 @@ const FAQ_PREVIEW = [
 ];
 
 // 「これまでの制作」を 写真 → イラスト → グッズ の制作フロー順に見せるグループ定義。
-// 各グループの代表画像は portfolioData の isMain フラグ付き1枚を使う（ホームには代表のみ表示）。
+// 各グループの代表画像は portfolioData の isMain フラグ付き1枚を使うが、
+// imageOverride / extraImage で「もふらぼ ブランドメッセージ」用に差し替えられる。
 const WORKS_GROUPS = [
     {
         key: 'pet_photo',
@@ -125,13 +126,18 @@ const WORKS_GROUPS = [
         key: 'pet_illust',
         step: 'STEP 2',
         title: 'イラスト',
-        caption: '温かみのあるタッチで描き起こします。',
+        caption: '絵柄をお選びいただけます。キャラクター調・実写風からお好みのタッチで。',
+        // 2つのタッチを並べてピッカー感を演出
+        extraImage: '/works/style-character.webp',
+        extraImageAlt: 'キャラクター調の作例（水彩タッチ）',
     },
     {
         key: 'pet_goods',
         step: 'STEP 3',
         title: 'グッズ',
         caption: 'Tシャツ・マグ・トートなどに展開できます。',
+        imageOverride: '/works/pet-goods-sample.webp',
+        imageOverrideAlt: 'Tシャツ・トートバッグ・マグカップ・アクキー・ポーチ・ポストカードに展開した制作実例',
     },
 ];
 
@@ -294,28 +300,47 @@ function WorksSection({ groups, onOpen }) {
                     「お写真」一枚が、「イラスト」になり、「グッズ」になるまで。
                 </p>
                 <div className="paws-flow__steps">
-                    {groups.map((group) => (
-                        <div key={group.key} className="paws-flow__step">
-                            <div className="paws-flow__num">{group.step}</div>
-                            <button
-                                type="button"
-                                className="paws-flow__img"
-                                onClick={() =>
-                                    group.index >= 0 && onOpen(group.index)
-                                }
-                                aria-label={`${group.title}の作例を拡大して見る`}
-                            >
-                                <PictureWebp
-                                    src={group.item.image}
-                                    alt={group.item.title}
-                                    loading="lazy"
-                                    onError={onImgError(`works ${group.key}`)}
-                                />
-                            </button>
-                            <h3 className="paws-flow__title">{group.title}</h3>
-                            <p className="paws-flow__caption">{group.caption}</p>
-                        </div>
-                    ))}
+                    {groups.map((group) => {
+                        const mainSrc = group.imageOverride ?? group.item.image;
+                        const mainAlt = group.imageOverride
+                            ? (group.imageOverrideAlt ?? group.title)
+                            : group.item.title;
+                        return (
+                            <div key={group.key} className="paws-flow__step">
+                                <div className="paws-flow__num">{group.step}</div>
+                                <button
+                                    type="button"
+                                    className={`paws-flow__img${group.extraImage ? ' paws-flow__img--stack' : ''}`}
+                                    onClick={() =>
+                                        group.index >= 0 && onOpen(group.index)
+                                    }
+                                    aria-label={`${group.title}の作例を拡大して見る`}
+                                >
+                                    <PictureWebp
+                                        src={mainSrc}
+                                        alt={mainAlt}
+                                        loading="lazy"
+                                        onError={onImgError(`works ${group.key}`)}
+                                    />
+                                    {group.extraImage && (
+                                        <span className="paws-flow__img-extra" aria-hidden="true">
+                                            <PictureWebp
+                                                src={group.extraImage}
+                                                alt={group.extraImageAlt ?? ''}
+                                                loading="lazy"
+                                                onError={onImgError(`works ${group.key} extra`)}
+                                            />
+                                            <span className="paws-flow__img-extra-label">
+                                                絵柄を選べる
+                                            </span>
+                                        </span>
+                                    )}
+                                </button>
+                                <h3 className="paws-flow__title">{group.title}</h3>
+                                <p className="paws-flow__caption">{group.caption}</p>
+                            </div>
+                        );
+                    })}
                 </div>
                 <div className="paws-flow__more">
                     <Link to="/pet/gallery" className="paws-btn paws-btn--outline">
