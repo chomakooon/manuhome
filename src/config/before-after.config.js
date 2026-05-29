@@ -61,6 +61,9 @@ export const BEFORE_AFTER_CASES = [
         afterImage: '/works/manga-4koma-1.jpg',
         afterAlt: '新サービスを説明する 4 コマ漫画',
         beforeType: 'flyer',
+        // 実例ベースのBefore画像: 既存のイベントLPスクショ
+        beforeImage: '/works/before-1-event-lp.jpg',
+        beforeAlt: '改善前のイベントLP（テキスト中心・ビジュアル弱め）',
         tags: ['4 コマ漫画', '新サービス', 'イベント'],
     },
     {
@@ -79,6 +82,8 @@ export const BEFORE_AFTER_CASES = [
         afterAlt:
             'オリジナルキャラクターの設定シート（表情・ポーズ・三面図）',
         beforeType: 'website',
+        beforeImage: '/works/before-2-website.jpg',
+        beforeAlt: '改善前のサンプル企業ダッシュボード風サイト（個性なし）',
         tags: ['キャラクターデザイン', '世界観設計', 'ブランディング'],
     },
     {
@@ -93,6 +98,8 @@ export const BEFORE_AFTER_CASES = [
         afterImage: '/works/card-1.jpg',
         afterAlt: '似顔絵イラスト入りの名刺デザイン',
         beforeType: 'namecard',
+        beforeImage: '/works/before-3-namecard.jpg',
+        beforeAlt: '改善前の名刺（テキストのみ・QRコード）',
         tags: ['名刺デザイン', '似顔絵イラスト', 'ブランディング'],
     },
 ];

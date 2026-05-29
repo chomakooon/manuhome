@@ -243,9 +243,11 @@ function SnsSection() {
     return (
         <section className="kt-about-section">
             <div className="kt-about-section__inner kt-about-section__inner--narrow kt-about-sns">
-                <h2 className="kt-about-section__title">普段の制作はSNSでも発信中</h2>
+                <h2 className="kt-about-section__title">
+                    ペットグッズ制作「もふラボ」では制作情報を発信中
+                </h2>
                 <p className="kt-about-section__lead">
-                    制作の途中経過や日々の創作風景を SNS で随時共有しています。
+                    うちの子グッズの制作風景・納品事例・お得なお知らせを、SNS で随時アップしています。フォローでぜひ覗いてみてください。
                 </p>
                 <div className="kt-about-sns__actions">
                     <a

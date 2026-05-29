@@ -548,15 +548,26 @@
     aspect-ratio: 4 / 3;
     border-radius: 10px;
     overflow: hidden;
-    background-color: var(--brand-bg-subtle);
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .kt-ba-card__image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    /* キャラクター設定シート・名刺など縦横比が異なる作例も
+       見切れないよう contain で表示する */
+    object-fit: contain;
     object-position: center;
     display: block;
+}
+
+/* Before側の実画像枠（少しくすませた背景で「冴えない感」を演出） */
+.kt-ba-card__image--before {
+    background-color: #F2F2EF;
+    filter: saturate(0.85);
 }
 
 /* ── Before 側ダミープレビュー (Phase 24.2) ─────────── */

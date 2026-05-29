@@ -327,9 +327,20 @@ function BeforeAfterSection() {
                                     <span className="kt-ba-card__badge kt-ba-card__badge--before">
                                         BEFORE
                                     </span>
-                                    <div className="kt-ba-card__mock-frame">
-                                        <BeforeMock type={c.beforeType} />
-                                    </div>
+                                    {c.beforeImage ? (
+                                        <div className="kt-ba-card__image kt-ba-card__image--before">
+                                            <PictureWebp
+                                                src={c.beforeImage}
+                                                alt={c.beforeAlt ?? c.beforeText}
+                                                loading="lazy"
+                                                onError={onImgError(`ba-before-${c.id}`)}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="kt-ba-card__mock-frame">
+                                            <BeforeMock type={c.beforeType} />
+                                        </div>
+                                    )}
                                     <p className="kt-ba-card__text">
                                         {c.beforeText}
                                     </p>
