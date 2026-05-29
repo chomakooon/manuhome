@@ -892,3 +892,107 @@
     line-height: 1.7;
     color: var(--brand-text-subtle, #5A5A5A);
 }
+
+/* ── 画風ピッカー: 画像なし時のアイコン表示 ─────── */
+.paws-art-style__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--brand-primary);
+}
+
+/* 3列対応（最小幅でカードがつぶれないように） */
+@media (min-width: 720px) {
+    .paws-art-style {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ── 「その他のご相談」拡張パネル ─────────────────── */
+.paws-art-other {
+    margin-top: 1rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-primary);
+    border-radius: 14px;
+}
+
+.paws-art-other > .paws-form-label:first-child {
+    margin-top: 0;
+}
+
+.paws-art-other__refs {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.paws-art-other__upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #FFFFFF;
+    border: 1.5px dashed var(--brand-primary);
+    border-radius: 999px;
+    color: var(--brand-primary);
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.paws-art-other__upload-btn:hover {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+.paws-art-other__upload-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.paws-art-other__files {
+    list-style: none;
+    padding: 0;
+    margin: 0.85rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.paws-art-other__file {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.85rem;
+    background-color: var(--brand-bg-subtle, #F5F5F2);
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.paws-art-other__filename {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.paws-art-other__remove {
+    background: none;
+    border: none;
+    color: var(--brand-text-subtle, #5A5A5A);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0 0.3rem;
+}
+
+.paws-art-other__remove:hover {
+    color: #E5484D;
+}

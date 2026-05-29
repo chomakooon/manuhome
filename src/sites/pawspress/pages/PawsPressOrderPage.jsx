@@ -69,7 +69,7 @@ const GOODS_DETAIL = {
 // グッズ選択時に詳細（サイズ/種別）の初期値を返す（未対応グッズは空）
 const defaultGoodsDetail = (goods) => GOODS_DETAIL[goods]?.defaultValue ?? '';
 
-// 画風選択（キャラクター調がメイン、実写風も選択可）
+// 画風選択（キャラクター調メイン / 実写風 / その他のご相談）
 const ART_STYLES = [
     {
         id: 'character',
@@ -84,10 +84,19 @@ const ART_STYLES = [
         desc: '写真の質感を活かした繊細なタッチ。よりリアルな仕上がりに。',
         image: '/works/pet-illust-1.jpg',
     },
+    {
+        id: 'other',
+        name: 'その他のご相談',
+        desc: '墨絵風・ドット絵風・油絵風など、ご希望のテイストを自由にご相談ください。',
+        image: null,        // 画像なし → アイコン表示
+        iconChar: '🎨',
+    },
 ];
 
 const artStyleLabel = (id) =>
     ART_STYLES.find((s) => s.id === id)?.name ?? id;
+
+const MAX_STYLE_REFS = 3;
 
 const ALLOWED_MIMES = new Set([
     'image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'image/heif',
@@ -243,10 +252,33 @@ function Step1Plan({
     planId, setPlanId, goodsTypes, setGoodsTypes,
     goodsDetails, setGoodsDetails,
     artStyle, setArtStyle,
+    customStyle, setCustomStyle,
+    styleReferences, setStyleReferences,
     giftWrap, setGiftWrap, giftMessage, setGiftMessage,
     errors,
 }) {
     const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
+    const refInputRef = useRef(null);
+
+    // 「その他」用 参考画像の追加（最大3枚 / 10MB）
+    const handleAddStyleRefs = async (fileList) => {
+        const incoming = Array.from(fileList ?? []);
+        let slot = MAX_STYLE_REFS - styleReferences.length;
+        const accepted = [];
+        for (const f of incoming) {
+            if (slot <= 0) break;
+            if (!isAllowedFile(f)) continue;
+            if (f.size > MAX_FILE_SIZE) continue;
+            try {
+                const dataUrl = await readAsDataUrl(f);
+                accepted.push({ name: f.name, size: f.size, type: f.type, dataUrl });
+                slot -= 1;
+            } catch { /* ignore single-file failure */ }
+        }
+        if (accepted.length) setStyleReferences([...styleReferences, ...accepted]);
+    };
+    const removeStyleRef = (idx) =>
+        setStyleReferences(styleReferences.filter((_, i) => i !== idx));
 
     const setSlotGoods = (slot, value) => {
         const nextTypes = [...goodsTypes];
@@ -386,7 +418,7 @@ function Step1Plan({
                         <span className="paws-form-label__opt">（おすすめ: キャラクター調）</span>
                     </p>
                     <p className="paws-form-help">
-                        もふラボ は <strong>キャラクター調</strong> がメインです。実写風もお選びいただけます。
+                        もふラボ は <strong>キャラクター調</strong> がメインです。実写風や、墨絵風/ドット絵風など <strong>その他のテイスト</strong> もご相談いただけます。
                     </p>
                     <div className="paws-art-style">
                         {ART_STYLES.map((style) => {
@@ -411,11 +443,20 @@ function Step1Plan({
                                         <span className="paws-art-style__badge">メイン</span>
                                     )}
                                     <span className="paws-art-style__image">
-                                        <PictureWebp
-                                            src={style.image}
-                                            alt={`${style.name}のサンプルイラスト`}
-                                            loading="lazy"
-                                        />
+                                        {style.image ? (
+                                            <PictureWebp
+                                                src={style.image}
+                                                alt={`${style.name}のサンプルイラスト`}
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <span
+                                                className="paws-art-style__icon"
+                                                aria-hidden="true"
+                                            >
+                                                {style.iconChar ?? '✨'}
+                                            </span>
+                                        )}
                                     </span>
                                     <span className="paws-art-style__body">
                                         <span className="paws-art-style__name">{style.name}</span>
@@ -425,6 +466,77 @@ function Step1Plan({
                             );
                         })}
                     </div>
+
+                    {artStyle === 'other' && (
+                        <div className="paws-art-other">
+                            <label
+                                htmlFor="art-other-detail"
+                                className="paws-form-label"
+                            >
+                                ご希望のテイスト・参考にしたい雰囲気
+                                <span className="paws-form-label__opt">（自由記入）</span>
+                            </label>
+                            <p className="paws-form-help">
+                                例: 墨絵風で和の雰囲気に / ドット絵風 / 油絵風 / ○○さんの作品のタッチに寄せて など
+                            </p>
+                            <textarea
+                                id="art-other-detail"
+                                className="paws-form-input paws-form-input--textarea"
+                                rows={3}
+                                value={customStyle}
+                                onChange={(e) => setCustomStyle(e.target.value)}
+                                placeholder="ご希望のテイストや雰囲気をご自由にご記入ください"
+                            />
+
+                            <div className="paws-art-other__refs">
+                                <p className="paws-form-label">
+                                    参考画像
+                                    <span className="paws-form-label__opt">
+                                        （任意・最大{MAX_STYLE_REFS}枚 / 各10MBまで）
+                                    </span>
+                                </p>
+                                <p className="paws-form-help">
+                                    雰囲気が伝わる画像があれば一緒にお送りください。
+                                </p>
+                                <input
+                                    ref={refInputRef}
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/heic,image/heif,image/webp"
+                                    multiple
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => {
+                                        handleAddStyleRefs(e.target.files);
+                                        e.target.value = '';
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    className="paws-art-other__upload-btn"
+                                    onClick={() => refInputRef.current?.click()}
+                                    disabled={styleReferences.length >= MAX_STYLE_REFS}
+                                >
+                                    + 参考画像を追加
+                                </button>
+                                {styleReferences.length > 0 && (
+                                    <ul className="paws-art-other__files">
+                                        {styleReferences.map((f, i) => (
+                                            <li key={`${f.name}-${i}`} className="paws-art-other__file">
+                                                <span className="paws-art-other__filename">{f.name}</span>
+                                                <button
+                                                    type="button"
+                                                    className="paws-art-other__remove"
+                                                    onClick={() => removeStyleRef(i)}
+                                                    aria-label={`${f.name} を削除`}
+                                                >
+                                                    ×
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -704,7 +816,7 @@ function ReviewRow({ label, children }) {
     );
 }
 
-function Step4Review({ plan, goodsTypes, goodsDetails, artStyle, giftWrap, giftMessage, photos, customer }) {
+function Step4Review({ plan, goodsTypes, goodsDetails, artStyle, customStyle, styleReferences, giftWrap, giftMessage, photos, customer }) {
     const fmtGoods = (i) =>
         goodsTypes[i] + (goodsDetails[i] ? `（${goodsDetails[i]}）` : '');
     return (
@@ -726,7 +838,19 @@ function Step4Review({ plan, goodsTypes, goodsDetails, artStyle, giftWrap, giftM
                     </ReviewRow>
                 )}
 
-                <ReviewRow label="画風">{artStyleLabel(artStyle)}</ReviewRow>
+                <ReviewRow label="画風">
+                    {artStyleLabel(artStyle)}
+                    {artStyle === 'other' && customStyle && (
+                        <span className="paws-review__sub" style={{ whiteSpace: 'pre-line' }}>
+                            ご希望: {customStyle}
+                        </span>
+                    )}
+                    {artStyle === 'other' && styleReferences.length > 0 && (
+                        <span className="paws-review__sub">
+                            参考画像: {styleReferences.length}枚（{styleReferences.map((f) => f.name).join(' / ')}）
+                        </span>
+                    )}
+                </ReviewRow>
 
                 {giftWrap && (
                     <ReviewRow label="ギフトオプション">
@@ -912,6 +1036,8 @@ export default function PawsPressOrderPage() {
     const [goodsTypes, setGoodsTypes] = useState(['', '']);
     const [goodsDetails, setGoodsDetails] = useState(['', '']);
     const [artStyle, setArtStyle] = useState('character');
+    const [customStyle, setCustomStyle] = useState('');
+    const [styleReferences, setStyleReferences] = useState([]);
     const [giftWrap, setGiftWrap] = useState(false);
     const [giftMessage, setGiftMessage] = useState('');
     const [photos, setPhotos] = useState([]);
@@ -1021,7 +1147,16 @@ export default function PawsPressOrderPage() {
                 planId === 'pet-single' ? [goodsDetails[0]]
                     : planId === 'pet-pair' ? goodsDetails
                         : [],
-            artStyle, // 'character' (キャラクター調) | 'realistic' (実写風)
+            artStyle, // 'character' | 'realistic' | 'other'
+            // 「その他のご相談」の自由記入テキスト + 参考画像
+            // ★ ENGINEER CONNECTION POINT ★
+            // styleReferences は dataUrl を含むため、実運用ではストレージへアップロードして
+            //   URL/パス参照に置き換える。ここでは送信payloadでは metadata のみ残す。
+            customStyle: artStyle === 'other' ? customStyle : '',
+            styleReferences:
+                artStyle === 'other'
+                    ? styleReferences.map((f) => ({ name: f.name, size: f.size, type: f.type }))
+                    : [],
             // ★ ENGINEER CONNECTION POINT ★
             // ギフトオプション(+¥3,300)は受注/決済処理で加算する。グッズ系プランのみ適用。
             giftWrap: hasGoods && giftWrap,
@@ -1103,7 +1238,17 @@ export default function PawsPressOrderPage() {
                         goodsDetails={goodsDetails}
                         setGoodsDetails={setGoodsDetails}
                         artStyle={artStyle}
-                        setArtStyle={setArtStyle}
+                        setArtStyle={(id) => {
+                            setArtStyle(id);
+                            if (id !== 'other') {
+                                setCustomStyle('');
+                                setStyleReferences([]);
+                            }
+                        }}
+                        customStyle={customStyle}
+                        setCustomStyle={setCustomStyle}
+                        styleReferences={styleReferences}
+                        setStyleReferences={setStyleReferences}
                         giftWrap={giftWrap}
                         setGiftWrap={setGiftWrap}
                         giftMessage={giftMessage}
@@ -1132,6 +1277,8 @@ export default function PawsPressOrderPage() {
                         goodsTypes={goodsTypes}
                         goodsDetails={goodsDetails}
                         artStyle={artStyle}
+                        customStyle={customStyle}
+                        styleReferences={styleReferences}
                         giftWrap={giftWrap}
                         giftMessage={giftMessage}
                         photos={photos}
