@@ -34,7 +34,7 @@ const GOODS_OPTIONS = [
     { name: 'マグカップ',         image: '/works/goods-mug.webp' },
     { name: 'クッション',         image: '/works/goods-cushion.webp' },
     { name: 'スマホケース',       image: '/works/goods-phonecase.webp' },
-    { name: 'アクリルキーホルダー', image: null,  iconChar: '🔑' },
+    { name: 'アクリルキーホルダー', image: '/works/goods-acrylic.webp' },
     { name: 'その他ご相談',        image: null,  iconChar: '💬' },
 ];
 

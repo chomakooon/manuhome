@@ -131,9 +131,9 @@ export const GUIDE_CONTENT = {
                 kind: 'mockup',
                 // ★ ENGINEER CONNECTION POINT ★
                 // 確認画像の配信・承認フローは、将来マイページ or 承認API に接続する。
-                src: '/works/mockup-design-check-email.webp',
-                alt: 'デザイン確認メールの例',
-                caption: '実際の確認画面イメージ',
+                src: '/guide/design-check-line.webp',
+                alt: 'LINEでのデザイン確認イメージ：イラスト完成のお知らせと「イラストOKです！」「修正をお願いします」の選択ボタン',
+                caption: '実際の確認画面イメージ（LINEの場合）',
                 channels: [
                     { iconName: 'Mail', label: 'メールで確認' },
                     { iconName: 'MessageCircle', label: 'LINEでも確認可' },

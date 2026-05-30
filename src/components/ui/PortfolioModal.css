@@ -71,22 +71,22 @@
 .portfolio-modal-image-container {
     width: 100%;
     flex-shrink: 0;
-    height: 50vh;             /* max-height → height で固定枠を作り */
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    background: #FFFFFF;        /* 黒地はもふらぼのトーンに合わないため白へ */
     position: relative;
+    padding: 1rem;              /* 画像が枠端に張り付かないようゆとり */
 }
 
-/* 画像は枠内に「contain」で収まるよう max-* に変更。
-   width:100%/height:100% だと縦長画像が見切れる問題があった (2026-05-30 fix)。 */
+/* 画像は最大幅 100% / 最大高さ 45vh の範囲で
+   元のアスペクト比を維持して縮小表示。
+   コンテナ自身は画像の高さに合わせて伸縮する。 */
 .portfolio-modal-image-container img {
+    max-width: 100%;
+    max-height: 45vh;
     width: auto;
     height: auto;
-    max-width: 100%;
-    max-height: 100%;
     object-fit: contain;
     display: block;
 }
@@ -192,6 +192,9 @@
     }
 
     .portfolio-modal-image-container {
-        height: 40vh;
+        padding: 0.75rem;
+    }
+    .portfolio-modal-image-container img {
+        max-height: 38vh;
     }
 }
