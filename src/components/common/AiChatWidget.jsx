@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Loader } from 'lucide-react';
 import './AiChatWidget.css';
+import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 
-const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const CHAT_MODEL = 'google/gemini-2.5-flash';
 
 const SYSTEM_PROMPT = `あなたは「かたち便」というイラスト制作サービスの注文アシスタントです。
@@ -50,8 +49,8 @@ export default function AiChatWidget() {
         setInput('');
         setLoading(true);
 
-        // If no API key, return a static response
-        if (!OPENROUTER_API_KEY) {
+        // If backend is not configured, return a static response
+        if (!isSupabaseConfigured) {
             setTimeout(() => {
                 setMessages(prev => [...prev, {
                     role: 'assistant',
@@ -69,21 +68,15 @@ export default function AiChatWidget() {
                 { role: 'user', content: text },
             ];
 
-            const res = await fetch(OPENROUTER_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
+            const { data, error } = await supabase.functions.invoke('ai-chat', {
+                body: {
                     model: CHAT_MODEL,
                     messages: apiMessages,
                     max_tokens: 300,
-                }),
+                },
             });
-
-            const data = await res.json();
-            const reply = data?.choices?.[0]?.message?.content || 'すみません、うまく応答できませんでした。';
+            if (error) throw error;
+            const reply = data?.reply || 'すみません、うまく応答できませんでした。';
 
             setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
         } catch {

@@ -1,0 +1,17 @@
+# SPA fallback: すべての未知パスを index.html に渡す（BrowserRouter対応）
+# 実ファイル・実ディレクトリはそのまま配信し、それ以外は index.html へ
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# 静的アセットのキャッシュ（任意・既存サイト方針に合わせて調整可）
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+</IfModule>
