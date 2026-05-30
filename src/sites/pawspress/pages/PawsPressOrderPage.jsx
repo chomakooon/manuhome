@@ -13,7 +13,8 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { isStripeConfigured } from '../../../lib/stripe';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import PageSeo from '../../../components/PageSeo';
 import PictureWebp from '../../../components/PictureWebp';
@@ -1169,6 +1170,7 @@ function CompletedScreen() {
 
 export default function PawsPressOrderPage() {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const initialPlan = searchParams.get('plan') ?? '';
 
     const [step, setStep] = useState(1);
@@ -1270,8 +1272,13 @@ export default function PawsPressOrderPage() {
     };
 
     // 確認(4) → 送信: 即完了にせず、決済ステップ(5)へ進む
+    // Stripe未設定（本番化前）はモック決済に進ませず、お問い合わせへ誘導する
     const handleProceedToPayment = () => {
         setErrors({});
+        if (!isStripeConfigured) {
+            navigate('/pet/contact');
+            return;
+        }
         setStep(5);
         scrollTop();
     };
@@ -1474,7 +1481,7 @@ export default function PawsPressOrderPage() {
                             onClick={handleProceedToPayment}
                             className="paws-form-btn paws-form-btn--primary paws-form-btn--ready"
                         >
-                            お支払いに進む →
+                            {isStripeConfigured ? 'お支払いに進む →' : 'お問い合わせへ進む →'}
                         </button>
                     </>
                 )}
