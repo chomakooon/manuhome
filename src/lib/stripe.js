@@ -1,6 +1,14 @@
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder';
+const rawStripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+
+// Stripeが実キーで設定済みか（プレースホルダー/未設定なら決済は「準備中」扱い）
+export const isStripeConfigured = !!rawStripeKey
+    && rawStripeKey.startsWith('pk_')
+    && !rawStripeKey.includes('your-key')
+    && !rawStripeKey.includes('placeholder');
+
+const stripeKey = rawStripeKey || 'pk_test_placeholder';
 
 let stripePromise;
 export const getStripe = () => {

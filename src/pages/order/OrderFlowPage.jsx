@@ -3,7 +3,7 @@ import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import { ShoppingBag, Upload, Palette, ClipboardCheck, CreditCard, ArrowRight, ArrowLeft, Check, Loader, FileText, User, Camera, Package, Image, Sparkles, RefreshCw, Mic } from 'lucide-react';
 import FileUpload from '../../components/portal/FileUpload';
 import { supabase } from '../../lib/supabase';
-import { createCheckoutSession } from '../../lib/stripe';
+import { createCheckoutSession, isStripeConfigured } from '../../lib/stripe';
 import { formatPrice } from '../../lib/constants';
 import { getIconByName } from '../../lib/iconRegistry';
 import { getTemplateById } from '../../lib/templates';
@@ -193,6 +193,12 @@ export default function OrderFlowPage() {
 
     const handlePayment = async () => {
         if (!canProceed()) return;
+
+        // Stripe未設定時は決済を実行せず案内のみ（本番化までの暫定）
+        if (!isStripeConfigured) {
+            alert('決済機能は現在準備中です。恐れ入りますが、ご注文・ご相談はお問い合わせフォームよりお願いいたします。');
+            return;
+        }
 
         setLoading(true);
         try {
@@ -536,19 +542,30 @@ export default function OrderFlowPage() {
                                     </div>
 
                                     <div className="order-payment-note">
-                                        <p>お支払い完了後、自動的にプロジェクトが作成されます。</p>
+                                        <p>{isStripeConfigured
+                                            ? 'お支払い完了後、自動的にプロジェクトが作成されます。'
+                                            : '決済機能は現在準備中です。恐れ入りますが、ご注文・ご相談はお問い合わせフォームよりお願いいたします。'}</p>
                                     </div>
-                                    <button
-                                        className="btn btn-primary btn-lg order-pay-btn"
-                                        onClick={handlePayment}
-                                        disabled={loading}
-                                    >
-                                        {loading ? (
-                                            <><Loader size={18} className="spin" /> 処理中...</>
-                                        ) : (
-                                            <><CreditCard size={18} /> お支払いへ進む</>
-                                        )}
-                                    </button>
+                                    {isStripeConfigured ? (
+                                        <button
+                                            className="btn btn-primary btn-lg order-pay-btn"
+                                            onClick={handlePayment}
+                                            disabled={loading}
+                                        >
+                                            {loading ? (
+                                                <><Loader size={18} className="spin" /> 処理中...</>
+                                            ) : (
+                                                <><CreditCard size={18} /> お支払いへ進む</>
+                                            )}
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="btn btn-primary btn-lg order-pay-btn"
+                                            onClick={() => navigate('/intake')}
+                                        >
+                                            <CreditCard size={18} /> お問い合わせへ進む
+                                        </button>
+                                    )}
                                 </>
                             )}
                         </div>
