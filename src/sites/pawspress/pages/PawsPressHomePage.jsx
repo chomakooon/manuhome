@@ -670,7 +670,7 @@ export default function PawsPressHomePage() {
     return (
         <div className="paws-home">
             <PageSeo pageKey="pet" />
-            <HeroSection heroImage="/works/pet-hero.jpg" />
+            <HeroSection heroImage="/works/pet-goods-sample.jpg" />
             <HowItWorksSection />
             <PlansSection />
             <ConcernsSection />
