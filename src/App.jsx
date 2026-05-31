@@ -61,6 +61,7 @@ const AdminOrderListPage = lazy(() => import('./pages/admin/AdminOrderListPage')
 const AdminOrderDetailPage = lazy(() => import('./pages/admin/AdminOrderDetailPage'));
 const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
 const AdminContactListPage = lazy(() => import('./pages/admin/AdminContactListPage'));
+const AdminResetPasswordPage = lazy(() => import('./pages/admin/AdminResetPasswordPage'));
 
 // ── もふらぼ (Step 2-B / 2-C) ──
 const PawsPressLayout = lazy(() => import('./sites/pawspress/layout/PawsPressLayout'));
@@ -119,8 +120,9 @@ function AppRoutes() {
           />
         ))}
 
-        {/* ── Admin ログイン（認証ガード対象外） ── */}
+        {/* ── Admin ログイン・パスワード再設定（認証ガード対象外） ── */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
 
         {/* ── Admin OS Dashboard（creator のみ。未認証は /admin/login へ） ── */}
         <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>

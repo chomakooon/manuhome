@@ -15,6 +15,7 @@ export default function AdminLoginPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
+    const [resetMsg, setResetMsg] = useState('');
 
     // 既にログイン済み(creator)なら /admin へ
     useEffect(() => {
@@ -22,6 +23,23 @@ export default function AdminLoginPage() {
             navigate('/admin', { replace: true });
         }
     }, [loading, user, isCreator, navigate]);
+
+    const handleResetRequest = async () => {
+        setError('');
+        setResetMsg('');
+        if (!email.trim()) {
+            setError('パスワード再設定には、まずメールアドレスを入力してください。');
+            return;
+        }
+        try {
+            await supabase.auth.resetPasswordForEmail(email.trim(), {
+                redirectTo: `${window.location.origin}/admin/reset-password`,
+            });
+            setResetMsg('パスワード再設定メールを送信しました。メール内のリンクから新しいパスワードを設定してください。');
+        } catch {
+            setError('再設定メールの送信に失敗しました。時間をおいて再度お試しください。');
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -88,6 +106,9 @@ export default function AdminLoginPage() {
                 {error && (
                     <p role="alert" style={{ color: '#dc2626', fontSize: 13, marginBottom: 16 }}>{error}</p>
                 )}
+                {resetMsg && (
+                    <p role="status" style={{ color: '#059669', fontSize: 13, marginBottom: 16 }}>{resetMsg}</p>
+                )}
 
                 <button
                     type="submit"
@@ -95,6 +116,14 @@ export default function AdminLoginPage() {
                     style={{ width: '100%', padding: '12px', background: submitting ? '#94a3b8' : '#00CFFF', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: submitting ? 'default' : 'pointer' }}
                 >
                     {submitting ? 'ログイン中…' : 'ログイン'}
+                </button>
+
+                <button
+                    type="button"
+                    onClick={handleResetRequest}
+                    style={{ display: 'block', margin: '16px auto 0', background: 'none', border: 'none', color: '#64748b', fontSize: 13, textDecoration: 'underline', cursor: 'pointer' }}
+                >
+                    パスワードを忘れた方・変更したい方
                 </button>
             </form>
         </div>
