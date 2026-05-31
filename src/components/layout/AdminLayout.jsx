@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, Mail, LogOut } from 'lucide-react';
 import Icon from '../common/Icon';
 import { useAuth } from '../../contexts/AuthContext';
 import './AdminLayout.css';
@@ -19,6 +19,7 @@ export default function AdminLayout() {
     const navItems = [
         { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
         { to: '/admin/orders', icon: FileText, label: 'Orders' },
+        { to: '/admin/contacts', icon: Mail, label: 'お問い合わせ' },
     ];
 
     return (
