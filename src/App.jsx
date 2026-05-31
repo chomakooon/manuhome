@@ -62,6 +62,7 @@ const AdminOrderDetailPage = lazy(() => import('./pages/admin/AdminOrderDetailPa
 const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
 const AdminContactListPage = lazy(() => import('./pages/admin/AdminContactListPage'));
 const AdminResetPasswordPage = lazy(() => import('./pages/admin/AdminResetPasswordPage'));
+const AdminSettingsPage = lazy(() => import('./pages/admin/AdminSettingsPage'));
 
 // ── もふらぼ (Step 2-B / 2-C) ──
 const PawsPressLayout = lazy(() => import('./sites/pawspress/layout/PawsPressLayout'));
@@ -130,6 +131,7 @@ function AppRoutes() {
           <Route path="orders" element={<AdminOrderListPage />} />
           <Route path="orders/:id" element={<AdminOrderDetailPage />} />
           <Route path="contacts" element={<AdminContactListPage />} />
+          <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
       </Routes>
     </Suspense>

@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, Mail, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, Mail, Settings, LogOut } from 'lucide-react';
 import Icon from '../common/Icon';
 import { useAuth } from '../../contexts/AuthContext';
 import './AdminLayout.css';
@@ -20,6 +20,7 @@ export default function AdminLayout() {
         { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
         { to: '/admin/orders', icon: FileText, label: 'Orders' },
         { to: '/admin/contacts', icon: Mail, label: 'お問い合わせ' },
+        { to: '/admin/settings', icon: Settings, label: '設定' },
     ];
 
     return (
