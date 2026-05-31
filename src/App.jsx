@@ -2,6 +2,8 @@ import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useBrandTheme } from './sites/useBrandTheme';
 import { GUIDE_LINKS } from './sites/pawspress/data/guideLinks';
+import { AuthProvider } from './contexts/AuthContext';
+import AdminRoute from './components/layout/AdminRoute';
 
 /**
  * ルート遷移時にページ上部へスクロール。
@@ -57,6 +59,7 @@ const AdminLayout = lazy(() => import('./components/layout/AdminLayout'));
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
 const AdminOrderListPage = lazy(() => import('./pages/admin/AdminOrderListPage'));
 const AdminOrderDetailPage = lazy(() => import('./pages/admin/AdminOrderDetailPage'));
+const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
 
 // ── もふらぼ (Step 2-B / 2-C) ──
 const PawsPressLayout = lazy(() => import('./sites/pawspress/layout/PawsPressLayout'));
@@ -115,8 +118,11 @@ function AppRoutes() {
           />
         ))}
 
-        {/* ── Admin OS Dashboard ── */}
-        <Route path="/admin" element={<AdminLayout />}>
+        {/* ── Admin ログイン（認証ガード対象外） ── */}
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+
+        {/* ── Admin OS Dashboard（creator のみ。未認証は /admin/login へ） ── */}
+        <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
           <Route index element={<AdminDashboardPage />} />
           <Route path="orders" element={<AdminOrderListPage />} />
           <Route path="orders/:id" element={<AdminOrderDetailPage />} />
@@ -128,9 +134,11 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <AppRoutes />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

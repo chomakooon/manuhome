@@ -1,9 +1,21 @@
-import { NavLink, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Users, FileText, Settings, LogOut } from 'lucide-react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, FileText, LogOut } from 'lucide-react';
 import Icon from '../common/Icon';
+import { useAuth } from '../../contexts/AuthContext';
 import './AdminLayout.css';
 
 export default function AdminLayout() {
+    const { signOut } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await signOut();
+        } finally {
+            navigate('/admin/login', { replace: true });
+        }
+    };
+
     const navItems = [
         { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
         { to: '/admin/orders', icon: FileText, label: 'Orders' },
@@ -39,7 +51,7 @@ export default function AdminLayout() {
                 </nav>
 
                 <div className="admin-sidebar__footer">
-                    <button className="admin-sidebar__logout">
+                    <button className="admin-sidebar__logout" onClick={handleLogout}>
                         <LogOut size={16} /> Logout
                     </button>
                 </div>
