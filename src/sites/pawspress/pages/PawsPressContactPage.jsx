@@ -9,6 +9,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageSeo from '../../../components/PageSeo';
+import { submitContact } from '../../../lib/contact';
 import '../styles/forms.css';
 import './PawsPressContactPage.css';
 
@@ -58,6 +59,8 @@ function CompletedScreen() {
 
 export default function PawsPressContactPage() {
     const [submitted, setSubmitted] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [submitError, setSubmitError] = useState('');
     const [data, setData] = useState({
         name: '', email: '', phone: '', inquiryType: '', message: '',
     });
@@ -75,16 +78,30 @@ export default function PawsPressContactPage() {
         return next;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errs = validate();
         setErrors(errs);
         if (Object.keys(errs).length) return;
 
-        const submission = { ...data, submittedAt: new Date().toISOString() };
-        console.log('[contact] submission:', submission);
-        setSubmitted(true);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setSending(true);
+        setSubmitError('');
+        try {
+            await submitContact({
+                source: 'pawspress-contact',
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                message: data.message,
+                metadata: { inquiryType: data.inquiryType },
+            });
+            setSubmitted(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch {
+            setSubmitError('送信に失敗しました。お手数ですが時間をおいて再度お試しください。');
+        } finally {
+            setSending(false);
+        }
     };
 
     if (submitted) return <CompletedScreen />;
@@ -162,12 +179,19 @@ export default function PawsPressContactPage() {
                     </p>
                 </div>
 
+                {submitError && (
+                    <p className="paws-contact__error" role="alert" style={{ color: '#c0392b', marginTop: 12 }}>
+                        {submitError}
+                    </p>
+                )}
+
                 <div className="paws-contact__nav">
                     <button
                         type="submit"
                         className="paws-form-btn paws-form-btn--primary"
+                        disabled={sending}
                     >
-                        送信する →
+                        {sending ? '送信中…' : '送信する →'}
                     </button>
                 </div>
             </form>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Briefcase, Dog, Users, MessageCircle, Send } from 'lucide-react';
+import { submitContact } from '../../lib/contact';
 import './IntakePage.css';
 
 const INQUIRY_TYPES = [
@@ -142,6 +143,23 @@ export default function IntakePage() {
                 body: JSON.stringify(submissionData),
             }).catch((err) => console.warn('Hub webhook failed (non-blocking):', err));
         }
+
+        // contacts テーブル保存 + Discord/Slack 通知（fire-and-forget でUXは即/thanksへ）
+        submitContact({
+            source: 'intake',
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            metadata: {
+                inquiryType: formData.inquiryType,
+                company: formData.company,
+                sns: formData.sns,
+                goal: formData.goal,
+                budget_range: formData.budget_range,
+                deadline: formData.deadline,
+                details: detailsJson,
+            },
+        }).catch((err) => console.warn('submit-contact failed (non-blocking):', err));
 
         navigate('/thanks');
     };

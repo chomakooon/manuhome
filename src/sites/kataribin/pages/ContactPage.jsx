@@ -25,6 +25,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { pricingPlans } from '../../../config/pricing.config';
+import { submitContact } from '../../../lib/contact';
 import { SNS_LINKS } from '../../../config/social.config';
 import Breadcrumb from '../components/Breadcrumb';
 import PageSeo from '../../../components/PageSeo';
@@ -135,17 +136,21 @@ const readAsDataUrl = (file) =>
    - reCAPTCHA / Turnstile 等の bot 対策は Worker 側で要検討
 */
 async function submitContactForm(formData) {
-    // ⚠️ 未実装 — エンジニアがここを fetch 実装に置き換える
-    // 開発中の擬似遅延（実 API の体感に近い 1.2 秒）
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-
-    // ── テスト切替（一時的に有効化して挙動確認） ─────
-    // throw new Error('SUBMIT_FAILED');          // ❌ 失敗ケース
-    // ─────────────────────────────────────────
-
-    // 開発中はコンソールにダンプ（実装時に削除可）
-    console.log('[contact] submission (mock):', formData);
-    return { ok: true };
+    // contacts テーブル保存 + Discord/Slack 通知（submit-contact Edge Function）
+    // 画像はまずメタデータ（ファイル名・サイズ）のみ通知に含める。本体アップロードは次段階。
+    return await submitContact({
+        source: 'kataribin-contact',
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        metadata: {
+            planId: formData.planId ?? null,
+            referencePhotos: (formData.referencePhotos || []).map((p) => ({
+                name: p.name, size: p.size, type: p.type,
+            })),
+            userAgent: formData.userAgent,
+        },
+    });
 }
 
 // ── Sub components ─────────────────────────────
