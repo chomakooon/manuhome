@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
                 style={{ width: '100%', maxWidth: 360, background: '#fff', borderRadius: 12, padding: 32, boxShadow: '0 10px 40px rgba(0,0,0,.3)' }}
             >
                 <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4, color: '#0f172a' }}>管理画面ログイン</h1>
-                <p style={{ fontSize: 13, color: '#64748b', marginBottom: 24 }}>カタチ便 Admin OS</p>
+                <p style={{ fontSize: 13, color: '#64748b', marginBottom: 24 }}>カタチらぼ Admin OS</p>
 
                 <label htmlFor="admin-email" style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>メールアドレス</label>
                 <input

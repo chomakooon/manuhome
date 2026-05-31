@@ -7,7 +7,7 @@ const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
 const CHAT_MODEL = 'google/gemini-2.5-flash';
 
-const SYSTEM_PROMPT = `あなたは「かたち便」というイラスト制作サービスのAIアシスタントです。
+const SYSTEM_PROMPT = `あなたは「カタチらぼ」というイラスト制作サービスのAIアシスタントです。
 お客様の質問に親切に答え、注文の手助けをしてください。
 
 対応サービス：
@@ -35,7 +35,7 @@ const FAQ_ITEMS = [
 export default function AiAssistant() {
     const [open, setOpen] = useState(false);
     const [messages, setMessages] = useState([
-        { role: 'assistant', content: 'こんにちは！かたち便のAIアシスタントです。ご質問やフォーム入力のご相談、お気軽にどうぞ。' },
+        { role: 'assistant', content: 'こんにちは！カタチらぼのAIアシスタントです。ご質問やフォーム入力のご相談、お気軽にどうぞ。' },
     ]);
     const [showFaq, setShowFaq] = useState(true);
     const [input, setInput] = useState('');

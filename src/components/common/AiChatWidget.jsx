@@ -5,7 +5,7 @@ import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 
 const CHAT_MODEL = 'google/gemini-2.5-flash';
 
-const SYSTEM_PROMPT = `あなたは「かたち便」というイラスト制作サービスの注文アシスタントです。
+const SYSTEM_PROMPT = `あなたは「カタチらぼ」というイラスト制作サービスの注文アシスタントです。
 お客様がフォーム入力で迷っている際に、親切にサポートしてください。
 
 対応できるサービス：

@@ -1,4 +1,4 @@
-# robots.txt for カタチ便 (manuhome)
+# robots.txt for カタチらぼ (manuhome)
 # Phase 15: SEO 整備
 
 User-agent: *
