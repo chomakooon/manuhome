@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 /**
  * 管理画面ログイン（メール + パスワード）。
@@ -27,9 +28,26 @@ export default function AdminLoginPage() {
         setError('');
         setSubmitting(true);
         try {
-            await signInWithPassword(email.trim(), password);
-            // onAuthStateChange → profile取得後、上のuseEffectが /admin へ遷移
-            // 念のため少し待ってから判定（profile未取得で弾かれないように）
+            const result = await signInWithPassword(email.trim(), password);
+            // ログイン直後、AuthContextのstate更新を待たず自分でprofileを確認して遷移する
+            const uid = result?.user?.id;
+            if (uid) {
+                const { data: prof } = await supabase
+                    .from('profiles')
+                    .select('role')
+                    .eq('id', uid)
+                    .single();
+                if (prof?.role === 'creator') {
+                    navigate('/admin', { replace: true });
+                    return;
+                }
+                setError('このアカウントには管理画面の権限がありません。');
+                await supabase.auth.signOut();
+                setSubmitting(false);
+                return;
+            }
+            setError('ログインに失敗しました。');
+            setSubmitting(false);
         } catch {
             setError('ログインに失敗しました。メールアドレスとパスワードをご確認ください。');
             setSubmitting(false);
