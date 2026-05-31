@@ -9,6 +9,7 @@
 import { useLocation } from 'react-router-dom';
 import KataribinHeader from './KataribinHeader';
 import KataribinFooter from './KataribinFooter';
+import AiChatWidget from '../../../components/common/AiChatWidget';
 import './KataribinLayout.css';
 
 export default function KataribinLayout({ children }) {
@@ -27,6 +28,7 @@ export default function KataribinLayout({ children }) {
                 </div>
             </main>
             <KataribinFooter />
+            <AiChatWidget />
         </div>
     );
 }

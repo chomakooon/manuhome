@@ -14,6 +14,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { GUIDE_LINKS } from '../data/guideLinks';
+import AiChatWidget from '../../../components/common/AiChatWidget';
 import './PawsPressLayout.css';
 
 const LOGO_PATH = '/hero/pawspress-logo.jpg';
@@ -179,6 +180,7 @@ export default function PawsPressLayout({ children }) {
                 </div>
             </main>
             <PawsPressFooter />
+            <AiChatWidget />
         </div>
     );
 }
