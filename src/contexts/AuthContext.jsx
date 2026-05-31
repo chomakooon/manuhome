@@ -17,11 +17,14 @@ export function AuthProvider({ children }) {
         });
 
         // Listen for auth changes
+        // 注意: onAuthStateChange のコールバック内で await すると Supabase JS が
+        // signInWithPassword 等の Promise をブロックしてデッドロックする（既知の挙動）。
+        // そのため await せず、fetchProfile は fire-and-forget で呼ぶ。
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            async (_event, session) => {
+            (_event, session) => {
                 setUser(session?.user ?? null);
                 if (session?.user) {
-                    await fetchProfile(session.user.id);
+                    fetchProfile(session.user.id);
                 } else {
                     setProfile(null);
                     setLoading(false);
