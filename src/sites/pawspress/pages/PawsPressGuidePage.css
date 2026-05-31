@@ -881,12 +881,13 @@
 
 /* ── mockup ── */
 .paws-guide-mockup {
-    max-width: 800px;
+    max-width: 360px;
     margin: 0 auto;
 }
 
 .paws-guide-mockup__frame {
-    aspect-ratio: 16 / 10;
+    /* LINE等のスマホスクショ（縦長 555x1200 ≒ 9:19.5）に合わせる */
+    aspect-ratio: 555 / 1200;
     border-radius: 24px;
     overflow: hidden;
     background-color: #FFFFFF;
