@@ -9,4 +9,4 @@ Disallow: /admin
 Disallow: /order/flow/
 Disallow: /order/success
 
-Sitemap: https://manuhome.vercel.app/sitemap.xml
+Sitemap: https://katachi-lab.creative-own.com/sitemap.xml

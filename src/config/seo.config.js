@@ -39,7 +39,7 @@
 
 export const SEO_DEFAULTS = {
     siteName: 'カタチらぼ',
-    siteUrl: 'https://manuhome.vercel.app',
+    siteUrl: 'https://katachi-lab.creative-own.com',
     author: '岡崎真奈',
     locale: 'ja_JP',
     defaultDescription:
