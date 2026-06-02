@@ -13,7 +13,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { isStripeConfigured } from '../../../lib/stripe';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import { findCoupon, isCouponApplicable, computeDiscount } from '../data/coupons';
@@ -1264,7 +1264,6 @@ function CompletedScreen() {
 
 export default function PawsPressOrderPage() {
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
     const initialPlan = searchParams.get('plan') ?? '';
 
     const [step, setStep] = useState(1);
@@ -1421,66 +1420,69 @@ export default function PawsPressOrderPage() {
             return;
         }
         setErrors({});
+        // Stripe 未設定時は決済ステップを飛ばし、注文受付として完了画面へ進む
+        // (旧挙動: /pet/contact へ離脱して入力データが破棄されていた)
         if (!isStripeConfigured) {
-            navigate('/pet/contact');
+            submitOrder({ paid: false });
             return;
         }
         setStep(5);
         scrollTop();
     };
 
+    /**
+     * 注文送信ロジックを抽出。Stripe 決済を経由する場合 (paid:true) と、
+     * 決済未設定時の「お申込み受付」ケース (paid:false) の両方から呼ばれる。
+     */
+    const submitOrder = ({ paid }) => {
+        const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
+        const submission = buildSubmission({ paid, hasGoods });
+        console.log('[order] submission:', submission);
+        setSubmitted(true);
+        scrollTop();
+        return submission;
+    };
+
+    const buildSubmission = ({ paid, hasGoods }) => ({
+        plan: selectedPlan,
+        goodsTypes:
+            planId === 'pet-single' ? [goodsTypes[0]]
+                : planId === 'pet-pair' ? goodsTypes
+                    : [],
+        goodsDetails:
+            planId === 'pet-single' ? [goodsDetails[0]]
+                : planId === 'pet-pair' ? goodsDetails
+                    : [],
+        artStyle,
+        customStyle: artStyle === 'other' ? customStyle : '',
+        styleReferences:
+            artStyle === 'other'
+                ? styleReferences.map((f) => ({ name: f.name, size: f.size, type: f.type }))
+                : [],
+        giftWrap: hasGoods && giftWrap,
+        giftMessage: hasGoods && giftWrap ? giftMessage : '',
+        amount: totalAmount,
+        paid,
+        photos: photos.map((p) => ({ name: p.name, size: p.size, type: p.type })),
+        customer,
+        coupon: appliedCoupon
+            ? {
+                  code: appliedCoupon.code,
+                  name: appliedCoupon.name,
+                  type: appliedCoupon.type,
+                  value: appliedCoupon.value,
+                  discountAmount,
+                  agreedToTerms: !!couponAgreed,
+              }
+            : null,
+        submittedAt: new Date().toISOString(),
+    });
+
     const handlePay = () => {
         const e = validate(5);
         setErrors(e);
         if (Object.keys(e).length > 0) return;
-
-        const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
-        const submission = {
-            plan: selectedPlan,
-            goodsTypes:
-                planId === 'pet-single' ? [goodsTypes[0]]
-                    : planId === 'pet-pair' ? goodsTypes
-                        : [],
-            goodsDetails:
-                planId === 'pet-single' ? [goodsDetails[0]]
-                    : planId === 'pet-pair' ? goodsDetails
-                        : [],
-            artStyle, // 'character' | 'realistic' | 'other'
-            // 「その他のご相談」の自由記入テキスト + 参考画像
-            // ★ ENGINEER CONNECTION POINT ★
-            // styleReferences は dataUrl を含むため、実運用ではストレージへアップロードして
-            //   URL/パス参照に置き換える。ここでは送信payloadでは metadata のみ残す。
-            customStyle: artStyle === 'other' ? customStyle : '',
-            styleReferences:
-                artStyle === 'other'
-                    ? styleReferences.map((f) => ({ name: f.name, size: f.size, type: f.type }))
-                    : [],
-            // ★ ENGINEER CONNECTION POINT ★
-            // ギフトオプション(+¥3,300)は受注/決済処理で加算する。グッズ系プランのみ適用。
-            giftWrap: hasGoods && giftWrap,
-            giftMessage: hasGoods && giftWrap ? giftMessage : '',
-            amount: totalAmount,
-            // ★ ENGINEER CONNECTION POINT ★
-            // 実決済は決済プロバイダ(Stripe等)に委譲。カード番号は送信ペイロードに含めない。
-            paid: true,
-            photos: photos.map((p) => ({ name: p.name, size: p.size, type: p.type })),
-            customer,
-            // クーポン情報 (適用されていれば metadata に残す)
-            coupon: appliedCoupon
-                ? {
-                      code: appliedCoupon.code,
-                      name: appliedCoupon.name,
-                      type: appliedCoupon.type,
-                      value: appliedCoupon.value,
-                      discountAmount,
-                      agreedToTerms: !!couponAgreed,
-                  }
-                : null,
-            submittedAt: new Date().toISOString(),
-        };
-        console.log('[order] submission:', submission);
-        setSubmitted(true);
-        scrollTop();
+        submitOrder({ paid: true });
     };
 
     const handleAddFiles = async (fileList) => {
@@ -1655,7 +1657,7 @@ export default function PawsPressOrderPage() {
                             onClick={handleProceedToPayment}
                             className="paws-form-btn paws-form-btn--primary paws-form-btn--ready"
                         >
-                            {isStripeConfigured ? 'お支払いに進む →' : 'お問い合わせへ進む →'}
+                            {isStripeConfigured ? 'お支払いに進む →' : 'この内容で注文する →'}
                         </button>
                     </>
                 )}

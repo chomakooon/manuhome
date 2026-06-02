@@ -115,16 +115,18 @@
     line-height: 1.6;
 }
 
+/* グッズ2点ペア入力。
+   各 slot に画像ピッカー (4-7列のグリッド) が入るため、
+   左右に並べると 1 セルが狭くなりすぎる。上下 2 段で表示する。 */
 .paws-form-pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-@media (max-width: 480px) {
-    .paws-form-pair {
-        grid-template-columns: 1fr;
-    }
+.paws-form-pair__slot + .paws-form-pair__slot {
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--brand-border, #EDDFD9);
 }
 
 /* ── ボタン ─────────────────────────────────────── */
