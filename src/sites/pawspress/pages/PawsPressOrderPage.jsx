@@ -16,6 +16,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { isStripeConfigured } from '../../../lib/stripe';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
+import { findCoupon, isCouponApplicable, computeDiscount } from '../data/coupons';
 import PageSeo from '../../../components/PageSeo';
 import PictureWebp from '../../../components/PictureWebp';
 import '../styles/forms.css';
@@ -962,7 +963,15 @@ function ReviewRow({ label, children }) {
     );
 }
 
-function Step4Review({ plan, goodsTypes, goodsDetails, artStyle, customStyle, styleReferences, giftWrap, giftMessage, photos, customer }) {
+function Step4Review({
+    plan, goodsTypes, goodsDetails, artStyle, customStyle, styleReferences,
+    giftWrap, giftMessage, photos, customer,
+    // 金額・クーポン関連
+    baseAmount, giftWrapAmount, discountAmount, totalAmount,
+    couponCode, setCouponCode, appliedCoupon, onApplyCoupon, onClearCoupon,
+    couponError, couponAgreed, setCouponAgreed,
+    errors,
+}) {
     const fmtGoods = (i) =>
         goodsTypes[i] + (goodsDetails[i] ? `（${goodsDetails[i]}）` : '');
     return (
@@ -1050,6 +1059,93 @@ function Step4Review({ plan, goodsTypes, goodsDetails, artStyle, customStyle, st
                         <span style={{ whiteSpace: 'pre-line' }}>{customer.note}</span>
                     </ReviewRow>
                 )}
+            </div>
+
+            {/* ── クーポン入力 ───────────────────────────────── */}
+            <div className="paws-coupon">
+                <p className="paws-form-label" style={{ margin: '0 0 0.5rem 0' }}>
+                    クーポンコード
+                    <span className="paws-form-label__opt">（お持ちの場合）</span>
+                </p>
+                <p className="paws-form-help" style={{ margin: '0 0 0.5rem 0' }}>
+                    LINE 友だち追加でもらえる <strong>「LINE10」</strong>（10%OFF）など、
+                    お持ちのクーポンコードを入力してください。
+                </p>
+
+                {!appliedCoupon ? (
+                    <div className="paws-coupon__entry">
+                        <input
+                            type="text"
+                            className="paws-form-input"
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)}
+                            placeholder="例: LINE10"
+                            aria-label="クーポンコード"
+                            autoCapitalize="characters"
+                        />
+                        <button
+                            type="button"
+                            className="paws-form-btn paws-form-btn--secondary"
+                            onClick={onApplyCoupon}
+                            disabled={!couponCode.trim()}
+                        >
+                            適用
+                        </button>
+                    </div>
+                ) : (
+                    <div className="paws-coupon__applied">
+                        <div className="paws-coupon__applied-head">
+                            <span className="paws-coupon__badge">適用中</span>
+                            <strong>{appliedCoupon.name}</strong>
+                            <button
+                                type="button"
+                                className="paws-coupon__clear"
+                                onClick={onClearCoupon}
+                                aria-label="クーポンを取り消す"
+                            >
+                                取り消す
+                            </button>
+                        </div>
+                        <p className="paws-coupon__desc">{appliedCoupon.description}</p>
+
+                        {appliedCoupon.requiresAgreement && (
+                            <label className="paws-coupon__agree">
+                                <input
+                                    type="checkbox"
+                                    checked={couponAgreed}
+                                    onChange={(e) => setCouponAgreed(e.target.checked)}
+                                />
+                                <span>{appliedCoupon.agreementText}</span>
+                            </label>
+                        )}
+                    </div>
+                )}
+                {couponError && <p className="paws-form-error">{couponError}</p>}
+                {errors?.coupon && <p className="paws-form-error">{errors.coupon}</p>}
+            </div>
+
+            {/* ── 金額サマリ ─────────────────────────────────── */}
+            <div className="paws-amount-summary">
+                <div className="paws-amount-summary__row">
+                    <span>プラン料金</span>
+                    <span>{formatYen(baseAmount)}</span>
+                </div>
+                {giftWrapAmount > 0 && (
+                    <div className="paws-amount-summary__row">
+                        <span>ギフト包装</span>
+                        <span>+{formatYen(giftWrapAmount)}</span>
+                    </div>
+                )}
+                {discountAmount > 0 && (
+                    <div className="paws-amount-summary__row paws-amount-summary__row--discount">
+                        <span>クーポン割引</span>
+                        <span>-{formatYen(discountAmount)}</span>
+                    </div>
+                )}
+                <div className="paws-amount-summary__row paws-amount-summary__row--total">
+                    <span>合計</span>
+                    <span>{formatYen(totalAmount)}</span>
+                </div>
             </div>
         </section>
     );
@@ -1194,16 +1290,37 @@ export default function PawsPressOrderPage() {
     });
     const [card, setCard] = useState({ number: '', expiry: '', cvc: '', holder: '' });
 
+    // ── クーポン関連 (Step4 で入力・適用) ────────────────────
+    const [couponCode, setCouponCode] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [couponAgreed, setCouponAgreed] = useState(false);
+    const [couponError, setCouponError] = useState('');
+
     const selectedPlan = useMemo(
         () => pawspressPlans.find((p) => p.id === planId) ?? null,
         [planId]
     );
 
+    // クーポン適用可否を再評価 (プラン変更時に無効化されるケースに備える)
+    const couponValidForCurrentPlan = useMemo(
+        () => isCouponApplicable(appliedCoupon, planId),
+        [appliedCoupon, planId]
+    );
+
+    // クーポンの割引額 (基本料金に対する差額)
+    const discountAmount = useMemo(() => {
+        if (!appliedCoupon || !couponValidForCurrentPlan) return 0;
+        // PROMO5500 系は requiresAgreement で同意していなければ割引適用しない
+        if (appliedCoupon.requiresAgreement && !couponAgreed) return 0;
+        return computeDiscount(appliedCoupon, selectedPlan?.price ?? 0);
+    }, [appliedCoupon, couponValidForCurrentPlan, couponAgreed, selectedPlan]);
+
     const totalAmount = useMemo(() => {
         const base = selectedPlan?.price ?? 0;
         const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
-        return base + (hasGoods && giftWrap ? GIFT_WRAP_OPTION.price : 0);
-    }, [selectedPlan, planId, giftWrap]);
+        const gift = hasGoods && giftWrap ? GIFT_WRAP_OPTION.price : 0;
+        return Math.max(0, base + gift - discountAmount);
+    }, [selectedPlan, planId, giftWrap, discountAmount]);
 
     const updateCustomer = (key) => (e) =>
         setCustomer((c) => ({ ...c, [key]: e.target.value }));
@@ -1273,7 +1390,38 @@ export default function PawsPressOrderPage() {
 
     // 確認(4) → 送信: 即完了にせず、決済ステップ(5)へ進む
     // Stripe未設定（本番化前）はモック決済に進ませず、お問い合わせへ誘導する
+    const handleApplyCoupon = () => {
+        setCouponError('');
+        setCouponAgreed(false);
+        const coupon = findCoupon(couponCode);
+        if (!coupon) {
+            setAppliedCoupon(null);
+            setCouponError('このクーポンコードは無効です。コードをご確認ください。');
+            return;
+        }
+        if (!isCouponApplicable(coupon, planId)) {
+            setAppliedCoupon(null);
+            setCouponError(
+                'このクーポンは現在ご選択中のプランには適用できません。対象プランをご確認ください。'
+            );
+            return;
+        }
+        setAppliedCoupon(coupon);
+    };
+
+    const handleClearCoupon = () => {
+        setAppliedCoupon(null);
+        setCouponCode('');
+        setCouponAgreed(false);
+        setCouponError('');
+    };
+
     const handleProceedToPayment = () => {
+        // 同意が必要なクーポンを適用した場合、チェックが入っていなければブロック
+        if (appliedCoupon?.requiresAgreement && !couponAgreed) {
+            setErrors({ coupon: 'クーポン適用には掲載許諾への同意が必要です。' });
+            return;
+        }
         setErrors({});
         if (!isStripeConfigured) {
             navigate('/pet/contact');
@@ -1319,6 +1467,17 @@ export default function PawsPressOrderPage() {
             paid: true,
             photos: photos.map((p) => ({ name: p.name, size: p.size, type: p.type })),
             customer,
+            // クーポン情報 (適用されていれば metadata に残す)
+            coupon: appliedCoupon
+                ? {
+                      code: appliedCoupon.code,
+                      name: appliedCoupon.name,
+                      type: appliedCoupon.type,
+                      value: appliedCoupon.value,
+                      discountAmount,
+                      agreedToTerms: !!couponAgreed,
+                  }
+                : null,
             submittedAt: new Date().toISOString(),
         };
         console.log('[order] submission:', submission);
@@ -1435,6 +1594,23 @@ export default function PawsPressOrderPage() {
                         giftMessage={giftMessage}
                         photos={photos}
                         customer={customer}
+                        baseAmount={selectedPlan?.price ?? 0}
+                        giftWrapAmount={
+                            (planId === 'pet-single' || planId === 'pet-pair') && giftWrap
+                                ? GIFT_WRAP_OPTION.price
+                                : 0
+                        }
+                        discountAmount={discountAmount}
+                        totalAmount={totalAmount}
+                        couponCode={couponCode}
+                        setCouponCode={setCouponCode}
+                        appliedCoupon={appliedCoupon}
+                        onApplyCoupon={handleApplyCoupon}
+                        onClearCoupon={handleClearCoupon}
+                        couponError={couponError}
+                        couponAgreed={couponAgreed}
+                        setCouponAgreed={setCouponAgreed}
+                        errors={errors}
                     />
                 )}
                 {step === 5 && (
