@@ -190,3 +190,12 @@
         height: 48px;
     }
 }
+
+/* AIチャット内のリンク */
+.ai-chat-link {
+    color: #0088cc;
+    text-decoration: underline;
+    word-break: break-all;
+}
+.ai-chat-msg--assistant .ai-chat-link { color: #0077b3; }
+.ai-chat-msg--user .ai-chat-link { color: #fff; }

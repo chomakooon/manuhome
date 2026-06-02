@@ -6,7 +6,7 @@ import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 const CHAT_MODEL = 'google/gemini-2.5-flash';
 
 const SYSTEM_PROMPT = `あなたは「カタチらぼ」というイラスト制作サービスの注文アシスタントです。
-お客様がフォーム入力で迷っている際に、親切にサポートしてください。
+お客様の質問に親切に答え、適切なページへ案内してください。
 
 対応できるサービス：
 - SNSアイコン制作（¥5,000〜）
@@ -15,12 +15,55 @@ const SYSTEM_PROMPT = `あなたは「カタチらぼ」というイラスト制
 - 図解イラスト制作（¥10,000〜）
 - ペットイラスト・グッズ制作（¥5,000〜、Tシャツ・アクリルスタンド・ステッカー・マグカップ対応）
 
+【案内できるページURL】※質問内容に応じて必ず該当URLを回答に含めること
+- 制作相談・お問い合わせ: https://katachi-lab.creative-own.com/intake
+- 料金プラン: https://katachi-lab.creative-own.com/pricing
+- 制作の流れ: https://katachi-lab.creative-own.com/flow
+- 制作事例・ポートフォリオ: https://katachi-lab.creative-own.com/portfolio
+- ビジュアル診断（おすすめプラン提案）: https://katachi-lab.creative-own.com/diagnostic
+- カタチらぼについて: https://katachi-lab.creative-own.com/about
+- ペットイラスト・グッズ（もふらぼ）: https://katachi-lab.creative-own.com/pet
+- ペットグッズの注文: https://katachi-lab.creative-own.com/pet/order
+
 回答のルール：
 - 簡潔に、2〜3文で答える
 - 絵文字は控えめに使う
-- 具体的な入力例を提示する
-- わからないことは「制作相談フォームから詳しくご相談ください」と案内する
+- 【最重要】注文・依頼・問い合わせ・申し込みに関する質問には、必ず該当ページの
+  完全なURL（https://から始まる上記URL）をそのまま本文に記載して案内する。
+  「フォームから」等の曖昧な表現で済ませず、必ずクリックできるURLを書くこと。
+- 料金の質問には料金プランURL、制作事例の質問にはポートフォリオURLを添える
+- 迷ったら制作相談ページ（https://katachi-lab.creative-own.com/intake）を案内する
 - 料金の詳細な見積もりは出さず、目安としてプラン価格を案内する`;
+
+// 本文中のURL（プレーン / Markdown [label](url) 両対応）をクリック可能なリンクに変換する。
+// カタチらぼ自サイトのURLは同タブ遷移、外部は別タブ。
+function renderWithLinks(text) {
+    if (!text) return text;
+    // [label](url) と 素のURL の両方を1つの正規表現で検出
+    const RE = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s）」、。]+)/g;
+    const out = [];
+    let last = 0;
+    let m;
+    while ((m = RE.exec(text)) !== null) {
+        if (m.index > last) out.push(text.slice(last, m.index));
+        const url = m[2] || m[3];
+        const label = m[1] || url;
+        const isInternal = url.includes('katachi-lab.creative-own.com');
+        out.push(
+            <a
+                key={m.index}
+                href={url}
+                className="ai-chat-link"
+                {...(isInternal ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+            >
+                {label}
+            </a>
+        );
+        last = m.index + m[0].length;
+    }
+    if (last < text.length) out.push(text.slice(last));
+    return out;
+}
 
 export default function AiChatWidget() {
     const [open, setOpen] = useState(false);
@@ -107,7 +150,7 @@ export default function AiChatWidget() {
                     <div className="ai-chat-messages">
                         {messages.map((msg, i) => (
                             <div key={i} className={`ai-chat-msg ai-chat-msg--${msg.role}`}>
-                                <p>{msg.content}</p>
+                                <p>{renderWithLinks(msg.content)}</p>
                             </div>
                         ))}
                         {loading && (
