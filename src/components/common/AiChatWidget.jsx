@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Loader } from 'lucide-react';
+import { X, Send, Loader } from 'lucide-react';
 import './AiChatWidget.css';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 
@@ -72,6 +72,16 @@ export default function AiChatWidget() {
     ]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+    // 吹き出し表示制御:
+    //   - 初回ロード後 3 秒だけ表示
+    //   - その後はマスコット (FAB) hover/focus 中のみ再表示
+    const [bubbleVisible, setBubbleVisible] = useState(true);
+    const [hovering, setHovering] = useState(false);
+
+    useEffect(() => {
+        const t = setTimeout(() => setBubbleVisible(false), 3000);
+        return () => clearTimeout(t);
+    }, []);
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -178,34 +188,35 @@ export default function AiChatWidget() {
                 </div>
             )}
 
-            {/* Mascot + speech bubble (チャット閉鎖時のみ表示) */}
-            {!open && (
-                <button
-                    type="button"
-                    className="ai-chat-mascot"
-                    onClick={() => setOpen(true)}
-                    aria-label="AIアシスタントを開く"
-                >
-                    <span className="ai-chat-mascot__bubble">
+            {/* FAB Button (閉じている時はマスコット猫を表示、開いている時は X アイコン) */}
+            <div className="ai-chat-fab-wrap">
+                {/* 吹き出し: 初回 3 秒 + hover/focus 中のみ */}
+                {!open && (bubbleVisible || hovering) && (
+                    <span className="ai-chat-fab__bubble" role="tooltip">
                         困ったら話しかけてね！
                     </span>
-                    <img
-                        src="/mascot/chat-mascot.webp"
-                        alt=""
-                        className="ai-chat-mascot__img"
-                        aria-hidden="true"
-                    />
+                )}
+                <button
+                    className={`ai-chat-fab ${open ? 'ai-chat-fab--open' : 'ai-chat-fab--mascot'}`}
+                    onClick={() => setOpen(!open)}
+                    onMouseEnter={() => setHovering(true)}
+                    onMouseLeave={() => setHovering(false)}
+                    onFocus={() => setHovering(true)}
+                    onBlur={() => setHovering(false)}
+                    aria-label={open ? 'AIアシスタントを閉じる' : 'AIアシスタントに相談する'}
+                >
+                    {open ? (
+                        <X size={24} />
+                    ) : (
+                        <img
+                            src="/mascot/chat-mascot.webp"
+                            alt=""
+                            className="ai-chat-fab__mascot-img"
+                            aria-hidden="true"
+                        />
+                    )}
                 </button>
-            )}
-
-            {/* FAB Button */}
-            <button
-                className={`ai-chat-fab ${open ? 'ai-chat-fab--open' : ''}`}
-                onClick={() => setOpen(!open)}
-                aria-label="AIアシスタント"
-            >
-                {open ? <X size={24} /> : <MessageCircle size={24} />}
-            </button>
+            </div>
         </>
     );
 }

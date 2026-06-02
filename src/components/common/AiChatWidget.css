@@ -28,35 +28,54 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* マスコット (FAB の左に並ぶ猫キャラ + 吹き出し) */
-.ai-chat-mascot {
-    position: fixed;
-    bottom: 12px;
-    right: 88px;            /* FAB (right:24 + 56幅 + 8gap) の左 */
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.35rem;
+/* マスコット猫を内蔵した FAB (チャット閉時) */
+.ai-chat-fab--mascot {
+    background: #FFFFFF;
+    border: 2px solid #C13832;
+    box-shadow: 0 4px 14px rgba(193, 56, 50, 0.25);
+    overflow: hidden;
     padding: 0;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    animation: ai-chat-mascot-bob 3.2s ease-in-out infinite;
 }
 
-.ai-chat-mascot__img {
-    width: 84px;
-    height: 84px;
+.ai-chat-fab--mascot:hover {
+    box-shadow: 0 8px 22px rgba(193, 56, 50, 0.4);
+}
+
+.ai-chat-fab__mascot-img {
+    width: 76%;
+    height: 76%;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
     pointer-events: none;
 }
 
-.ai-chat-mascot__bubble {
+/* FAB + 吹き出しを包むラッパー (位置基準のみ提供) */
+.ai-chat-fab-wrap {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;       /* 子要素だけクリックを受ける */
+}
+
+.ai-chat-fab-wrap > * {
+    pointer-events: auto;
+}
+
+/* ラッパー配下では FAB の絶対固定をリセット */
+.ai-chat-fab-wrap .ai-chat-fab {
     position: relative;
-    display: inline-block;
+    right: auto;
+    bottom: auto;
+}
+
+/* 吹き出し: FAB の左に出現 */
+.ai-chat-fab__bubble {
+    position: absolute;
+    right: 72px;                /* FAB 56幅 + 16gap */
+    bottom: 8px;
     padding: 0.55rem 0.9rem;
     background-color: #FFFFFF;
     color: #2D2520;
@@ -68,50 +87,42 @@
     border-radius: 16px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     white-space: nowrap;
+    animation: ai-chat-bubble-in 220ms ease-out;
+    pointer-events: none;
 }
 
-/* 吹き出しの三角しっぽ (FAB 側=右下を向く) */
-.ai-chat-mascot__bubble::after,
-.ai-chat-mascot__bubble::before {
+/* 吹き出しの三角しっぽ (FAB 側=右を向く) */
+.ai-chat-fab__bubble::before,
+.ai-chat-fab__bubble::after {
     content: '';
     position: absolute;
-    right: 16px;
+    top: 50%;
     width: 0;
     height: 0;
     border-style: solid;
+    transform: translateY(-50%);
 }
-.ai-chat-mascot__bubble::before {
-    bottom: -10px;
-    border-width: 10px 8px 0 8px;
-    border-color: #C13832 transparent transparent transparent;
+.ai-chat-fab__bubble::before {
+    right: -10px;
+    border-width: 8px 0 8px 10px;
+    border-color: transparent transparent transparent #C13832;
 }
-.ai-chat-mascot__bubble::after {
-    bottom: -7px;
-    border-width: 8px 6px 0 6px;
-    border-color: #FFFFFF transparent transparent transparent;
-}
-
-.ai-chat-mascot:hover .ai-chat-mascot__bubble {
-    transform: translateY(-2px);
+.ai-chat-fab__bubble::after {
+    right: -7px;
+    border-width: 6px 0 6px 8px;
+    border-color: transparent transparent transparent #FFFFFF;
 }
 
-@keyframes ai-chat-mascot-bob {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-4px); }
+@keyframes ai-chat-bubble-in {
+    from { opacity: 0; transform: translateX(8px); }
+    to   { opacity: 1; transform: translateX(0); }
 }
 
-/* SP では吹き出しを短くしてマスコットを少し小さく */
 @media (max-width: 640px) {
-    .ai-chat-mascot {
-        right: 80px;
-    }
-    .ai-chat-mascot__img {
-        width: 64px;
-        height: 64px;
-    }
-    .ai-chat-mascot__bubble {
+    .ai-chat-fab__bubble {
         font-size: 0.72rem;
         padding: 0.4rem 0.7rem;
+        right: 64px;
     }
 }
 
