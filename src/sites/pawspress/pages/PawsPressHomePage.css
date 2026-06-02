@@ -1083,10 +1083,15 @@
     transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
 }
 
-.paws-line__btn:hover {
+.paws-line__btn:hover,
+.paws-line__btn:focus-visible {
+    /* グローバル a:hover { color: var(--color-accent) } が朱赤を当てて
+       LINE 緑と衝突するため、ここで白を再宣言する */
+    color: #FFFFFF;
+    background-color: #00A300;          /* hover時は少し濃い LINE 緑 */
     transform: translateY(-1px);
-    filter: brightness(1.05);
-    box-shadow: 0 12px 28px rgba(0, 185, 0, 0.4);
+    filter: none;
+    box-shadow: 0 12px 28px rgba(0, 185, 0, 0.45);
 }
 
 .paws-line__note {
