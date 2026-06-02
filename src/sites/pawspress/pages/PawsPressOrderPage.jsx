@@ -1068,8 +1068,7 @@ function Step4Review({
                     <span className="paws-form-label__opt">（お持ちの場合）</span>
                 </p>
                 <p className="paws-form-help" style={{ margin: '0 0 0.5rem 0' }}>
-                    LINE 友だち追加でもらえる <strong>「LINE10」</strong>（10%OFF）など、
-                    お持ちのクーポンコードを入力してください。
+                    LINE 友だち追加や SNS キャンペーンで配布されたクーポンコードをお持ちの場合、こちらから適用できます。
                 </p>
 
                 {!appliedCoupon ? (
@@ -1079,9 +1078,8 @@ function Step4Review({
                             className="paws-form-input"
                             value={couponCode}
                             onChange={(e) => setCouponCode(e.target.value)}
-                            placeholder="例: LINE10"
+                            placeholder="クーポンコードを入力"
                             aria-label="クーポンコード"
-                            autoCapitalize="characters"
                         />
                         <button
                             type="button"

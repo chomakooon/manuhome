@@ -32,7 +32,7 @@
 /** @type {Coupon[]} */
 export const COUPONS = [
     {
-        code: 'LINE10',
+        code: 'はつもふ10',
         name: '友だち追加クーポン',
         description: 'LINE 友だち追加で 10% OFF（全プラン対象・初回ご注文）',
         type: 'percentage',
@@ -54,11 +54,25 @@ export const COUPONS = [
     },
 ];
 
-/** コード文字列からクーポンを検索 (前後空白除去 + 大文字化) */
+/**
+ * コード文字列の正規化:
+ *   - 前後空白除去
+ *   - 英字を大文字化 (英字コード用)
+ *   - 全角数字 (０〜９) → 半角数字 (0〜9) に統一 (はつもふ１０ も はつもふ10 とマッチ)
+ */
+const normalizeCode = (raw) =>
+    raw
+        .trim()
+        .toUpperCase()
+        .replace(/[０-９]/g, (ch) =>
+            String.fromCharCode(ch.charCodeAt(0) - 0xFEE0)
+        );
+
+/** コード文字列からクーポンを検索 */
 export const findCoupon = (code) => {
     if (!code) return null;
-    const normalized = code.trim().toUpperCase();
-    return COUPONS.find((c) => c.code === normalized) ?? null;
+    const normalized = normalizeCode(code);
+    return COUPONS.find((c) => normalizeCode(c.code) === normalized) ?? null;
 };
 
 /** クーポンが指定プランに適用可能か */
