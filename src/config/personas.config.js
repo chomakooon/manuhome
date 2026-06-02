@@ -46,8 +46,8 @@ export const PERSONAS = [
         recommendedPlan: '名刺 Portrait / キャラクターデザイン',
         ctaLink: '/pricing',
         ctaText: '名刺・キャラのプランを見る →',
-        image: '/works/character-1.jpg',
-        imageAlt: '個人事業主向け：キャラクターデザイン制作例',
+        image: '/works/persona-freelancer.webp',
+        imageAlt: '個人事業主向け：ロゴ・名刺・ビジネスイラスト制作例',
     },
     {
         id: 'restaurant',
@@ -59,7 +59,7 @@ export const PERSONAS = [
         recommendedPlan: 'Single 4コマ / Monthly Pack',
         ctaLink: '/pricing',
         ctaText: '漫画プランを見る →',
-        image: '/works/manga-4koma-1.jpg',
+        image: '/works/persona-restaurant.webp',
         imageAlt: '飲食店向け：4コマ漫画でメニュー紹介の制作例',
     },
     {
@@ -72,8 +72,8 @@ export const PERSONAS = [
         recommendedPlan: 'もふらぼ Pair Set（推奨）',
         ctaLink: '/pet',
         ctaText: 'もふらぼ を見る →',
-        image: '/works/pet-illust-1.jpg',
-        imageAlt: 'ペットオーナー向け：ペットイラスト制作例',
+        image: '/works/persona-pet-owner.webp',
+        imageAlt: 'ペットオーナー向け：ペットイラストからオリジナルグッズ制作例',
     },
     {
         id: 'business',
@@ -85,7 +85,7 @@ export const PERSONAS = [
         recommendedPlan: '1ページ漫画 / キャラクターデザイン',
         ctaLink: '/pricing',
         ctaText: '法人向けプランを見る →',
-        image: '/works/manga-1page-1.jpg',
-        imageAlt: '企業向け：1ページ漫画でブランド訴求の制作例',
+        image: '/works/persona-business.webp',
+        imageAlt: '企業向け：オリジナルキャラ・マスコット制作例',
     },
 ];
