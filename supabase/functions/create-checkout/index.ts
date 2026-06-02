@@ -39,8 +39,8 @@ serve(async (req) => {
                 },
             ],
             mode: 'payment',
-            success_url: `${req.headers.get('origin')}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${req.headers.get('origin')}/order`,
+            success_url: `${req.headers.get('origin')}/pet/order?stripe=success&session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${req.headers.get('origin')}/pet/order?stripe=cancelled`,
             customer_email: customerEmail,
             metadata: {
                 orderId,

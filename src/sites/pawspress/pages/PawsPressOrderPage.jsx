@@ -14,7 +14,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { isStripeConfigured } from '../../../lib/stripe';
+import { isStripeConfigured, createCheckoutSession } from '../../../lib/stripe';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import { findCoupon, isCouponApplicable, computeDiscount } from '../data/coupons';
 import PageSeo from '../../../components/PageSeo';
@@ -1120,6 +1120,7 @@ function Step4Review({
                 )}
                 {couponError && <p className="paws-form-error">{couponError}</p>}
                 {errors?.coupon && <p className="paws-form-error">{errors.coupon}</p>}
+                {errors?.payment && <p className="paws-form-error">{errors.payment}</p>}
             </div>
 
             {/* ── 金額サマリ ─────────────────────────────────── */}
@@ -1265,9 +1266,11 @@ function CompletedScreen() {
 export default function PawsPressOrderPage() {
     const [searchParams] = useSearchParams();
     const initialPlan = searchParams.get('plan') ?? '';
+    const stripeStatus = searchParams.get('stripe');           // 'success' | 'cancelled' | null
+    const stripeSessionId = searchParams.get('session_id') ?? '';
 
     const [step, setStep] = useState(1);
-    const [submitted, setSubmitted] = useState(false);
+    const [submitted, setSubmitted] = useState(stripeStatus === 'success');
     const [errors, setErrors] = useState({});
 
     const [planId, setPlanId] = useState(
@@ -1413,21 +1416,59 @@ export default function PawsPressOrderPage() {
         setCouponError('');
     };
 
-    const handleProceedToPayment = () => {
+    const handleProceedToPayment = async () => {
         // 同意が必要なクーポンを適用した場合、チェックが入っていなければブロック
         if (appliedCoupon?.requiresAgreement && !couponAgreed) {
             setErrors({ coupon: 'クーポン適用には掲載許諾への同意が必要です。' });
             return;
         }
         setErrors({});
-        // Stripe 未設定時は決済ステップを飛ばし、注文受付として完了画面へ進む
-        // (旧挙動: /pet/contact へ離脱して入力データが破棄されていた)
+
+        // Stripe 未設定時はモックで完了画面に遷移
         if (!isStripeConfigured) {
             submitOrder({ paid: false });
             return;
         }
-        setStep(5);
-        scrollTop();
+
+        // Stripe Checkout を起動 (リダイレクト方式)
+        try {
+            const orderId = `mofulabo-${Date.now()}`;
+            const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
+            // submission をローカル一時保存して、success 復帰時に同じ payload を確定できるようにする
+            const draft = buildSubmission({ paid: false, hasGoods });
+            sessionStorage.setItem(`order-draft-${orderId}`, JSON.stringify(draft));
+
+            const { url, error } = await createCheckoutSession({
+                productName: `もふらぼ ${selectedPlan.name}`,
+                productId: selectedPlan.id,
+                amount: totalAmount,
+                orderId,
+                customerEmail: customer.email,
+                tenantId: 'mofulabo',
+                metadata: {
+                    plan_id: selectedPlan.id,
+                    coupon_code: appliedCoupon?.code ?? '',
+                    discount_amount: String(discountAmount),
+                    form_data: JSON.stringify({
+                        goodsTypes: draft.goodsTypes,
+                        goodsDetails: draft.goodsDetails,
+                        artStyle: draft.artStyle,
+                        giftWrap: draft.giftWrap,
+                        customerName: customer.name,
+                    }),
+                },
+            });
+            if (error) {
+                setErrors({ payment: `決済ページの起動に失敗しました: ${error}` });
+                return;
+            }
+            if (url) {
+                window.location.href = url;     // Stripe ホスト Checkout へ
+            }
+        } catch (err) {
+            console.error('[stripe] checkout failed:', err);
+            setErrors({ payment: '決済の準備中にエラーが発生しました。少し時間をおいて再度お試しください。' });
+        }
     };
 
     /**
