@@ -84,6 +84,10 @@ function GuideDropdown() {
 }
 
 function PawsPressHeader() {
+    const { pathname } = useLocation();
+    // 注文ページ自身では「写真を送って注文する」CTAは重複なので非表示
+    const onOrderPage = pathname.startsWith('/pet/order');
+
     return (
         <header className="paws-header">
             <div className="paws-header__inner">
@@ -106,9 +110,11 @@ function PawsPressHeader() {
                 </nav>
 
                 <div className="paws-header__actions">
-                    <Link to="/pet/order" className="paws-header__cta">
-                        写真を送って注文する →
-                    </Link>
+                    {!onOrderPage && (
+                        <Link to="/pet/order" className="paws-header__cta">
+                            写真を送って注文する →
+                        </Link>
+                    )}
                     <Link to="/" className="paws-header__crosslink">
                         カタチらぼへ ↗
                     </Link>
