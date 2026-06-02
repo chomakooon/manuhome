@@ -28,6 +28,93 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* マスコット (FAB の左に並ぶ猫キャラ + 吹き出し) */
+.ai-chat-mascot {
+    position: fixed;
+    bottom: 12px;
+    right: 88px;            /* FAB (right:24 + 56幅 + 8gap) の左 */
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    animation: ai-chat-mascot-bob 3.2s ease-in-out infinite;
+}
+
+.ai-chat-mascot__img {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+    pointer-events: none;
+}
+
+.ai-chat-mascot__bubble {
+    position: relative;
+    display: inline-block;
+    padding: 0.55rem 0.9rem;
+    background-color: #FFFFFF;
+    color: #2D2520;
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.4;
+    border: 2px solid #C13832;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+/* 吹き出しの三角しっぽ (FAB 側=右下を向く) */
+.ai-chat-mascot__bubble::after,
+.ai-chat-mascot__bubble::before {
+    content: '';
+    position: absolute;
+    right: 16px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+.ai-chat-mascot__bubble::before {
+    bottom: -10px;
+    border-width: 10px 8px 0 8px;
+    border-color: #C13832 transparent transparent transparent;
+}
+.ai-chat-mascot__bubble::after {
+    bottom: -7px;
+    border-width: 8px 6px 0 6px;
+    border-color: #FFFFFF transparent transparent transparent;
+}
+
+.ai-chat-mascot:hover .ai-chat-mascot__bubble {
+    transform: translateY(-2px);
+}
+
+@keyframes ai-chat-mascot-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+}
+
+/* SP では吹き出しを短くしてマスコットを少し小さく */
+@media (max-width: 640px) {
+    .ai-chat-mascot {
+        right: 80px;
+    }
+    .ai-chat-mascot__img {
+        width: 64px;
+        height: 64px;
+    }
+    .ai-chat-mascot__bubble {
+        font-size: 0.72rem;
+        padding: 0.4rem 0.7rem;
+    }
+}
+
 /* Chat Window */
 .ai-chat-window {
     position: fixed;

@@ -178,6 +178,26 @@ export default function AiChatWidget() {
                 </div>
             )}
 
+            {/* Mascot + speech bubble (チャット閉鎖時のみ表示) */}
+            {!open && (
+                <button
+                    type="button"
+                    className="ai-chat-mascot"
+                    onClick={() => setOpen(true)}
+                    aria-label="AIアシスタントを開く"
+                >
+                    <span className="ai-chat-mascot__bubble">
+                        困ったら話しかけてね！
+                    </span>
+                    <img
+                        src="/mascot/chat-mascot.webp"
+                        alt=""
+                        className="ai-chat-mascot__img"
+                        aria-hidden="true"
+                    />
+                </button>
+            )}
+
             {/* FAB Button */}
             <button
                 className={`ai-chat-fab ${open ? 'ai-chat-fab--open' : ''}`}
