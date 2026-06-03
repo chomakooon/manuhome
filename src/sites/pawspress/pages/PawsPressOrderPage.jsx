@@ -888,7 +888,7 @@ function Step3Customer({ customer, updateCustomer, errors }) {
                 />
             </Field>
 
-            <Field label="電話番号" optional>
+            <Field label="電話番号" required error={errors.phone}>
                 <input
                     type="tel"
                     className="paws-form-input"
@@ -948,6 +948,27 @@ function Step3Customer({ customer, updateCustomer, errors }) {
                     placeholder="特別なご要望などあればお聞かせください"
                 />
             </Field>
+
+            {/* ── 個人情報の取り扱いについての安心案内 ────────────── */}
+            <div className="paws-privacy-note" role="note">
+                <p className="paws-privacy-note__title">
+                    🔒 個人情報の取り扱いについて
+                </p>
+                <ul className="paws-privacy-note__list">
+                    <li>
+                        ご記入いただいた<strong>お名前・ご住所・お電話番号</strong>は、商品の制作・配送・お問い合わせ対応の目的でのみ使用いたします。
+                    </li>
+                    <li>
+                        <strong>第三者への提供・販売は一切行いません</strong>。配送業者へのお渡しは商品配送に必要な範囲に限ります。
+                    </li>
+                    <li>
+                        お預かりしたお写真は、許諾のない限り SNS・公式 HP への掲載には使用しません。
+                    </li>
+                    <li>
+                        ご注文完了後の修正・取消は、メールまたは LINE でお気軽にご連絡ください。
+                    </li>
+                </ul>
+            </div>
         </section>
     );
 }
@@ -970,6 +991,8 @@ function Step4Review({
     baseAmount, giftWrapAmount, discountAmount, totalAmount,
     couponCode, setCouponCode, appliedCoupon, onApplyCoupon, onClearCoupon,
     couponError, couponAgreed, setCouponAgreed,
+    // 紹介コード (任意)
+    referralCode, setReferralCode,
     errors,
 }) {
     const fmtGoods = (i) =>
@@ -1043,7 +1066,7 @@ function Step4Review({
 
                 <ReviewRow label="お名前">{customer.name}</ReviewRow>
                 <ReviewRow label="メールアドレス">{customer.email}</ReviewRow>
-                {customer.phone && <ReviewRow label="電話番号">{customer.phone}</ReviewRow>}
+                <ReviewRow label="電話番号">{customer.phone}</ReviewRow>
                 {customer.petName && (
                     <ReviewRow label="ペットのお名前">{customer.petName}</ReviewRow>
                 )}
@@ -1121,6 +1144,25 @@ function Step4Review({
                 {couponError && <p className="paws-form-error">{couponError}</p>}
                 {errors?.coupon && <p className="paws-form-error">{errors.coupon}</p>}
                 {errors?.payment && <p className="paws-form-error">{errors.payment}</p>}
+            </div>
+
+            {/* ── 紹介コード (任意) ────────────────────────────── */}
+            <div className="paws-referral">
+                <p className="paws-form-label" style={{ margin: '0 0 0.4rem 0' }}>
+                    紹介コード
+                    <span className="paws-form-label__opt">（お持ちの場合・任意）</span>
+                </p>
+                <p className="paws-form-help" style={{ margin: '0 0 0.5rem 0' }}>
+                    ご紹介いただいた方の紹介コードがあれば、こちらにご入力ください。紹介者特典の集計に使用します。
+                </p>
+                <input
+                    type="text"
+                    className="paws-form-input"
+                    value={referralCode}
+                    onChange={(e) => setReferralCode(e.target.value)}
+                    placeholder="例: 紹介者ID / コード"
+                    aria-label="紹介コード"
+                />
             </div>
 
             {/* ── 金額サマリ ─────────────────────────────────── */}
@@ -1293,6 +1335,8 @@ export default function PawsPressOrderPage() {
     // ── クーポン関連 (Step4 で入力・適用) ────────────────────
     const [couponCode, setCouponCode] = useState('');
     const [appliedCoupon, setAppliedCoupon] = useState(null);
+    // ── 紹介コード (任意。代理店/友達紹介プログラム用) ─────────
+    const [referralCode, setReferralCode] = useState('');
     const [couponAgreed, setCouponAgreed] = useState(false);
     const [couponError, setCouponError] = useState('');
 
@@ -1312,8 +1356,8 @@ export default function PawsPressOrderPage() {
         if (!appliedCoupon || !couponValidForCurrentPlan) return 0;
         // PROMO5500 系は requiresAgreement で同意していなければ割引適用しない
         if (appliedCoupon.requiresAgreement && !couponAgreed) return 0;
-        return computeDiscount(appliedCoupon, selectedPlan?.price ?? 0);
-    }, [appliedCoupon, couponValidForCurrentPlan, couponAgreed, selectedPlan]);
+        return computeDiscount(appliedCoupon, selectedPlan?.price ?? 0, planId);
+    }, [appliedCoupon, couponValidForCurrentPlan, couponAgreed, selectedPlan, planId]);
 
     const totalAmount = useMemo(() => {
         const base = selectedPlan?.price ?? 0;
@@ -1347,6 +1391,7 @@ export default function PawsPressOrderPage() {
             if (!c.name.trim()) next.name = 'お名前のご記入をお願いします。';
             if (!c.email.trim()) next.email = 'メールアドレスのご記入をお願いします。';
             else if (!isValidEmail(c.email)) next.email = 'メールアドレスの形式をご確認ください。';
+            if (!c.phone.trim()) next.phone = 'お電話番号のご記入をお願いします。';
             if (!c.postalCode.trim()) next.postalCode = '郵便番号のご記入をお願いします。';
             else if (!isValidPostalCode(c.postalCode)) {
                 next.postalCode = '郵便番号は7桁の数字でご記入ください（例: 1234567 / 123-4567）。';
@@ -1516,6 +1561,7 @@ export default function PawsPressOrderPage() {
                   agreedToTerms: !!couponAgreed,
               }
             : null,
+        referralCode: referralCode.trim() || null,
         submittedAt: new Date().toISOString(),
     });
 
@@ -1651,6 +1697,8 @@ export default function PawsPressOrderPage() {
                         couponError={couponError}
                         couponAgreed={couponAgreed}
                         setCouponAgreed={setCouponAgreed}
+                        referralCode={referralCode}
+                        setReferralCode={setReferralCode}
                         errors={errors}
                     />
                 )}

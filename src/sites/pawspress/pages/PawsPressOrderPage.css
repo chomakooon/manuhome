@@ -464,6 +464,49 @@
     }
 }
 
+/* ── 個人情報のご安心案内 (Step3) ──────────────── */
+.paws-privacy-note {
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.25rem;
+    background-color: var(--brand-bg-subtle, #FAF0EA);
+    border: 1px dashed var(--brand-primary, #C13832);
+    border-radius: 12px;
+}
+
+.paws-privacy-note__title {
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--brand-primary, #C13832);
+    margin: 0 0 0.6rem 0;
+}
+
+.paws-privacy-note__list {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--brand-text);
+}
+
+.paws-privacy-note__list li + li {
+    margin-top: 0.2rem;
+}
+
+.paws-privacy-note__list strong {
+    color: var(--brand-primary, #C13832);
+    font-weight: 700;
+}
+
+/* ── 紹介コード入力欄 (Step4) ─────────────────── */
+.paws-referral {
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem 1.1rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border, #EDDFD9);
+    border-radius: 12px;
+}
+
 /* ── クーポン入力 (Step4) ──────────────────────── */
 .paws-coupon {
     margin-top: 2rem;
