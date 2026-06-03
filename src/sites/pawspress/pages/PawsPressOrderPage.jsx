@@ -863,7 +863,7 @@ function Step2Photos({ photos, onAddFiles, onRemove, errors }) {
 
 // ── Step 3: Customer info ──────────────────────────────
 
-function Step3Customer({ customer, updateCustomer, errors }) {
+function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhotoOptOut }) {
     return (
         <section className="paws-form-section">
             <h2 className="paws-form-section__title">お客様情報をお聞かせください</h2>
@@ -969,6 +969,24 @@ function Step3Customer({ customer, updateCustomer, errors }) {
                     </li>
                 </ul>
             </div>
+
+            {/* ── 写真掲載の opt-out (デフォルト=掲載OK、チェックでNG) ───── */}
+            <label className="paws-photo-optout">
+                <input
+                    type="checkbox"
+                    checked={photoOptOut}
+                    onChange={(e) => setPhotoOptOut(e.target.checked)}
+                />
+                <span className="paws-photo-optout__body">
+                    <span className="paws-photo-optout__title">
+                        📸 制作事例としての掲載について
+                    </span>
+                    <span className="paws-photo-optout__desc">
+                        もふらぼでは、お店の紹介ページや Instagram などの SNS で、制作過程・完成イラスト・グッズの仕上がりをご紹介させていただく場合がございます。
+                        お客様からお預かりした<strong>お写真の使用が難しい場合</strong>は、こちらにチェックを入れてください。
+                    </span>
+                </span>
+            </label>
         </section>
     );
 }
@@ -1153,7 +1171,7 @@ function Step4Review({
                     <span className="paws-form-label__opt">（お持ちの場合・任意）</span>
                 </p>
                 <p className="paws-form-help" style={{ margin: '0 0 0.5rem 0' }}>
-                    ご紹介いただいた方の紹介コードがあれば、こちらにご入力ください。紹介者特典の集計に使用します。
+                    ご紹介いただいた方の紹介コードがあれば、こちらにご入力ください。
                 </p>
                 <input
                     type="text"
@@ -1337,6 +1355,8 @@ export default function PawsPressOrderPage() {
     const [appliedCoupon, setAppliedCoupon] = useState(null);
     // ── 紹介コード (任意。代理店/友達紹介プログラム用) ─────────
     const [referralCode, setReferralCode] = useState('');
+    // ── 写真の SNS/HP 掲載に関する opt-out (デフォルト false = 掲載OK) ───
+    const [photoOptOut, setPhotoOptOut] = useState(false);
     const [couponAgreed, setCouponAgreed] = useState(false);
     const [couponError, setCouponError] = useState('');
 
@@ -1562,6 +1582,8 @@ export default function PawsPressOrderPage() {
               }
             : null,
         referralCode: referralCode.trim() || null,
+        // true なら「写真をSNS/HPに掲載しないでほしい」というお客様の意思
+        photoPublishingOptOut: photoOptOut,
         submittedAt: new Date().toISOString(),
     });
 
@@ -1667,6 +1689,8 @@ export default function PawsPressOrderPage() {
                         customer={customer}
                         updateCustomer={updateCustomer}
                         errors={errors}
+                        photoOptOut={photoOptOut}
+                        setPhotoOptOut={setPhotoOptOut}
                     />
                 )}
                 {step === 4 && (

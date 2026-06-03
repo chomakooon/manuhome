@@ -498,6 +498,58 @@
     font-weight: 700;
 }
 
+/* ── 写真掲載の opt-out チェック (Step3) ──────── */
+.paws-photo-optout {
+    margin-top: 1rem;
+    padding: 1.1rem 1.25rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-border, #EDDFD9);
+    border-radius: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    cursor: pointer;
+    transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.paws-photo-optout:has(input:checked) {
+    background-color: var(--brand-accent-soft, #FFF1ED);
+    border-color: var(--brand-primary, #C13832);
+}
+
+.paws-photo-optout input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.15rem;
+    accent-color: var(--brand-primary, #C13832);
+    cursor: pointer;
+}
+
+.paws-photo-optout__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.paws-photo-optout__title {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--brand-text);
+}
+
+.paws-photo-optout__desc {
+    font-size: 0.83rem;
+    line-height: 1.75;
+    color: var(--brand-text);
+}
+
+.paws-photo-optout__desc strong {
+    color: var(--brand-primary, #C13832);
+    font-weight: 700;
+}
+
 /* ── 紹介コード入力欄 (Step4) ─────────────────── */
 .paws-referral {
     margin-top: 1.25rem;
