@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Send, Loader } from 'lucide-react';
+import { X, Send, Loader, RotateCcw } from 'lucide-react';
 import './AiChatWidget.css';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 
@@ -38,6 +38,11 @@ const SYSTEM_PROMPT = `あなたは「カタチらぼ」というイラスト制
   (https://katachi-lab.creative-own.com/intake)を案内する
 - 料金の詳細な見積もりは出さず、目安としてプラン価格を案内する`;
 
+// 会話履歴の保持（sessionStorage）。同一タブ内のページ遷移で履歴を維持する。
+const CHAT_STORAGE_KEY = 'katachi_aichat_messages';
+const CHAT_OPEN_KEY = 'katachi_aichat_open';
+const INITIAL_MESSAGE = { role: 'assistant', content: 'こんにちは！注文フォームでお悩みですか？\n入力内容や制作について、お気軽にご質問ください。' };
+
 // 本文中のURL（プレーン / Markdown [label](url) 両対応）をクリック可能なリンクに変換する。
 // カタチらぼ自サイトのURLは同タブ遷移、外部は別タブ。
 function renderWithLinks(text) {
@@ -69,12 +74,29 @@ function renderWithLinks(text) {
 }
 
 export default function AiChatWidget() {
-    const [open, setOpen] = useState(false);
-    const [messages, setMessages] = useState([
-        { role: 'assistant', content: 'こんにちは！注文フォームでお悩みですか？\n入力内容や制作について、お気軽にご質問ください。' }
-    ]);
+    const [open, setOpen] = useState(() => {
+        try { return sessionStorage.getItem(CHAT_OPEN_KEY) === '1'; } catch { return false; }
+    });
+    const [messages, setMessages] = useState(() => {
+        try {
+            const saved = sessionStorage.getItem(CHAT_STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+            }
+        } catch { /* ignore */ }
+        return [INITIAL_MESSAGE];
+    });
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // 会話履歴・開閉状態をsessionStorageに保存（ページ遷移しても保持）
+    useEffect(() => {
+        try { sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages)); } catch { /* ignore */ }
+    }, [messages]);
+    useEffect(() => {
+        try { sessionStorage.setItem(CHAT_OPEN_KEY, open ? '1' : '0'); } catch { /* ignore */ }
+    }, [open]);
     // 吹き出し表示制御:
     //   - 初回ロード後 3 秒だけ表示
     //   - その後はマスコット (FAB) hover/focus 中のみ再表示
@@ -142,6 +164,12 @@ export default function AiChatWidget() {
         }
     };
 
+    const handleReset = () => {
+        setMessages([INITIAL_MESSAGE]);
+        setInput('');
+        try { sessionStorage.removeItem(CHAT_STORAGE_KEY); } catch { /* ignore */ }
+    };
+
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -156,9 +184,14 @@ export default function AiChatWidget() {
                 <div className="ai-chat-window">
                     <div className="ai-chat-header">
                         <span>AIアシスタント</span>
-                        <button className="ai-chat-close" onClick={() => setOpen(false)}>
-                            <X size={18} />
-                        </button>
+                        <div className="ai-chat-header__actions">
+                            <button className="ai-chat-close" onClick={handleReset} title="会話をリセット" aria-label="会話をリセット">
+                                <RotateCcw size={16} />
+                            </button>
+                            <button className="ai-chat-close" onClick={() => setOpen(false)} aria-label="閉じる">
+                                <X size={18} />
+                            </button>
+                        </div>
                     </div>
                     <div className="ai-chat-messages">
                         {messages.map((msg, i) => (

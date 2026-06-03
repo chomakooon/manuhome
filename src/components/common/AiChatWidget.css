@@ -327,3 +327,10 @@ body.theme-pawspress .ai-chat-fab__bubble {
 }
 .ai-chat-msg--assistant .ai-chat-link { color: #0077b3; }
 .ai-chat-msg--user .ai-chat-link { color: #fff; }
+
+/* チャットヘッダーのアクション（リセット・閉じる） */
+.ai-chat-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
