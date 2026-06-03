@@ -979,11 +979,11 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                 />
                 <span className="paws-photo-optout__body">
                     <span className="paws-photo-optout__title">
-                        📸 制作事例としての掲載について
+                        📸 掲載NGの方はチェック
                     </span>
                     <span className="paws-photo-optout__desc">
                         もふらぼでは、お店の紹介ページや Instagram などの SNS で、制作過程・完成イラスト・グッズの仕上がりをご紹介させていただく場合がございます。
-                        お客様からお預かりした<strong>お写真の使用が難しい場合</strong>は、こちらにチェックを入れてください。
+                        お写真の使用が難しい場合は、こちらにチェックを入れてください。
                     </span>
                 </span>
             </label>

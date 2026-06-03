@@ -1263,7 +1263,108 @@
     font-size: 1rem;
     line-height: 1.95;
     color: var(--brand-text-subtle);
-    margin: 0 0 2rem 0;
+    margin: 0 0 1.5rem 0;
+}
+
+/* もふらぼ特典告知 (LINE クーポン + Instagram) */
+.kt-pp-cross__perks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 0 auto 2rem auto;
+    max-width: 540px;
+    text-align: left;
+}
+
+.kt-pp-cross__perk {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.kt-pp-cross__perk:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.kt-pp-cross__perk--line {
+    border-left: 4px solid #00B900;
+}
+
+.kt-pp-cross__perk--ig {
+    border-left: 4px solid #DD2A7B;
+}
+
+.kt-pp-cross__perk-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    background-color: var(--brand-bg-subtle);
+    color: #DD2A7B;
+}
+
+.kt-pp-cross__perk--line .kt-pp-cross__perk-icon {
+    background-color: rgba(0, 185, 0, 0.12);
+    color: #00B900;
+}
+
+.kt-pp-cross__perk-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.kt-pp-cross__perk-title {
+    font-family: var(--brand-font-display);
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--brand-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kt-pp-cross__perk-sub {
+    font-size: 0.72rem;
+    color: var(--brand-text-subtle);
+}
+
+/* もふらぼ誘導ボタンは「もふらぼブランドの朱赤」で。
+   カタチらぼ ページ内なのでテーマ変数とは無関係に直接指定する。 */
+.kt-pp-cross__btn {
+    background-color: #C13832;
+    border: 2px solid #C13832;
+    color: #FFFFFF;
+    padding: 0.85rem 1.75rem;
+    border-radius: 999px;
+    font-family: var(--brand-font-display);
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+    box-shadow: 0 6px 18px rgba(193, 56, 50, 0.25);
+}
+
+.kt-pp-cross__btn:hover {
+    background-color: #A32C26;
+    border-color: #A32C26;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(193, 56, 50, 0.35);
 }
 
 @media (max-width: 768px) {
@@ -1272,6 +1373,9 @@
     }
     .kt-pp-cross__title {
         font-size: 1.4rem;
+    }
+    .kt-pp-cross__perks {
+        grid-template-columns: 1fr;
     }
 }
 

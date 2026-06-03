@@ -27,10 +27,11 @@ import {
     MessageCircle, Clock, Palette, Quote,
     Briefcase, Utensils, Heart, Building2,
     BookOpen, GitBranch, Sparkles, Bot, ArrowRight,
-    TrendingDown, Search, Frown, Lightbulb,
+    TrendingDown, Search, Frown, Lightbulb, Instagram,
 } from 'lucide-react';
 import { portfolioItems } from '../../../data/portfolioData';
 import { SITE_STATS } from '../../../config/site-stats.config';
+import { SNS_LINKS } from '../../../config/social.config';
 import { TESTIMONIALS } from '../../../config/testimonials.config';
 import { PERSONAS } from '../../../config/personas.config';
 import { PROFILE, PROFILE_INITIALS } from '../../../config/profile.config';
@@ -655,7 +656,38 @@ function PawsPressTeaserSection() {
                     うちの子の写真を、世界に一つのイラストグッズに。<br />
                     ペットイラスト・グッズ制作専門のもふらぼをご覧ください。
                 </p>
-                <Link to="/pet" className="kt-btn kt-btn--primary">
+
+                {/* もふらぼ特典の小さな告知 */}
+                <div className="kt-pp-cross__perks">
+                    <a
+                        href={SNS_LINKS.line}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="kt-pp-cross__perk kt-pp-cross__perk--line"
+                    >
+                        <span className="kt-pp-cross__perk-icon" aria-hidden="true">🎁</span>
+                        <span className="kt-pp-cross__perk-body">
+                            <span className="kt-pp-cross__perk-title">LINE友だち追加で 10%OFFクーポン</span>
+                            <span className="kt-pp-cross__perk-sub">初回ご注文に使えます</span>
+                        </span>
+                    </a>
+                    <a
+                        href={SNS_LINKS.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="kt-pp-cross__perk kt-pp-cross__perk--ig"
+                    >
+                        <span className="kt-pp-cross__perk-icon" aria-hidden="true">
+                            <Instagram size={20} strokeWidth={1.8} />
+                        </span>
+                        <span className="kt-pp-cross__perk-body">
+                            <span className="kt-pp-cross__perk-title">@mofumofu_labo</span>
+                            <span className="kt-pp-cross__perk-sub">制作事例を毎週更新中</span>
+                        </span>
+                    </a>
+                </div>
+
+                <Link to="/pet" className="kt-btn kt-pp-cross__btn">
                     もふらぼ を見る →
                 </Link>
             </div>

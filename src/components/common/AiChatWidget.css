@@ -28,16 +28,28 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* マスコット猫を内蔵した FAB (チャット閉時) */
+/* マスコット猫を内蔵した FAB (チャット閉時)
+   縁色は body のテーマクラスで切替:
+   - もふらぼ (theme-pawspress) ... 朱赤 #C13832
+   - カタチらぼ (theme-kataribin) ... 水色 #00CFFF (デフォルト) */
 .ai-chat-fab--mascot {
     background: #FFFFFF;
-    border: 2px solid #C13832;
-    box-shadow: 0 4px 14px rgba(193, 56, 50, 0.25);
+    border: 2px solid #00CFFF;
+    box-shadow: 0 4px 14px rgba(0, 207, 255, 0.25);
     overflow: hidden;
     padding: 0;
 }
 
 .ai-chat-fab--mascot:hover {
+    box-shadow: 0 8px 22px rgba(0, 207, 255, 0.4);
+}
+
+body.theme-pawspress .ai-chat-fab--mascot {
+    border-color: #C13832;
+    box-shadow: 0 4px 14px rgba(193, 56, 50, 0.25);
+}
+
+body.theme-pawspress .ai-chat-fab--mascot:hover {
     box-shadow: 0 8px 22px rgba(193, 56, 50, 0.4);
 }
 
@@ -79,8 +91,9 @@
     bottom: auto;
 }
 
-/* 吹き出し: FAB の左に出現 */
+/* 吹き出し: FAB の左に出現 (枠色は CSS 変数で body テーマに追従) */
 .ai-chat-fab__bubble {
+    --bubble-accent: #00CFFF;        /* デフォルト: カタチらぼ水色 */
     position: absolute;
     right: 94px;                /* FAB 78幅 + 16gap */
     bottom: 18px;
@@ -91,12 +104,16 @@
     font-size: 0.82rem;
     font-weight: 700;
     line-height: 1.4;
-    border: 2px solid #C13832;
+    border: 2px solid var(--bubble-accent);
     border-radius: 16px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     white-space: nowrap;
     animation: ai-chat-bubble-in 220ms ease-out;
     pointer-events: none;
+}
+
+body.theme-pawspress .ai-chat-fab__bubble {
+    --bubble-accent: #C13832;
 }
 
 /* 吹き出しの三角しっぽ (FAB 側=右を向く) */
@@ -113,7 +130,7 @@
 .ai-chat-fab__bubble::before {
     right: -10px;
     border-width: 8px 0 8px 10px;
-    border-color: transparent transparent transparent #C13832;
+    border-color: transparent transparent transparent var(--bubble-accent);
 }
 .ai-chat-fab__bubble::after {
     right: -7px;
