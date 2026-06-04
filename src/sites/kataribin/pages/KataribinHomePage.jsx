@@ -60,7 +60,7 @@ const CONCERN_ICONS = {
 };
 
 const HERO_IMAGE = '/hero/kataribin-hero.jpg';
-const PAWSPRESS_LOGO = '/hero/pawspress-logo.jpg';
+const PAWSPRESS_LOGO = '/hero/pawspress-logo-v2.jpg';
 
 const FLOW_STEPS = [
     { num: 1, title: 'お問い合わせ', desc: 'ご相談・ヒアリング' },

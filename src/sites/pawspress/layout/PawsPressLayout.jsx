@@ -6,7 +6,7 @@
  * 配色・タイポは body.theme-pawspress 配下の CSS 変数に依存。
  *
  * 注意:
- *   - ロゴ画像 /hero/pawspress-logo.jpg は未配置時は console.warn でログ出力し、
+ *   - ロゴ画像 /hero/pawspress-logo-v2.jpg は未配置時は console.warn でログ出力し、
  *     img 要素を非表示にしてテキストロゴだけで成立させる
  *   - 「カタチらぼへ」は内部 Link で SPA 遷移（テーマ切替も滑らか）
  */
@@ -17,7 +17,7 @@ import { GUIDE_LINKS } from '../data/guideLinks';
 import AiChatWidget from '../../../components/common/AiChatWidget';
 import './PawsPressLayout.css';
 
-const LOGO_PATH = '/hero/pawspress-logo.jpg';
+const LOGO_PATH = '/hero/pawspress-logo-v2.jpg';
 const INSTAGRAM_URL = 'https://www.instagram.com/mofumofu_labo';
 
 const handleLogoError = (e) => {
