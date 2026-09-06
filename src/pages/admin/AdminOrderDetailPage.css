@@ -94,3 +94,6 @@
     grid-template-columns: 1fr;
   }
 }
+
+.admin-save-error { color: #b91c1c; margin-bottom: 1rem; }
+.card-content { overflow-wrap: anywhere; }

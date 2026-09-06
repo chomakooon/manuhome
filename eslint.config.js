@@ -6,7 +6,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', '**/_archived/**']),
+  globalIgnores(['dist', '**/_archived/**', 'playwright-report', 'test-results']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
@@ -27,5 +27,9 @@ export default defineConfig([
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
+  },
+  {
+    files: ['tests/**/*.js', 'playwright.config.js', 'vite.config.js', 'eslint.config.js'],
+    languageOptions: { globals: globals.node },
   },
 ])

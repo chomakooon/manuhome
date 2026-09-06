@@ -1,30 +1,36 @@
-const rawStripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+import { supabase, isSupabaseConfigured } from './supabase';
 
-// Stripeが実キーで設定済みか（プレースホルダー/未設定なら決済は「準備中」扱い）
-export const isStripeConfigured = !!rawStripeKey
-    && rawStripeKey.startsWith('pk_')
-    && !rawStripeKey.includes('your-key')
-    && !rawStripeKey.includes('placeholder');
+export const isStripeConfigured = isSupabaseConfigured;
+let pendingOrder;
 
-/**
- * Create a Stripe Checkout session by calling the Supabase Edge Function.
- * In development without a backend, this will simulate the flow.
- */
-export async function createCheckoutSession({ productName, productId, amount, orderId, customerEmail, assetUrls = [], tenantId = '00000000-0000-0000-0000-000000000000', metadata = {} }) {
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-
-    if (!supabaseUrl || supabaseUrl === 'https://placeholder.supabase.co') {
-        // Demo mode — simulate checkout
-        console.log('🛒 Demo mode: simulating checkout', { productName, productId, amount, orderId, assetUrls, tenantId, metadata });
-        return { url: `/order/success?session_id=demo_${orderId}` };
+async function invoke(name, body) {
+    if (!isSupabaseConfigured) throw new Error('ただいま決済を利用できません。お問い合わせください。');
+    const { data, error } = await supabase.functions.invoke(name, { body });
+    if (error) {
+        let message = '通信に失敗しました。入力内容を残して再度お試しください。';
+        try {
+            const response = await error.context?.json();
+            if (typeof response?.error === 'string') message = response.error;
+        } catch { /* Keep the transport failure message. */ }
+        throw new Error(message);
     }
+    if (data?.error) throw new Error(data.error);
+    return data;
+}
 
-    const response = await fetch(`${supabaseUrl}/functions/v1/create-checkout`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productName, productId, amount, orderId, customerEmail, assetUrls, tenantId, metadata }),
-    });
+export async function createCheckoutSession(submission) {
+    const fingerprint = JSON.stringify(submission);
+    if (pendingOrder?.fingerprint !== fingerprint) pendingOrder = { fingerprint, requestId: crypto.randomUUID() };
+    const data = await invoke('create-checkout', { submission, requestId: pendingOrder.requestId });
+    let url;
+    try { url = new URL(data?.url); } catch { throw new Error('決済ページを確認できませんでした。'); }
+    if (url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com') throw new Error('決済ページを確認できませんでした。');
+    return { url: url.href, orderId: data.orderId };
+}
 
-    const data = await response.json();
+export async function getCheckoutStatus(sessionId) {
+    if (!sessionId) throw new Error('決済IDを確認できませんでした。');
+    const data = await invoke('checkout-status', { sessionId });
+    if (!['paid', 'pending', 'unpaid', 'refunded'].includes(data?.paymentStatus) || !['confirmed', 'processing', 'pending'].includes(data?.orderStatus)) throw new Error('受付状況を確認できませんでした。');
     return data;
 }

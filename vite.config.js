@@ -26,11 +26,7 @@ export default defineConfig({
   },
   server: {
     fs: {
-      allow: [
-        projectRoot,
-        '/Users/sitter/manuhome',
-        '/Users/sitter/.gemini'
-      ]
+      allow: [projectRoot]
     }
   }
 })

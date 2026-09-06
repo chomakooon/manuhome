@@ -16,6 +16,7 @@ export default function AdminLoginPage() {
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [resetMsg, setResetMsg] = useState('');
+    const [resetting, setResetting] = useState(false);
 
     // 既にログイン済み(creator)なら /admin へ
     useEffect(() => {
@@ -25,19 +26,24 @@ export default function AdminLoginPage() {
     }, [loading, user, isCreator, navigate]);
 
     const handleResetRequest = async () => {
+        if (resetting || submitting) return;
         setError('');
         setResetMsg('');
         if (!email.trim()) {
             setError('パスワード再設定には、まずメールアドレスを入力してください。');
             return;
         }
+        setResetting(true);
         try {
-            await supabase.auth.resetPasswordForEmail(email.trim(), {
+            const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
                 redirectTo: `${window.location.origin}/admin/reset-password`,
             });
+            if (resetError) throw resetError;
             setResetMsg('パスワード再設定メールを送信しました。メール内のリンクから新しいパスワードを設定してください。');
         } catch {
             setError('再設定メールの送信に失敗しました。時間をおいて再度お試しください。');
+        } finally {
+            setResetting(false);
         }
     };
 
@@ -50,11 +56,12 @@ export default function AdminLoginPage() {
             // ログイン直後、AuthContextのstate更新を待たず自分でprofileを確認して遷移する
             const uid = result?.user?.id;
             if (uid) {
-                const { data: prof } = await supabase
+                const { data: prof, error: profileError } = await supabase
                     .from('profiles')
                     .select('role')
                     .eq('id', uid)
                     .single();
+                if (profileError) throw profileError;
                 if (prof?.role === 'creator') {
                     navigate('/admin', { replace: true });
                     return;
@@ -112,7 +119,7 @@ export default function AdminLoginPage() {
 
                 <button
                     type="submit"
-                    disabled={submitting}
+                    disabled={submitting || resetting}
                     style={{ width: '100%', padding: '12px', background: submitting ? '#94a3b8' : '#00CFFF', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: submitting ? 'default' : 'pointer' }}
                 >
                     {submitting ? 'ログイン中…' : 'ログイン'}
@@ -121,9 +128,10 @@ export default function AdminLoginPage() {
                 <button
                     type="button"
                     onClick={handleResetRequest}
+                    disabled={submitting || resetting}
                     style={{ display: 'block', margin: '16px auto 0', background: 'none', border: 'none', color: '#64748b', fontSize: 13, textDecoration: 'underline', cursor: 'pointer' }}
                 >
-                    パスワードを忘れた方・変更したい方
+                    {resetting ? '再設定メールを送信中…' : 'パスワードを忘れた方・変更したい方'}
                 </button>
             </form>
         </div>

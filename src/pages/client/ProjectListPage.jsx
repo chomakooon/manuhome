@@ -43,6 +43,8 @@ export default function ProjectListPage() {
     }, [user]);
 
     useEffect(() => {
+        // This external request also updates the loading state used by the page.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         loadProjects();
     }, [loadProjects]);
 

@@ -9,6 +9,21 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        async function fetchProfile(userId) {
+            try {
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', userId)
+                    .single();
+                setProfile(data);
+            } catch {
+                setProfile(null);
+            } finally {
+                setLoading(false);
+            }
+        }
+
         // Get initial session
         supabase.auth.getSession().then(({ data: { session } }) => {
             setUser(session?.user ?? null);
@@ -34,21 +49,6 @@ export function AuthProvider({ children }) {
 
         return () => subscription.unsubscribe();
     }, []);
-
-    async function fetchProfile(userId) {
-        try {
-            const { data } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', userId)
-                .single();
-            setProfile(data);
-        } catch {
-            setProfile(null);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     async function signInWithEmail(email) {
         const { error } = await supabase.auth.signInWithOtp({ email });

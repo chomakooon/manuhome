@@ -37,9 +37,9 @@ function createNoopQueryBuilder() {
         in() {
             return builder;
         },
-        order() {
-            return builder;
-        },
+        order() { return builder; },
+        limit() { return builder; },
+        maybeSingle() { state.expectsSingle = true; return builder; },
         single() {
             state.expectsSingle = true;
             return builder;
@@ -56,19 +56,7 @@ function createNoopQueryBuilder() {
     };
 
     function getResult() {
-        if (state.mode === 'write' || state.expectsSingle) {
-            return {
-                data: state.expectsSingle ? null : [],
-                error: createSupabaseNotConfiguredError(),
-                count: 0,
-            };
-        }
-
-        return {
-            data: [],
-            error: null,
-            count: 0,
-        };
+        return { data: state.expectsSingle ? null : [], error: createSupabaseNotConfiguredError(), count: null };
     }
 
     return builder;
@@ -98,19 +86,21 @@ function createNoopSupabaseClient() {
             async signUp() {
                 return { data: null, error: createSupabaseNotConfiguredError() };
             },
+            async resetPasswordForEmail() { return { error: createSupabaseNotConfiguredError() }; },
+            async updateUser() { return { data: null, error: createSupabaseNotConfiguredError() }; },
             async signOut() {
                 return { error: null };
             },
         },
-        from() {
-            return createNoopQueryBuilder();
-        },
+        functions: { async invoke() { return { data: null, error: createSupabaseNotConfiguredError() }; } },
+        from() { return createNoopQueryBuilder(); },
         storage: {
             from() {
                 return {
                     async upload() {
                         return { error: createSupabaseNotConfiguredError() };
                     },
+                    async createSignedUrl() { return { data: null, error: createSupabaseNotConfiguredError() }; },
                     getPublicUrl() {
                         return { data: { publicUrl: '' } };
                     },

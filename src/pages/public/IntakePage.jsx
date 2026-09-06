@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Briefcase, Dog, Users, MessageCircle, Send } from 'lucide-react';
 import { submitContact } from '../../lib/contact';
 import './IntakePage.css';
@@ -31,7 +31,8 @@ const BUDGET_OPTIONS = [
 
 export default function IntakePage() {
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
+    const [submissionStatus, setSubmissionStatus] = useState('idle');
+    const sendingRef = useRef(false);
 
     // Phase 23: URL の ?type=<value> を初期 state に取り込む lazy initializer。
     // 旧実装は useEffect 内で setState していたが、set-state-in-effect を避けて
@@ -82,18 +83,9 @@ export default function IntakePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Build structured data for backend
-        const commonFields = {
-            inquiryType: formData.inquiryType,
-            name: formData.name,
-            company: formData.company,
-            email: formData.email,
-            sns: formData.sns,
-            goal: formData.goal,
-            budget_range: formData.budget_range,
-            deadline: formData.deadline,
-            message: formData.message,
-        };
+        if (sendingRef.current) return;
+        sendingRef.current = true;
+        setSubmissionStatus('sending');
 
         let detailsJson = {};
         switch (formData.inquiryType) {
@@ -125,49 +117,49 @@ export default function IntakePage() {
                 break;
         }
 
-        const submissionData = {
-            ...commonFields,
-            detailsJson: JSON.stringify(detailsJson),
-            submittedAt: new Date().toISOString(),
-        };
-
-        // Send to CROWN Hub webhook (fire-and-forget — UX不変)
-        const HUB_WEBHOOK = import.meta.env.VITE_CROWN_HUB_URL
-            ? `${import.meta.env.VITE_CROWN_HUB_URL}/api/webhooks/portfolio`
-            : null;
-
-        if (HUB_WEBHOOK) {
-            fetch(HUB_WEBHOOK, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(submissionData),
-            }).catch((err) => console.warn('Hub webhook failed (non-blocking):', err));
+        try {
+            const result = await submitContact({
+                source: 'intake',
+                name: formData.name.trim(),
+                email: formData.email.trim(),
+                message: formData.message.trim() || formData.free_detail.trim() ||
+                    `${INQUIRY_TYPES.find(type => type.value === formData.inquiryType)?.label}の相談（目的: ${formData.goal}、予算: ${formData.budget_range}）`,
+                metadata: {
+                    inquiryType: formData.inquiryType,
+                    company: formData.company,
+                    sns: formData.sns,
+                    goal: formData.goal,
+                    budget_range: formData.budget_range,
+                    deadline: formData.deadline,
+                    details: detailsJson,
+                },
+            });
+            if (!result?.ok) throw new Error('Contact was not saved');
+            setSubmissionStatus('success');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch {
+            setSubmissionStatus('error');
+        } finally {
+            sendingRef.current = false;
         }
-
-        // contacts テーブル保存 + Discord/Slack 通知（fire-and-forget でUXは即/thanksへ）
-        submitContact({
-            source: 'intake',
-            name: formData.name,
-            email: formData.email,
-            message: formData.message,
-            metadata: {
-                inquiryType: formData.inquiryType,
-                company: formData.company,
-                sns: formData.sns,
-                goal: formData.goal,
-                budget_range: formData.budget_range,
-                deadline: formData.deadline,
-                details: detailsJson,
-            },
-        }).catch((err) => console.warn('submit-contact failed (non-blocking):', err));
-
-        navigate('/thanks');
     };
 
     const goBack = () => {
         setStep(1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
+    if (submissionStatus === 'success') {
+        return (
+            <section className="intake-page section">
+                <div className="container intake-completed" role="status">
+                    <h1>ご相談を受け付けました</h1>
+                    <p>内容を確認のうえ、ご入力のメールアドレスへご連絡いたします。</p>
+                    <Link to="/" className="btn btn-primary">ホームに戻る</Link>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <div className="intake-page">
@@ -215,7 +207,7 @@ export default function IntakePage() {
                     ) : (
                         /* Step 2: Form */
                         <form className="intake-fields" onSubmit={handleSubmit}>
-                            <button type="button" className="intake-back" onClick={goBack}>
+                            <button type="button" className="intake-back" onClick={goBack} disabled={submissionStatus === 'sending'}>
                                 ← カテゴリ選択に戻る
                             </button>
 
@@ -225,7 +217,7 @@ export default function IntakePage() {
                             </div>
 
                             {/* Common Fields */}
-                            <fieldset className="intake-fieldset">
+                            <fieldset className="intake-fieldset" disabled={submissionStatus === 'sending'}>
                                 <legend className="intake-legend">基本情報</legend>
 
                                 <div className="form-group">
@@ -281,7 +273,7 @@ export default function IntakePage() {
 
                             {/* Conditional Fields */}
                             {formData.inquiryType === 'business' && (
-                                <fieldset className="intake-fieldset">
+                                <fieldset className="intake-fieldset" disabled={submissionStatus === 'sending'}>
                                     <legend className="intake-legend">制作の詳細</legend>
                                     <div className="form-group">
                                         <label htmlFor="intake-use-case" className="form-label">用途</label>
@@ -318,7 +310,7 @@ export default function IntakePage() {
                             )}
 
                             {formData.inquiryType === 'pet' && (
-                                <fieldset className="intake-fieldset">
+                                <fieldset className="intake-fieldset" disabled={submissionStatus === 'sending'}>
                                     <legend className="intake-legend">ペットグッズの詳細</legend>
                                     <div className="form-group">
                                         <label htmlFor="intake-pet-count" className="form-label">ペットの数</label>
@@ -354,7 +346,7 @@ export default function IntakePage() {
                             )}
 
                             {formData.inquiryType === 'networking' && (
-                                <fieldset className="intake-fieldset">
+                                <fieldset className="intake-fieldset" disabled={submissionStatus === 'sending'}>
                                     <legend className="intake-legend">交流会の詳細</legend>
                                     <div className="form-group">
                                         <label htmlFor="intake-purpose" className="form-label">参加の目的</label>
@@ -370,7 +362,7 @@ export default function IntakePage() {
                             )}
 
                             {formData.inquiryType === 'other' && (
-                                <fieldset className="intake-fieldset">
+                                <fieldset className="intake-fieldset" disabled={submissionStatus === 'sending'}>
                                     <legend className="intake-legend">ご相談の詳細</legend>
                                     <div className="form-group">
                                         <label htmlFor="intake-free-detail" className="form-label">詳しい内容</label>
@@ -381,7 +373,7 @@ export default function IntakePage() {
                             )}
 
                             {/* Message */}
-                            <fieldset className="intake-fieldset">
+                            <fieldset className="intake-fieldset" disabled={submissionStatus === 'sending'}>
                                 <legend className="intake-legend">メッセージ</legend>
                                 <div className="form-group">
                                     <label htmlFor="intake-message" className="form-label">その他、伝えたいこと</label>
@@ -390,8 +382,13 @@ export default function IntakePage() {
                                 </div>
                             </fieldset>
 
-                            <button type="submit" className="btn btn-primary btn-lg intake-submit">
-                                <Send size={18} strokeWidth={2} /> 相談内容を送る
+                            {submissionStatus === 'error' && (
+                                <p role="alert" className="intake-error">
+                                    送信に失敗しました。入力内容は保持されています。時間をおいて再度送信してください。
+                                </p>
+                            )}
+                            <button type="submit" className="btn btn-primary btn-lg intake-submit" disabled={submissionStatus === 'sending'}>
+                                <Send size={18} strokeWidth={2} /> {submissionStatus === 'sending' ? '送信中…' : '相談内容を送る'}
                             </button>
                         </form>
                     )}

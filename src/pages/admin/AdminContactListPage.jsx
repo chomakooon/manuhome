@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../lib/supabase';
+import PrivateAttachments from '../../components/portal/PrivateAttachments';
 import { Filter } from 'lucide-react';
 import './AdminOrderListPage.css';
 
@@ -19,11 +20,17 @@ const STATUS_OPTIONS = [
 export default function AdminContactListPage() {
     const [contacts, setContacts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState('');
+    const [updateError, setUpdateError] = useState('');
+    const [updatingId, setUpdatingId] = useState(null);
+    const [notifyingId, setNotifyingId] = useState(null);
+    const [notificationError, setNotificationError] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
     const [expandedId, setExpandedId] = useState(null);
 
     const fetchContacts = useCallback(async () => {
         setLoading(true);
+        setLoadError('');
         try {
             let query = supabase.from('contacts').select('*');
             if (filterStatus !== 'all') query = query.eq('status', filterStatus);
@@ -33,22 +40,52 @@ export default function AdminContactListPage() {
             setContacts(data || []);
         } catch (error) {
             console.error('Error fetching contacts:', error);
+            setLoadError('お問い合わせの読み込みに失敗しました。');
         } finally {
             setLoading(false);
         }
     }, [filterStatus]);
 
     useEffect(() => {
+        // The external request and user-triggered retries share their loading state.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchContacts();
     }, [fetchContacts]);
 
     const updateStatus = async (id, status) => {
-        // 楽観的更新
-        setContacts(prev => prev.map(c => (c.id === id ? { ...c, status } : c)));
-        const { error } = await supabase.from('contacts').update({ status }).eq('id', id);
-        if (error) {
-            console.error('status update failed:', error);
-            fetchContacts(); // 失敗時は再取得して戻す
+        if (updatingId) return;
+        setUpdatingId(id);
+        setUpdateError('');
+        try {
+            const { data, error } = await supabase.from('contacts')
+                .update({ status }).eq('id', id).select('id,status').single();
+            if (error) throw error;
+            setContacts(prev => prev
+                .map(contact => contact.id === id ? { ...contact, status: data.status } : contact)
+                .filter(contact => filterStatus === 'all' || contact.status === filterStatus));
+        } catch (error) {
+            console.error('Status update failed:', error);
+            setUpdateError('ステータスを保存できませんでした。保存結果を確認できないため、再度お試しください。');
+        } finally {
+            setUpdatingId(null);
+        }
+    };
+
+    const retryNotification = async (id) => {
+        if (notifyingId) return;
+        setNotifyingId(id);
+        setNotificationError('');
+        try {
+            const { data, error } = await supabase.functions.invoke('retry-contact-notification', { body: { id } });
+            if (error || data?.ok !== true || !['sent', 'disabled'].includes(data.notificationStatus)) {
+                throw error || new Error('Notification was not sent');
+            }
+            setContacts(prev => prev.map(contact => contact.id === id
+                ? { ...contact, notification_status: data.notificationStatus } : contact));
+        } catch {
+            setNotificationError('外部通知を送信できませんでした。お問い合わせは保存されています。時間をおいて再度お試しください。');
+        } finally {
+            setNotifyingId(null);
         }
     };
 
@@ -75,8 +112,15 @@ export default function AdminContactListPage() {
                 </div>
             </div>
 
+            {updateError && <p role="alert">{updateError}</p>}
+            {notificationError && <p role="alert">{notificationError}</p>}
             {loading ? (
                 <div className="admin-loading">読み込み中...</div>
+            ) : loadError ? (
+                <div className="admin-loading" role="alert">
+                    <p>{loadError}</p>
+                    <button className="btn btn-outline" onClick={fetchContacts}>再読み込み</button>
+                </div>
             ) : (
                 <div className="admin-table-container">
                     <table className="admin-table">
@@ -98,7 +142,19 @@ export default function AdminContactListPage() {
                                 contacts.map(c => (
                                     <tr key={c.id}>
                                         <td>{new Date(c.created_at).toLocaleString('ja-JP')}</td>
-                                        <td>{SOURCE_LABELS[c.source] || c.source}</td>
+                                        <td>
+                                            {SOURCE_LABELS[c.source] || c.source}
+                                            {['pending', 'failed'].includes(c.notification_status) && (
+                                                <div>
+                                                    <p className="text-sm" role="status">問い合わせは保存済みです。外部通知は{c.notification_status === 'failed' ? '失敗' : '未送信'}です。</p>
+                                                    <button type="button" className="btn btn-outline" disabled={notifyingId !== null} onClick={() => retryNotification(c.id)}>
+                                                        {notifyingId === c.id ? '通知中…' : '外部通知を再送'}
+                                                    </button>
+                                                </div>
+                                            )}
+                                            {c.notification_status === 'disabled' && <p className="text-sm">外部通知は設定されていません。</p>}
+                                            {c.notification_status === 'sent' && <p className="text-sm" role="status">外部通知を送信済みです。</p>}
+                                        </td>
                                         <td>
                                             <strong>{c.name || '(名前なし)'}</strong><br />
                                             <span className="text-sm text-gray">{c.email || '-'}</span>
@@ -125,9 +181,12 @@ export default function AdminContactListPage() {
                                                 {c.message || '-'}
                                             </button>
                                             {c.metadata && Object.keys(c.metadata).length > 0 && expandedId === c.id && (
-                                                <pre style={{ fontSize: 11, color: '#64748b', marginTop: 8, whiteSpace: 'pre-wrap' }}>
-                                                    {JSON.stringify(c.metadata, null, 2)}
-                                                </pre>
+                                                <div>
+                                                    <PrivateAttachments files={c.metadata.referencePhotos} />
+                                                    <pre style={{ fontSize: 11, color: '#64748b', marginTop: 8, whiteSpace: 'pre-wrap' }}>
+                                                        {JSON.stringify(c.metadata, (key, value) => key === 'referencePhotos' ? undefined : value, 2)}
+                                                    </pre>
+                                                </div>
                                             )}
                                         </td>
                                         <td>
@@ -135,6 +194,8 @@ export default function AdminContactListPage() {
                                                 {getStatusBadge(c.status)}
                                                 <select
                                                     value={c.status}
+                                                    disabled={updatingId !== null}
+                                                    aria-label={`${c.name || 'お問い合わせ'}のステータス`}
                                                     onChange={e => updateStatus(c.id, e.target.value)}
                                                     className="form-input"
                                                     style={{ fontSize: 12, padding: '4px 6px' }}

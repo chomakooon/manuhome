@@ -1,25 +1,4 @@
-/**
- * @file src/sites/kataribin/pages/ContactPage.jsx
- *
- * /contact 独立ページ。
- * 気軽な相談窓口（シンプルな1画面フォーム + 任意の参考画像アップロード）。
- * 正式な多段階注文フォームは /intake に温存（誘導リンクあり）。
- *
- * Phase 7:
- *   - SNS URL を src/config/social.config.js に外出し
- *   - フォーム送信ボタン直下に /intake 誘導リンクを追加（既存 SNS 下も維持）
- *   - /contact?plan=<id> でプラン情報をテキストエリアに自動転記
- *
- * Phase 22 (現在):
- *   - 状態マシン化: 'idle' / 'submitting' / 'success' / 'error'
- *   - submitContactForm 関数を分離（エンジニア接続ポイントを明示）
- *   - 送信中の二重送信防止 + ローディング表示
- *   - 失敗時のリトライ UI（入力内容は保持）
- *   - aria-live で状態遷移を読み上げ
- *
- * バックエンド接続（Cloudflare Worker /api/contact）は別途エンジニア担当。
- * 接続ポイントの詳細は submitContactForm 関数の JSDoc 参照。
- */
+/** Public consultation form. Contact and private images are saved before success. */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -77,6 +56,11 @@ const buildPrefilledMessage = (plan) => {
 const ALLOWED_MIMES = new Set([
     'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/heic', 'image/heif',
 ]);
+const DIAGNOSTIC_LABELS = {
+    diagram: '図解イラスト',
+    icon: 'SNSアイコン・キャラクター',
+    comic: 'ビジネス4コマ漫画',
+};
 const MAX_PHOTOS = 3;
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
@@ -98,56 +82,15 @@ const readAsDataUrl = (file) =>
         r.readAsDataURL(file);
     });
 
-/* ================================================================
-   🔧 ENGINEER CONNECTION POINT (Phase 22 → 次フェーズ)
-   ================================================================
-
-   この関数を Cloudflare Worker（`/api/contact`）への fetch に
-   置き換えてください。それ以外の UI / バリデーション / 状態管理は
-   呼び出し側で完成しているため、本関数のシグネチャ（formData を受け取り
-   ok: boolean を返す Promise）を維持すれば差し替え可能です。
-
-   ── 期待する HTTP 仕様 ──────────────────────────
-   POST https://ai-reply-worker.mana-ai.workers.dev/api/contact
-   Content-Type: application/json
-   Body: JSON.stringify(formData)   // 下記 formData の構造を参照
-
-   ── 期待するレスポンス ─────────────────────────
-   成功:  HTTP 200, { ok: true }
-   失敗:  HTTP 4xx / 5xx, or network error → throw
-
-   ── formData の構造（contract） ───────────────
-   {
-     name: string,          // 必須
-     email: string,         // 必須
-     message: string,       // 必須
-     planId: string | null, // /contact?plan=<id> から自動セット
-     referencePhotos: [     // 添付画像のメタ情報（最大 3 枚）
-       { name: string, size: number, type: string, dataUrl: string }
-     ],
-     submittedAt: string,   // ISO 8601 タイムスタンプ
-     userAgent: string,     // ブラウザ識別（任意、スパム対策で利用可能）
-   }
-
-   ── 実装の注意点 ───────────────────────────────
-   - referencePhotos[].dataUrl は base64 文字列で大きい（数 MB ある可能性）
-     → Worker 側で multipart/form-data に変換するか、別途 R2 等にアップロード
-   - 失敗時は throw すれば呼び出し側で status="error" が立ちます
-   - reCAPTCHA / Turnstile 等の bot 対策は Worker 側で要検討
-*/
 async function submitContactForm(formData) {
-    // contacts テーブル保存 + Discord/Slack 通知（submit-contact Edge Function）
-    // 画像はまずメタデータ（ファイル名・サイズ）のみ通知に含める。本体アップロードは次段階。
-    return await submitContact({
+    return submitContact({
         source: 'kataribin-contact',
         name: formData.name,
         email: formData.email,
         message: formData.message,
+        referencePhotos: formData.referencePhotos,
         metadata: {
             planId: formData.planId ?? null,
-            referencePhotos: (formData.referencePhotos || []).map((p) => ({
-                name: p.name, size: p.size, type: p.type,
-            })),
             userAgent: formData.userAgent,
         },
     });
@@ -250,6 +193,8 @@ function Field({ label, htmlFor, required, optional, error, children, errorId })
 export default function ContactPage() {
     const [searchParams] = useSearchParams();
     const planId = searchParams.get('plan');
+    const diagnostic = searchParams.get('diagnostic');
+    const diagnosticLabel = Object.hasOwn(DIAGNOSTIC_LABELS, diagnostic) ? DIAGNOSTIC_LABELS[diagnostic] : null;
 
     // 不正な plan id は null に解決される（警告は出さず単に空欄で開始）
     const prefilledPlan = useMemo(
@@ -263,7 +208,8 @@ export default function ContactPage() {
     const [data, setData] = useState(() => ({
         name: '',
         email: '',
-        message: prefilledPlan ? buildPrefilledMessage(prefilledPlan) : '',
+        message: prefilledPlan ? buildPrefilledMessage(prefilledPlan)
+            : diagnosticLabel ? `ビジュアル診断で「${diagnosticLabel}」をおすすめされました。制作内容やお見積りについて相談したいです。\n\n【ご質問・ご要望】\n` : '',
     }));
     const [photos, setPhotos] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
@@ -351,13 +297,12 @@ export default function ContactPage() {
             return;
         }
 
-        // 送信ペイロードを組み立て（formData の構造は submitContactForm の
-        // JSDoc コントラクトを参照）
+        // Include the image bytes so the server can store private attachments.
         const formData = {
             name: data.name.trim(),
             email: data.email.trim(),
             message: data.message.trim(),
-            planId: planId ?? null,
+            planId: prefilledPlan?.id ?? null,
             referencePhotos: photos.map((p) => ({
                 name: p.name,
                 size: p.size,
@@ -649,10 +594,10 @@ export default function ContactPage() {
                     </ul>
                     <div className="kt-contact-intake">
                         <p className="kt-contact-intake__lead">
-                            ご注文内容が固まっている方は、正式注文フォームからお進みください。
+                            用途やご予算が決まっている方は、詳細な制作相談フォームをご利用ください。
                         </p>
                         <Link to="/intake" className="kt-btn kt-btn--outline">
-                            正式注文はこちら →
+                            詳細な制作相談はこちら →
                         </Link>
                     </div>
                 </div>
