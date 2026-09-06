@@ -3,6 +3,25 @@
 -- legacy columns. Deploy the updated admin/API code together with this migration.
 BEGIN;
 
+-- A mismatched schema already fails at the static INSERT below. Check both
+-- sources first to report the missing columns before creating either table.
+DO $$
+DECLARE missing_columns text;
+BEGIN
+  SELECT string_agg(required.table_name || '.notes', ', ' ORDER BY required.table_name)
+  INTO missing_columns
+  FROM (VALUES ('orders'), ('projects')) AS required(table_name)
+  WHERE NOT EXISTS (
+    SELECT 1 FROM information_schema.columns c
+    WHERE c.table_schema = 'public' AND c.table_name = required.table_name AND c.column_name = 'notes'
+  );
+  IF missing_columns IS NOT NULL THEN
+    RAISE EXCEPTION 'Internal notes migration requires source columns: %', missing_columns
+      USING ERRCODE = '42703', HINT = 'Reconcile the source schema and migration history before retrying.';
+  END IF;
+END;
+$$;
+
 CREATE TABLE public.order_internal_notes (
   order_id uuid PRIMARY KEY REFERENCES public.orders(id) ON DELETE CASCADE,
   notes text NOT NULL,

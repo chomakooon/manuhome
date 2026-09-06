@@ -85,6 +85,124 @@ npx --yes deno test --node-modules-dir=none tests/stripe-signature.deno.ts
 
 予約を手動で解除する場合は、元の注文を処理中のリクエストがないこと、関連するStripe Checkoutが支払済みではなく再決済もできない状態であること、遅れて入金確定する支払いがないことを確認してください。単にDB注文が`pending`であることや時間の経過だけを理由に予約を削除しないでください。支払われた注文の予約は消費済みとして保持します。旧版で既に複数作成されている未完了Checkoutは、この予約だけでは無効化されないため、前述の移行前照合で扱います。
 
+#### 対象を特定する（読み取りのみ）
+
+オーナーが承認した1件について、次の3つの`REPLACE_...`を実値へ置き換えて実行します。メールは小文字・前後空白なしに統一します。結果がちょうど1件であり、予約と注文のtenant・メール・注文ID・クーポンが一致することを確認してください。0件の場合は条件を緩めて削除せず、対象を調べ直します。
+
+```sql
+-- coupon-release-inspect
+WITH target(tenant_id, email, order_id) AS (
+  VALUES ('REPLACE_TENANT_UUID'::uuid,
+          'REPLACE_NORMALIZED_EMAIL'::text,
+          'REPLACE_ORDER_UUID'::uuid)
+)
+SELECT r.tenant_id, r.email, r.order_id, r.reserved_at,
+       o.customer_email, o.form_data->>'couponCode' AS coupon_code,
+       o.status, o.payment_status, o.stripe_session_id,
+       o.stripe_payment_intent
+FROM public.first_order_coupon_reservations r
+JOIN target t ON (r.tenant_id, r.email, r.order_id)
+               = (t.tenant_id, t.email, t.order_id)
+JOIN public.orders o ON o.id = r.order_id AND o.tenant_id = r.tenant_id
+WHERE lower(btrim(o.customer_email)) = r.email;
+```
+
+#### Stripeと処理状況を確認する（SQL実行前の必須条件）
+
+オーナーが正しいStripeアカウント・モードで、対象注文に関係する全セッションが不活性で今後も支払えないこと、未入金であること、遅延決済・処理中のPayment Intent・未反映の支払済み／返金済みイベントがないことを確認します。DBの`stripe_session_id`がNULLでも、応答消失でStripe側だけにセッションが残る場合があります。Stripe側の対応を確認できないときは解放しません。
+
+新規Checkout受付と対象注文の再試行を停止し、実行中の注文処理・関連Webhook処理が終了してから作業します。この状態は取消の確定まで維持します。以下のSQLはStripeの状態や受付停止を検証できません。これらを確認する前に確認フラグを`true`へ変更しないでください。対象の照合結果とStripe確認の根拠は、アクセスを制限した作業記録に残します。
+
+#### 1件だけ解放する（既定はロールバック）
+
+管理用DB接続で、下の対象3値を先ほどの結果と同じ値へ置換します。`expected_session_id`には確認した`stripe_session_id`をそのまま設定し、DB値がNULLだった場合だけSQLの`NULL`を設定します。確認条件を満たした場合だけ2つのフラグを`true`にし、まず末尾の`ROLLBACK`のままブロック全体を実行してください。
+
+SQLは予約と注文の一致、入金・返金履歴の不存在、セッションIDの不変を再検査します。確認から削除までのDB更新を防ぐため、注文表と予約表の書込みを短時間ロックします。ロック待ち・条件不一致・削除件数異常はすべて処理中止になります。エラー時は`ROLLBACK;`を実行して終了し、判定条件を外して再実行しないでください。
+
+```sql
+-- coupon-release-delete
+BEGIN;
+SET LOCAL lock_timeout = '5s';
+SET LOCAL statement_timeout = '30s';
+SET LOCAL idle_in_transaction_session_timeout = '60s';
+
+CREATE TEMP TABLE coupon_release_result ON COMMIT DROP AS
+SELECT tenant_id, email, order_id, reserved_at
+FROM public.first_order_coupon_reservations WITH NO DATA;
+
+DO $$
+DECLARE
+  target_tenant_id constant uuid := 'REPLACE_TENANT_UUID';
+  target_email constant text := 'REPLACE_NORMALIZED_EMAIL';
+  target_order_id constant uuid := 'REPLACE_ORDER_UUID';
+  expected_session_id constant text := 'REPLACE_STRIPE_SESSION_ID'; -- DB値がNULLならNULLに置換
+  stripe_verified_inactive_unpaid constant boolean := false;
+  checkout_paused_and_requests_finished constant boolean := false;
+  saved_order public.orders%ROWTYPE;
+  saved_reservation public.first_order_coupon_reservations%ROWTYPE;
+  deleted_count integer;
+BEGIN
+  IF stripe_verified_inactive_unpaid IS NOT TRUE
+     OR checkout_paused_and_requests_finished IS NOT TRUE THEN
+    RAISE EXCEPTION 'Stripe verification and paused checkout are required';
+  END IF;
+  IF target_tenant_id IS NULL OR target_order_id IS NULL OR target_email IS NULL
+     OR target_email <> lower(btrim(target_email))
+     OR position('@' IN target_email) < 2 THEN
+    RAISE EXCEPTION 'Exact tenant, normalized email and order ID are required';
+  END IF;
+
+  LOCK TABLE public.orders, public.first_order_coupon_reservations
+    IN SHARE ROW EXCLUSIVE MODE;
+  SELECT * INTO saved_order FROM public.orders
+  WHERE id = target_order_id AND tenant_id = target_tenant_id
+    AND lower(btrim(customer_email)) = target_email;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Target order does not match'; END IF;
+  IF saved_order.form_data->>'couponCode' IS DISTINCT FROM 'はつもふ10'
+     OR saved_order.payment_status IS NULL OR saved_order.payment_status NOT IN ('unpaid', 'failed')
+     OR saved_order.status IS NULL OR saved_order.status NOT IN ('pending', 'failed')
+     OR saved_order.stripe_payment_intent IS NOT NULL
+     OR saved_order.stripe_session_id IS DISTINCT FROM expected_session_id THEN
+    RAISE EXCEPTION 'Order or payment state is not eligible for release';
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM public.orders
+    WHERE tenant_id = target_tenant_id
+      AND lower(btrim(customer_email)) = target_email
+      AND (payment_status IN ('paid', 'refunded')
+           OR status IN ('paid', 'refunded')
+           OR stripe_payment_intent IS NOT NULL)
+  ) THEN RAISE EXCEPTION 'Paid or refunded history blocks coupon release'; END IF;
+
+  SELECT * INTO saved_reservation FROM public.first_order_coupon_reservations
+  WHERE tenant_id = target_tenant_id AND email = target_email
+    AND order_id = target_order_id;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Exact reservation was not found'; END IF;
+
+  WITH deleted AS (
+    DELETE FROM public.first_order_coupon_reservations
+    WHERE tenant_id = target_tenant_id AND email = target_email
+      AND order_id = target_order_id
+      AND reserved_at = saved_reservation.reserved_at
+    RETURNING tenant_id, email, order_id, reserved_at
+  )
+  INSERT INTO pg_temp.coupon_release_result SELECT * FROM deleted;
+  GET DIAGNOSTICS deleted_count = ROW_COUNT;
+  IF deleted_count <> 1 THEN
+    RAISE EXCEPTION 'Expected exactly one deleted reservation, got %', deleted_count;
+  END IF;
+END;
+$$;
+
+SELECT count(*) OVER () AS deleted_rows, tenant_id, email, order_id, reserved_at
+FROM pg_temp.coupon_release_result;
+ROLLBACK;
+```
+
+`DELETE ... RETURNING`由来の結果が対象の1件だけで、`deleted_rows=1`となることを確認します。この試行は最後の`ROLLBACK`で取消され、予約は残ります。実際に確定する場合はオーナーがStripe・受付停止の前提を再確認し、同じ対象のまま最後の`ROLLBACK`だけを`COMMIT`へ変更して全体を再実行します。確定後に読み取り用SQLが0件になることを確認してください。注文、画像、決済記録は削除しません。
+
+予約のDELETEは、旧注文や旧`requestId`を無効化しません。受付再開後に旧画面から再送すると、旧注文がクーポンを再予約する可能性があります。受付再開前に、利用者が旧画面を閉じ、旧送信の再試行を中止することを確認してください。入力を訂正する場合は新しい申込として開始します。この手順には旧リクエストを強制失効させる機能は含まれません。
+
 メールの本人性やLINEの友だち登録は確認していません。同一人物による別メールアドレスでの利用制限、第三者が他人のメールアドレスを入力することへの防止には、確認済みメール／認証済みユーザーによる予約が別途必要です。`NMとくべつ`もコード一致による共有クーポンで、関係者資格を認証する仕組みではありません。
 
 実装根拠： [SupabaseのStripe署名検証例](https://supabase.com/docs/guides/functions/examples/stripe-webhooks)、[Stripeの冪等性と保持期間](https://docs.stripe.com/api/idempotent_requests)、[StripeのWebhook配送](https://docs.stripe.com/webhooks)。

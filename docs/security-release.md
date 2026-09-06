@@ -11,12 +11,54 @@
 ## 切替手順
 
 1. Supabase管理画面で対象プロジェクト、停止理由、バックアップと復元可否を確認します。プロジェクト再開だけでは旧版の認可問題も再び公開されるため、受付停止中の作業として、DB・Functions・フロントを一組で切り替える時間を設けます。
-2. 復元後、既存データを保護した状態で適用済みmigration・実テーブル・列権限・`pg_policies`・Storage設定を照合します。旧手動セットアップだけで構築されたDBなら、migration履歴を偽って追加せず差分を確認してください。異なるスキーマにSQLを強制適用しません。
+2. 復元後、**migration適用前バックアップを取得**し、DBの復元方法とStorageの画像本体の保全を確認します。適用済みmigration・実テーブル・列権限・`pg_policies`・Storage設定を照合し、`information_schema.columns`で`public.orders.notes`と`public.projects.notes`の列実在を[下記クエリ](#内部メモ移行前の列実在確認)で確認します。旧手動セットアップだけで構築されたDBなら、migration履歴を偽って追加せず差分を確認してください。どちらかの列が存在しない場合は適用を止め、バックアップと旧スキーマからメモの保存先を確認します。空の`notes`列を追加して検査だけを通したり、異なるスキーマにSQLを強制適用したりしません。
 3. 旧Stripeの未完了・支払済みセッションを[決済手順](commerce-deployment.md)に従って照合します。旧`paid`値は入金確認の代わりになりません。顧客データやStripe秘密情報は公開PR・ログへ掲載しません。
 4. 検証環境で`20260906000000`〜`20260906000003`を順に適用し、本番にも同順で適用します。新規DBはそれ以前のmigrationも必要です。内部メモは専用テーブルへコピーした後に旧列を削除します。旧版の管理画面への単純ロールバックはできません。失敗時は受付を停止したまま、バックアップと適用履歴から対処します。
 5. 以下のサーバー設定を準備し、全7関数をこのコミットからデプロイします。`supabase/config.toml`の関数ごとのJWT設定を適用し、ゲスト関数が古いJWT必須設定のままになっていないことを確認します。
 6. 公開用Supabase URL・キーを確認してフロントエンドをビルドします。XserverとVercelの両配信先を確認します。VercelではSPA rewriteと基本ヘッダーもこの更新に含みます。
 7. 以下の実サービス検証を完了してから受付を再開します。
+
+## 適用順序チェックリスト
+
+以下は未実施の本番切替作業です。順番に完了を記録し、`checkout-status`の疎通確認まではDraftを維持して`main`へマージしません。Supabase復旧・バックアップ、旧Stripeセッション照合、Supabase/GitHub Secrets登録はオーナーが実施し、アクセス権の受け渡しも当事者間で調整します。ローカルテストやCIの成功を、本番作業の完了としてチェックしないでください。
+
+- [ ] **Supabase復旧確認**：対象プロジェクトと権限を確認し、受付を停止した状態でDB・Auth・Storageへ接続できることを確認する。
+- [ ] **バックアップ取得**：適用前DBバックアップと画像本体を保全し、復元手順、下記の`notes`列実在、適用済みmigrationを確認する。旧Stripeの支払済み・未完了セッションの照合も完了する。
+- [ ] **migration順次適用**：検証環境で確認後、本番へ`20260906000000` → `20260906000001` → `20260906000002` → `20260906000003`の順で適用する。失敗した場合は後続へ進まない。
+- [ ] **Secrets設定**：オーナーがSupabaseの`STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` / `OPENROUTER_API_KEY` / `SITE_URL` / `CONTACT_WEBHOOK_URL`等と、GitHubの`FTP_*`を設定する。プロジェクト・Stripeモード・通知先を照合する。
+- [ ] **全7 Functionsデプロイ**：`submit-contact`、`create-checkout`、`checkout-status`、`stripe-webhook`、`ai-chat`、`generate-manga-preview`、`retry-contact-notification`を同じ修正コミットからデプロイし、`config.toml`のJWT設定も確認する。
+- [ ] **`checkout-status`疎通確認**：下記の応答契約を、DBとStripeに対応する保存済みセッションで確認する。未デプロイ、認証/CORSエラー、5xxの状態ではフロント配信へ進まない。
+- [ ] **`main`マージ（フロント自動配信）**：上記を完了し、レビューと当該コミットのCI成功を確認してからDraft解除・マージを行う。XserverとVercelへ新契約のフロントが配信されたことを確認する。
+- [ ] **合格条件検証**：受付停止を維持し、[実サービスでの合格条件](#実サービスでの合格条件)を配信後の画面を含めて確認する。テスト課金はStripeテストモードで行い、旧顧客の決済を再実行しない。
+- [ ] **受付再開**：検証結果と未処理の旧決済・問い合わせを確認し、オーナー判断で受付を再開する。
+
+### 内部メモ移行前の列実在確認
+
+バックアップ取得後、migration `20260906000002`を適用する前に、管理用SQLで次を実行します。2行とも`notes_column_exists=true`であることが前提です。これは列の実在を調べるクエリで、メモの件数やバックアップの正しさを保証するものではありません。
+
+```sql
+SELECT expected.table_name,
+       actual.column_name IS NOT NULL AS notes_column_exists,
+       actual.data_type
+FROM (VALUES ('orders'), ('projects')) AS expected(table_name)
+LEFT JOIN information_schema.columns AS actual
+  ON actual.table_schema = 'public'
+ AND actual.table_name = expected.table_name
+ AND actual.column_name = 'notes'
+ORDER BY expected.table_name;
+```
+
+migration自体も先頭で同じ列の実在を検査し、欠落時は`RAISE EXCEPTION`で新テーブル作成・メモのコピー・旧列削除の前に停止します。列欠落は元の静的`INSERT ... SELECT`でもPostgreSQLのエラーとなる条件ですが、前提検査により作業開始前に原因を明示します。既に`00002`が正常適用済みなら旧列がないのは期待どおりなので、migration履歴と移行先メモを確認し、再適用しません。
+
+### `checkout-status`の応答契約確認
+
+検証環境で新しいCheckout受付とStripeテストモードを使い、同じ環境に保存されたセッションを照会します。リクエストは`POST /functions/v1/checkout-status`、JSON本文は`{"sessionId":"cs_test_..."}`です。実際のセッションIDへ置き換え、呼出元のOriginでCORSが通ることも確認します。
+
+- Stripeで`status=open`かつ`payment_status=unpaid`の保存済みセッションはHTTP 200で`{"paymentStatus":"unpaid","orderStatus":"pending"}`となる。
+- 支払済みで受注確定待ちの場合は`paid / processing`、署名済みWebhook処理後はHTTP 200で`{"paymentStatus":"paid","orderStatus":"confirmed"}`となる。
+- 存在しないセッションの400/404だけをもって成功としない。JSONに`paymentStatus`と`orderStatus`があり、個人情報を含まず、新フロントの確認画面が応答を扱えることを確認する。
+
+本番では接続先とStripeモード、関数のデプロイ版を照合し、オーナーが照合済みの保存済みセッションで確認します。本番のStripe秘密鍵をテスト鍵へ置き換えて既存決済を混在させないでください。
 
 ## サーバー設定
 

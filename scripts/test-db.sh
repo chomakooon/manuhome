@@ -22,6 +22,9 @@ run_sql "$repo_dir/supabase/tests/fixtures.sql"
 run_sql "$repo_dir/supabase/tests/legacy_regressions.sql"
 for migration in "$repo_dir"/supabase/migrations/*.sql; do
   case "$(basename "$migration")" in 202601*) continue ;; esac
+  if [[ "$(basename "$migration")" == 20260906000002_private_internal_notes.sql ]]; then
+    bash "$repo_dir/scripts/test-db-notes-preflight.sh" "$container_name"
+  fi
   run_sql "$migration"
 done
 run_sql "$repo_dir/supabase/tests/security_regressions.sql"
