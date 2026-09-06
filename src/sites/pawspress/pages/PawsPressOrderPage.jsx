@@ -8,13 +8,14 @@
  *  Step 4: 確認 → 送信
  *  done : 完了画面
  *
- * 送信は console.log のモック（API 連携は次ステップ）。
+ * 入力と画像を保存した後、Stripe Checkoutでお支払いを行う。
  * URL クエリ ?plan=<id> があれば Step 1 で初期選択する。
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { isStripeConfigured, createCheckoutSession } from '../../../lib/stripe';
+import { createCheckoutSession } from '../../../lib/stripe';
+import CheckoutReturn from '../components/CheckoutReturn';
 import { pawspressPlans, GIFT_WRAP_OPTION } from '../data/plans';
 import { findCoupon, isCouponApplicable, computeDiscount } from '../data/coupons';
 import PageSeo from '../../../components/PageSeo';
@@ -40,7 +41,6 @@ const GOODS_OPTIONS = [
     { name: 'その他ご相談',        image: null,  iconChar: '💬' },
 ];
 
-const goodsByName = (n) => GOODS_OPTIONS.find((g) => g.name === n);
 
 const TSHIRT_SIZES = ['S', 'M', 'L', 'LL'];
 const CUSHION_SIZES = ['45cm × 45cm', '50cm × 50cm'];
@@ -186,6 +186,7 @@ const isHeic = (file) =>
 
 const isValidEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 const isValidPostalCode = (s) => /^\d{3}-?\d{4}$/.test(s.trim());
+const isValidPhone = (s) => /^[+\d\s()-]{8,30}$/.test(s.trim());
 
 const formatBytes = (b) => {
     if (b < 1024) return `${b} B`;
@@ -205,12 +206,6 @@ const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 const formatYen = (n) => `¥${n.toLocaleString('ja-JP')}`;
 
-// モック決済のカード入力バリデーション（実決済は決済プロバイダに委譲）
-const isCardComplete = (card) =>
-    /^\d{14,16}$/.test(card.number.replace(/\s/g, '')) &&
-    /^\d{2}\s*\/\s*\d{2}$/.test(card.expiry.trim()) &&
-    /^\d{3,4}$/.test(card.cvc.trim()) &&
-    card.holder.trim().length > 0;
 
 // ── small UI ─────────────────────────────────────────
 
@@ -631,6 +626,7 @@ function Step1Plan({
                                 className="paws-form-input paws-form-input--textarea"
                                 rows={3}
                                 value={customStyle}
+                                maxLength={2000}
                                 onChange={(e) => setCustomStyle(e.target.value)}
                                 placeholder="ご希望のテイストや雰囲気をご自由にご記入ください"
                             />
@@ -873,6 +869,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     type="text"
                     className="paws-form-input"
                     value={customer.name}
+                    maxLength={150}
                     onChange={updateCustomer('name')}
                     placeholder="山田 太郎"
                 />
@@ -883,6 +880,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     type="email"
                     className="paws-form-input"
                     value={customer.email}
+                    maxLength={254}
                     onChange={updateCustomer('email')}
                     placeholder="example@example.com"
                 />
@@ -893,6 +891,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     type="tel"
                     className="paws-form-input"
                     value={customer.phone}
+                    maxLength={30}
                     onChange={updateCustomer('phone')}
                     placeholder="090-0000-0000"
                 />
@@ -903,6 +902,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     type="text"
                     className="paws-form-input"
                     value={customer.petName}
+                    maxLength={150}
                     onChange={updateCustomer('petName')}
                     placeholder="モカ"
                 />
@@ -913,6 +913,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     className="paws-form-input paws-form-input--textarea"
                     rows={4}
                     value={customer.petDetail}
+                    maxLength={3000}
                     onChange={updateCustomer('petDetail')}
                     placeholder="例: ミニチュアダックスフンド・茶色・3歳・元気な男の子（写真から判断できる場合は未記入でもOK）"
                 />
@@ -923,6 +924,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     type="text"
                     className="paws-form-input paws-form-input--short"
                     value={customer.postalCode}
+                    maxLength={8}
                     onChange={updateCustomer('postalCode')}
                     placeholder="123-4567"
                     inputMode="numeric"
@@ -934,6 +936,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     type="text"
                     className="paws-form-input"
                     value={customer.address}
+                    maxLength={500}
                     onChange={updateCustomer('address')}
                     placeholder="東京都新宿区..."
                 />
@@ -944,6 +947,7 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                     className="paws-form-input paws-form-input--textarea"
                     rows={3}
                     value={customer.note}
+                    maxLength={5000}
                     onChange={updateCustomer('note')}
                     placeholder="特別なご要望などあればお聞かせください"
                 />
@@ -970,10 +974,11 @@ function Step3Customer({ customer, updateCustomer, errors, photoOptOut, setPhoto
                 </ul>
             </div>
 
-            {/* ── 写真掲載の opt-out (デフォルト=掲載OK、チェックでNG) ───── */}
-            <label className="paws-photo-optout">
+            {/* ── 写真掲載の opt-out (初期状態は掲載不可、チェックでNG) ───── */}
+            <label className="paws-photo-optout" htmlFor="photo-publishing-optout" aria-label="写真・完成作品をSNS・HPへ掲載しない">
                 <input
                     type="checkbox"
+                    id="photo-publishing-optout"
                     checked={photoOptOut}
                     onChange={(e) => setPhotoOptOut(e.target.checked)}
                 />
@@ -1008,7 +1013,7 @@ function Step4Review({
     // 金額・クーポン関連
     baseAmount, giftWrapAmount, discountAmount, totalAmount,
     couponCode, setCouponCode, appliedCoupon, onApplyCoupon, onClearCoupon,
-    couponError, couponAgreed, setCouponAgreed,
+    couponError, couponAgreed, setCouponAgreed, photoOptOut, onEditPublishing,
     // 紹介コード (任意)
     referralCode, setReferralCode,
     errors,
@@ -1095,6 +1100,7 @@ function Step4Review({
                 )}
                 <ReviewRow label="郵便番号">{customer.postalCode}</ReviewRow>
                 <ReviewRow label="ご住所">{customer.address}</ReviewRow>
+                <ReviewRow label="写真・作品の掲載">{photoOptOut ? '掲載不可' : '掲載可'}</ReviewRow>
                 {customer.note && (
                     <ReviewRow label="備考">
                         <span style={{ whiteSpace: 'pre-line' }}>{customer.note}</span>
@@ -1118,6 +1124,7 @@ function Step4Review({
                             type="text"
                             className="paws-form-input"
                             value={couponCode}
+                            maxLength={60}
                             onChange={(e) => setCouponCode(e.target.value)}
                             placeholder="クーポンコードを入力"
                             aria-label="クーポンコード"
@@ -1134,7 +1141,7 @@ function Step4Review({
                 ) : (
                     <div className="paws-coupon__applied">
                         <div className="paws-coupon__applied-head">
-                            <span className="paws-coupon__badge">適用中</span>
+                            <span className="paws-coupon__badge">{appliedCoupon.requiresAgreement && (!couponAgreed || photoOptOut) ? '条件の確認が必要' : '適用中'}</span>
                             <strong>{appliedCoupon.name}</strong>
                             <button
                                 type="button"
@@ -1147,11 +1154,18 @@ function Step4Review({
                         </div>
                         <p className="paws-coupon__desc">{appliedCoupon.description}</p>
 
+                        {appliedCoupon.requiresAgreement && photoOptOut && (
+                            <div className="paws-form-callout paws-form-callout--info">
+                                <p>現在は「掲載不可」が選択されています。このクーポンをご利用の場合は、掲載設定を変更してから掲載許諾に同意してください。掲載を希望されない場合は、クーポンを取り消してお申し込みいただけます。</p>
+                                <button type="button" className="paws-form-btn paws-form-btn--secondary" onClick={onEditPublishing}>掲載設定を変更する</button>
+                            </div>
+                        )}
                         {appliedCoupon.requiresAgreement && (
                             <label className="paws-coupon__agree">
                                 <input
                                     type="checkbox"
                                     checked={couponAgreed}
+                                    disabled={photoOptOut}
                                     onChange={(e) => setCouponAgreed(e.target.checked)}
                                 />
                                 <span>{appliedCoupon.agreementText}</span>
@@ -1177,6 +1191,7 @@ function Step4Review({
                     type="text"
                     className="paws-form-input"
                     value={referralCode}
+                    maxLength={100}
                     onChange={(e) => setReferralCode(e.target.value)}
                     placeholder="例: 紹介者ID / コード"
                     aria-label="紹介コード"
@@ -1210,117 +1225,6 @@ function Step4Review({
     );
 }
 
-// ── Step 5: Payment（モック決済） ──────────────────────
-
-function Step5Payment({ plan, giftWrap, amount, card, updateCard }) {
-    return (
-        <section className="paws-form-section">
-            <h2 className="paws-form-section__title">お支払い</h2>
-            <p className="paws-form-help">
-                お申し込みを確定するため、お支払い情報をご入力ください。
-            </p>
-
-            <div className="paws-pay-summary">
-                <div className="paws-pay-summary__row">
-                    <span>{plan.name}</span>
-                    <span>{plan.priceLabel}</span>
-                </div>
-                {giftWrap && (
-                    <div className="paws-pay-summary__row">
-                        <span>ギフトオプション</span>
-                        <span>{GIFT_WRAP_OPTION.priceLabel}</span>
-                    </div>
-                )}
-                <div className="paws-pay-summary__row paws-pay-summary__row--total">
-                    <span>合計（税込）</span>
-                    <span>{formatYen(amount)}</span>
-                </div>
-            </div>
-
-            {/* ★ ENGINEER CONNECTION POINT ★
-                これはモックのカード入力UI。実決済は Stripe 等の決済プロバイダの
-                Elements / Checkout に置き換える（カード番号を自前で保持しないこと）。 */}
-            <div className="paws-pay-card">
-                <Field label="カード番号">
-                    <input
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="cc-number"
-                        className="paws-form-input"
-                        value={card.number}
-                        onChange={updateCard('number')}
-                        placeholder="1234 5678 9012 3456"
-                    />
-                </Field>
-                <div className="paws-form-pair">
-                    <Field label="有効期限 (MM/YY)">
-                        <input
-                            type="text"
-                            autoComplete="cc-exp"
-                            className="paws-form-input"
-                            value={card.expiry}
-                            onChange={updateCard('expiry')}
-                            placeholder="12 / 28"
-                        />
-                    </Field>
-                    <Field label="セキュリティコード">
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            autoComplete="cc-csc"
-                            className="paws-form-input"
-                            value={card.cvc}
-                            onChange={updateCard('cvc')}
-                            placeholder="123"
-                        />
-                    </Field>
-                </div>
-                <Field label="カード名義">
-                    <input
-                        type="text"
-                        autoComplete="cc-name"
-                        className="paws-form-input"
-                        value={card.holder}
-                        onChange={updateCard('holder')}
-                        placeholder="TARO YAMADA"
-                    />
-                </Field>
-            </div>
-
-            <p className="paws-form-help paws-form-help--note">
-                🔒 SSL暗号化通信。これはデモ用のモック画面です（実際の決済は行われません）。
-            </p>
-        </section>
-    );
-}
-
-// ── Completion screen ─────────────────────────────────
-
-function CompletedScreen() {
-    return (
-        <div className="paws-completed">
-            <div className="paws-completed__inner">
-                <div className="paws-completed__mark" aria-hidden="true">✓</div>
-                <h1 className="paws-completed__title">
-                    ご注文<br />ありがとうございました
-                </h1>
-                <p className="paws-completed__text">
-                    お支払いが完了しました。<br />
-                    確認メールをお送りします。内容を拝見のうえ、3営業日以内にご連絡いたします。
-                </p>
-                <div className="paws-completed__nav">
-                    <Link to="/pet" className="paws-form-btn paws-form-btn--primary">
-                        TOPに戻る
-                    </Link>
-                    <Link to="/pet#plans" className="paws-form-btn paws-form-btn--secondary">
-                        他のプランも見る
-                    </Link>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 // ── Main ──────────────────────────────────────────────
 
 export default function PawsPressOrderPage() {
@@ -1330,7 +1234,8 @@ export default function PawsPressOrderPage() {
     const stripeSessionId = searchParams.get('session_id') ?? '';
 
     const [step, setStep] = useState(1);
-    const [submitted, setSubmitted] = useState(stripeStatus === 'success');
+    const [submitting, setSubmitting] = useState(false);
+    const submittingRef = useRef(false);
     const [errors, setErrors] = useState({});
 
     const [planId, setPlanId] = useState(
@@ -1348,15 +1253,14 @@ export default function PawsPressOrderPage() {
         name: '', email: '', petName: '', petDetail: '',
         postalCode: '', address: '', phone: '', note: '',
     });
-    const [card, setCard] = useState({ number: '', expiry: '', cvc: '', holder: '' });
 
     // ── クーポン関連 (Step4 で入力・適用) ────────────────────
     const [couponCode, setCouponCode] = useState('');
     const [appliedCoupon, setAppliedCoupon] = useState(null);
     // ── 紹介コード (任意。代理店/友達紹介プログラム用) ─────────
     const [referralCode, setReferralCode] = useState('');
-    // ── 写真の SNS/HP 掲載に関する opt-out (デフォルト false = 掲載OK) ───
-    const [photoOptOut, setPhotoOptOut] = useState(false);
+    // ── 写真の SNS/HP 掲載に関する opt-out (デフォルト true = 掲載不可) ───
+    const [photoOptOut, setPhotoOptOut] = useState(true);
     const [couponAgreed, setCouponAgreed] = useState(false);
     const [couponError, setCouponError] = useState('');
 
@@ -1375,9 +1279,9 @@ export default function PawsPressOrderPage() {
     const discountAmount = useMemo(() => {
         if (!appliedCoupon || !couponValidForCurrentPlan) return 0;
         // PROMO5500 系は requiresAgreement で同意していなければ割引適用しない
-        if (appliedCoupon.requiresAgreement && !couponAgreed) return 0;
+        if (appliedCoupon.requiresAgreement && (!couponAgreed || photoOptOut)) return 0;
         return computeDiscount(appliedCoupon, selectedPlan?.price ?? 0, planId);
-    }, [appliedCoupon, couponValidForCurrentPlan, couponAgreed, selectedPlan, planId]);
+    }, [appliedCoupon, couponValidForCurrentPlan, couponAgreed, photoOptOut, selectedPlan, planId]);
 
     const totalAmount = useMemo(() => {
         const base = selectedPlan?.price ?? 0;
@@ -1388,9 +1292,6 @@ export default function PawsPressOrderPage() {
 
     const updateCustomer = (key) => (e) =>
         setCustomer((c) => ({ ...c, [key]: e.target.value }));
-
-    const updateCard = (key) => (e) =>
-        setCard((c) => ({ ...c, [key]: e.target.value }));
 
     const validate = useCallback((s) => {
         const next = {};
@@ -1412,18 +1313,15 @@ export default function PawsPressOrderPage() {
             if (!c.email.trim()) next.email = 'メールアドレスのご記入をお願いします。';
             else if (!isValidEmail(c.email)) next.email = 'メールアドレスの形式をご確認ください。';
             if (!c.phone.trim()) next.phone = 'お電話番号のご記入をお願いします。';
+            else if (!isValidPhone(c.phone)) next.phone = '電話番号は8〜30文字の半角数字・記号でご記入ください。';
             if (!c.postalCode.trim()) next.postalCode = '郵便番号のご記入をお願いします。';
             else if (!isValidPostalCode(c.postalCode)) {
                 next.postalCode = '郵便番号は7桁の数字でご記入ください（例: 1234567 / 123-4567）。';
             }
             if (!c.address.trim()) next.address = 'ご住所のご記入をお願いします。';
-        } else if (s === 5) {
-            if (!isCardComplete(card)) {
-                next.card = 'カード情報をご確認ください。';
-            }
         }
         return next;
-    }, [planId, goodsTypes, photos, customer, card]);
+    }, [planId, goodsTypes, photos, customer]);
 
     // 現ステップが「次へ進める状態か」（ボタンの彩度切替に使用）
     const stepValid = useMemo(
@@ -1432,29 +1330,28 @@ export default function PawsPressOrderPage() {
     );
 
     const handleNext = () => {
+        if (step < 1 || step >= 4) return;
         const e = validate(step);
         setErrors(e);
         if (Object.keys(e).length === 0) {
-            setStep((s) => s + 1);
+            setStep(step + 1);
             scrollTop();
         }
     };
 
     const handleBack = () => {
         setErrors({});
-        setStep((s) => Math.max(1, s - 1));
+        setStep(Math.max(1, step - 1));
         scrollTop();
     };
 
     // 「修正する」は確認(4)から1ステップずつ戻る（お客様情報へ）
     const handleEdit = () => {
         setErrors({});
-        setStep((s) => Math.max(1, s - 1));
+        setStep(3);
         scrollTop();
     };
 
-    // 確認(4) → 送信: 即完了にせず、決済ステップ(5)へ進む
-    // Stripe未設定（本番化前）はモック決済に進ませず、お問い合わせへ誘導する
     const handleApplyCoupon = () => {
         setCouponError('');
         setCouponAgreed(false);
@@ -1482,116 +1379,41 @@ export default function PawsPressOrderPage() {
     };
 
     const handleProceedToPayment = async () => {
-        // 同意が必要なクーポンを適用した場合、チェックが入っていなければブロック
-        if (appliedCoupon?.requiresAgreement && !couponAgreed) {
-            setErrors({ coupon: 'クーポン適用には掲載許諾への同意が必要です。' });
-            return;
+        if (submittingRef.current) return;
+        const validation = { ...validate(1), ...validate(2), ...validate(3) };
+        if (couponValidForCurrentPlan && appliedCoupon?.requiresAgreement && (!couponAgreed || photoOptOut)) {
+            validation.coupon = 'このクーポンには掲載可の設定と掲載許諾への同意が必要です。';
         }
-        setErrors({});
-
-        // Stripe 未設定時はモックで完了画面に遷移
-        if (!isStripeConfigured) {
-            submitOrder({ paid: false });
-            return;
-        }
-
-        // Stripe Checkout を起動 (リダイレクト方式)
-        try {
-            const orderId = `mofulabo-${Date.now()}`;
-            const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
-            // submission をローカル一時保存して、success 復帰時に同じ payload を確定できるようにする
-            const draft = buildSubmission({ paid: false, hasGoods });
-            sessionStorage.setItem(`order-draft-${orderId}`, JSON.stringify(draft));
-
-            const { url, error } = await createCheckoutSession({
-                productName: `もふらぼ ${selectedPlan.name}`,
-                productId: selectedPlan.id,
-                amount: totalAmount,
-                orderId,
-                customerEmail: customer.email,
-                tenantId: 'mofulabo',
-                metadata: {
-                    plan_id: selectedPlan.id,
-                    coupon_code: appliedCoupon?.code ?? '',
-                    discount_amount: String(discountAmount),
-                    form_data: JSON.stringify({
-                        goodsTypes: draft.goodsTypes,
-                        goodsDetails: draft.goodsDetails,
-                        artStyle: draft.artStyle,
-                        giftWrap: draft.giftWrap,
-                        customerName: customer.name,
-                    }),
-                },
-            });
-            if (error) {
-                setErrors({ payment: `決済ページの起動に失敗しました: ${error}` });
-                return;
-            }
-            if (url) {
-                window.location.href = url;     // Stripe ホスト Checkout へ
-            }
-        } catch (err) {
-            console.error('[stripe] checkout failed:', err);
-            setErrors({ payment: '決済の準備中にエラーが発生しました。少し時間をおいて再度お試しください。' });
-        }
-    };
-
-    /**
-     * 注文送信ロジックを抽出。Stripe 決済を経由する場合 (paid:true) と、
-     * 決済未設定時の「お申込み受付」ケース (paid:false) の両方から呼ばれる。
-     */
-    const submitOrder = ({ paid }) => {
+        if (photos.concat(styleReferences).reduce((sum, file) => sum + file.size, 0) > 20 * 1024 * 1024) validation.payment = 'お写真と参考画像は合計20MB以内でお送りください。';
+        setErrors(validation);
+        if (Object.keys(validation).length) return;
+        submittingRef.current = true;
+        setSubmitting(true);
         const hasGoods = planId === 'pet-single' || planId === 'pet-pair';
-        const submission = buildSubmission({ paid, hasGoods });
-        console.log('[order] submission:', submission);
-        setSubmitted(true);
-        scrollTop();
-        return submission;
-    };
-
-    const buildSubmission = ({ paid, hasGoods }) => ({
-        plan: selectedPlan,
-        goodsTypes:
-            planId === 'pet-single' ? [goodsTypes[0]]
-                : planId === 'pet-pair' ? goodsTypes
-                    : [],
-        goodsDetails:
-            planId === 'pet-single' ? [goodsDetails[0]]
-                : planId === 'pet-pair' ? goodsDetails
-                    : [],
-        artStyle,
-        customStyle: artStyle === 'other' ? customStyle : '',
-        styleReferences:
-            artStyle === 'other'
-                ? styleReferences.map((f) => ({ name: f.name, size: f.size, type: f.type }))
-                : [],
-        giftWrap: hasGoods && giftWrap,
-        giftMessage: hasGoods && giftWrap ? giftMessage : '',
-        amount: totalAmount,
-        paid,
-        photos: photos.map((p) => ({ name: p.name, size: p.size, type: p.type })),
-        customer,
-        coupon: appliedCoupon
-            ? {
-                  code: appliedCoupon.code,
-                  name: appliedCoupon.name,
-                  type: appliedCoupon.type,
-                  value: appliedCoupon.value,
-                  discountAmount,
-                  agreedToTerms: !!couponAgreed,
-              }
-            : null,
-        referralCode: referralCode.trim() || null,
-        // true なら「写真をSNS/HPに掲載しないでほしい」というお客様の意思
-        photoPublishingOptOut: photoOptOut,
-        submittedAt: new Date().toISOString(),
-    });
-
-    const handlePay = () => {
-        const e = validate(5);
-        setErrors(e);
-        if (Object.keys(e).length > 0) return;
-        submitOrder({ paid: true });
+        try {
+            const { url } = await createCheckoutSession({
+                planId,
+                goodsTypes: planId === 'pet-single' ? [goodsTypes[0]] : planId === 'pet-pair' ? goodsTypes : [],
+                goodsDetails: planId === 'pet-single' ? [goodsDetails[0]] : planId === 'pet-pair' ? goodsDetails : [],
+                artStyle,
+                customStyle: artStyle === 'other' ? customStyle : '',
+                styleReferences: artStyle === 'other' ? styleReferences : [],
+                giftWrap: hasGoods && giftWrap,
+                giftMessage: hasGoods && giftWrap ? giftMessage : '',
+                photos,
+                customer,
+                couponCode: couponValidForCurrentPlan ? appliedCoupon?.code || '' : '',
+                couponAgreed,
+                referralCode: referralCode.trim(),
+                photoPublishingOptOut: photoOptOut,
+            });
+            window.location.assign(url);
+        } catch (error) {
+            setErrors({ payment: error.message || '決済の準備に失敗しました。入力内容を確認し、再度お試しください。' });
+        } finally {
+            submittingRef.current = false;
+            setSubmitting(false);
+        }
     };
 
     const handleAddFiles = async (fileList) => {
@@ -1635,7 +1457,7 @@ export default function PawsPressOrderPage() {
         setPhotos((p) => p.filter((_, i) => i !== idx));
     };
 
-    if (submitted) return <CompletedScreen />;
+    if (stripeStatus === 'success') return <CheckoutReturn key={stripeSessionId} sessionId={stripeSessionId} />;
 
     return (
         <div className="paws-order">
@@ -1649,10 +1471,17 @@ export default function PawsPressOrderPage() {
             </header>
 
             <div className="paws-order__body">
+                {stripeStatus === 'cancelled' && <p role="status">お支払いをキャンセルしました。ご注文を再開する場合は入力内容をご確認ください。</p>}
                 {step === 1 && (
                     <Step1Plan
                         planId={planId}
-                        setPlanId={(id) => { setPlanId(id); setErrors({}); }}
+                        setPlanId={(id) => {
+                            setPlanId(id);
+                            setErrors({});
+                            if (appliedCoupon && !isCouponApplicable(appliedCoupon, id)) {
+                                handleClearCoupon();
+                            }
+                        }}
                         goodsTypes={goodsTypes}
                         setGoodsTypes={setGoodsTypes}
                         goodsDetails={goodsDetails}
@@ -1690,7 +1519,10 @@ export default function PawsPressOrderPage() {
                         updateCustomer={updateCustomer}
                         errors={errors}
                         photoOptOut={photoOptOut}
-                        setPhotoOptOut={setPhotoOptOut}
+                        setPhotoOptOut={(value) => {
+                            setPhotoOptOut(value);
+                            if (value) setCouponAgreed(false);
+                        }}
                     />
                 )}
                 {step === 4 && (
@@ -1721,24 +1553,17 @@ export default function PawsPressOrderPage() {
                         couponError={couponError}
                         couponAgreed={couponAgreed}
                         setCouponAgreed={setCouponAgreed}
+                        photoOptOut={photoOptOut}
+                        onEditPublishing={handleEdit}
                         referralCode={referralCode}
                         setReferralCode={setReferralCode}
                         errors={errors}
                     />
                 )}
-                {step === 5 && (
-                    <Step5Payment
-                        plan={selectedPlan}
-                        giftWrap={giftWrap}
-                        amount={totalAmount}
-                        card={card}
-                        updateCard={updateCard}
-                    />
-                )}
             </div>
 
             <div className="paws-order__nav">
-                {((step > 1 && step < 4) || step === 5) && (
+                {(step > 1 && step < 4) && (
                     <button
                         type="button"
                         onClick={handleBack}
@@ -1761,6 +1586,7 @@ export default function PawsPressOrderPage() {
                         <button
                             type="button"
                             onClick={handleEdit}
+                            disabled={submitting}
                             className="paws-form-btn paws-form-btn--secondary"
                         >
                             修正する
@@ -1768,20 +1594,12 @@ export default function PawsPressOrderPage() {
                         <button
                             type="button"
                             onClick={handleProceedToPayment}
+                            disabled={submitting}
                             className="paws-form-btn paws-form-btn--primary paws-form-btn--ready"
                         >
-                            {isStripeConfigured ? 'お支払いに進む →' : 'この内容で注文する →'}
+                            {submitting ? 'ご注文を保存しています…' : 'お支払いに進む →'}
                         </button>
                     </>
-                )}
-                {step === 5 && (
-                    <button
-                        type="button"
-                        onClick={handlePay}
-                        className={`paws-form-btn paws-form-btn--primary paws-form-btn--${stepValid ? 'ready' : 'idle'}`}
-                    >
-                        {formatYen(totalAmount)} を支払う
-                    </button>
                 )}
             </div>
         </div>

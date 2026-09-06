@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import { useBrandTheme } from './sites/useBrandTheme';
 import { GUIDE_LINKS } from './sites/pawspress/data/guideLinks';
 import { AuthProvider } from './contexts/AuthContext';
@@ -88,6 +88,24 @@ function RouteFallback() {
   );
 }
 
+function LegacyOrderRedirect() {
+  const { search } = useLocation();
+  const category = new URLSearchParams(search).get('category');
+  const target = ['diagram', 'icon', 'comic'].includes(category)
+    ? `/contact?diagnostic=${category}` : '/contact';
+  return <Navigate to={target} replace />;
+}
+
+function NotFoundPage() {
+  return (
+    <section className="container section" style={{ paddingBlock: 80 }}>
+      <h1>ページが見つかりません</h1>
+      <p>URLをご確認いただくか、ホームからお進みください。</p>
+      <Link to="/" className="btn btn-primary">ホームに戻る</Link>
+    </section>
+  );
+}
+
 function AppRoutes() {
   useBrandTheme();
   return (
@@ -105,6 +123,8 @@ function AppRoutes() {
         <Route path="/pricing" element={<KataribinLayout><PricingPage /></KataribinLayout>} />
         <Route path="/flow" element={<KataribinLayout><FlowPage /></KataribinLayout>} />
         <Route path="/contact" element={<KataribinLayout><ContactPage /></KataribinLayout>} />
+
+        <Route path="/order" element={<LegacyOrderRedirect />} />
 
         {/* ── もふらぼ (Step 2-B / 2-C) ── */}
         <Route path="/pet" element={<PawsPressLayout><PawsPressHomePage /></PawsPressLayout>} />
@@ -133,6 +153,7 @@ function AppRoutes() {
           <Route path="contacts" element={<AdminContactListPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
+        <Route path="*" element={<KataribinLayout><NotFoundPage /></KataribinLayout>} />
       </Routes>
     </Suspense>
   );

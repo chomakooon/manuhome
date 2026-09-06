@@ -200,3 +200,12 @@
         grid-template-columns: 1fr;
     }
 }
+.intake-completed {
+    max-width: 720px;
+    padding-block: var(--space-3xl);
+    text-align: center;
+}
+
+.intake-completed p { margin-block: var(--space-xl); }
+.intake-error { color: #b91c1c; margin-bottom: var(--space-lg); }
+.intake-submit:disabled { opacity: 0.6; cursor: wait; }

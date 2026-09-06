@@ -3,41 +3,6 @@ import { X, Send, Loader, RotateCcw } from 'lucide-react';
 import './AiChatWidget.css';
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 
-const CHAT_MODEL = 'google/gemini-2.5-flash';
-
-const SYSTEM_PROMPT = `あなたは「カタチらぼ」というイラスト制作サービスの注文アシスタントです。
-お客様の質問に親切に答え、適切なページへ案内してください。
-
-対応できるサービス：
-- SNSアイコン制作（¥5,000〜）
-- ビジネス4コマ漫画制作（¥15,000〜）
-- 似顔絵制作（¥8,000〜）
-- 図解イラスト制作（¥10,000〜）
-- ペットイラスト・グッズ制作（¥5,000〜、Tシャツ・アクリルスタンド・ステッカー・マグカップ対応）
-
-【案内できるページURL】※質問内容に応じて必ず該当URLを回答に含めること
-- 制作相談・お問い合わせ: https://katachi-lab.creative-own.com/intake
-- 料金プラン: https://katachi-lab.creative-own.com/pricing
-- 制作の流れ: https://katachi-lab.creative-own.com/flow
-- 制作事例・ポートフォリオ: https://katachi-lab.creative-own.com/portfolio
-- ビジュアル診断（おすすめプラン提案）: https://katachi-lab.creative-own.com/diagnostic
-- カタチらぼについて: https://katachi-lab.creative-own.com/about
-- ペットイラスト・グッズ（もふらぼ）: https://katachi-lab.creative-own.com/pet
-- ペットグッズの注文: https://katachi-lab.creative-own.com/pet/order
-
-回答のルール：
-- 簡潔に、2〜3文で答える
-- 絵文字は控えめに使う
-- 【最重要・厳守】URLは上記【案内できるページURL】に記載されたものだけを使う。
-  リストにないURL（例: /service/sns-icon のような個別ページ）は絶対に作らない・推測しない。
-  各サービスの詳細や料金は「料金プラン」ページ(https://katachi-lab.creative-own.com/pricing)に
-  まとまっているので、サービス別の料金質問にはこのURLを案内する。
-- 注文・依頼・問い合わせ・申し込みの質問には、必ず上記リストの該当URLを本文にそのまま記載する。
-  「フォームから」等の曖昧な表現で済ませず、必ずクリックできるURLを書くこと。
-- 制作事例の質問にはポートフォリオURL、迷ったら制作相談ページ
-  (https://katachi-lab.creative-own.com/intake)を案内する
-- 料金の詳細な見積もりは出さず、目安としてプラン価格を案内する`;
-
 // 会話履歴の保持（sessionStorage）。同一タブ内のページ遷移で履歴を維持する。
 const CHAT_STORAGE_KEY = 'katachi_aichat_messages';
 const CHAT_OPEN_KEY = 'katachi_aichat_open';
@@ -56,7 +21,7 @@ function renderWithLinks(text) {
         if (m.index > last) out.push(text.slice(last, m.index));
         const url = m[2] || m[3];
         const label = m[1] || url;
-        const isInternal = url.includes('katachi-lab.creative-own.com');
+        const isInternal = new URL(url).hostname === 'katachi-lab.creative-own.com';
         out.push(
             <a
                 key={m.index}
@@ -82,13 +47,19 @@ export default function AiChatWidget() {
             const saved = sessionStorage.getItem(CHAT_STORAGE_KEY);
             if (saved) {
                 const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                if (Array.isArray(parsed)) {
+                    const valid = parsed.filter(message => ['user', 'assistant'].includes(message?.role) && typeof message.content === 'string' && message.content.length <= 10000);
+                    if (valid.length) return valid.slice(-100);
+                }
             }
         } catch { /* ignore */ }
         return [INITIAL_MESSAGE];
     });
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+    const sendingRef = useRef(false);
+    const generationRef = useRef(0);
+    useEffect(() => () => { generationRef.current += 1; }, []);
 
     // 会話履歴・開閉状態をsessionStorageに保存（ページ遷移しても保持）
     useEffect(() => {
@@ -120,58 +91,65 @@ export default function AiChatWidget() {
 
     const sendMessage = async () => {
         const text = input.trim();
-        if (!text || loading) return;
+        if (!text || text.length > 2000 || sendingRef.current) return;
+        sendingRef.current = true;
+        const generation = generationRef.current;
 
         const userMsg = { role: 'user', content: text };
         setMessages(prev => [...prev, userMsg]);
         setInput('');
         setLoading(true);
 
-        // バックエンド未設定なら静的応答
-        if (!isSupabaseConfigured) {
-            setTimeout(() => {
-                setMessages(prev => [...prev, {
-                    role: 'assistant',
-                    content: 'ただいまAIアシスタント機能は準備中です。制作に関するご相談は「制作相談」ボタンからお問い合わせください。'
-                }]);
-                setLoading(false);
-            }, 500);
-            return;
-        }
-
         try {
-            const apiMessages = [
-                { role: 'system', content: SYSTEM_PROMPT },
-                ...messages.map(m => ({ role: m.role, content: m.content })),
-                { role: 'user', content: text },
-            ];
-
-            // OpenRouterへはサーバー(ai-chat Edge Function)経由。APIキーをフロントに出さない。
+            if (!isSupabaseConfigured) throw new Error('AI is unavailable');
+            // Keep recent context within the server's byte and message limits.
+            const apiMessages = [];
+            let bytes = 0;
+            let characters = 0;
+            for (const message of [...messages, userMsg].slice(-20).reverse()) {
+                if (message.error) continue;
+                const item = { role: message.role, content: message.content.slice(0, 2000) };
+                const itemBytes = new TextEncoder().encode(JSON.stringify(item)).length;
+                if (bytes + itemBytes > 30000 || characters + item.content.length > 12000) break;
+                bytes += itemBytes;
+                characters += item.content.length;
+                apiMessages.unshift(item);
+            }
             const { data, error } = await supabase.functions.invoke('ai-chat', {
-                body: { model: CHAT_MODEL, messages: apiMessages, max_tokens: 300 },
+                body: { messages: apiMessages },
             });
             if (error) throw error;
-            const reply = data?.reply || 'すみません、うまく応答できませんでした。';
+            if (generationRef.current !== generation) return;
+            const reply = data?.reply;
+            if (typeof reply !== 'string' || !reply.trim() || reply.length > 10000) throw new Error('Invalid AI reply');
 
             setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
         } catch {
+            if (generationRef.current !== generation) return;
             setMessages(prev => [...prev, {
                 role: 'assistant',
-                content: '通信エラーが発生しました。しばらくしてからお試しください。'
+                error: true,
+                content: 'AIの応答を取得できませんでした。しばらくしてからお試しいただくか、制作相談からお問い合わせください。'
             }]);
         } finally {
-            setLoading(false);
+            if (generationRef.current === generation) {
+                sendingRef.current = false;
+                setLoading(false);
+            }
         }
     };
 
     const handleReset = () => {
+        generationRef.current += 1;
+        sendingRef.current = false;
+        setLoading(false);
         setMessages([INITIAL_MESSAGE]);
         setInput('');
         try { sessionStorage.removeItem(CHAT_STORAGE_KEY); } catch { /* ignore */ }
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
             e.preventDefault();
             sendMessage();
         }
@@ -210,6 +188,8 @@ export default function AiChatWidget() {
                         <input
                             ref={inputRef}
                             type="text"
+                            maxLength={2000}
+                            aria-label="AIへの質問"
                             className="ai-chat-input"
                             value={input}
                             onChange={e => setInput(e.target.value)}
@@ -217,7 +197,7 @@ export default function AiChatWidget() {
                             placeholder="質問を入力..."
                             disabled={loading}
                         />
-                        <button className="ai-chat-send" onClick={sendMessage} disabled={loading || !input.trim()}>
+                        <button aria-label="質問を送信" className="ai-chat-send" onClick={sendMessage} disabled={loading || !input.trim()}>
                             <Send size={16} />
                         </button>
                     </div>

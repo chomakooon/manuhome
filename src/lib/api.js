@@ -46,7 +46,8 @@ export async function getProfile(userId) {
 export async function updateProfile(userId, updates) {
     const { data, error } = await supabase
         .from('profiles')
-        .upsert({ id: userId, ...updates })
+        .update({ full_name: updates.full_name, company: updates.company, avatar_url: updates.avatar_url })
+        .eq('id', userId)
         .select()
         .single();
     if (error) throw error;
@@ -75,7 +76,7 @@ export async function createOrder({ customerId, productId, amount, options, stri
 export async function getOrder(orderId) {
     const { data, error } = await supabase
         .from('orders')
-        .select('*, projects(*)')
+        .select('*, projects(*), order_internal_notes(notes)')
         .eq('id', orderId)
         .single();
     if (error) throw error;
@@ -115,11 +116,11 @@ export async function createProject({ orderId, customerId, title }) {
 export async function getProject(projectId) {
     const { data, error } = await supabase
         .from('projects')
-        .select('*, orders(*), project_files(*), project_messages(*, profiles(full_name, role))')
+        .select('*, orders(*), project_internal_notes(notes), project_files(*), project_messages(*, profiles(full_name, role))')
         .eq('id', projectId)
         .single();
     if (error) throw error;
-    return data;
+    return { ...data, notes: data.project_internal_notes?.notes || '', project_files: await Promise.all((data.project_files || []).map(withPrivateFileUrl)) };
 }
 
 export async function getProjectsByCustomer(customerId) {
@@ -135,10 +136,10 @@ export async function getProjectsByCustomer(customerId) {
 export async function getAllProjects() {
     const { data, error } = await supabase
         .from('projects')
-        .select('*, orders(amount, status), profiles(full_name, company)')
+        .select('*, orders(amount, status), profiles(full_name, company), project_internal_notes(notes)')
         .order('created_at', { ascending: false });
     if (error) throw error;
-    return data;
+    return data.map(project => ({ ...project, notes: project.project_internal_notes?.notes || '' }));
 }
 
 export async function updateProjectStatus(projectId, status) {
@@ -153,34 +154,46 @@ export async function updateProjectStatus(projectId, status) {
 }
 
 export async function updateProjectNotes(projectId, notes) {
-    const { data, error } = await supabase
-        .from('projects')
-        .update({ notes, updated_at: new Date().toISOString() })
-        .eq('id', projectId)
-        .select()
-        .single();
+    const { data, error } = await supabase.from('project_internal_notes')
+        .upsert({ project_id: projectId, notes, updated_at: new Date().toISOString() })
+        .select().single();
     if (error) throw error;
     return data;
 }
 
 // ── Files ──
 
+async function withPrivateFileUrl(file) {
+    let path = file.file_url;
+    if (path.startsWith('http')) {
+        const url = new URL(path);
+        const ownOrigin = new URL(import.meta.env.VITE_SUPABASE_URL).origin;
+        const prefix = '/storage/v1/object/public/project-files/';
+        if (url.origin !== ownOrigin || !url.pathname.startsWith(prefix)) throw new Error('Unsupported project file URL');
+        path = decodeURIComponent(url.pathname.slice(prefix.length));
+    }
+    const bucket = path.startsWith('order/') ? 'submission-files' : 'project-files';
+    const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, 300);
+    if (error) throw error;
+    return { ...file, file_url: data.signedUrl };
+}
+
 export async function uploadProjectFile(projectId, file, fileType, uploadedBy) {
-    const filePath = `projects/${projectId}/${Date.now()}_${file.name}`;
+    const { data: project, error: projectError } = await supabase.from('projects').select('tenant_id').eq('id', projectId).single();
+    if (projectError) throw projectError;
+    const safeName = file.name.replace(/[^\p{L}\p{N}._ -]/gu, '_');
+    const filePath = `projects/${projectId}/${crypto.randomUUID()}_${safeName}`;
     const { error: uploadError } = await supabase.storage
         .from('project-files')
         .upload(filePath, file);
     if (uploadError) throw uploadError;
 
-    const { data: { publicUrl } } = supabase.storage
-        .from('project-files')
-        .getPublicUrl(filePath);
-
     const { data, error } = await supabase
         .from('project_files')
         .insert({
             project_id: projectId,
-            file_url: publicUrl,
+            tenant_id: project.tenant_id,
+            file_url: filePath,
             file_name: file.name,
             file_type: fileType,
             uploaded_by: uploadedBy,
@@ -200,17 +213,20 @@ export async function getProjectFiles(projectId, fileType) {
     if (fileType) query = query.eq('file_type', fileType);
     const { data, error } = await query;
     if (error) throw error;
-    return data;
+    return Promise.all(data.map(withPrivateFileUrl));
 }
 
 // ── Messages ──
 
 export async function sendMessage(projectId, senderId, content) {
+    const { data: project, error: projectError } = await supabase.from('projects').select('tenant_id').eq('id', projectId).single();
+    if (projectError) throw projectError;
     const { data, error } = await supabase
         .from('project_messages')
         .insert({
             project_id: projectId,
             sender_id: senderId,
+            tenant_id: project.tenant_id,
             content,
         })
         .select('*, profiles(full_name, role)')
@@ -249,9 +265,11 @@ export async function addToMailingList({ email, name, tags, source }) {
 export async function getDashboardStats() {
     const [projectsRes, ordersRes] = await Promise.all([
         supabase.from('projects').select('status'),
-        supabase.from('orders').select('amount, status').eq('status', 'paid'),
+        supabase.from('orders').select('amount, status').eq('payment_status', 'paid'),
     ]);
 
+    if (projectsRes.error) throw projectsRes.error;
+    if (ordersRes.error) throw ordersRes.error;
     const projects = projectsRes.data || [];
     const orders = ordersRes.data || [];
 

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ChevronRight, RefreshCw, BarChart, Users, BookOpen, Send, CheckCircle } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronRight, RefreshCw } from 'lucide-react';
 import Icon from '../../components/common/Icon';
 import Breadcrumb from '../../sites/kataribin/components/Breadcrumb';
 import PageSeo from '../../components/PageSeo';
@@ -46,25 +46,39 @@ export default function DiagnosticPage() {
   const [answers, setAnswers] = useState({});
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState(null);
-  const navigate = useNavigate();
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const transitionRef = useRef(false);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    return () => clearTimeout(timerRef.current);
   }, []);
 
   const handleOptionSelect = (stepId, optionId) => {
-    setAnswers(prev => ({ ...prev, [stepId]: optionId }));
-    
+    const step = QUIZ_STEPS[currentStep];
+    if (transitionRef.current || !step || step.id !== stepId ||
+        !step.options.some(option => option.id === optionId)) return;
+
+    transitionRef.current = true;
+    setIsTransitioning(true);
+    const nextAnswers = { ...answers, [stepId]: optionId };
+    setAnswers(nextAnswers);
+
     if (currentStep < QUIZ_STEPS.length - 1) {
-      setTimeout(() => setCurrentStep(prev => prev + 1), 300);
+      timerRef.current = setTimeout(() => {
+        setCurrentStep(currentStep + 1);
+        transitionRef.current = false;
+        setIsTransitioning(false);
+      }, 300);
     } else {
-      analyzeResults({ ...answers, [stepId]: optionId });
+      analyzeResults(nextAnswers);
     }
   };
 
   const analyzeResults = (finalAnswers) => {
     setIsAnalyzing(true);
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       // Diagnostic Logic
       const q2 = finalAnswers[2];
       let recommendation = {};
@@ -100,21 +114,20 @@ export default function DiagnosticPage() {
       
       setResult(recommendation);
       setIsAnalyzing(false);
+      transitionRef.current = false;
+      setIsTransitioning(false);
     }, 1500);
   };
 
   const handleReset = () => {
+    clearTimeout(timerRef.current);
+    transitionRef.current = false;
+    setIsTransitioning(false);
+    setIsAnalyzing(false);
     setCurrentStep(0);
     setAnswers({});
     setResult(null);
   };
-
-  // SEO Content Data
-  const seoArticles = [
-    { title: "BtoBにおける図解の活用方法", icon: <BarChart size={24} /> },
-    { title: "読まれるLPを作るキャラクター戦略", icon: <Users size={24} /> },
-    { title: "採用活動を有利に進める漫画の力", icon: <BookOpen size={24} /> },
-  ];
 
   return (
     <div className="diagnostic-page">
@@ -148,6 +161,7 @@ export default function DiagnosticPage() {
                   key={opt.id} 
                   className={`diagnostic-quiz-btn ${answers[QUIZ_STEPS[currentStep].id] === opt.id ? 'selected' : ''}`}
                   onClick={() => handleOptionSelect(QUIZ_STEPS[currentStep].id, opt.id)}
+                  disabled={isTransitioning}
                 >
                   <span className="diagnostic-quiz-icon">
                     <Icon name={opt.icon} color="var(--color-accent)" size={32} />
@@ -191,12 +205,12 @@ export default function DiagnosticPage() {
             <div className="diagnostic-cta-box">
               <h3>まずは無料でご相談ください</h3>
               <p>あなたのイメージをカタチにします。ヒアリングやラフ制作からスタート可能です。</p>
-              <button 
+              <Link
                 className="btn btn-primary btn-lg"
-                onClick={() => navigate(`/order?category=${result.categoryUrl}`)}
+                to={`/contact?diagnostic=${result.categoryUrl}`}
               >
                 【{result.title}】のお見積り・相談へ進む
-              </button>
+              </Link>
               <button className="btn btn-text" onClick={handleReset}>
                 <RefreshCw size={16} /> 診断をやり直す
               </button>
@@ -239,31 +253,14 @@ export default function DiagnosticPage() {
         </div>
       </section>
 
-      <section className="diagnostic-seo-section container">
-        <h2 className="section-title">ビジュアル戦略コラム</h2>
-        <div className="seo-grid">
-          {seoArticles.map((article, i) => (
-            <div key={i} className="seo-card">
-              <div className="seo-card-icon">{article.icon}</div>
-              <h4>{article.title}</h4>
-              <span className="seo-link">読む <ChevronRight size={14}/></span>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="diagnostic-lead-section bg-dark text-white">
         <div className="container lead-container">
           <div className="lead-text">
-            <h2>診断結果と詳しい資料を<br/>PDFで受け取る</h2>
-            <p>カタチらぼのサービス詳細や料金表がまとまったPDF資料と、診断結果の詳細解説をメールでお送りします。</p>
+            <h2>制作内容と料金を確認する</h2>
+            <p>各プランの内容や料金をご覧いただけます。ご希望に合わせた制作は、お問い合わせフォームからご相談ください。</p>
           </div>
           <div className="lead-form">
-            <div className="input-group">
-              <input type="email" placeholder="メールアドレスを入力" className="form-input" />
-              <button className="btn btn-primary"><Send size={18} /> 送信する</button>
-            </div>
-            <p className="lead-note"><CheckCircle size={14}/> 営業電話は一切いたしません</p>
+            <Link to="/pricing" className="btn btn-primary">プラン・料金を見る</Link>
           </div>
         </div>
       </section>

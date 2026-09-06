@@ -23,22 +23,21 @@ export default function DashboardPage() {
     const [recent, setRecent] = useState(DEMO_RECENT);
 
     useEffect(() => {
+        async function loadData() {
+            try {
+                const { getDashboardStats, getAllProjects } = await import('../../lib/api');
+                const [statsData, projectsData] = await Promise.all([
+                    getDashboardStats(),
+                    getAllProjects(),
+                ]);
+                setStats(statsData);
+                setRecent(projectsData.slice(0, 5));
+            } catch {
+                // keep demo data
+            }
+        }
         loadData();
     }, []);
-
-    async function loadData() {
-        try {
-            const { getDashboardStats, getAllProjects } = await import('../../lib/api');
-            const [statsData, projectsData] = await Promise.all([
-                getDashboardStats(),
-                getAllProjects(),
-            ]);
-            setStats(statsData);
-            setRecent(projectsData.slice(0, 5));
-        } catch {
-            // keep demo data
-        }
-    }
 
     const statCards = [
         { icon: FolderKanban, label: '総プロジェクト', value: stats.totalProjects, color: '--color-text-primary' },

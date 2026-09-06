@@ -20,20 +20,19 @@ export default function DashProjectsPage() {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
+        async function loadProjects() {
+            try {
+                const { getAllProjects } = await import('../../lib/api');
+                const data = await getAllProjects();
+                setProjects(data);
+            } catch {
+                setProjects(DEMO_PROJECTS);
+            } finally {
+                setLoading(false);
+            }
+        }
         loadProjects();
     }, []);
-
-    async function loadProjects() {
-        try {
-            const { getAllProjects } = await import('../../lib/api');
-            const data = await getAllProjects();
-            setProjects(data);
-        } catch {
-            setProjects(DEMO_PROJECTS);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     const filteredProjects = projects
         .filter(p => filter === 'all' || p.status === filter)

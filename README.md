@@ -1,16 +1,40 @@
-# React + Vite
+# カタチらぼ / もふらぼ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite の公開サイト・管理画面と、Supabase の認証・DB・Storage・Edge Functionsで構成します。決済はStripe Checkout、AI相談はサーバー経由のOpenRouterを使用します。
 
-Currently, two official plugins are available:
+## ローカル開発
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Node.js 24、Deno 2.9.6、Dockerを使用します。`.env.example`を参考に`.env.local`へ検証用Supabaseの公開設定を用意してください。サーバー秘密鍵は`VITE_`変数に置きません。
 
-## React Compiler
+```sh
+npm ci
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 検証
 
-## Expanding the ESLint configuration
+```sh
+npm run check             # Lint、サーバーハンドラーの単体検証、本番ビルド
+npm audit --audit-level=high
+npm run check:functions   # Denoで全Edge Functionsの型確認
+npm run test:stripe       # 実Stripe SDKと合成署名を使った検証
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+docker pull postgres:16
+npm run test:db           # 一時DBでRLS・列権限・画像権限・決済・並列処理を検証
+
+npx playwright install chromium
+npm run test:e2e          # 合成バックエンドで公開画面・管理画面・注文・AIを操作
+```
+
+ブラウザーテストは4175番ポートでViteを起動し、外部サービスへの通信を遮断します。顧客への通知、AI課金、実決済は発生しません。既存Chromeを使う場合は`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`で実行ファイルを指定できます。
+
+DB検証はホストポート・永続ボリュームのない専用コンテナだけを作成し、終了時に削除します。既存DBへmigrationや合成データを流すテストではありません。`scripts/_archived`の旧ブラウザースクリプトは現行テストから外しています。
+
+## 本番への適用
+
+**フロントエンドのマージだけでは修復は完了しません。** DBの追加migration、Edge Functionsと秘密情報を先に整合させ、Stripeテストモードで保存・Webhook・画面を通して確認してください。旧版の未完了Checkoutは新しいWebhookで自動復元されません。
+
+- [全体の適用手順と実環境で残る確認](docs/security-release.md)
+- [決済の設定・移行・再試行・クーポン予約](docs/commerce-deployment.md)
+
+`main`へのpushはXserver配信を開始し、検証workflowが成功した場合にフロントエンドを転送します。VercelのGit連携が有効な場合は別の配信経路です。今回の更新はバックエンド適用と確認が終わるまで`main`へマージしないでください。自動テストだけで実サービスの設定・稼働や既存顧客データの整合まで保証するものではありません。

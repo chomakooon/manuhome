@@ -1,17 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
-import { Search, Filter, Eye } from 'lucide-react';
+import { Filter, Eye } from 'lucide-react';
 import './AdminOrderListPage.css';
 
 export default function AdminOrderListPage() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
     const [sortOrder, setSortOrder] = useState('desc');
 
     const fetchOrders = useCallback(async () => {
         setLoading(true);
+        setLoadError('');
         try {
             let query = supabase.from('orders').select('*');
 
@@ -26,12 +28,15 @@ export default function AdminOrderListPage() {
             setOrders(data || []);
         } catch (error) {
             console.error('Error fetching orders:', error);
+            setLoadError('注文の読み込みに失敗しました。');
         } finally {
             setLoading(false);
         }
     }, [filterStatus, sortOrder]);
 
     useEffect(() => {
+        // The external request and user-triggered retries share their loading state.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchOrders();
     }, [fetchOrders]);
 
@@ -41,7 +46,9 @@ export default function AdminOrderListPage() {
             'quote': { label: 'Quoted', color: 'bg-yellow' },
             'in_progress': { label: 'In Progress', color: 'bg-orange' },
             'revision': { label: 'Revision', color: 'bg-purple' },
-            'done': { label: 'Done', color: 'bg-green' }
+            'done': { label: 'Done', color: 'bg-green' },
+            'paid': { label: 'Paid', color: 'bg-green' },
+            'pending': { label: 'Pending', color: 'bg-gray' }
         };
         const s = statuses[status] || { label: status, color: 'bg-gray' };
         return <span className={`status-badge ${s.color}`}>{s.label}</span>;
@@ -59,6 +66,8 @@ export default function AdminOrderListPage() {
                     <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="form-input">
                         <option value="all">All Statuses</option>
                         <option value="new">New</option>
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
                         <option value="quote">Quoted</option>
                         <option value="in_progress">In Progress</option>
                         <option value="revision">Revision</option>
@@ -76,6 +85,11 @@ export default function AdminOrderListPage() {
 
             {loading ? (
                 <div className="admin-loading">Loading orders...</div>
+            ) : loadError ? (
+                <div className="admin-loading" role="alert">
+                    <p>{loadError}</p>
+                    <button className="btn btn-outline" onClick={fetchOrders}>再読み込み</button>
+                </div>
             ) : (
                 <div className="admin-table-container">
                     <table className="admin-table">

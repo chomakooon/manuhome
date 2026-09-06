@@ -1,28 +1,22 @@
 import { supabase, isSupabaseConfigured } from './supabase';
 
-/**
- * お問い合わせを submit-contact Edge Function 経由で送信する。
- * contacts テーブルへの保存 + Discord/Slack 通知を行う。
- *
- * @param {Object} params
- * @param {string} params.source  - 'kataribin-contact' | 'intake' | 'pawspress-contact'
- * @param {string} [params.name]
- * @param {string} [params.email]
- * @param {string} [params.phone]
- * @param {string} [params.message]
- * @param {Object} [params.metadata] - 添付ファイル名・カテゴリ・プラン等の付随情報
- * @returns {Promise<{ok: true, id: string|null}>}
- * @throws バックエンド未設定時やエラー時は throw（呼び出し側で error 状態にする）
- */
-export async function submitContact({ source = 'contact', name = '', email = '', phone = '', message = '', metadata = {} }) {
-    if (!isSupabaseConfigured) {
-        throw new Error('BACKEND_NOT_CONFIGURED');
+// Keep retry tokens in memory; never persist customer details in storage.
+const pendingRequests = new Map();
+
+export async function submitContact({ source = 'contact', name = '', email = '', phone = '', message = '', metadata = {}, referencePhotos = [] }) {
+    if (!isSupabaseConfigured) throw new Error('お問い合わせの受付を準備しています。時間をおいてお試しください。');
+    const payload = { source, name, email, phone, message, metadata, referencePhotos };
+    const fingerprint = JSON.stringify(payload);
+    let pending = pendingRequests.get(source);
+    if (pending?.fingerprint !== fingerprint) {
+        pending = { fingerprint, requestId: crypto.randomUUID() };
+        pendingRequests.set(source, pending);
     }
-
     const { data, error } = await supabase.functions.invoke('submit-contact', {
-        body: { source, name, email, phone, message, metadata },
+        body: { ...payload, requestId: pending.requestId },
     });
-
     if (error) throw error;
+    if (data?.ok !== true || typeof data.id !== 'string' || !data.id) throw new Error('受付を確認できませんでした。再度お試しください。');
+    if (pendingRequests.get(source) === pending) pendingRequests.delete(source);
     return data;
 }

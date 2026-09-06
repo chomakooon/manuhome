@@ -23,57 +23,59 @@ export default function AdminDashboardPage() {
     const [recentOrders, setRecentOrders] = useState([]);
     const [recentContacts, setRecentContacts] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const countByStatus = async (status) => {
-        const q = supabase.from('orders').select('*', { count: 'exact', head: true });
-        const { count } = Array.isArray(status) ? await q.in('status', status) : await q.eq('status', status);
-        return count || 0;
-    };
+    const [loadError, setLoadError] = useState('');
 
     const fetchAll = useCallback(async () => {
         setLoading(true);
+        setLoadError('');
         try {
-            const [newC, quoteC, progressC, doneC] = await Promise.all([
-                countByStatus('new'),
-                countByStatus('quote'),
-                countByStatus(['in_progress', 'revision']),
-                countByStatus('done'),
+            const results = await Promise.all([
+                supabase.from('orders').select('*', { count: 'exact', head: true }).in('status', ['new', 'paid']),
+                supabase.from('orders').select('*', { count: 'exact', head: true }).eq('status', 'quote'),
+                supabase.from('orders').select('*', { count: 'exact', head: true }).in('status', ['in_progress', 'revision']),
+                supabase.from('orders').select('*', { count: 'exact', head: true }).eq('status', 'done'),
+                supabase.from('orders').select('*', { count: 'exact', head: true }),
+                supabase.from('orders').select('amount').eq('status', 'done').eq('payment_status', 'paid'),
+                supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('status', 'new'),
+                supabase.from('contacts').select('*', { count: 'exact', head: true }),
+                supabase.from('orders').select('id,customer_name,category,status,amount,created_at').order('created_at', { ascending: false }).limit(5),
+                supabase.from('contacts').select('id,source,name,status,created_at').order('created_at', { ascending: false }).limit(5),
             ]);
-
-            // 総注文数
-            const { count: totalC } = await supabase.from('orders').select('*', { count: 'exact', head: true });
-
-            // 売上（done のみ合計）
-            const { data: paidOrders } = await supabase.from('orders').select('amount').eq('status', 'done');
-            const revenue = (paidOrders || []).reduce((sum, o) => sum + (o.amount || 0), 0);
-
-            // 問い合わせ
-            const { count: contactNewC } = await supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('status', 'new');
-            const { count: contactTotalC } = await supabase.from('contacts').select('*', { count: 'exact', head: true });
-
-            // 最近の注文・問い合わせ
-            const { data: orders } = await supabase.from('orders').select('id,customer_name,category,status,amount,created_at').order('created_at', { ascending: false }).limit(5);
-            const { data: contacts } = await supabase.from('contacts').select('id,source,name,status,created_at').order('created_at', { ascending: false }).limit(5);
-
+            for (const result of results) {
+                if (result.error) throw result.error;
+            }
+            const [newOrders, quoted, progress, done, total, completedOrders, newContacts, allContacts, orders, contacts] = results;
             setStats({
-                new: newC, quote: quoteC, in_progress: progressC, done: doneC,
-                total: totalC || 0, revenue,
-                contactNew: contactNewC || 0, contactTotal: contactTotalC || 0,
+                new: newOrders.count ?? 0, quote: quoted.count ?? 0,
+                in_progress: progress.count ?? 0, done: done.count ?? 0,
+                total: total.count ?? 0,
+                revenue: (completedOrders.data ?? []).reduce((sum, order) => sum + (order.amount ?? 0), 0),
+                contactNew: newContacts.count ?? 0, contactTotal: allContacts.count ?? 0,
             });
-            setRecentOrders(orders || []);
-            setRecentContacts(contacts || []);
+            setRecentOrders(orders.data ?? []);
+            setRecentContacts(contacts.data ?? []);
         } catch (error) {
             console.error('Error fetching dashboard:', error);
+            setLoadError('ダッシュボードの読み込みに失敗しました。');
         } finally {
             setLoading(false);
         }
     }, []);
 
     useEffect(() => {
+        // The external request and user-triggered retries share their loading state.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchAll();
     }, [fetchAll]);
 
     if (loading) return <div className="admin-loading">読み込み中...</div>;
+
+    if (loadError) return (
+        <div className="admin-loading" role="alert">
+            <p>{loadError}</p>
+            <button className="btn btn-outline" onClick={fetchAll}>再読み込み</button>
+        </div>
+    );
 
     const yen = (n) => '¥' + (n || 0).toLocaleString('ja-JP');
 
@@ -119,7 +121,7 @@ export default function AdminDashboardPage() {
                 <div className="admin-stat-card border-teal">
                     <div className="stat-icon bg-teal"><JapaneseYen size={24} /></div>
                     <div className="stat-info">
-                        <h3>売上（完了分）</h3>
+                        <h3>売上（支払・制作完了分）</h3>
                         <p className="stat-number stat-number--sm">{yen(stats.revenue)}</p>
                     </div>
                 </div>

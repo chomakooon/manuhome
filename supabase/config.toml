@@ -1,0 +1,22 @@
+project_id = "manuhome"
+
+# Guest forms are intentionally public. Each handler validates input, applies
+# persistent request/global limits, and never accepts caller-supplied privileges.
+[functions.submit-contact]
+verify_jwt = false
+[functions.create-checkout]
+verify_jwt = false
+[functions.checkout-status]
+verify_jwt = false
+[functions.ai-chat]
+verify_jwt = false
+
+# Stripe authenticates the exact raw payload using its webhook signature.
+[functions.stripe-webhook]
+verify_jwt = false
+
+# These additionally verify the user's creator role inside the handler.
+[functions.generate-manga-preview]
+verify_jwt = true
+[functions.retry-contact-notification]
+verify_jwt = true
